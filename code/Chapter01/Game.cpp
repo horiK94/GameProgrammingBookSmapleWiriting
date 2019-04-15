@@ -10,6 +10,11 @@
 
 const int thickness = 15;
 const float paddleH = 100.0f;
+const int ballNum = 2;
+const float ballsPosX[] = { 1024.0f / 2.0f,  1024.0f / 2.0f };
+const float ballsPosY[] = { 768.0f / 2.0f, 768.0f / 2.0f };
+const float ballsVecX[] = { -200.0f, 200.0f };
+const float ballsVecY[] = { 235.0f , 235.0f };
 
 Game::Game()
 	:mWindow(nullptr)
@@ -69,10 +74,19 @@ bool Game::Initialize()
 	leftPaddlePos.y = 768.0f / 2.0f;
 	rightPaddlePos.x = 1014.0f;
 	rightPaddlePos.y = 768.0f / 2.0f;
-	mBallPos.x = 1024.0f / 2.0f;
-	mBallPos.y = 768.0f / 2.0f;
-	mBallVel.x = -200.0f;
-	mBallVel.y = 235.0f;
+
+	balls = std::vector<Ball>(ballNum);
+	for (int i = 0; i < ballNum; i++)
+	{
+		Ball ball = balls[i];
+		ball.position.x = ballsPosX[i];
+		ball.position.y = ballsPosY[i];
+		ball.motionVector.x = ballsVecX[i];
+		ball.motionVector.y = ballsVecY[i];
+
+		balls[i] = ball;
+	}
+
 	return true;
 }
 
@@ -185,48 +199,56 @@ void Game::UpdateGame()
 		}
 	}
 
-	// Update ball position based on ball velocity
-	mBallPos.x += mBallVel.x * deltaTime;
-	mBallPos.y += mBallVel.y * deltaTime;
+	//ballの更新
+	for (int i = 0; i < balls.size(); i++)
+	{
+		Ball ball = balls[i];
+		ball.position.x += ball.motionVector.x * deltaTime;
+		ball.position.y += ball.motionVector.y * deltaTime;
 
-	//パドルとボールの位置差(位置関係を調べる)
-	float diffLeft = leftPaddlePos.y - mBallPos.y;
-	//差の絶対値を求める
-	diffLeft = (diffLeft > 0.0f) ? diffLeft : -diffLeft;
-	if (
-		//差がパドルの大きさの中に入っている
-		diffLeft <= paddleH / 2.0f &&
-		// ボールが特定のxのいちにあるか
-		mBallPos.x <= 25.0f && mBallPos.x >= 20.0f &&
-		// ボールのベクトルがパドルに向かう方向か
-		mBallVel.x < 0.0f)
-	{
-		mBallVel.x *= -1.0f;
-	}
-	float diffRight = rightPaddlePos.y - mBallPos.y;
-	diffRight = diffRight > 0 ? diffRight : -diffRight;
-	if (diffRight <= paddleH/2
-		&& mBallPos.x >= rightPaddlePos.x - 25 && mBallPos.x <= rightPaddlePos.x - 10
-		&& mBallVel.x > 0)
-	{
-		mBallVel.x *= -1;
-	}
-	//どちらかのチームの負けのためゲーム終了
-	if (mBallPos.x <= 0.0f || mBallPos.x >= 1024)
-	{
-		mIsRunning = false;
-	}
+		//パドルとボールの位置差(位置関係を調べる)
+		float diffLeft = leftPaddlePos.y - ball.position.y;
+		//差の絶対値を求める
+		diffLeft = (diffLeft > 0.0f) ? diffLeft : -diffLeft;
+		if (
+			//差がパドルの大きさの中に入っている
+			diffLeft <= paddleH / 2.0f &&
+			// ボールが特定のxのいちにあるか
+			ball.position.x <= 25.0f && ball.position.x >= 20.0f &&
+			// ボールのベクトルがパドルに向かう方向か
+			ball.motionVector.x < 0.0f)
+		{
+			ball.motionVector.x *= -1.0f;
+		}
 
-	//上の壁との衝突
-	if (mBallPos.y <= thickness && mBallVel.y < 0.0f)
-	{
-		mBallVel.y *= -1;
-	}
-	//下の壁との衝突
-	else if (mBallPos.y >= (768 - thickness) &&
-		mBallVel.y > 0.0f)
-	{
-		mBallVel.y *= -1;
+		float diffRight = rightPaddlePos.y - ball.position.y;
+		diffRight = diffRight > 0 ? diffRight : -diffRight;
+		if (diffRight <= paddleH / 2
+			&& ball.position.x >= rightPaddlePos.x - 25 && ball.position.x <= rightPaddlePos.x - 10
+			&& ball.motionVector.x > 0)
+		{
+			ball.motionVector.x *= -1;
+		}
+		//どちらかのチームの負けのためゲーム終了
+		if (ball.position.x <= 0.0f || ball.position.x >= 1024)
+		{
+			mIsRunning = false;
+		}
+
+		//上の壁との衝突
+		if (ball.position.y <= thickness && ball.position.y < 0.0f)
+		{
+			ball.motionVector.y *= -1;
+		}
+		//下の壁との衝突
+		else if (ball.position.y >= (768 - thickness) &&
+			ball.motionVector.y > 0.0f)
+		{
+			ball.motionVector.y *= -1;
+		}
+
+		// Ballは構造体のため、最後に結果を入れ直す
+		balls[i] = ball;
 	}
 }
 
@@ -293,14 +315,18 @@ void Game::GenerateOutput()
 	};
 	SDL_RenderFillRect(mRenderer, &rightPaddle);
 
-	// Draw ball
-	SDL_Rect ball{			////ボールは動くため、UpdateGame()で位置を設定しここで描画している(位置はVector2構造体の変数mBallPosを使用。これはボールの中心の位置を表している)
-		static_cast<int>(mBallPos.x - thickness / 2),
-		static_cast<int>(mBallPos.y - thickness / 2),
-		thickness,
-		thickness
-	};
-	SDL_RenderFillRect(mRenderer, &ball);
+	for (int i = 0; i < balls.size(); i++)
+	{
+		Ball ball = balls[i];
+		// Draw ball
+		SDL_Rect ballRect{			////ボールは動くため、UpdateGame()で位置を設定しここで描画している(位置はVector2構造体の変数mBallPosを使用。これはボールの中心の位置を表している)
+			static_cast<int>(ball.position.x - thickness / 2),
+			static_cast<int>(ball.position.y - thickness / 2),
+			thickness,
+			thickness
+		};
+		SDL_RenderFillRect(mRenderer, &ballRect);
+	}
 
 	// Swap front buffer and back buffer
 	//これ呼ばないと真っ白なまま
