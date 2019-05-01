@@ -35,14 +35,17 @@ private:
 	void UnloadData();
 	
 	// Map of textures loaded
-	std::unordered_map<std::string, SDL_Texture*> mTextures;
+	std::unordered_map<std::string, SDL_Texture*> mTextures;			//何度も同じ画像をロードをすることがないようにするための連想配列
 
 	// All the actors in the game
 	std::vector<class Actor*> mActors;
 	// Any pending actors
 	std::vector<class Actor*> mPendingActors;
+	//PendingActorsがある理由は、mActorsの順次処理中に新しいアクターを追加すると、順序によっては呼ばれる呼ばれないといった不整合が発生するため
+	//巡回処理後にActorsに追加する
 
 	// All the sprite components drawn
+	//Spriteコンポーネントの動的配列
 	std::vector<class SpriteComponent*> mSprites;
 
 	SDL_Window* mWindow;

@@ -11,7 +11,7 @@
 
 BGSpriteComponent::BGSpriteComponent(class Actor* owner, int drawOrder)
 	:SpriteComponent(owner, drawOrder)
-	,mScrollSpeed(0.0f)
+	, mScrollSpeed(0.0f)
 {
 }
 
@@ -26,12 +26,13 @@ void BGSpriteComponent::Update(float deltaTime)
 		// the right of the last bg texture
 		if (bg.mOffset.x < -mScreenSize.x)
 		{
+			//-1しないと、黒い筋がちらちらと表示される現象が起こる
 			bg.mOffset.x = (mBGTextures.size() - 1) * mScreenSize.x - 1;
 		}
 	}
 }
 
-void BGSpriteComponent::Draw(SDL_Renderer* renderer)
+void BGSpriteComponent::Draw(SDL_Renderer * renderer)
 {
 	// Draw each background texture
 	for (auto& bg : mBGTextures)
@@ -53,7 +54,7 @@ void BGSpriteComponent::Draw(SDL_Renderer* renderer)
 	}
 }
 
-void BGSpriteComponent::SetBGTextures(const std::vector<SDL_Texture*>& textures)
+void BGSpriteComponent::SetBGTextures(const std::vector<SDL_Texture*> & textures)
 {
 	int count = 0;
 	for (auto tex : textures)
@@ -63,7 +64,7 @@ void BGSpriteComponent::SetBGTextures(const std::vector<SDL_Texture*>& textures)
 		// Each texture is screen width in offset
 		temp.mOffset.x = count * mScreenSize.x;
 		temp.mOffset.y = 0;
-		mBGTextures.emplace_back(temp);
+		mBGTextures.emplace_back(temp);		//mBGTextures配列の最後にtempを追加する
 		count++;
 	}
 }

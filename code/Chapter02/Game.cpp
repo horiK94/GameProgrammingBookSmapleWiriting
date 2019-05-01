@@ -45,7 +45,7 @@ bool Game::Initialize()
 		return false;
 	}
 	
-	if (IMG_Init(IMG_INIT_PNG) == 0)
+	if (IMG_Init(IMG_INIT_PNG) == 0)		//画像ファイル読み込みのための初期化
 	{
 		SDL_Log("Unable to initialize SDL_image: %s", SDL_GetError());
 		return false;
@@ -93,15 +93,14 @@ void Game::ProcessInput()
 
 void Game::UpdateGame()
 {
-	// Compute delta time
-	// Wait until 16ms has elapsed since last frame
+	// 16ms以下の場合は待つ
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16))
 		;
 
 	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
 	if (deltaTime > 0.05f)
 	{
-		deltaTime = 0.05f;
+		deltaTime = 0.05f;		//ブレイクポイントとかでdeltaTimeが値でかくなった時の補正
 	}
 	mTicksCount = SDL_GetTicks();
 
@@ -114,26 +113,27 @@ void Game::UpdateGame()
 	mUpdatingActors = false;
 
 	// Move any pending actors to mActors
-	for (auto pending : mPendingActors)
+	for (auto pending : mPendingActors)		//foreachみたいなやつ
 	{
-		mActors.emplace_back(pending);
+		mActors.emplace_back(pending);		//actorsに追加していく
 	}
-	mPendingActors.clear();
+	mPendingActors.clear();		//追加し終わったので、clearしておく
 
-	// Add any dead actors to a temp vector
+	// 死んだactorの消去
 	std::vector<Actor*> deadActors;
 	for (auto actor : mActors)
 	{
 		if (actor->GetState() == Actor::EDead)
 		{
-			deadActors.emplace_back(actor);
+			deadActors.emplace_back(actor);		//死んでいるactorをdeadActorsに追加
 		}
 	}
 
-	// Delete dead actors (which removes them from mActors)
+	// Delete dead actors (which removes them from mActors)	mActorsから消去される(というのも、Actorのデストラクタで、消す処理が走っているため)
+	//そのため、こっち側で消す処理はしてはいけない
 	for (auto actor : deadActors)
 	{
-		delete actor;
+		delete actor;		//死んでいるactorを消していく
 	}
 }
 
@@ -151,16 +151,19 @@ void Game::GenerateOutput()
 	SDL_RenderPresent(mRenderer);
 }
 
+//ゲームワールドに登場するすべてのアクターを作成する関数
 void Game::LoadData()
 {
 	// Create player's ship
 	mShip = new Ship(this);
 	mShip->SetPosition(Vector2(100.0f, 384.0f));
 	mShip->SetScale(1.5f);
+	
+	//SDL_Imageを初期化すれば、あとはIMG_Load()でSDL_Surface構造体にロードできる
 
 	// Create actor for the background (this doesn't need a subclass)
 	Actor* temp = new Actor(this);
-	temp->SetPosition(Vector2(512.0f, 384.0f));
+	temp->SetPosition(Vector2(512.0f, 384.0f));		//画面の中心
 	// Create the "far back" background
 	BGSpriteComponent* bg = new BGSpriteComponent(temp);
 	bg->SetScreenSize(Vector2(1024.0f, 768.0f));
@@ -185,9 +188,10 @@ void Game::UnloadData()
 {
 	// Delete actors
 	// Because ~Actor calls RemoveActor, have to use a different style loop
+	// removeActorするのはデストラクタ時より、deleteをしている
 	while (!mActors.empty())
 	{
-		delete mActors.back();
+		delete mActors.back();		//末尾の要素への参照を削除する
 	}
 
 	// Destroy textures
@@ -198,11 +202,14 @@ void Game::UnloadData()
 	mTextures.clear();
 }
 
+//画像のロード
 SDL_Texture* Game::GetTexture(const std::string& fileName)
 {
+	//C++03まで、ヌルポインタを表すために0数値リテラルやNULLマクロを使用していた。C++11からは、nullptrキーワードでヌルポインタ値を表すことを推奨する。
+
 	SDL_Texture* tex = nullptr;
 	// Is the texture already in the map?
-	auto iter = mTextures.find(fileName);
+	auto iter = mTextures.find(fileName);		//すでにロードした画像が代入された連想配列
 	if (iter != mTextures.end())
 	{
 		tex = iter->second;
@@ -210,7 +217,16 @@ SDL_Texture* Game::GetTexture(const std::string& fileName)
 	else
 	{
 		// Load from file
-		SDL_Surface* surf = IMG_Load(fileName.c_str());
+		//SDL_Surface: コピー用に使われるピクセルの集まりの構造体
+		SDL_Surface* surf = IMG_Load(fileName.c_str());		//画像の読み込み
+		//c_str(): NULLで終端された文字配列の先頭のポインタを返す
+		/*
+		  std::string s("Hello, world!");
+		  std::puts(s.c_str());		//Hello, World!
+
+		  s[5] = '\0';
+		  std::puts(s.c_str());  // ',' 以降は出力されない(Helloのみ出力される)
+		*/
 		if (!surf)
 		{
 			SDL_Log("Failed to load texture file %s", fileName.c_str());
@@ -218,7 +234,7 @@ SDL_Texture* Game::GetTexture(const std::string& fileName)
 		}
 
 		// Create texture from surface
-		tex = SDL_CreateTextureFromSurface(mRenderer, surf);
+		tex = SDL_CreateTextureFromSurface(mRenderer, surf);		//SDL_Surface構造体からSDL_Texture構造体へ変換
 		SDL_FreeSurface(surf);
 		if (!tex)
 		{
@@ -243,6 +259,7 @@ void Game::Shutdown()
 void Game::AddActor(Actor* actor)
 {
 	// If we're updating actors, need to add to pending
+	//update中ならmPendingActorsに, update中でない場合actorsに追加
 	if (mUpdatingActors)
 	{
 		mPendingActors.emplace_back(actor);
@@ -256,12 +273,14 @@ void Game::AddActor(Actor* actor)
 void Game::RemoveActor(Actor* actor)
 {
 	// Is it in pending actors?
-	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
+	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);		//autoとはc#でいうvarのようなやつ
+	//std;;find(): [begin, last)内にactorと同じものの最初を返す.なかったlastを返す(std::vector::endは確保したメモリに+1した場所(つまり、値は未定義))
 	if (iter != mPendingActors.end())
 	{
+		//見つかった場合
 		// Swap to end of vector and pop off (avoid erase copies)
-		std::iter_swap(iter, mPendingActors.end() - 1);
-		mPendingActors.pop_back();
+		std::iter_swap(iter, mPendingActors.end() - 1);		//確保したメモリの最後の要素とiterを交換する
+		mPendingActors.pop_back();		//末尾要素を削除する
 	}
 
 	// Is it in actors?
@@ -278,12 +297,13 @@ void Game::AddSprite(SpriteComponent* sprite)
 {
 	// Find the insertion point in the sorted vector
 	// (The first element with a higher draw order than me)
-	int myDrawOrder = sprite->GetDrawOrder();
-	auto iter = mSprites.begin();
+	int myDrawOrder = sprite->GetDrawOrder();		//描画順序の取得
+	auto iter = mSprites.begin();		//SpriteComponentの参照が代入された動的配列の先頭のポインタを取得
 	for ( ;
 		iter != mSprites.end();
 		++iter)
 	{
+		//注; 描画順序が低いほど遠くに置かれる
 		if (myDrawOrder < (*iter)->GetDrawOrder())
 		{
 			break;
@@ -291,7 +311,8 @@ void Game::AddSprite(SpriteComponent* sprite)
 	}
 
 	// Inserts element before position of iterator
-	mSprites.insert(iter, sprite);
+	mSprites.insert(iter, sprite);		//挿入
+	//insert(どの要素の前に挿入するか, 何を挿入するか)
 }
 
 void Game::RemoveSprite(SpriteComponent* sprite)

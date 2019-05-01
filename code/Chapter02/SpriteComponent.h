@@ -13,6 +13,7 @@ class SpriteComponent : public Component
 {
 public:
 	// (Lower draw order corresponds with further back)
+	//コンストラクターの中でGame::AddSprite()を呼んで、スプライトコンポーネントの配列に登録する
 	SpriteComponent(class Actor* owner, int drawOrder = 100);
 	~SpriteComponent();
 
@@ -23,7 +24,7 @@ public:
 	int GetTexHeight() const { return mTexHeight; }
 	int GetTexWidth() const { return mTexWidth; }
 protected:
-	SDL_Texture* mTexture;
+	SDL_Texture* mTexture;		//Textureの参照
 	int mDrawOrder;
 	int mTexWidth;
 	int mTexHeight;

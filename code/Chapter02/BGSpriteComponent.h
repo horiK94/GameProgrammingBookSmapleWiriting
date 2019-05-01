@@ -16,9 +16,9 @@ public:
 	// Set draw order to default to lower (so it's in the background)
 	BGSpriteComponent(class Actor* owner, int drawOrder = 10);
 	// Update/draw overriden from parent
-	void Update(float deltaTime) override;
-	void Draw(SDL_Renderer* renderer) override;
-	// Set the textures used for the background
+	void Update(float deltaTime) override;		//deltatimeによって、表示スタート位置が変わるため
+	void Draw(SDL_Renderer* renderer) override;		//描画の初期位置が変わるため
+	// Set the textures used for the background(BGTexture構造体のmOffesetはこの関数で初期化される)
 	void SetBGTextures(const std::vector<SDL_Texture*>& textures);
 	// Get/set screen size and scroll speed
 	void SetScreenSize(const Vector2& size) { mScreenSize = size; }
