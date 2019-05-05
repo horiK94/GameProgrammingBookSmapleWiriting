@@ -5,7 +5,7 @@ class TileMapComponent :
 	public SpriteComponent
 {
 public:
-	TileMapComponent();
+	TileMapComponent(Actor* actor);
 	~TileMapComponent();
 };
 

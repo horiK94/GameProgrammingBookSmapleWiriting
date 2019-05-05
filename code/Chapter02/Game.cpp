@@ -87,11 +87,12 @@ void Game::ProcessInput()
 	{
 		mIsRunning = false;
 	}
-
+	/*
 	// Process ship input
 	mShip->ProcessKeyboard(state);
 	//キャラクターの入力処理
 	character->ProcessAnimKeyBoard(state);
+	*/
 }
 
 void Game::UpdateGame()
@@ -157,6 +158,7 @@ void Game::GenerateOutput()
 //ゲームワールドに登場するすべてのアクターを作成する関数
 void Game::LoadData()
 {
+	/*
 	// Create player's ship
 	mShip = new Ship(this);
 	mShip->SetPosition(Vector2(100.0f, 384.0f));
@@ -190,6 +192,7 @@ void Game::LoadData()
 	};
 	bg->SetBGTextures(bgtexs);
 	bg->SetScrollSpeed(-200.0f);
+	*/
 }
 
 void Game::UnloadData()
