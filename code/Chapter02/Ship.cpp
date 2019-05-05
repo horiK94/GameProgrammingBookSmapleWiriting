@@ -23,7 +23,7 @@ Ship::Ship(Game* game)
 		game->GetTexture("Assets/Ship03.png"),
 		game->GetTexture("Assets/Ship04.png"),
 	};
-	asc->SetAnimTextures(anims);
+	asc->SetAnimTextures("ships", anims);
 }
 
 void Ship::UpdateActor(float deltaTime)
