@@ -46,7 +46,7 @@ void AnimSpriteComponent::SetAnimTextures(std::string animName, const std::vecto
 	auto index = animIndex.find(animName);
 	if (index != animIndex.end())
 	{
-		SDL_Log("‚·‚Å‚É“o˜^‚³‚ê‚Ä‚¢‚éAnimation:%s ‚ğ“o˜^‚µ‚æ‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·", animName);
+		SDL_Log("%s set already animation.", animName);
 		return;
 	}
 
@@ -76,7 +76,7 @@ void AnimSpriteComponent::ChangeAnim(std::string animName)
 	auto indexInfo = animIndex.find(animName);
 	if (indexInfo == animIndex.end())
 	{
-		SDL_Log("ˆø”‚Ì%s‚ÍAİ’è‚³‚ê‚Ä‚¢‚È‚¢ƒAƒjƒ[ƒVƒ‡ƒ“–¼‚Å‚·", animName);
+		SDL_Log("%s don't set animation.", animName);
 		return;
 	}
 

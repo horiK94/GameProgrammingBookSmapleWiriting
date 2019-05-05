@@ -13,6 +13,7 @@
 #include "SpriteComponent.h"
 #include "Ship.h"
 #include "BGSpriteComponent.h"
+#include "Character.h"
 
 Game::Game()
 :mWindow(nullptr)
@@ -89,6 +90,8 @@ void Game::ProcessInput()
 
 	// Process ship input
 	mShip->ProcessKeyboard(state);
+	//キャラクターの入力処理
+	character->ProcessAnimKeyBoard(state);
 }
 
 void Game::UpdateGame()
@@ -158,6 +161,11 @@ void Game::LoadData()
 	mShip = new Ship(this);
 	mShip->SetPosition(Vector2(100.0f, 384.0f));
 	mShip->SetScale(1.5f);
+
+	//キャラクターの作成
+	character = new Character(this);
+	character->SetPosition(Vector2(200.0f, 384.0f));
+	character->SetScale(1.0f);
 	
 	//SDL_Imageを初期化すれば、あとはIMG_Load()でSDL_Surface構造体にロードできる
 

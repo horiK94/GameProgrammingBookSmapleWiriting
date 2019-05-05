@@ -12,8 +12,8 @@
 
 Ship::Ship(Game* game)
 	:Actor(game)
-	,mRightSpeed(0.0f)
-	,mDownSpeed(0.0f)
+	, mRightSpeed(0.0f)
+	, mDownSpeed(0.0f)
 {
 	// Create an animated sprite component
 	AnimSpriteComponent* asc = new AnimSpriteComponent(this);
