@@ -29,11 +29,18 @@ void AnimSpriteComponent::Update(float deltaTime)
 		// Update the current frame based on frame rate
 		// and delta time
 		mCurrFrame += mAnimFPS * deltaTime;
-		
-		// Wrap current frame if needed
-		while (mCurrFrame >= lastIndex - firstIndex)
+
+		if (isRoopAnim)
 		{
-			mCurrFrame -= (lastIndex - firstIndex);
+			// Wrap current frame if needed
+			while (mCurrFrame >= lastIndex - firstIndex)
+			{
+				mCurrFrame -= (lastIndex - firstIndex);
+			}
+		}
+		else
+		{
+			mCurrFrame = Math::Min(lastIndex - firstIndex - 1.0f, mCurrFrame);
 		}
 
 		// Set the current texture
@@ -41,7 +48,7 @@ void AnimSpriteComponent::Update(float deltaTime)
 	}
 }
 
-void AnimSpriteComponent::SetAnimTextures(std::string animName, const std::vector<SDL_Texture*>& textures)
+void AnimSpriteComponent::SetAnimTextures(std::string animName, const std::vector<SDL_Texture*> & textures, bool isRoop)
 {
 	auto index = animIndex.find(animName);
 	if (index != animIndex.end())
@@ -59,6 +66,7 @@ void AnimSpriteComponent::SetAnimTextures(std::string animName, const std::vecto
 	}
 	//テクスチャ情報の登録
 	animIndex[animName] = { registedMaxIndex, static_cast<int>(mAnimTextures.size()) };
+	isRoopAnimInfo[animName] = isRoop;
 
 	if (mAnimTextures.size() > 0)
 	{
@@ -68,6 +76,7 @@ void AnimSpriteComponent::SetAnimTextures(std::string animName, const std::vecto
 		currentAnimName = animName;
 		//設定したアニメーションの最初にテクスチャを設定
 		SetTexture(mAnimTextures[registedMaxIndex]);
+		isRoopAnim = isRoop;
 	}
 }
 
@@ -82,6 +91,7 @@ void AnimSpriteComponent::ChangeAnim(std::string animName)
 
 	mCurrFrame = 0.0f;
 	currentAnimName = animName;
+	isRoopAnim = isRoopAnimInfo[animName];
 
 	int index = animIndex[animName][0];
 	//設定したアニメーションの最初にテクスチャを設定

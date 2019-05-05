@@ -36,8 +36,8 @@ Character::Character(Game* game)
 		game->GetTexture("Assets/Character18.png"),
 	};
 	asc->SetAnimTextures("walking", walking);
-	asc->SetAnimTextures("jumping", jumping);
-	asc->SetAnimTextures("punch", punch);
+	asc->SetAnimTextures("jumping", jumping, false);
+	asc->SetAnimTextures("punch", punch, false);
 
 	asc->ChangeAnim("walking");
 }

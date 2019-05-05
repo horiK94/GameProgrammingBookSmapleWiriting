@@ -18,7 +18,7 @@ public:
 	// Update animation every frame (overriden from component)
 	void Update(float deltaTime) override;
 	// Set the textures used for animation
-	void SetAnimTextures(std::string animName, const std::vector<SDL_Texture*>& textures);
+	void SetAnimTextures(std::string animName, const std::vector<SDL_Texture*>& textures, bool isRoop = true);
 	// Set/get the animation FPS
 	float GetAnimFPS() const { return mAnimFPS; }
 	void SetAnimFPS(float fps) { mAnimFPS = fps; }
@@ -29,10 +29,14 @@ private:
 	std::vector<SDL_Texture*> mAnimTextures;
 	//アニメーションに対応するインデックス
 	std::map<std::string, std::vector<int>> animIndex;
+	//アニメーションをループさせるか
+	std::map<std::string, bool> isRoopAnimInfo;
 	//現在再生中のアニメーション
 	std::string currentAnimName;
 	// Current frame displayed
 	float mCurrFrame;
 	// Animation frame rate
 	float mAnimFPS;
+	// 現在のアニメーションのループ設定
+	bool isRoopAnim;
 };
