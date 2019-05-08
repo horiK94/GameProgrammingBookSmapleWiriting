@@ -40,6 +40,9 @@
     <ClCompile Include="TileMapComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CSV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -68,5 +71,6 @@
     </ClInclude>
     <ClInclude Include="Character.h" />
     <ClInclude Include="TileMapComponent.h" />
+    <ClInclude Include="CSV.h" />
   </ItemGroup>
 </Project>

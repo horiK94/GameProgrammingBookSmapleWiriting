@@ -14,6 +14,7 @@
 #include "Ship.h"
 #include "BGSpriteComponent.h"
 #include "Character.h"
+#include "TileMapComponent.h"
 
 Game::Game()
 :mWindow(nullptr)
@@ -193,6 +194,27 @@ void Game::LoadData()
 	bg->SetBGTextures(bgtexs);
 	bg->SetScrollSpeed(-200.0f);
 	*/
+	Actor* bg = new Actor(this);
+	bg->SetPosition(Vector2(512.0f, 384.0f));
+	SDL_Texture* tileTexture = GetTexture("Assets/Tiles.png");
+
+	Vector2 screenSize(1024.0f, 768.0f);
+
+	//ˆÈ‰º‚Ífor•¶‚Å‚â‚Á‚½‚Ù‚¤‚ªƒzƒ“ƒg‚Í—Ç‚¢‚ÆŽv‚í‚ê‚é
+	TileMapComponent* tm1 = new TileMapComponent(bg, 150);
+	tm1->SetTileSet(tileTexture, screenSize, Game::TILE_WIDTH_NUM, Game::TILE_HEIGHT_NUM);
+	tm1->SetTileData("Assets/MapLayer1.csv");
+	bg->AddComponent(tm1);
+	
+	TileMapComponent* tm2 = new TileMapComponent(bg, 100);
+	tm2->SetTileSet(tileTexture, screenSize, Game::TILE_WIDTH_NUM, Game::TILE_HEIGHT_NUM);
+	tm2->SetTileData("Assets/MapLayer2.csv");
+	bg->AddComponent(tm2);
+
+	TileMapComponent* tm3 = new TileMapComponent(bg, 50);
+	tm3->SetTileSet(tileTexture, screenSize, Game::TILE_WIDTH_NUM, Game::TILE_HEIGHT_NUM);
+	tm3->SetTileData("Assets/MapLayer3.csv");
+	bg->AddComponent(tm3);
 }
 
 void Game::UnloadData()

@@ -58,4 +58,7 @@ private:
 	// Game-specific
 	class Ship* mShip; // Player's ship
 	class Character* character;
+
+	static const int TILE_WIDTH_NUM = 8;
+	static const int TILE_HEIGHT_NUM = 24;
 };
