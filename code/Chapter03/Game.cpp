@@ -249,6 +249,7 @@ void Game::Shutdown()
 
 void Game::AddActor(Actor* actor)
 {
+	//actor‚ÉŠÖ‚µ‚Ä‚Í•`‰æ‡‚Í“Á‚Éw’è“™‚µ‚Ä‚¢‚È‚¢
 	// If we're updating actors, need to add to pending
 	if (mUpdatingActors)
 	{

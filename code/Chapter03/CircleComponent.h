@@ -22,5 +22,5 @@ public:
 private:
 	float mRadius;
 };
-
+//‚Q‚Â‚Ì‰~‚ğ‚à‚Æ‚É‚ ‚½‚Á‚Ä‚¢‚é‚©‚ğ”»’è‚·‚é(ƒOƒ[ƒoƒ‹ŠÖ”)
 bool Intersect(const CircleComponent& a, const CircleComponent& b);

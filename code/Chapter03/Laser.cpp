@@ -24,6 +24,7 @@ Laser::Laser(Game* game)
 	// Create a move component, and set a forward speed
 	MoveComponent* mc = new MoveComponent(this);
 	mc->SetForwardSpeed(800.0f);
+	//前に直進するだけなのでこれでok
 
 	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
@@ -32,10 +33,12 @@ Laser::Laser(Game* game)
 
 void Laser::UpdateActor(float deltaTime)
 {
+	//惑星との当たり判定チェック
 	// If we run out of time, laser is dead
 	mDeathTimer -= deltaTime;
 	if (mDeathTimer <= 0.0f)
 	{
+		//一定以上の表示をしたら消す
 		SetState(EDead);
 	}
 	else
@@ -45,6 +48,7 @@ void Laser::UpdateActor(float deltaTime)
 		{
 			if (Intersect(*mCircle, *(ast->GetCircle())))
 			{
+				//惑星とレーザーがあたった場合はどっちも消す
 				// The first asteroid we intersect with,
 				// set ourselves and the asteroid to dead
 				SetState(EDead);

@@ -9,16 +9,22 @@
 #include "Ship.h"
 #include "SpriteComponent.h"
 #include "InputComponent.h"
+#include "CircleComponent.h"
 #include "Game.h"
 #include "Laser.h"
+#include "Asteroid.h"
 
 Ship::Ship(Game* game)
 	:Actor(game)
 	,mLaserCooldown(0.0f)
 {
 	// Create a sprite component
-	SpriteComponent* sc = new SpriteComponent(this, 150);
+	SpriteComponent* sc = new SpriteComponent(this, 150);		//150に指定することによって、レーザーが前に描画されるようにしている
 	sc->SetTexture(game->GetTexture("Assets/Ship.png"));
+
+	//宇宙船と小惑星との衝突用コンポーネントのアタッチ
+	cc = new CircleComponent(this);
+	cc->SetRadius(20.0f);
 
 	// Create an input component and set keys/speed
 	InputComponent* ic = new InputComponent(this);
@@ -32,14 +38,19 @@ Ship::Ship(Game* game)
 
 void Ship::UpdateActor(float deltaTime)
 {
+	//レーザーのクールダウン時間
 	mLaserCooldown -= deltaTime;
+
+	CheckIntersectAsteroid();
 }
 
 void Ship::ActorInput(const uint8_t* keyState)
 {
+	//入力に関するoverride関数
 	if (keyState[SDL_SCANCODE_SPACE] && mLaserCooldown <= 0.0f)
 	{
 		// Create a laser and set its position/rotation to mine
+		//レーザーのインスタンス生成(Actorとして　)
 		Laser* laser = new Laser(GetGame());
 		laser->SetPosition(GetPosition());
 		laser->SetRotation(GetRotation());
@@ -47,4 +58,22 @@ void Ship::ActorInput(const uint8_t* keyState)
 		// Reset laser cooldown (half second)
 		mLaserCooldown = 0.5f;
 	}
+}
+
+void Ship::CheckIntersectAsteroid()
+{
+	for (Asteroid* ob : GetGame()->GetAsteroids())
+	{
+		if (Intersect(*cc, *(ob->GetCircle())))
+		{
+			ob->SetState(State::EDead);
+			ResetPosAndRotate();
+		}
+	}
+}
+
+void Ship::ResetPosAndRotate()
+{
+	this->SetPosition(Vector2(512.0f, 384.0f));
+	this->SetRotation(0.0f);
 }

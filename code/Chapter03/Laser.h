@@ -15,6 +15,6 @@ public:
 
 	void UpdateActor(float deltaTime) override;
 private:
-	class CircleComponent* mCircle;
+	class CircleComponent* mCircle;	//ƒŒ[ƒU[‚Ì“–‚½‚è”»’è
 	float mDeathTimer;
 };

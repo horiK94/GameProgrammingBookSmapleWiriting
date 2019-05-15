@@ -8,6 +8,7 @@
 
 #pragma once
 #include "Actor.h"
+#include "CircleComponent.h"
 class Ship : public Actor
 {
 public:
@@ -17,4 +18,8 @@ public:
 	void ActorInput(const uint8_t* keyState) override;
 private:
 	float mLaserCooldown;
+	CircleComponent* cc;
+
+	void CheckIntersectAsteroid();
+	void ResetPosAndRotate();
 };

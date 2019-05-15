@@ -25,18 +25,22 @@ Asteroid::Asteroid(Game* game)
 	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
 
 	// Create a sprite component
+	//画像コンポーネントのアタッチ
 	SpriteComponent* sc = new SpriteComponent(this);
 	sc->SetTexture(game->GetTexture("Assets/Asteroid.png"));
 
 	// Create a move component, and set a forward speed
+	//移動コンポーネントのアタッチ
 	MoveComponent* mc = new MoveComponent(this);
 	mc->SetForwardSpeed(150.0f);
 
 	// Create a circle component (for collision)
+	//円コライダーコンポーネントのアタッチ
 	mCircle = new CircleComponent(this);
 	mCircle->SetRadius(40.0f);
 
 	// Add to mAsteroids in game
+	//レーザーと当たり判定をするために、全惑星の登録
 	game->AddAsteroid(this);
 }
 
