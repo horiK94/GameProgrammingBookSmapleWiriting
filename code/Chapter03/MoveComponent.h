@@ -7,23 +7,29 @@
 // ----------------------------------------------------------------
 
 #pragma once
+#include "SDL/SDL.h"
 #include "Component.h"
+#include "Math.h"
 
 class MoveComponent : public Component
 {
 public:
 	// Lower update order to update first
-	MoveComponent(class Actor* owner, int updateOrder = 10);
+	MoveComponent(class Actor* owner, float mass, int updateOrder = 10);
 
 	void Update(float deltaTime) override;
 	
 	float GetAngularSpeed() const { return mAngularSpeed; }
-	float GetForwardSpeed() const { return mForwardSpeed; }
 	void SetAngularSpeed(float speed) { mAngularSpeed = speed; }
-	void SetForwardSpeed(float speed) { mForwardSpeed = speed; }
+	void AddForce(Vector2 force) { sumForce += force; }
+	void ResetVelocity() { velocity = Vector2::Zero; }
 private:
 	// Controls rotation (radians/second)
 	float mAngularSpeed;
-	// Controls forward movement (units/second)
-	float mForwardSpeed;
+	//フレーム内で加算された力の合計
+	Vector2 sumForce;
+	//速度
+	Vector2 velocity;
+	//質量
+	float mass;
 };

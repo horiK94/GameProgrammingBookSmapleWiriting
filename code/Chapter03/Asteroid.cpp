@@ -31,8 +31,7 @@ Asteroid::Asteroid(Game* game)
 
 	// Create a move component, and set a forward speed
 	//移動コンポーネントのアタッチ
-	MoveComponent* mc = new MoveComponent(this);
-	mc->SetForwardSpeed(150.0f);
+	mc = new MoveComponent(this, 100.0f);
 
 	// Create a circle component (for collision)
 	//円コライダーコンポーネントのアタッチ
@@ -47,4 +46,9 @@ Asteroid::Asteroid(Game* game)
 Asteroid::~Asteroid()
 {
 	GetGame()->RemoveAsteroid(this);
+}
+
+void Asteroid::UpdateActor(float delatTime)
+{
+	mc->AddForce(Vector2::UnitX * 200);
 }

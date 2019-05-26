@@ -28,7 +28,7 @@ Ship::Ship(Game* game)
 	cc->SetRadius(20.0f);
 
 	// Create an input component and set keys/speed
-	InputComponent* ic = new InputComponent(this);
+	ic = new InputComponent(this, 10.0f);
 	ic->SetForwardKey(SDL_SCANCODE_W);
 	ic->SetBackKey(SDL_SCANCODE_S);
 	ic->SetClockwiseKey(SDL_SCANCODE_A);
@@ -98,6 +98,7 @@ void Ship::RecoveryMyself()
 	{
 		//•œ‹A
 		ResetPosAndRotate();
+		ic->ResetVelocity();
 		SetState(State::EActive);
 	}
 }

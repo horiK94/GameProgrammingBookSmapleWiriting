@@ -9,6 +9,7 @@
 #pragma once
 #include "Actor.h"
 #include "CircleComponent.h"
+#include "InputComponent.h"
 class Ship : public Actor
 {
 public:
@@ -20,6 +21,7 @@ private:
 	float mLaserCooldown;
 	float deathRecoveryTime;
 	CircleComponent* cc;
+	InputComponent* ic;
 
 	void CheckIntersectAsteroid();
 	void ResetPosAndRotate();

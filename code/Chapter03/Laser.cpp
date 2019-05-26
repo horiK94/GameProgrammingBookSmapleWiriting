@@ -8,7 +8,6 @@
 
 #include "Laser.h"
 #include "SpriteComponent.h"
-#include "MoveComponent.h"
 #include "Game.h"
 #include "CircleComponent.h"
 #include "Asteroid.h"
@@ -22,17 +21,17 @@ Laser::Laser(Game* game)
 	sc->SetTexture(game->GetTexture("Assets/Laser.png"));
 
 	// Create a move component, and set a forward speed
-	MoveComponent* mc = new MoveComponent(this);
-	mc->SetForwardSpeed(800.0f);
+	mc = new MoveComponent(this, 1.0f);
 	//前に直進するだけなのでこれでok
 
-	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
 	mCircle->SetRadius(11.0f);
 }
 
 void Laser::UpdateActor(float deltaTime)
 {
+	mc->AddForce(Vector2::UnitX * 1500.0f);
+
 	//惑星との当たり判定チェック
 	// If we run out of time, laser is dead
 	mDeathTimer -= deltaTime;

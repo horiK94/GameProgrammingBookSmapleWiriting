@@ -8,6 +8,8 @@
 
 #pragma once
 #include "Actor.h"
+#include "MoveComponent.h"
+
 class Laser : public Actor
 {
 public:
@@ -17,4 +19,5 @@ public:
 private:
 	class CircleComponent* mCircle;	//ƒŒ[ƒU[‚Ì“–‚½‚è”»’è
 	float mDeathTimer;
+	MoveComponent* mc;
 };

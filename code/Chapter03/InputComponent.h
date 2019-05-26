@@ -14,10 +14,10 @@ class InputComponent : public MoveComponent
 {
 public:
 	// Lower update order to update first
-	InputComponent(class Actor* owner);
+	InputComponent(class Actor* owner, float mass);
 
 	void ProcessInput(const uint8_t* keyState) override;
-	
+
 	// Getters/setters for private variables
 	float GetMaxForward() const { return mMaxForwardSpeed; }
 	float GetMaxAngular() const { return mMaxAngularSpeed; }
