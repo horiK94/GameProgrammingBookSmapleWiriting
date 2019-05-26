@@ -34,7 +34,7 @@ Actor::~Actor()
 
 void Actor::Update(float deltaTime)
 {
-	if (mState == EActive)
+	if (mState == EActive || mState == EHidden)
 	{
 		UpdateComponents(deltaTime);
 		UpdateActor(deltaTime);

@@ -27,6 +27,11 @@ SpriteComponent::~SpriteComponent()
 
 void SpriteComponent::Draw(SDL_Renderer* renderer)
 {
+	if (this->mOwner->GetState() == Actor::State::EHidden)
+	{
+		//”ñ•\¦İ’è‚Ì‚Æ‚«‚Íˆ—‚ğƒpƒX
+		return;
+	}
 	if (mTexture)
 	{
 		SDL_Rect r;

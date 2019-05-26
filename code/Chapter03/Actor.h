@@ -16,8 +16,9 @@ class Actor
 public:
 	enum State
 	{
-		EActive,
-		EPaused,
+		EActive,		//Šˆ“®’†
+		EHidden,		//”ñ•\Ž¦’†(Update()‚ÍŒÄ‚Î‚ê‚é&”ñ•\Ž¦)
+		EPaused,		//’âŽ~’†(Update()‚ÍŒÄ‚Î‚ê‚È‚¢&&•\Ž¦)
 		EDead
 	};
 

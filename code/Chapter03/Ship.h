@@ -18,8 +18,10 @@ public:
 	void ActorInput(const uint8_t* keyState) override;
 private:
 	float mLaserCooldown;
+	float deathRecoveryTime;
 	CircleComponent* cc;
 
 	void CheckIntersectAsteroid();
 	void ResetPosAndRotate();
+	void RecoveryMyself();
 };

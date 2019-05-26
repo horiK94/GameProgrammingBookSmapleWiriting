@@ -40,8 +40,10 @@ void Ship::UpdateActor(float deltaTime)
 {
 	//レーザーのクールダウン時間
 	mLaserCooldown -= deltaTime;
-
+	deathRecoveryTime -= deltaTime;
 	CheckIntersectAsteroid();
+	RecoveryMyself();
+	//SDL_Log("result : %f", deathRecoveryTime);
 }
 
 void Ship::ActorInput(const uint8_t* keyState)
@@ -62,12 +64,19 @@ void Ship::ActorInput(const uint8_t* keyState)
 
 void Ship::CheckIntersectAsteroid()
 {
+	if (GetState() == State::EHidden)
+	{
+		//衝突判定を行わない
+		return;
+	}
 	for (Asteroid* ob : GetGame()->GetAsteroids())
 	{
+		//惑星と衝突したとき
 		if (Intersect(*cc, *(ob->GetCircle())))
 		{
 			ob->SetState(State::EDead);
-			ResetPosAndRotate();
+			SetState(State::EHidden);
+			deathRecoveryTime = 1.5f;		//復帰にかかる時間
 		}
 	}
 }
@@ -76,4 +85,18 @@ void Ship::ResetPosAndRotate()
 {
 	this->SetPosition(Vector2(512.0f, 384.0f));
 	this->SetRotation(0.0f);
+}
+
+void Ship::RecoveryMyself()
+{
+	if (this->GetState() != State::EHidden)
+	{
+		return;		//復帰しないため終了
+	}
+	if (deathRecoveryTime <= 0)
+	{
+		//復帰
+		ResetPosAndRotate();
+		SetState(State::EActive);
+	}
 }
