@@ -16,7 +16,8 @@
 
 Ship::Ship(Game* game)
 	:Actor(game)
-	,mLaserCooldown(0.0f)
+	, mLaserCooldown(0.0f)
+	, deathRecoveryTime(0.0f)
 {
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this, 150);		//150に指定することによって、レーザーが前に描画されるようにしている
