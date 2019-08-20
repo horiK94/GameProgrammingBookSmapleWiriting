@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include "Math.h"
+#include "Shader.h"
 
 class Game
 {
@@ -26,9 +27,9 @@ public:
 
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
-	
+
 	class Texture* GetTexture(const std::string& fileName);
-	
+
 	// Game-specific (add/remove asteroid)
 	void AddAsteroid(class Asteroid* ast);
 	void RemoveAsteroid(class Asteroid* ast);
@@ -41,7 +42,7 @@ private:
 	void CreateSpriteVerts();
 	void LoadData();
 	void UnloadData();
-	
+
 	// Map of textures loaded
 	std::unordered_map<std::string, class Texture*> mTextures;
 
@@ -54,6 +55,7 @@ private:
 	std::vector<class SpriteComponent*> mSprites;
 
 	// Sprite shader
+	//class Shader* mSpriteShader;
 	class Shader* mSpriteShader;
 	// Sprite vertex array
 	class VertexArray* mSpriteVerts;

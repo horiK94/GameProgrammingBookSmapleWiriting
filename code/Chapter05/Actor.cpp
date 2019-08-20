@@ -13,11 +13,11 @@
 
 Actor::Actor(Game* game)
 	:mState(EActive)
-	,mPosition(Vector2::Zero)
-	,mScale(1.0f)
-	,mRotation(0.0f)
-	,mGame(game)
-	,mRecomputeWorldTransform(true)
+	, mPosition(Vector2::Zero)
+	, mScale(1.0f)
+	, mRotation(0.0f)
+	, mGame(game)
+	, mRecomputeWorldTransform(true)
 {
 	mGame->AddActor(this);
 }
@@ -33,19 +33,21 @@ Actor::~Actor()
 	}
 }
 
+//アクター自身のアップデート(継承不可)
 void Actor::Update(float deltaTime)
 {
 	if (mState == EActive)
 	{
-		ComputeWorldTransform();
+		ComputeWorldTransform();		//このActorがactiveになった最初に呼ばれるように
 
 		UpdateComponents(deltaTime);
 		UpdateActor(deltaTime);
 
-		ComputeWorldTransform();
+		ComputeWorldTransform();		//UpdateActorで更新されることも考えて
 	}
 }
 
+//各コンポーネントのアップデート
 void Actor::UpdateComponents(float deltaTime)
 {
 	for (auto comp : mComponents)
@@ -54,6 +56,7 @@ void Actor::UpdateComponents(float deltaTime)
 	}
 }
 
+//アクター自身のアップデート(継承可)
 void Actor::UpdateActor(float deltaTime)
 {
 }
@@ -78,15 +81,29 @@ void Actor::ActorInput(const uint8_t* keyState)
 
 void Actor::ComputeWorldTransform()
 {
+	//if (mRecomputeWorldTransform)
+	//{
+	//	mRecomputeWorldTransform = false;
+	//	// Scale, then rotate, then translate
+	//	mWorldTransform = Matrix4::CreateScale(mScale);
+	//	mWorldTransform *= Matrix4::CreateRotationZ(mRotation);
+	//	mWorldTransform *= Matrix4::CreateTranslation(Vector3(mPosition.x, mPosition.y, 0.0f));
+
+	//	// Inform components world transform updated
+	//	for (auto comp : mComponents)
+	//	{
+	//		comp->OnUpdateWorldTransform();
+	//	}
+	//}
 	if (mRecomputeWorldTransform)
 	{
 		mRecomputeWorldTransform = false;
-		// Scale, then rotate, then translate
+		//計算順序としは サイズ -> 位置 -> 平行移動
 		mWorldTransform = Matrix4::CreateScale(mScale);
-		mWorldTransform *= Matrix4::CreateRotationZ(mRotation);
+		mWorldTransform *= Matrix4::CreateRotationZ(mRotation);		//z軸で回転するため
 		mWorldTransform *= Matrix4::CreateTranslation(Vector3(mPosition.x, mPosition.y, 0.0f));
 
-		// Inform components world transform updated
+		//ワールド行列変更時は各コンポーネントに知らせる
 		for (auto comp : mComponents)
 		{
 			comp->OnUpdateWorldTransform();

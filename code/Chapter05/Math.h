@@ -843,6 +843,7 @@ public:
 	}
 
 	// Create "Simple" View-Projection Matrix from Chapter 6
+	//ワールド空間をクリップ空間へ変換するビュー射影行列を生成
 	static Matrix4 CreateSimpleViewProj(float width, float height)
 	{
 		float temp[4][4] =

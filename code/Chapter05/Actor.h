@@ -63,10 +63,12 @@ private:
 	State mState;
 
 	// Transform
+	// ワールド行列の保存(4x4行列なのは2dでも3dでも頂点がz成分を持つことを頂点レイアウトが想定しているから)
 	Matrix4 mWorldTransform;
 	Vector2 mPosition;
 	float mScale;
 	float mRotation;
+	//ワールド行列の再計算が必要か(毎回計算するのではなく、角度、サイズ、位置が変わったときにtrueにする)
 	bool mRecomputeWorldTransform;
 
 	std::vector<class Component*> mComponents;

@@ -6,18 +6,23 @@
 // See LICENSE in root directory for full details.
 // ----------------------------------------------------------------
 
-// Request GLSL 3.3
+// OpenGL3.3に対応するGLSLのバージョンの指定
 #version 330
 
-// Uniforms for world transform and view-proj
+
+
+//グローバル変数の宣言(inやoutと違い、何度シェーダーが実行されても値は変わらない)
+// mat4: 4x4行列. 3次元空間の同次座標系に必要
 uniform mat4 uWorldTransform;
 uniform mat4 uViewProj;
 
-// Vertex attributes
+// 入力変数である位置情報の宣言
 in vec3 inPosition;
 
 void main()
 {
+	// posはオブジェクト空間の位置
 	vec4 pos = vec4(inPosition, 1.0);
+	// オブジェクト空間の位置をワールド空間を経て、クリップ空間の位置へと変える
 	gl_Position = pos * uWorldTransform * uViewProj;
 }
