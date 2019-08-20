@@ -26,7 +26,7 @@ struct WeightedEdge
 
 struct WeightedGraphNode
 {
-	std::vector<WeightedEdge*> mEdges;
+	std::vector<WeightedEdge*> mEdges;		//ノードに対応するエッジのリスト
 };
 
 struct WeightedGraph
@@ -36,14 +36,14 @@ struct WeightedGraph
 
 struct GBFSScratch
 {
-	const WeightedEdge* mParentEdge = nullptr;
-	float mHeuristic = 0.0f;
-	bool mInOpenSet = false;
-	bool mInClosedSet = false;
+	const WeightedEdge* mParentEdge = nullptr;		//親エッジ(重み付きグラフのため)
+	float mHeuristic = 0.0f;		//ヒューリスティック値
+	bool mInOpenSet = false;		//オープンセット帰属フラグ(検討中のノードか)
+	bool mInClosedSet = false;		//クローズセット帰属フラグ(評価されたノードか)
 };
 
 using GBFSMap =
-std::unordered_map<const WeightedGraphNode*, GBFSScratch>;
+std::unordered_map<const WeightedGraphNode*, GBFSScratch>;		//ノードのキーに対してGBFSScratchが定義された連想配列
 
 struct AStarScratch
 {
@@ -138,48 +138,53 @@ bool GBFS(const WeightedGraph& g, const WeightedGraphNode* start,
 	std::vector<const WeightedGraphNode*> openSet;
 
 	// Set current node to start, and mark in closed set
-	const WeightedGraphNode* current = start;
-	outMap[current].mInClosedSet = true;
+	const WeightedGraphNode* current = start;		//現在評価中のノード
+	outMap[current].mInClosedSet = true;		//スタート位置を評価中のノードに設定
 
 	do
 	{
 		// Add adjacent nodes to open set
+		/*  現在のノードの対応するエッジを全調査し、マップ情報からエッジを使ったら行けるノードを検索。
+			ノードがクローズセットに入っておらずかつ、オープンセットにも入っていない場合は
+			オープンセット追加とヒューリスティック値計算、親エッジの登録をしておく
+		*/
+
 		for (const WeightedEdge* edge : current->mEdges)
 		{
 			// Get scratch data for this node
-			GBFSScratch& data = outMap[edge->mTo];
+			GBFSScratch& data = outMap[edge->mTo];		//エッジの保存しているデータの、行き先ノードに対応するデータを取得
 			// Add it only if it's not in the closed set
-			if (!data.mInClosedSet)
+			if (!data.mInClosedSet)		//行き先のノードがクローズセットに入っていないなら
 			{
 				// Set the adjacent node's parent edge
-				data.mParentEdge = edge;
-				if (!data.mInOpenSet)
+				data.mParentEdge = edge;		//現在のエッジを、行き先ノードの親エッジに登録
+				if (!data.mInOpenSet)			//行き先ノードがオープのセットに入っていないなら
 				{
 					// Compute the heuristic for this node, and add to open set
-					data.mHeuristic = ComputeHeuristic(edge->mTo, goal);
-					data.mInOpenSet = true;
-					openSet.emplace_back(edge->mTo);
+					data.mHeuristic = ComputeHeuristic(edge->mTo, goal);		//行き先ノードからゴールまでのヒューリスティック値を保存
+					data.mInOpenSet = true;			//オープンセットに保存
+					openSet.emplace_back(edge->mTo);		//オープンセットリストの終端に新しい要素追加
 				}
 			}
 		}
 
 		// If open set is empty, all possible paths are exhausted
-		if (openSet.empty())
+		if (openSet.empty())		//オープンセットが空だったら調べ先がもうないため終了
 		{
 			break;
 		}
 
 		// Find lowest cost node in open set
-		auto iter = std::min_element(openSet.begin(), openSet.end(),
+		auto iter = std::min_element(openSet.begin(), openSet.end(),			//ヒューリスティックが小さい順に並び替え
 			[&outMap](const WeightedGraphNode* a, const WeightedGraphNode* b) {
 			return outMap[a].mHeuristic < outMap[b].mHeuristic;
-		});
+		});		//最小の要素(最初のイテレータを取得する) = ヒューリスティックが小さいもの1つを取得
 
 		// Set to current and move from open to closed
-		current = *iter;
-		openSet.erase(iter);
-		outMap[current].mInOpenSet = false;
-		outMap[current].mInClosedSet = true;
+		current = *iter;		//オープンセットの中で最もヒューリスティックが小さいものを現在のノードに設定
+		openSet.erase(iter);	//オープンセットから削除
+		outMap[current].mInOpenSet = false;		//オープンセットフラグを折る
+		outMap[current].mInClosedSet = true;		//クローズセットを立てる
 	} while (current != goal);
 
 	// Did we find a path?
@@ -189,6 +194,7 @@ bool GBFS(const WeightedGraph& g, const WeightedGraphNode* start,
 using NodeToParentMap =
 std::unordered_map<const GraphNode*, const GraphNode*>;
 
+//幅優先探索
 bool BFS(const Graph& graph, const GraphNode* start, const GraphNode* goal, NodeToParentMap& outMap)
 {
 	// Whether we found a path
@@ -196,30 +202,31 @@ bool BFS(const Graph& graph, const GraphNode* start, const GraphNode* goal, Node
 	// Nodes to consider
 	std::queue<const GraphNode*> q;
 	// Enqueue the first node
-	q.emplace(start);
+	q.emplace(start);		//検索箇所にstartを追加
 
-	while (!q.empty())
+	while (!q.empty())		//検索箇所がある場合は調べ続ける
 	{
 		// Dequeue a node
-		const GraphNode* current = q.front();
-		q.pop();
-		if (current == goal)
+		const GraphNode* current = q.front();		//探索箇所のノードリストの中から1つを選択 => 現在のノード
+		q.pop();		//現在のノードをqから消す
+		if (current == goal)		//現在のノードがgoalなら終了
 		{
 			pathFound = true;
 			break;
 		}
 
 		// Enqueue adjacent nodes that aren't already in the queue
-		for (const GraphNode* node : current->mAdjacent)
+		for (const GraphNode* node : current->mAdjacent)		//現在のノードから進めるノードをすべて検索
 		{
 			// If the parent is null, it hasn't been enqueued
 			// (except for the start node)
-			const GraphNode* parent = outMap[node];
+			const GraphNode* parent = outMap[node];			//outMapの中から「現在のノードから進んだノード」のデータを取得
+			//上でparentにnullptrが入っていたら未調査のノード(行ったことがないノード)となる
 			if (parent == nullptr && node != start)
 			{
 				// Enqueue this node, setting its parent
-				outMap[node] = current;
-				q.emplace(node);
+				outMap[node] = current;		//outMapに進んだノードに対応する現在のノードを書き込む(進んだノードに対する最短の現在のノードは複数あるが、うち1つがここで登録されたということ)
+				q.emplace(node);		//次のノードをqの最後に追加
 			}
 		}
 	}

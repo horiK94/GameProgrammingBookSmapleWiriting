@@ -30,19 +30,19 @@ void AIComponent::ChangeState(const std::string& name)
 	// First exit the current state
 	if (mCurrentState)
 	{
-		mCurrentState->OnExit();
+		mCurrentState->OnExit();		//現在のstateが存在する場合、stateのOnExit()を呼ぶ
 	}
 	
 	// Try to find the new state from the map
-	auto iter = mStateMap.find(name);
-	if (iter != mStateMap.end())
+	auto iter = mStateMap.find(name);		//引数のnameをキーとするStateを検索
+	if (iter != mStateMap.end())		//見つかったら...
 	{
-		mCurrentState = iter->second;
+		mCurrentState = iter->second;		//値(IStateのインスタンス)の取得
 		// We're entering the new state
-		mCurrentState->OnEnter();
+		mCurrentState->OnEnter();			//新しいstateのOnEnter()を呼ぶ
 	}
 	else
-	{
+	{		//見つからなかったら
 		SDL_Log("Could not find AIState %s in state map", name.c_str());
 		mCurrentState = nullptr;
 	}
