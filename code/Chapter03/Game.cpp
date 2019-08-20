@@ -16,36 +16,69 @@
 #include "Random.h"
 
 Game::Game()
-:mWindow(nullptr)
-,mRenderer(nullptr)
-,mIsRunning(true)
-,mUpdatingActors(false)
+	:mWindow(nullptr)
+	//,mRenderer(nullptr)
+	, mIsRunning(true)
+	, mUpdatingActors(false)
 {
-	
+
 }
 
 bool Game::Initialize()
 {
-	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) != 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 	{
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return false;
 	}
-	
-	mWindow = SDL_CreateWindow("Game Programming in C++ (Chapter 3)", 100, 100, 1024, 768, 0);
+	//OpenGLのバージョンや色深度などの属性の設定を行う
+	//指定方法は SDL_GL_SetAttribute(SDL_GLatter attr, int value);
+
+	/*OpenGLプロファイルの種類
+		コア: デスクトップ環境では推奨されているプロファイル
+		互換: 非推奨の関数も使用できるプロファイル
+		ES: モバイル開発用
+	*/
+	//コンテクストとはOpenGLの設定群のようなもの
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+	//バージョン3.3の指定
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	//RGBAの各チャンネルに対し、8bitのカラーバッファ(ビット深度)を用いる(1ピクセルあたり32bit必要)
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+	//ダブルバッファを有効にする
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	//ハードウェアアクセラレーションを用いる(OpenGLのレンダリングがGPUを活用するにする)
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	//レンダリング... 視覚オブジェクトを生成, レンダラー... 視覚オブジェクトを描画する「システム」(描画までのシステムがレンダラー, 描画する行為をレンダリング)
+
+	//SDL_WINDOW_OPENGLで、windowにOpenGLが使用できるようになった
+	mWindow = SDL_CreateWindow("Game Programming in C++ (Chapter 3)", 100, 100, 1024, 768, SDL_WINDOW_OPENGL);
 	if (!mWindow)
 	{
 		SDL_Log("Failed to create window: %s", SDL_GetError());
 		return false;
 	}
-	
-	mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (!mRenderer)
+
+	//OpenGLのコンテクストの作成
+	mContext = SDL_GL_CreateContext(mWindow);
+	if (!mContext)
 	{
-		SDL_Log("Failed to create renderer: %s", SDL_GetError());
+		SDL_Log("Failed to create context: %s", SDL_GetError());
 		return false;
 	}
-	
+
+	//mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	//if (!mRenderer)
+	//{
+	//	SDL_Log("Failed to create renderer: %s", SDL_GetError());
+	//	return false;
+	//}
+
 	if (IMG_Init(IMG_INIT_PNG) == 0)
 	{
 		SDL_Log("Unable to initialize SDL_image: %s", SDL_GetError());
@@ -57,7 +90,7 @@ bool Game::Initialize()
 	LoadData();
 
 	mTicksCount = SDL_GetTicks();
-	
+
 	return true;
 }
 
@@ -78,12 +111,12 @@ void Game::ProcessInput()
 	{
 		switch (event.type)
 		{
-			case SDL_QUIT:
-				mIsRunning = false;
-				break;
+		case SDL_QUIT:
+			mIsRunning = false;
+			break;
 		}
 	}
-	
+
 	const Uint8* keyState = SDL_GetKeyboardState(NULL);
 	if (keyState[SDL_SCANCODE_ESCAPE])
 	{
@@ -146,16 +179,16 @@ void Game::UpdateGame()
 
 void Game::GenerateOutput()
 {
-	SDL_SetRenderDrawColor(mRenderer, 220, 220, 220, 255);
-	SDL_RenderClear(mRenderer);
-	
-	// Draw all sprite components
-	for (auto sprite : mSprites)
-	{
-		sprite->Draw(mRenderer);
-	}
+	//SDL_SetRenderDrawColor(mRenderer, 220, 220, 220, 255);
+	//SDL_RenderClear(mRenderer);
+	//
+	//// Draw all sprite components
+	//for (auto sprite : mSprites)
+	//{
+	//	sprite->Draw(mRenderer);
+	//}
 
-	SDL_RenderPresent(mRenderer);
+	//SDL_RenderPresent(mRenderer);
 }
 
 void Game::LoadData()
@@ -210,17 +243,19 @@ SDL_Texture* Game::GetTexture(const std::string& fileName)
 		}
 
 		// Create texture from surface
-		tex = SDL_CreateTextureFromSurface(mRenderer, surf);
-		SDL_FreeSurface(surf);
-		if (!tex)
-		{
-			SDL_Log("Failed to convert surface to texture for %s", fileName.c_str());
-			return nullptr;
-		}
+	//	tex = SDL_CreateTextureFromSurface(mRenderer, surf);
+	//	SDL_FreeSurface(surf);
+	//	if (!tex)
+	//	{
+	//		SDL_Log("Failed to convert surface to texture for %s", fileName.c_str());
+	//		return nullptr;
+	//	}
 
-		mTextures.emplace(fileName.c_str(), tex);
+	//	mTextures.emplace(fileName.c_str(), tex);
+	//}
+	//return tex;
 	}
-	return tex;
+	return nullptr;
 }
 
 void Game::AddAsteroid(Asteroid* ast)
@@ -242,7 +277,8 @@ void Game::Shutdown()
 {
 	UnloadData();
 	IMG_Quit();
-	SDL_DestroyRenderer(mRenderer);
+	//SDL_DestroyRenderer(mRenderer)
+	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
 }
@@ -288,7 +324,7 @@ void Game::AddSprite(SpriteComponent* sprite)
 	// (The first element with a higher draw order than me)
 	int myDrawOrder = sprite->GetDrawOrder();
 	auto iter = mSprites.begin();
-	for ( ;
+	for (;
 		iter != mSprites.end();
 		++iter)
 	{
