@@ -233,6 +233,17 @@ void Game::GenerateOutput()
 	mSpriteVerts->SetActive();
 	mSpriteShader->SetActive();
 
+	glEnable(GL_BLEND);		//カラーバッファのブレンディング開始
+	glBlendFunc(
+		GL_SRC_ALPHA,		//srcFactor -> srcAlpha
+		GL_ONE_MINUS_SRC_ALPHA	//dstFactor -> 1 - srcAlpha
+	);
+	// outputColor = srcFactor*srcColor + dstFactor*dstColor = alphaFactor*srcColor + (1-alphaFactor)*dstColor
+	//alphaFactorは画像自体が各ピクセルに持っている
+	//なお、上のようにブレンディングしないと
+	// outputColor = alphaColor * srcColor 
+	// となり、alphaColor = 0のとき、 outputColor = (0, 0, 0)となるため黒が描画される
+
 	//すべてのSpriteを描画
 	for(auto sprite : mSprites)
 	{
@@ -271,7 +282,7 @@ bool Game::LoadShaders()
 	//mSpriteShader->SetMatrixUniform("uViewProj", viewProj);
 	//return true;
 	mSpriteShader = new Shader();
-	if(!mSpriteShader->Load("Shaders/Transform.vert", "Shaders/Basic.frag"))
+	if(!mSpriteShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
 	{
 		//ロード失敗
 		return false;
@@ -286,18 +297,18 @@ bool Game::LoadShaders()
 
 void Game::CreateSpriteVerts()
 {
-	//float vertices[] = {
-	//	-0.5f,  0.5f, 0.f, 0.f, 0.f, // top left
-	//	 0.5f,  0.5f, 0.f, 1.f, 0.f, // top right
-	//	 0.5f, -0.5f, 0.f, 1.f, 1.f, // bottom right
-	//	-0.5f, -0.5f, 0.f, 0.f, 1.f  // bottom left
-	//};
 	float vertices[] = {
-	-0.5f,  0.5f, 0.f, // top left
-	 0.5f,  0.5f, 0.f, // top right
-	 0.5f, -0.5f, 0.f, // bottom right
-	-0.5f, -0.5f, 0.f, // bottom left
+		-0.5f,  0.5f, 0.f, 0.f, 0.f, // top left
+		 0.5f,  0.5f, 0.f, 1.f, 0.f, // top right
+		 0.5f, -0.5f, 0.f, 1.f, 1.f, // bottom right
+		-0.5f, -0.5f, 0.f, 0.f, 1.f  // bottom left
 	};
+	//float vertices[] = {
+	//-0.5f,  0.5f, 0.f, // top left
+	// 0.5f,  0.5f, 0.f, // top right
+	// 0.5f, -0.5f, 0.f, // bottom right
+	//-0.5f, -0.5f, 0.f, // bottom left
+	//};
 
 	unsigned int indexBuffer[] = {
 		0, 1, 2,
