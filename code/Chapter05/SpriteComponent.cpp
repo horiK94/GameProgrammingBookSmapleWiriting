@@ -60,6 +60,8 @@ void SpriteComponent::Draw(Shader* shader)
 
 	//ワールド変換の設定
 	shader->SetMatrixUniform("uWorldTransform", world);
+	//テクスチャをアクティブに
+	mTexture->SetActive();
 	//スプライトの描画(描画前に頂点配列オブジェクトとシェーダーをアクティブにする必要あり)
 	glDrawElements(
 		GL_TRIANGLES,			//ポリゴンの種類
