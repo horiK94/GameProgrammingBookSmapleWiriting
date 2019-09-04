@@ -11,6 +11,7 @@
 
 // バーテックスシェーダーのoutと同じ型同じ名前にする必要がある
 in vec2 fragTexCoord;
+in vec3 fragVectorColor;
 
 //与えられたuv座標に従ってテクスチャから色を取得するTextureSamplerのためにuniformを追加
 //smapler2D: 2DTextureをサンプリング
@@ -23,5 +24,8 @@ out vec4 outColor;
 void main()
 {
 	//テクスチャの色がサンプリングされる. （頂点シェーダーから渡されたuv座標で）
-    outColor = texture(uTexture, fragTexCoord);
+    // outColor = texture(uTexture, fragTexCoord);
+    // 各頂点カラーに対するサンプリングが行われる
+	// outColor = vec4(fragVectorColor, 1.0f);
+	outColor = (texture(uTexture, fragTexCoord) + vec4(fragVectorColor, 1.0f)) / 2.0f;
 }

@@ -44,7 +44,8 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 		//上で頂点バッファの作成は完了したので、引数の「頂点バッファをコピー」してやる
 	glBufferData(
 		GL_ARRAY_BUFFER,		//バッファの種類(GL_ARRAY_BUFFER: 今作った頂点バッファを使用. IDを指定するのではない) => 上で指定したバッファの種類を指定
-		numVerts * 5 * sizeof(float),		//コピーするサイズ
+		//numVerts * 5 * sizeof(float),		//コピーするサイズ
+		numVerts * 8 * sizeof(float),
 		verts,		//コピー元ポインタ
 		GL_STATIC_DRAW		//データの利用方法(GL_STATIC_DRAW: GPUでデータのロードを1回行い、その後描画でデータを読み込む): GPUの動作を最適化するためのヒントとして使用される(詳細: http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20120909)
 	);
@@ -85,7 +86,8 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 		3,		//要素数(1つの頂点のサイズ)
 		GL_FLOAT,		//要素の型
 		GL_FALSE,		//整数の型でのみ使用するためFalseを指定
-		sizeof(float) * 5,		//ストライド(=連続する頂点属性間のバイトオフセット
+		//sizeof(float) * 5,		//ストライド(=連続する頂点属性間のバイトオフセット
+		sizeof(float) * 8,		//ストライド(=連続する頂点属性間のバイトオフセット
 		//頂点バッファの頂点『データ』間のパディング(=間隔)はないため、ストライドは頂点のサイズとなる)
 		0		//頂点データの開始位置からこの属性までのオフセット(唯一の属性であるため……それはつまり最初の属性となるため)
 	);
@@ -96,11 +98,22 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 		2,		//要素数(uv座標は2つ)
 		GL_FLOAT,		//要素の型
 		GL_FALSE,		//整数の型でのみ使用するためFalseを指定
-		sizeof(float) * 5,		//ストライド(普通、各頂点インデックスのサイズ)
+		//sizeof(float) * 5,		//ストライド(普通、各頂点インデックスのサイズ)
+		sizeof(float) * 8,		//ストライド(普通、各頂点インデックスのサイズ)
 		reinterpret_cast<void*>(sizeof(float) * 3)		//頂点インデックスの開始位置からこの属性までの位置(ただしオフセットポインタとして渡す必要あり)
 		//頂点の先頭から何バイトあるか知る必要がある。これが sizeof(float) * 3
 		//ただ、オフセットポインタとして渡す必要があるため、reinterpret_cast(ポインタ型を強制的に別のポインタ型に変換する)でvoid*ポインタ型変数に変換して渡している
 		//float f = 2.0f; reinterpret_cast<int&>(f) とすると、floatとintは32bit機では同じサイズのため、floatの内容をそのまま16進数で吐き出せる
+	);
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(
+		2,		//位置情報を頂点属性0に指定(上で0を有効にされていることに注意)
+		3,		//要素数(1つの頂点のサイズ)
+		GL_FLOAT,		//要素の型
+		GL_FALSE,		//整数の型でのみ使用するためFalseを指定
+		sizeof(float) * 8,		//ストライド(=連続する頂点属性間のバイトオフセット
+		//頂点バッファの頂点『データ』間のパディング(=間隔)はないため、ストライドは頂点のサイズとなる)
+		reinterpret_cast<void*>(sizeof(float) * 5)		//頂点データの開始位置からこの属性までのオフセット(唯一の属性であるため……それはつまり最初の属性となるため)
 	);
 	//glEnableVertexAttribArray(0);
 	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);

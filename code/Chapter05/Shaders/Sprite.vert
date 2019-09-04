@@ -20,9 +20,11 @@ uniform mat4 uViewProj;
 // 入力変数である位置情報の宣言
 layout(location=0) in vec3 inPosition;		//locationの値はglVertexAttributePointerに対応している
 layout(location=1) in vec2 inTexCoord;
+layout(location=2) in vec3 inVertexColor;
 
 //フラグメントシェーダーにもuv座標を使用するため(ピクセルの色を決めるのに使用)out変数を宣言
 out vec2 fragTexCoord;
+out vec3 fragVectorColor;
 
 void main()
 {
@@ -32,6 +34,7 @@ void main()
 	gl_Position = pos * uWorldTransform * uViewProj;
 	//uv座標をフラグメントシェーダーに渡す
 	fragTexCoord = inTexCoord;
+	fragVectorColor = inVertexColor;
 	//uv座標をフラグメントシェーダーに渡すだけで何故uv座標値をフラグメントシェーダーがわかるのか？
 	//それはOpenGLが3個しかない頂点の情報をもとに、三角形ポリゴンの表面全てに自動的に補完しているから
 	//三角形内の任意のピクセルで、対応するフラグメントシェーダーでのuv座標を、補完された座標値として得られる
