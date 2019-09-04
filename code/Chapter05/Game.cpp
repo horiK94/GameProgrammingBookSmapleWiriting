@@ -18,6 +18,7 @@
 #include "Ship.h"
 #include "Asteroid.h"
 #include "Random.h"
+#include <random>
 
 Game::Game()
 	:mWindow(nullptr)
@@ -139,6 +140,9 @@ void Game::ProcessInput()
 	mUpdatingActors = false;
 }
 
+float changeTime = 3.0f;
+float time = changeTime;
+
 void Game::UpdateGame()
 {
 	// Compute delta time
@@ -185,6 +189,8 @@ void Game::UpdateGame()
 	{
 		delete actor;
 	}
+
+	time += deltaTime;
 }
 
 /*
@@ -206,10 +212,27 @@ void Game::UpdateGame()
 1個の矩形を描画、その中を画像データの色で塗る
 ということになる
 */
+float r = 0;
+float g = 0;
+float b = 0;
+
 void Game::GenerateOutput()
 {
 	//カラーバッファーの初期化
-	glClearColor(0.86f, 0.86f, 0.86f, 1.0f);
+	if (time >= changeTime)
+	{
+		std::random_device rd;
+		std::mt19937 mt(rd());
+		std::uniform_real_distribution<float> rand(0.0, 1.0);
+		r = rand(mt);
+		g = rand(mt);
+		b = rand(mt);
+		SDL_Log("r: %f, g: %f, b: %f", r, g, b);
+		time = 0;
+	}
+
+	glClearColor(Math::Lerp(r, 0, time / changeTime), Math::Lerp(r, 0, time / changeTime), Math::Lerp(r, 0, time / changeTime), 1.0f);
+	//glClearColor(0.86f, 0.86f, 0.86f, 1.0f);
 	//カラーバッファーのクリア
 	/*
 	APIを読むと
