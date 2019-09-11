@@ -195,8 +195,10 @@ void Game::LoadData()
 	mRenderer->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
 	DirectionalLight& dir = mRenderer->GetDirectionalLight();
 	dir.mDirection = Vector3(0.0f, -0.707f, -0.707f);
-	dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
-	dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
+	//dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
+	//dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
+	dir.mDiffuseColor = Vector3(0, 1, 0);
+	dir.mSpecColor = Vector3(0.4, 0, 0);
 
 	// Camera actor
 	mCameraActor = new CameraActor(this);
