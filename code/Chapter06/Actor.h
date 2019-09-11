@@ -65,6 +65,7 @@ private:
 	// Transform
 	Matrix4 mWorldTransform;
 	Vector3 mPosition;
+	//Quaternion mRotation;
 	Quaternion mRotation;
 	float mScale;
 	bool mRecomputeWorldTransform;

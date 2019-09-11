@@ -28,11 +28,14 @@ class Renderer
 public:
 	Renderer(class Game* game);
 	~Renderer();
-
+	//初期化(Gameクラスが呼ぶ)
 	bool Initialize(float screenWidth, float screenHeight);
+	//終了
 	void Shutdown();
+	//テクスチャ, メッシュを解放
 	void UnloadData();
 
+	//Mesh, Spriteの描画(全MeshCompoent, SpriteComponentのDraw関数を呼んでいるだけ)
 	void Draw();
 
 	void AddSprite(class SpriteComponent* sprite);
@@ -41,8 +44,8 @@ public:
 	void AddMeshComp(class MeshComponent* mesh);
 	void RemoveMeshComp(class MeshComponent* mesh);
 
-	class Texture* GetTexture(const std::string& fileName);
-	class Mesh* GetMesh(const std::string& fileName);
+	class Texture* GetTexture(const std::string& fileName);		//画像データの取得
+	class Mesh* GetMesh(const std::string& fileName);			//メッシュデータの取得
 
 	void SetViewMatrix(const Matrix4& view) { mView = view; }
 
@@ -52,13 +55,15 @@ public:
 	float GetScreenWidth() const { return mScreenWidth; }
 	float GetScreenHeight() const { return mScreenHeight; }
 private:
-	bool LoadShaders();
+	bool LoadShaders();		//initialize()時に呼ばれる
 	void CreateSpriteVerts();
 	void SetLightUniforms(class Shader* shader);
 
 	// Map of textures loaded
+	//ロードしたTexture
 	std::unordered_map<std::string, class Texture*> mTextures;
 	// Map of meshes loaded
+	//ロードしたメッシュ
 	std::unordered_map<std::string, class Mesh*> mMeshes;
 
 	// All the sprite components drawn
@@ -67,7 +72,7 @@ private:
 	// All mesh components drawn
 	std::vector<class MeshComponent*> mMeshComps;
 
-	// Game
+	// Game(未使用らしい)
 	class Game* mGame;
 
 	// Sprite shader

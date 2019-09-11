@@ -19,14 +19,17 @@ MoveComponent::MoveComponent(class Actor* owner, int updateOrder)
 
 void MoveComponent::Update(float deltaTime)
 {
+	//if (!Math::NearZero(mAngularSpeed))
+	//{
+	//	float rot = mOwner->GetRotation();
+	//	rot += mAngularSpeed * deltaTime;
+	//	mOwner->SetRotation(rot);
+	//}
 	if (!Math::NearZero(mAngularSpeed))
 	{
 		Quaternion rot = mOwner->GetRotation();
-		float angle = mAngularSpeed * deltaTime;
-		// Create quaternion for incremental rotation
-		// (Rotate about up axis)
+		float angle = mAngularSpeed * deltaTime;		//‰ñ“]‘¬~deltatime
 		Quaternion inc(Vector3::UnitZ, angle);
-		// Concatenate old and new quaternion
 		rot = Quaternion::Concatenate(rot, inc);
 		mOwner->SetRotation(rot);
 	}

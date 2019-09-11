@@ -901,6 +901,7 @@ public:
 		w = inW;
 	}
 
+	//逆元にする
 	void Conjugate()
 	{
 		x *= -1.0f;
@@ -952,7 +953,7 @@ public:
 		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 	}
 
-	// Spherical Linear Interpolation
+	// Spherical Linear Interpolation(球面線形補間と呼ばれる 4.4.5.1参考)
 	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f)
 	{
 		float rawCosm = Quaternion::Dot(a, b);
@@ -996,10 +997,12 @@ public:
 
 	// Concatenate
 	// Rotate by q FOLLOWED BY p
+	//連結qで回転したあとにpで回転
 	static Quaternion Concatenate(const Quaternion& q, const Quaternion& p)
 	{
 		Quaternion retVal;
 
+		//以下グラスマン積
 		// Vector component is:
 		// ps * qv + qs * pv + pv x qv
 		Vector3 qv(q.x, q.y, q.z);

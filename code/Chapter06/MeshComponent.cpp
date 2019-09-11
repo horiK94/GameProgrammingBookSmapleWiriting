@@ -32,21 +32,42 @@ void MeshComponent::Draw(Shader* shader)
 {
 	if (mMesh)
 	{
-		// Set the world transform
-		shader->SetMatrixUniform("uWorldTransform", 
-			mOwner->GetWorldTransform());
-		// Set specular power
-		shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());
-		// Set the active texture
+		//ワールド座標の設定
+		//SpriteComponentと違い、
+		shader->SetMatrixUniform("uWorldTransform", mOwner->GetWorldTransform());
+		//使用するテクスチャの取得
 		Texture* t = mMesh->GetTexture(mTextureIndex);
 		if (t)
 		{
+			//テクスチャをアクティブに
 			t->SetActive();
 		}
-		// Set the mesh's vertex array as active
+		//頂点情報を取得
 		VertexArray* va = mMesh->GetVertexArray();
 		va->SetActive();
-		// Draw
-		glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+		//描画する
+		glDrawElements(GL_TRIANGLES,		//ポリゴンは三角形 
+			va->GetNumIndices(),		//インデックスバッファの数
+			GL_UNSIGNED_INT,		//符号なしint
+			nullptr);
 	}
+	//if (mMesh)
+	//{
+	//	// Set the world transform
+	//	shader->SetMatrixUniform("uWorldTransform", 
+	//		mOwner->GetWorldTransform());
+	//	// Set specular power
+	//	shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());
+	//	// Set the active texture
+	//	Texture* t = mMesh->GetTexture(mTextureIndex);
+	//	if (t)
+	//	{
+	//		t->SetActive();
+	//	}
+	//	// Set the mesh's vertex array as active
+	//	VertexArray* va = mMesh->GetVertexArray();
+	//	va->SetActive();
+	//	// Draw
+	//	glDrawElements(GL_TRIANGLES, va->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
+	//}
 }

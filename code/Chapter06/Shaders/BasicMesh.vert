@@ -14,9 +14,9 @@ uniform mat4 uWorldTransform;
 uniform mat4 uViewProj;
 
 // Attribute 0 is position, 1 is normal, 2 is tex coords.
-layout(location = 0) in vec3 inPosition;
-layout(location = 1) in vec3 inNormal;
-layout(location = 2) in vec2 inTexCoord;
+layout(location=0) in vec3 inPosition;		//location‚Ì’l‚ÍglVertexAttributePointer‚É‘Î‰ž‚µ‚Ä‚¢‚é
+layout(location=1) in vec3 inNormal;
+layout(location=2) in vec2 inTexCoord;
 
 // Any vertex outputs (other than position)
 out vec2 fragTexCoord;

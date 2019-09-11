@@ -43,6 +43,8 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+	//SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+	//デプスバッファのリクエストにする
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	// Enable double buffering
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -117,26 +119,35 @@ void Renderer::UnloadData()
 
 void Renderer::Draw()
 {
+	//Meshの描画
 	// Set the clear color to light grey
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// Clear the color buffer
+	//デプスバッファとカラーバッファをクリアする
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw mesh components
 	// Enable depth buffering/disable alpha blend
+	//デプスバッファ法を有効にする(Drawするたびに呼ぶ)
 	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
+	//アルファブレンディングを無効化
 	glDisable(GL_BLEND);
 	// Set the mesh shader active
+	//meshShaderをアクティブ化
 	mMeshShader->SetActive();
 	// Update view-projection matrix
+	//meshShaderに対し、カメラの位置に応じたビュー射影行列を設定
 	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
 	// Update lighting uniforms
 	SetLightUniforms(mMeshShader);
+	//全MeshComponentに対し、描画を行う
 	for (auto mc : mMeshComps)
 	{
 		mc->Draw(mMeshShader);
 	}
 
+	//Spriteの描画
 	// Draw all sprite components
 	// Disable depth buffering
 	glDisable(GL_DEPTH_TEST);
@@ -197,20 +208,20 @@ void Renderer::RemoveMeshComp(MeshComponent* mesh)
 Texture* Renderer::GetTexture(const std::string& fileName)
 {
 	Texture* tex = nullptr;
-	auto iter = mTextures.find(fileName);
-	if (iter != mTextures.end())
+	auto iter = mTextures.find(fileName);		//key..string, value..Texture*
+	if (iter != mTextures.end())		//RendereのmTexturesの中にfileNameのものがあるとき
 	{
-		tex = iter->second;
+		tex = iter->second;		//texにiterのvalue(Texture)を代入
 	}
 	else
 	{
-		tex = new Texture();
-		if (tex->Load(fileName))
+		tex = new Texture();		//Textureインスタンス生成
+		if (tex->Load(fileName))		//fileNameのものをロード
 		{
-			mTextures.emplace(fileName, tex);
+			mTextures.emplace(fileName, tex);		//mTexturesに追加(順番は保持されない)
 		}
 		else
-		{
+		{				//なかったら諦める
 			delete tex;
 			tex = nullptr;
 		}
@@ -262,13 +273,35 @@ bool Renderer::LoadShaders()
 	{
 		return false;
 	}
-
+	//mMeshShader = new Shader();
+	//if (!mMeshShader->Load("Shaders/BasicMesh.vert", "Shaders/BasicMesh.frag"))
+	//{
+	//	return false;
+	//}
+	
 	mMeshShader->SetActive();
-	// Set the view-projection matrix
-	mView = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitX, Vector3::UnitZ);
-	mProjection = Matrix4::CreatePerspectiveFOV(Math::ToRadians(70.0f),
-		mScreenWidth, mScreenHeight, 25.0f, 10000.0f);
+	//ビューと射影行列を設定
+	//ビュー行列の作成
+	mView = Matrix4::CreateLookAt(
+		Vector3::Zero,		//カメラの位置
+		Vector3::UnitX,		//ターゲットの位置
+		Vector3::UnitZ);	//カメラの上向き
+
+	mProjection = Matrix4::CreatePerspectiveFOV(
+		Math::ToRadians(70.0f),		//水平視野
+		mScreenWidth,
+		mScreenHeight,
+		25.0f,
+		10000.f
+	);
 	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
+
+	//mMeshShader->SetActive();
+	//// Set the view-projection matrix
+	//mView = Matrix4::CreateLookAt(Vector3::Zero, Vector3::UnitX, Vector3::UnitZ);
+	//mProjection = Matrix4::CreatePerspectiveFOV(Math::ToRadians(70.0f),
+	//	mScreenWidth, mScreenHeight, 25.0f, 10000.0f);
+	//mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
 	return true;
 }
 
@@ -292,16 +325,24 @@ void Renderer::CreateSpriteVerts()
 void Renderer::SetLightUniforms(Shader* shader)
 {
 	// Camera position is from inverted view
-	Matrix4 invView = mView;
-	invView.Invert();
-	shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
-	// Ambient light
+	//Matrix4 invView = mView;
+	//invView.Invert();
+	//shader->SetVectorUniform("uCameraPos", invView.GetTranslation());
+	//// Ambient light
+	//shader->SetVectorUniform("uAmbientLight", mAmbientLight);
+	//// Directional light
+	//shader->SetVectorUniform("uDirLight.mDirection",
+	//	mDirLight.mDirection);
+	//shader->SetVectorUniform("uDirLight.mDiffuseColor",
+	//	mDirLight.mDiffuseColor);
+	//shader->SetVectorUniform("uDirLight.mSpecColor",
+	//	mDirLight.mSpecColor);
+	Matrix4 inView = mView;		//ビュー行列(カメラを中心とした座標)
+	inView.Invert();		//逆行列
+	shader->SetVectorUniform("uCameraPos", inView.GetTranslation());
 	shader->SetVectorUniform("uAmbientLight", mAmbientLight);
-	// Directional light
-	shader->SetVectorUniform("uDirLight.mDirection",
-		mDirLight.mDirection);
-	shader->SetVectorUniform("uDirLight.mDiffuseColor",
-		mDirLight.mDiffuseColor);
-	shader->SetVectorUniform("uDirLight.mSpecColor",
-		mDirLight.mSpecColor);
+	//uDirLight構造体に「.」で参照できる
+	shader->SetVectorUniform("uDirLight.mDirection", mDirLight.mDirection);
+	shader->SetVectorUniform("uDirLight.mDiffuseColor", mDirLight.mDiffuseColor);
+	shader->SetVectorUniform("uDirLight.mSpecColor", mDirLight.mSpecColor);
 }
