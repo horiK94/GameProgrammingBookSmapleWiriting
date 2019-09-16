@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <SDL/SDL.h>
 #include "Math.h"
+#include <map>
 
 struct DirectionalLight
 {
@@ -41,7 +42,7 @@ public:
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
 
-	void AddMeshComp(class MeshComponent* mesh);
+	void Renderer::AddMeshComp(std::string shaderName, class MeshComponent* mesh);
 	void RemoveMeshComp(class MeshComponent* mesh);
 
 	class Texture* GetTexture(const std::string& fileName);		//画像データの取得
@@ -55,7 +56,8 @@ public:
 	float GetScreenWidth() const { return mScreenWidth; }
 	float GetScreenHeight() const { return mScreenHeight; }
 private:
-	bool LoadShaders();		//initialize()時に呼ばれる
+	bool LoadTextureShaders();
+	bool LoadMeshShaders(std::string shaderName);		//initialize()時に呼ばれる
 	void CreateSpriteVerts();
 	void SetLightUniforms(class Shader* shader);
 
@@ -70,7 +72,7 @@ private:
 	std::vector<class SpriteComponent*> mSprites;
 
 	// All mesh components drawn
-	std::vector<class MeshComponent*> mMeshComps;
+	std::map<std::string, std::vector<class MeshComponent*>> mMeshComps;
 
 	// Game(未使用らしい)
 	class Game* mGame;
@@ -81,7 +83,8 @@ private:
 	class VertexArray* mSpriteVerts;
 
 	// Mesh shader
-	class Shader* mMeshShader;
+	//class Shader* mMeshShader;
+	std::map < std::string, class Shader*> mMeshShader;
 
 	// View/projection for 3D shaders
 	Matrix4 mView;

@@ -15,11 +15,12 @@
 #include "SpriteComponent.h"
 #include "MeshComponent.h"
 #include <GL/glew.h>
+#include <map>
 
 Renderer::Renderer(Game* game)
 	:mGame(game)
-	,mSpriteShader(nullptr)
-	,mMeshShader(nullptr)
+	, mSpriteShader(nullptr)
+	, mMeshShader(std::map < std::string, class Shader* >())
 {
 }
 
@@ -75,11 +76,16 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	glGetError();
 
 	// Make sure we can create/compile shaders
-	if (!LoadShaders())
+	if (!LoadTextureShaders())
 	{
 		SDL_Log("Failed to load shaders.");
 		return false;
 	}
+	//if (!LoadMeshShaders())
+	//{
+	//	SDL_Log("Failed to load shaders.");
+	//	return false;
+	//}
 
 	// Create quad for drawing sprites
 	CreateSpriteVerts();
@@ -92,8 +98,11 @@ void Renderer::Shutdown()
 	delete mSpriteVerts;
 	mSpriteShader->Unload();
 	delete mSpriteShader;
-	mMeshShader->Unload();
-	delete mMeshShader;
+	for (auto m : mMeshShader)
+	{
+		m.second->Unload();
+	}
+	mMeshShader.clear();
 	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 }
@@ -133,18 +142,26 @@ void Renderer::Draw()
 	//glEnable(GL_DEPTH_TEST);
 	//アルファブレンディングを無効化
 	glDisable(GL_BLEND);
-	// Set the mesh shader active
-	//meshShaderをアクティブ化
-	mMeshShader->SetActive();
-	// Update view-projection matrix
-	//meshShaderに対し、カメラの位置に応じたビュー射影行列を設定
-	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
-	// Update lighting uniforms
-	SetLightUniforms(mMeshShader);
-	//全MeshComponentに対し、描画を行う
-	for (auto mc : mMeshComps)
+
+	for (auto m : mMeshShader)
 	{
-		mc->Draw(mMeshShader);
+		std::string shaderName = m.first;
+		Shader* shader = m.second;
+		// Set the mesh shader active
+		//meshShaderをアクティブ化
+		shader->SetActive();
+		// Update view-projection matrix
+		//meshShaderに対し、カメラの位置に応じたビュー射影行列を設定
+		shader->SetMatrixUniform("uViewProj", mView * mProjection);
+		// Update lighting uniforms
+		SetLightUniforms(shader);
+
+		std::vector<MeshComponent*> meshComponents = mMeshComps[shaderName];
+		//全MeshComponentに対し、描画を行う
+		for (auto mc : meshComponents)
+		{
+			mc->Draw(shader);
+		}
 	}
 
 	//Spriteの描画
@@ -194,15 +211,23 @@ void Renderer::RemoveSprite(SpriteComponent* sprite)
 	mSprites.erase(iter);
 }
 
-void Renderer::AddMeshComp(MeshComponent* mesh)
+void Renderer::AddMeshComp(std::string shaderName, MeshComponent* mesh)
 {
-	mMeshComps.emplace_back(mesh);
+	mMeshComps[shaderName].push_back(mesh);
+	//本当は初期化時にやりたいが、RendereコンポーネントはGameの初期化時の最初におこわなれるためMeshComponent時に行う
+	if (!LoadMeshShaders(shaderName))
+	{
+		SDL_Log("Failed to load shaders.");
+	}
 }
 
 void Renderer::RemoveMeshComp(MeshComponent* mesh)
 {
-	auto iter = std::find(mMeshComps.begin(), mMeshComps.end(), mesh);
-	mMeshComps.erase(iter);
+	//auto iter = std::find(mMeshComps.begin(), mMeshComps.end(), mesh);
+	//mMeshComps.erase(iter);
+	std::vector<MeshComponent*> meshComps = mMeshComps[mesh->GetMesh()->GetShaderName()];
+	auto iter = std::find(meshComps.begin(), meshComps.end(), mesh);
+	meshComps.erase(iter);
 }
 
 Texture* Renderer::GetTexture(const std::string& fileName)
@@ -229,7 +254,7 @@ Texture* Renderer::GetTexture(const std::string& fileName)
 	return tex;
 }
 
-Mesh* Renderer::GetMesh(const std::string & fileName)
+Mesh* Renderer::GetMesh(const std::string& fileName)
 {
 	Mesh* m = nullptr;
 	auto iter = mMeshes.find(fileName);
@@ -253,7 +278,7 @@ Mesh* Renderer::GetMesh(const std::string & fileName)
 	return m;
 }
 
-bool Renderer::LoadShaders()
+bool Renderer::LoadTextureShaders()
 {
 	// Create sprite shader
 	mSpriteShader = new Shader();
@@ -266,10 +291,18 @@ bool Renderer::LoadShaders()
 	// Set the view-projection matrix
 	Matrix4 viewProj = Matrix4::CreateSimpleViewProj(mScreenWidth, mScreenHeight);
 	mSpriteShader->SetMatrixUniform("uViewProj", viewProj);
+}
+
+bool Renderer::LoadMeshShaders(std::string shaderName)
+{
+	if (mMeshShader.find(shaderName) != end(mMeshShader))
+	{
+		return true;
+	}
 
 	// Create basic mesh shader
-	mMeshShader = new Shader();
-	if (!mMeshShader->Load("Shaders/Phong.vert", "Shaders/Phong.frag"))
+	Shader* shader = new Shader();
+	if (!shader->Load("Shaders/" + shaderName + ".vert", "Shaders/" + shaderName + ".frag"))
 	{
 		return false;
 	}
@@ -278,8 +311,8 @@ bool Renderer::LoadShaders()
 	//{
 	//	return false;
 	//}
-	
-	mMeshShader->SetActive();
+
+	shader->SetActive();
 	//ビューと射影行列を設定
 	//ビュー行列の作成
 	mView = Matrix4::CreateLookAt(
@@ -294,7 +327,9 @@ bool Renderer::LoadShaders()
 		25.0f,
 		10000.f
 	);
-	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
+	shader->SetMatrixUniform("uViewProj", mView * mProjection);
+
+	mMeshShader[shaderName] = shader;
 
 	//mMeshShader->SetActive();
 	//// Set the view-projection matrix
