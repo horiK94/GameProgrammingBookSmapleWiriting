@@ -35,6 +35,8 @@ void MeshComponent::Draw(Shader* shader)
 		//ワールド座標の設定
 		//SpriteComponentと違い、
 		shader->SetMatrixUniform("uWorldTransform", mOwner->GetWorldTransform());
+		//鏡面反射指数の指定
+		shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());
 		//使用するテクスチャの取得
 		Texture* t = mMesh->GetTexture(mTextureIndex);
 		if (t)
