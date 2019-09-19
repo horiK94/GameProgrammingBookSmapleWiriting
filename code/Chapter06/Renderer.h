@@ -56,7 +56,7 @@ public:
 	void SetViewMatrix(const Matrix4& view) { mView = view; }
 
 	void SetAmbientLight(const Vector3& ambient) { mAmbientLight = ambient; }
-	DirectionalLight& GetDirectionalLight() { return mDirLight; }
+	DirectionalLight& GetDirectionalLight(int i) { return mDirLight[i]; }
 
 	float GetScreenWidth() const { return mScreenWidth; }
 	float GetScreenHeight() const { return mScreenHeight; }
@@ -100,7 +100,7 @@ private:
 
 	// Lighting data
 	Vector3 mAmbientLight;
-	DirectionalLight mDirLight;
+	DirectionalLight mDirLight[4];
 
 	// Window
 	SDL_Window* mWindow;

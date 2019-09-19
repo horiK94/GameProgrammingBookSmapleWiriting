@@ -16,6 +16,8 @@
 #include "MeshComponent.h"
 #include <GL/glew.h>
 #include <map>
+#include <iostream>
+#include <sstream>
 
 Renderer::Renderer(Game* game)
 	:mGame(game)
@@ -376,10 +378,24 @@ void Renderer::SetLightUniforms(Shader* shader)
 	inView.Invert();		//逆行列
 	shader->SetVectorUniform("uCameraPos", inView.GetTranslation());
 	shader->SetVectorUniform("uAmbientLight", mAmbientLight);
-	//uDirLight構造体に「.」で参照できる
-	shader->SetVectorUniform("uDirLight.mPosition", mDirLight.mPosition);
-	//shader->SetVectorUniform("uDirLight.mDirection", mDirLight.mDirection);
-	shader->SetVectorUniform("uDirLight.mDiffuseColor", mDirLight.mDiffuseColor);
-	shader->SetVectorUniform("uDirLight.mSpecColor", mDirLight.mSpecColor);
-	shader->SetFloatUniform("uDirLight.mEffectRange", mDirLight.mEffectRange);
+	for (int i = 0; i < 4; i++)
+	{
+		//uDirLight構造体に「.」で参照できる
+		std::ostringstream ossPos;
+		ossPos << "uDirLight[" << i << "].mPosition";
+		shader->SetVectorUniform(ossPos.str().c_str(), mDirLight[i].mPosition);
+		//shader->SetVectorUniform("uDirLight.mDirection", mDirLight.mDirection);
+
+		std::ostringstream ossDiffuseColor;
+		ossDiffuseColor << "uDirLight[" << i << "].mDiffuseColor";
+		shader->SetVectorUniform(ossDiffuseColor.str().c_str(), mDirLight[i].mDiffuseColor);
+
+		std::ostringstream ossSpecColor;
+		ossSpecColor << "uDirLight[" << i << "].mSpecColor";
+		shader->SetVectorUniform(ossSpecColor.str().c_str(), mDirLight[i].mSpecColor);
+
+		std::ostringstream ossEffect;
+		ossEffect << "uDirLight[" << i << "].mEffectRange";
+		shader->SetFloatUniform(ossEffect.str().c_str(), mDirLight[i].mEffectRange);
+	}
 }

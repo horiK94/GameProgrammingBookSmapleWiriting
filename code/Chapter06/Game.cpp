@@ -193,14 +193,28 @@ void Game::LoadData()
 
 	// Setup lights
 	mRenderer->SetAmbientLight(Vector3(0.2f, 0.2f, 0.2f));
-	DirectionalLight& dir = mRenderer->GetDirectionalLight();
-	dir.mPosition = Vector3(0.0f, 0.0f, 200.0f);
+	mRenderer->GetDirectionalLight(0).mPosition = Vector3(-100.0f, -100.0f, 200.0f);
 	//dir.mDirection = Vector3(0.0f, -0.707f, -0.707f);
 	//dir.mDiffuseColor = Vector3(0.78f, 0.88f, 1.0f);
 	//dir.mSpecColor = Vector3(0.8f, 0.8f, 0.8f);
-	dir.mDiffuseColor = Vector3(0, 1, 0);
-	dir.mSpecColor = Vector3(1, 0, 0);
-	dir.mEffectRange = 1000.0f;
+	mRenderer->GetDirectionalLight(0).mDiffuseColor = Vector3(1, 0, 0);
+	mRenderer->GetDirectionalLight(0).mSpecColor = Vector3(1, 0, 0);
+	mRenderer->GetDirectionalLight(0).mEffectRange = 1000.0f;
+
+	mRenderer->GetDirectionalLight(1).mPosition = Vector3(100.0f, 100.0f, 200.0f);
+	mRenderer->GetDirectionalLight(1).mDiffuseColor = Vector3(0, 1, 0);
+	mRenderer->GetDirectionalLight(1).mSpecColor = Vector3(0, 1, 0);
+	mRenderer->GetDirectionalLight(1).mEffectRange = 1000.0f;
+
+	mRenderer->GetDirectionalLight(2).mPosition = Vector3(200.0f, 0.0f, 0.0f);
+	mRenderer->GetDirectionalLight(2).mDiffuseColor = Vector3(0, 0, 1);
+	mRenderer->GetDirectionalLight(2).mSpecColor = Vector3(0, 0, 1);
+	mRenderer->GetDirectionalLight(2).mEffectRange = 1000.0f;
+
+	mRenderer->GetDirectionalLight(3).mPosition = Vector3(-200.0f, 0.0f, 0.0f);
+	mRenderer->GetDirectionalLight(3).mDiffuseColor = Vector3(1, 1, 0);
+	mRenderer->GetDirectionalLight(3).mSpecColor = Vector3(1, 1, 0);
+	mRenderer->GetDirectionalLight(3).mEffectRange = 1000.0f;
 
 	// Camera actor
 	mCameraActor = new CameraActor(this);
