@@ -16,12 +16,17 @@
 
 struct DirectionalLight
 {
+	//ŒõŒ¹ˆÊ’u
+	Vector3 mPosition;
 	// Direction of light
-	Vector3 mDirection;
+	//Vector3 mDirection;
 	// Diffuse color
 	Vector3 mDiffuseColor;
 	// Specular color
 	Vector3 mSpecColor;
+
+	//‰e‹¿”¼Œa
+	float mEffectRange;
 };
 
 class Renderer

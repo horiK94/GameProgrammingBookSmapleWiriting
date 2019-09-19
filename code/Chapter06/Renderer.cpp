@@ -377,7 +377,9 @@ void Renderer::SetLightUniforms(Shader* shader)
 	shader->SetVectorUniform("uCameraPos", inView.GetTranslation());
 	shader->SetVectorUniform("uAmbientLight", mAmbientLight);
 	//uDirLight構造体に「.」で参照できる
-	shader->SetVectorUniform("uDirLight.mDirection", mDirLight.mDirection);
+	shader->SetVectorUniform("uDirLight.mPosition", mDirLight.mPosition);
+	//shader->SetVectorUniform("uDirLight.mDirection", mDirLight.mDirection);
 	shader->SetVectorUniform("uDirLight.mDiffuseColor", mDirLight.mDiffuseColor);
 	shader->SetVectorUniform("uDirLight.mSpecColor", mDirLight.mSpecColor);
+	shader->SetFloatUniform("uDirLight.mEffectRange", mDirLight.mEffectRange);
 }

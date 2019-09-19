@@ -22,7 +22,7 @@ layout(location=2) in vec2 inTexCoord;
 out vec2 fragTexCoord;
 // 法線ベクトル(ワールド座標)
 out vec3 fragNormal;
-// カメラのワールド座標
+// 位置のワールド座標
 out vec3 fragWorldPos;
 
 void main()
@@ -34,6 +34,7 @@ void main()
 	//ワールド空間の位置を保持
 	fragWorldPos = pos.xyz;
 	//クリップ空間に変換
+	//バーテックスシェーダーでは、gl_Positionに頂点データを渡す必要がある
 	gl_Position = pos * uViewProj;
 
 	//法線をワールド空間へ変換
