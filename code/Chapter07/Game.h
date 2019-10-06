@@ -26,6 +26,7 @@ public:
 	void RemoveActor(class Actor* actor);
 
 	class Renderer* GetRenderer() { return mRenderer; }
+	//class AudioSystem* GetAudioSystem() { return mAudioSystem; }
 	class AudioSystem* GetAudioSystem() { return mAudioSystem; }
 private:
 	void ProcessInput();
@@ -41,6 +42,7 @@ private:
 	std::vector<class Actor*> mPendingActors;
 
 	class Renderer* mRenderer;
+	//class AudioSystem* mAudioSystem;
 	class AudioSystem* mAudioSystem;
 
 	Uint32 mTicksCount;

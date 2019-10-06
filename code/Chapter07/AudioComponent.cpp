@@ -31,11 +31,12 @@ void AudioComponent::Update(float deltaTime)
 	{
 		if (!iter->IsValid())
 		{
-			iter = mEvents2D.erase(iter);
+			//eventが無効になっていたら
+			iter = mEvents2D.erase(iter);		//削除された要素の次の要素を指すイテレータを返す
 		}
 		else
 		{
-			++iter;
+			++iter;		//削次の要素を指すイテレータを返す
 		}
 	}
 
@@ -54,9 +55,18 @@ void AudioComponent::Update(float deltaTime)
 	}
 }
 
+//所有アクターがワールド行列を計算するたびにこの関数が呼ばれる
 void AudioComponent::OnUpdateWorldTransform()
 {
-	// Update 3D events' world transforms
+	//// Update 3D events' world transforms
+	//Matrix4 world = mOwner->GetWorldTransform();
+	//for (auto& event : mEvents3D)
+	//{
+	//	if (event.IsValid())
+	//	{
+	//		event.Set3DAttributes(world);
+	//	}
+	//}
 	Matrix4 world = mOwner->GetWorldTransform();
 	for (auto& event : mEvents3D)
 	{
@@ -69,16 +79,30 @@ void AudioComponent::OnUpdateWorldTransform()
 
 SoundEvent AudioComponent::PlayEvent(const std::string& name)
 {
+	//SoundEvent e = mOwner->GetGame()->GetAudioSystem()->PlayEvent(name);
+	//// Is this 2D or 3D?
+	//if (e.Is3D())
+	//{
+	//	mEvents3D.emplace_back(e);
+	//	// Set initial 3D attributes
+	//	e.Set3DAttributes(mOwner->GetWorldTransform());
+	//}
+	//else
+	//{
+	//	mEvents2D.emplace_back(e);
+	//}
+	//return e;
 	SoundEvent e = mOwner->GetGame()->GetAudioSystem()->PlayEvent(name);
-	// Is this 2D or 3D?
 	if (e.Is3D())
 	{
+		//3Dの時
 		mEvents3D.emplace_back(e);
-		// Set initial 3D attributes
+		//3D属性を初期化する
 		e.Set3DAttributes(mOwner->GetWorldTransform());
 	}
 	else
 	{
+		//2Dの時
 		mEvents2D.emplace_back(e);
 	}
 	return e;

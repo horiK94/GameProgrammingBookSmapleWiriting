@@ -20,6 +20,8 @@ CameraActor::CameraActor(Game* game)
 	mMoveComp = new MoveComponent(this);
 	mAudioComp = new AudioComponent(this);
 	mLastFootstep = 0.0f;
+	//mFootstep = mAudioComp->PlayEvent("event:/Footstep");
+	//mFootstep.SetPaused(true);
 	mFootstep = mAudioComp->PlayEvent("event:/Footstep");
 	mFootstep.SetPaused(true);
 }

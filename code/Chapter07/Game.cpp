@@ -18,17 +18,17 @@
 #include "AudioComponent.h"
 
 Game::Game()
-:mRenderer(nullptr)
-,mAudioSystem(nullptr)
-,mIsRunning(true)
-,mUpdatingActors(false)
+	:mRenderer(nullptr)
+	, mAudioSystem(nullptr)
+	, mIsRunning(true)
+	, mUpdatingActors(false)
 {
-	
+
 }
 
 bool Game::Initialize()
 {
-	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) != 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 	{
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return false;
@@ -45,11 +45,20 @@ bool Game::Initialize()
 	}
 
 	// Create the audio system
-	mAudioSystem = new AudioSystem(this);
+	//mAudioSystem = new AudioSystem(this);
+	//if (!mAudioSystem->Initialize())
+	//{
+	//	SDL_Log("Failed to initialize audio system");
+	//	mAudioSystem->Shutdown();
+	//	delete mAudioSystem;
+	//	mAudioSystem = nullptr;
+	//	return false;
+	//}
+	mAudioSystem = new AudioSystem(this);		//AudioSystemコンポーネント追加
 	if (!mAudioSystem->Initialize())
 	{
 		SDL_Log("Failed to initialize audio system");
-		mAudioSystem->Shutdown();
+		mAudioSystem->Shutdown();		//失敗したらシャットダウン
 		delete mAudioSystem;
 		mAudioSystem = nullptr;
 		return false;
@@ -58,7 +67,7 @@ bool Game::Initialize()
 	LoadData();
 
 	mTicksCount = SDL_GetTicks();
-	
+
 	return true;
 }
 
@@ -79,21 +88,21 @@ void Game::ProcessInput()
 	{
 		switch (event.type)
 		{
-			case SDL_QUIT:
-				mIsRunning = false;
-				break;
+		case SDL_QUIT:
+			mIsRunning = false;
+			break;
 			// This fires when a key's initially pressed
-			case SDL_KEYDOWN:
-				if (!event.key.repeat)
-				{
-					HandleKeyPress(event.key.keysym.sym);
-				}
-				break;
-			default:
-				break;
+		case SDL_KEYDOWN:
+			if (!event.key.repeat)
+			{
+				HandleKeyPress(event.key.keysym.sym);
+			}
+			break;
+		default:
+			break;
 		}
 	}
-	
+
 	const Uint8* state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_SCANCODE_ESCAPE])
 	{
@@ -205,6 +214,8 @@ void Game::UpdateGame()
 	}
 
 	// Update audio system
+	//mAudioSystem->Update(deltaTime);
+	// Audioの更新
 	mAudioSystem->Update(deltaTime);
 }
 
@@ -250,7 +261,7 @@ void Game::LoadData()
 		a = new PlaneActor(this);
 		a->SetPosition(Vector3(start + i * size, start - size, 0.0f));
 		a->SetRotation(q);
-		
+
 		a = new PlaneActor(this);
 		a->SetPosition(Vector3(start + i * size, -start + size, 0.0f));
 		a->SetRotation(q);

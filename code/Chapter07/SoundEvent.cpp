@@ -50,6 +50,7 @@ void SoundEvent::Stop(bool allowFadeOut /* true */)
 
 void SoundEvent::SetPaused(bool pause)
 {
+	//オーディオシステムのインスタンスがなかったら終了(mSysmteとeventInstanceの両方でnullチェックを行っている)
 	auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
 	if (event)
 	{
@@ -130,15 +131,30 @@ float SoundEvent::GetParameter(const std::string& name)
 
 bool SoundEvent::Is3D() const
 {
+	//bool retVal = false;
+	//auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
+	//if (event)
+	//{
+	//	// Get the event description
+	//	FMOD::Studio::EventDescription* ed = nullptr;
+	//	event->getDescription(&ed);
+	//	if (ed)
+	//	{
+	//		ed->is3D(&retVal);
+	//	}
+	//}
+	//return retVal;
 	bool retVal = false;
 	auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
-	if (event)
+	if(event)
 	{
-		// Get the event description
+		//イベント記述子を取得
 		FMOD::Studio::EventDescription* ed = nullptr;
+		//eventに対応するdescriptionの取得
 		event->getDescription(&ed);
 		if (ed)
 		{
+			//イベントが2D なのか 3Dなのかを取得
 			ed->is3D(&retVal);
 		}
 	}
@@ -147,10 +163,22 @@ bool SoundEvent::Is3D() const
 
 namespace
 {
+	//FMOD_VECTOR VecToFMOD(const Vector3& in)
+	//{
+	//	// Convert from our coordinates (+x forward, +y right, +z up)
+	//	// to FMOD (+z forward, +x right, +y up)
+	//	FMOD_VECTOR v;
+	//	v.x = in.y;
+	//	v.y = in.z;
+	//	v.z = in.x;
+	//	return v;
+	//}
+
+	//FMOD_VECTOR: FMODのベクトル型
 	FMOD_VECTOR VecToFMOD(const Vector3& in)
 	{
-		// Convert from our coordinates (+x forward, +y right, +z up)
-		// to FMOD (+z forward, +x right, +y up)
+		//このゲームでは左手座標系(+xは前方, +yが右, +zが上)
+		//FMODベクトルでは右手座標系(+zが前方, +xが右, +yが上)
 		FMOD_VECTOR v;
 		v.x = in.y;
 		v.y = in.z;
@@ -161,18 +189,34 @@ namespace
 
 void SoundEvent::Set3DAttributes(const Matrix4& worldTrans)
 {
+	//auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
+	//if (event)
+	//{
+	//	FMOD_3D_ATTRIBUTES attr;
+	//	// Set position, forward, up
+	//	attr.position = VecToFMOD(worldTrans.GetTranslation());
+	//	// In world transform, first row is forward
+	//	attr.forward = VecToFMOD(worldTrans.GetXAxis());
+	//	// Third row is up
+	//	attr.up = VecToFMOD(worldTrans.GetZAxis());
+	//	// Set velocity to zero (fix if using Doppler effect)
+	//	attr.velocity = { 0.0f, 0.0f, 0.0f };
+	//	event->set3DAttributes(&attr);
+	//}
+
+	//イベントの位置や方向の更新の際に、この関数にアクターのワールド行列(今回でいうカメラ)を入れるだけでよい
 	auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
 	if (event)
 	{
 		FMOD_3D_ATTRIBUTES attr;
-		// Set position, forward, up
+		//位置のセット
 		attr.position = VecToFMOD(worldTrans.GetTranslation());
-		// In world transform, first row is forward
+		//前方ベクトルの取得(ワールド行列の第１行)
 		attr.forward = VecToFMOD(worldTrans.GetXAxis());
-		// Third row is up
+		//上向きベクトルの取得(ワールド行列の代３行)
 		attr.up = VecToFMOD(worldTrans.GetZAxis());
-		// Set velocity to zero (fix if using Doppler effect)
-		attr.velocity = { 0.0f, 0.0f, 0.0f };
+		//速度は0にする
+		attr.velocity = { 0, 0, 0 };
 		event->set3DAttributes(&attr);
 	}
 }

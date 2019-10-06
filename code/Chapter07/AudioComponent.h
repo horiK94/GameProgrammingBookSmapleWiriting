@@ -24,6 +24,7 @@ public:
 	SoundEvent PlayEvent(const std::string& name);
 	void StopAllEvents();
 private:
+	//2D用と3D用のサウンドイベントがある
 	std::vector<SoundEvent> mEvents2D;
 	std::vector<SoundEvent> mEvents3D;
 };
