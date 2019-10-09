@@ -77,6 +77,11 @@ bool AudioSystem::Initialize()
 
 	//Low Levelシステムポインタの取得
 	mSystem->getLowLevelSystem(&mLowLevelSystem);
+	mLowLevelSystem->set3DSettings(
+		10.0f,
+		5.0f,
+		1.0f
+	);
 
 	//// Initialize FMOD studio system
 	////FMOD studioシステムの初期化

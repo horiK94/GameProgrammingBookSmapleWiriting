@@ -67,6 +67,9 @@
     <ClCompile Include="AudioComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FireLoopActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -123,6 +126,7 @@
     <ClInclude Include="AudioComponent.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="FireLoopActor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Sprite.frag">

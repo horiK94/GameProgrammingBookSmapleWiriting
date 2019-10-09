@@ -187,7 +187,7 @@ namespace
 	}
 }
 
-void SoundEvent::Set3DAttributes(const Matrix4& worldTrans)
+void SoundEvent::Set3DAttributes(const Matrix4& worldTrans, Vector3 velocity)
 {
 	//auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
 	//if (event)
@@ -215,8 +215,7 @@ void SoundEvent::Set3DAttributes(const Matrix4& worldTrans)
 		attr.forward = VecToFMOD(worldTrans.GetXAxis());
 		//上向きベクトルの取得(ワールド行列の代３行)
 		attr.up = VecToFMOD(worldTrans.GetZAxis());
-		//速度は0にする
-		attr.velocity = { 0, 0, 0 };
+		attr.velocity = VecToFMOD(velocity);
 		event->set3DAttributes(&attr);
 	}
 }

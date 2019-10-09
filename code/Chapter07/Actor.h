@@ -52,6 +52,9 @@ public:
 	State GetState() const { return mState; }
 	void SetState(State state) { mState = state; }
 
+	Vector3 GetVelocity() { return velocity; }
+	void SetVelocity(Vector3 velo) { velocity = velo; }
+
 	class Game* GetGame() { return mGame; }
 
 
@@ -68,6 +71,7 @@ private:
 	Quaternion mRotation;
 	float mScale;
 	bool mRecomputeWorldTransform;
+	Vector3 velocity;
 
 	std::vector<class Component*> mComponents;
 	class Game* mGame;

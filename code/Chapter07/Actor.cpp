@@ -18,6 +18,7 @@ Actor::Actor(Game* game)
 	,mScale(1.0f)
 	,mGame(game)
 	,mRecomputeWorldTransform(true)
+	,velocity(Vector3::Zero)
 {
 	mGame->AddActor(this);
 }

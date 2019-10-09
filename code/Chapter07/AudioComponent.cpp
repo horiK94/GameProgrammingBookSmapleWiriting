@@ -72,7 +72,7 @@ void AudioComponent::OnUpdateWorldTransform()
 	{
 		if (event.IsValid())
 		{
-			event.Set3DAttributes(world);
+			event.Set3DAttributes(world, mOwner->GetVelocity());
 		}
 	}
 }
@@ -98,7 +98,7 @@ SoundEvent AudioComponent::PlayEvent(const std::string& name)
 		//3D‚ÌŽž
 		mEvents3D.emplace_back(e);
 		//3D‘®«‚ð‰Šú‰»‚·‚é
-		e.Set3DAttributes(mOwner->GetWorldTransform());
+		e.Set3DAttributes(mOwner->GetWorldTransform(), mOwner->GetVelocity());
 	}
 	else
 	{

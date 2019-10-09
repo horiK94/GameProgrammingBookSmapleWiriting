@@ -33,7 +33,7 @@ public:
 	// Positional
 	bool Is3D() const;
 	//イベントに対して、位置情報の更新
-	void Set3DAttributes(const Matrix4& worldTrans);
+	void Set3DAttributes(const Matrix4& worldTrans, Vector3 velocity);
 protected:
 	// Make this constructor protected and AudioSystem a friend
 	// so that only AudioSystem can access this constructor.
