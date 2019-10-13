@@ -233,7 +233,7 @@ SoundEvent AudioSystem::PlayEvent(const std::string& name)
 			mEventInstances.emplace(retID, event);
 		}
 	}
-	return SoundEvent(this, retID);
+	return SoundEvent(this, mGame, retID);
 }
 
 void AudioSystem::Update(float deltaTime)

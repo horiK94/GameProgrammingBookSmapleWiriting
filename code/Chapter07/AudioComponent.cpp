@@ -62,7 +62,7 @@ void AudioComponent::OnUpdateWorldTransform()
 	{
 		if (event.IsValid())
 		{
-			event.Set3DAttributes(world);
+			event.Set3DAttributes(world, mOwner->GetGame()->GetTargetPosition(), mOwner->GetGame()->GetCameraPosition());
 		}
 	}
 }
@@ -75,7 +75,7 @@ SoundEvent AudioComponent::PlayEvent(const std::string& name)
 	{
 		mEvents3D.emplace_back(e);
 		// Set initial 3D attributes
-		e.Set3DAttributes(mOwner->GetWorldTransform());
+		e.Set3DAttributes(mOwner->GetWorldTransform(), mOwner->GetGame()->GetTargetPosition(), mOwner->GetGame()->GetCameraPosition());
 	}
 	else
 	{

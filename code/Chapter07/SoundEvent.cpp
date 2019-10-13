@@ -9,16 +9,19 @@
 #include "SoundEvent.h"
 #include "AudioSystem.h"
 #include <fmod_studio.hpp>
+#include "Game.h"
 
-SoundEvent::SoundEvent(class AudioSystem* system, unsigned int id)
+SoundEvent::SoundEvent(class AudioSystem* system, class Game* g, unsigned int id)
 	:mSystem(system)
 	,mID(id)
+	,game(g)
 {
 }
 
 SoundEvent::SoundEvent()
 	:mSystem(nullptr)
 	,mID(0)
+	,game(nullptr)
 {
 }
 
@@ -159,16 +162,22 @@ namespace
 	}
 }
 
-void SoundEvent::Set3DAttributes(const Matrix4& worldTrans)
+void SoundEvent::Set3DAttributes(const Matrix4& worldTrans, const Vector3& targetPos, const Vector3& cameraPos)
 {
 	auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
 	if (event)
 	{
 		FMOD_3D_ATTRIBUTES attr;
 		// Set position, forward, up
-		attr.position = VecToFMOD(worldTrans.GetTranslation());
+		Vector3 playerToSound = worldTrans.GetTranslation() - targetPos;
+		Vector3 cameraToSound = worldTrans.GetTranslation() - cameraPos;
+
+		attr.position = VecToFMOD((playerToSound.Length() / cameraToSound.Length()) * cameraToSound + cameraPos);
+		SDL_Log("playerToSound: %f, %f, %f", playerToSound.x, playerToSound.y, playerToSound.z);
+		SDL_Log("cameraToSound: %f, %f, %f", cameraToSound.x, cameraToSound.y, cameraToSound.z);
 		// In world transform, first row is forward
-		attr.forward = VecToFMOD(worldTrans.GetXAxis());
+		//attr.forward = VecToFMOD(worldTrans.GetXAxis());
+		attr.forward = VecToFMOD(cameraPos);
 		// Third row is up
 		attr.up = VecToFMOD(worldTrans.GetZAxis());
 		// Set velocity to zero (fix if using Doppler effect)

@@ -13,15 +13,16 @@
 #include "Actor.h"
 #include "SpriteComponent.h"
 #include "MeshComponent.h"
-#include "CameraActor.h"
 #include "PlaneActor.h"
 #include "AudioComponent.h"
+#include "CameraActor.h"
 
 Game::Game()
 :mRenderer(nullptr)
 ,mAudioSystem(nullptr)
 ,mIsRunning(true)
 ,mUpdatingActors(false)
+,mCameraActor(nullptr)
 {
 	
 }
@@ -225,11 +226,11 @@ void Game::LoadData()
 	MeshComponent* mc = new MeshComponent(a);
 	mc->SetMesh(mRenderer->GetMesh("Assets/Cube.gpmesh"));
 
-	a = new Actor(this);
-	a->SetPosition(Vector3(200.0f, -75.0f, 0.0f));
-	a->SetScale(3.0f);
-	mc = new MeshComponent(a);
-	mc->SetMesh(mRenderer->GetMesh("Assets/Sphere.gpmesh"));
+	//a = new Actor(this);
+	//a->SetPosition(Vector3(200.0f, -75.0f, 0.0f));
+	//a->SetScale(3.0f);
+	//mc = new MeshComponent(a);
+	//mc->SetMesh(mRenderer->GetMesh("Assets/Sphere.gpmesh"));
 
 	// Setup floor
 	const float start = -1250.0f;
@@ -365,4 +366,22 @@ void Game::RemoveActor(Actor* actor)
 		std::iter_swap(iter, mActors.end() - 1);
 		mActors.pop_back();
 	}
+}
+
+const Vector3& Game::GetCameraPosition()
+{
+	if (mCameraActor == nullptr)
+	{
+		return Vector3::Zero;
+	}
+	return mCameraActor->GetCameraPosition();
+}
+
+const Vector3& Game::GetTargetPosition()
+{
+	if (mCameraActor == nullptr)
+	{
+		return Vector3::Zero;
+	}
+	return mCameraActor->GetPosition();
 }

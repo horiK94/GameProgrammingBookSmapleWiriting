@@ -13,6 +13,7 @@
 #include <vector>
 #include "Math.h"
 #include "SoundEvent.h"
+#include "CameraActor.h"
 
 class Game
 {
@@ -27,6 +28,8 @@ public:
 
 	class Renderer* GetRenderer() { return mRenderer; }
 	class AudioSystem* GetAudioSystem() { return mAudioSystem; }
+	const Vector3& GetCameraPosition();
+	const Vector3& GetTargetPosition();
 private:
 	void ProcessInput();
 	void HandleKeyPress(int key);
@@ -49,7 +52,7 @@ private:
 	bool mUpdatingActors;
 
 	// Game-specific code
-	class CameraActor* mCameraActor;
+	CameraActor* mCameraActor;
 	SoundEvent mMusicEvent;
 	SoundEvent mReverbSnap;
 };

@@ -13,15 +13,21 @@
 #include "AudioSystem.h"
 #include "Game.h"
 #include "AudioComponent.h"
+#include "MeshComponent.h"
 
 CameraActor::CameraActor(Game* game)
 	:Actor(game)
+	,mCameraPos(Vector3::Zero)
 {
 	mMoveComp = new MoveComponent(this);
 	mAudioComp = new AudioComponent(this);
+	MeshComponent* mc = new MeshComponent(this);
+	mc->SetMesh(game->GetRenderer()->GetMesh("Assets/Sphere.gpmesh"));
 	mLastFootstep = 0.0f;
-	mFootstep = mAudioComp->PlayEvent("event:/Footstep");
-	mFootstep.SetPaused(true);
+	//mFootstep = mAudioComp->PlayEvent("event:/Footstep");
+	//mFootstep.SetPaused(true);
+	mCameraPos = GetPosition() - GetForward() * 200.0f + Vector3::UnitZ * 100.0f;
+	SDL_Log("CameraActor");
 }
 
 void CameraActor::UpdateActor(float deltaTime)
@@ -38,10 +44,10 @@ void CameraActor::UpdateActor(float deltaTime)
 	}
 
 	// Compute new camera from this actor
-	Vector3 cameraPos = GetPosition();
+	mCameraPos = GetPosition() - GetForward() * 200.0f + Vector3::UnitZ * 100.0f;
 	Vector3 target = GetPosition() + GetForward() * 100.0f;
 	Vector3 up = Vector3::UnitZ;
-	Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);
+	Matrix4 view = Matrix4::CreateLookAt(mCameraPos, target, up);
 	GetGame()->GetRenderer()->SetViewMatrix(view);
 	GetGame()->GetAudioSystem()->SetListener(view);
 }
