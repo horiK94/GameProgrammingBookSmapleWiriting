@@ -315,25 +315,40 @@ void Renderer::SetLightUniforms(Shader* shader)
 Vector3 Renderer::Unproject(const Vector3& screenPoint) const
 {
 	// Convert screenPoint to device coordinates (between -1 and +1)
+	//screenPointをデバイス座標に変換([-1, 1]の値に変換される)
 	Vector3 deviceCoord = screenPoint;
 	deviceCoord.x /= (mScreenWidth) * 0.5f;
 	deviceCoord.y /= (mScreenHeight) * 0.5f;
 
 	// Transform vector by unprojection matrix
+	//ビュー射影行列を求める
 	Matrix4 unprojection = mView * mProjection;
+	//逆射影行列(=ビュー者営業列の逆行列)を求める
 	unprojection.Invert();
+	//デバイス座標を逆射影行列を用いてワールド座標に変換し、返す
 	return Vector3::TransformWithPerspDiv(deviceCoord, unprojection);
 }
 
+//outStartもoutDirもoutみたいな形で、引数に入れることで値を受け取れるようになっている
+//outStartは開始位置, outDirは開始位置からのベクトル
+//取れる情報は画面の中心のマウス座標のワールド座標
+//なぜかというと、カメラモード1, 2, 3に関しては真ん中にマウス固定のため
 void Renderer::GetScreenDirection(Vector3& outStart, Vector3& outDir) const
 {
 	// Get start point (in center of screen on near plane)
+	//始点を近接平面での画面の中心に(screenPointはデバイス座標)
 	Vector3 screenPoint(0.0f, 0.0f, 0.0f);
+	//outStartはワールド座標(近接平面上)
 	outStart = Unproject(screenPoint);
 	// Get end point (in center of screen, between near and far)
+
+	//終点を近接平面と遠方平面の間の画面の中心に設定
 	screenPoint.z = 0.9f;
+	//endもワールド座標(近接平面上)
 	Vector3 end = Unproject(screenPoint);
 	// Get direction vector
+	//outDirは開始位置から終了位置までのベクトル
 	outDir = end - outStart;
+	//正規化
 	outDir.Normalize();
 }

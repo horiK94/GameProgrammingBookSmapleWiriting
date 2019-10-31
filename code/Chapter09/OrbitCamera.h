@@ -23,11 +23,15 @@ public:
 	void SetYawSpeed(float speed) { mYawSpeed = speed; }
 private:
 	// Offset from target
+	//ターゲットからのオフセット
 	Vector3 mOffset;
 	// Up vector of camera
+	//カメラの上方ベクトル
 	Vector3 mUp;
 	// Rotation/sec speed of pitch
+	//ピッチの角速度
 	float mPitchSpeed;
 	// Rotation/sec speed of yaw
+	//ヨーの角速度
 	float mYawSpeed;
 };

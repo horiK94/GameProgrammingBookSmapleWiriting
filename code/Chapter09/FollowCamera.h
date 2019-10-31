@@ -25,16 +25,22 @@ public:
 private:
 	Vector3 ComputeCameraPos() const;
 
+	//実際のカメラの位置
 	// Actual position of camera
 	Vector3 mActualPos;
 	// Velocity of actual camera
+	//カメラの速度
 	Vector3 mVelocity;
 	// Horizontal follow distance
+	//水平距離
 	float mHorzDist;
 	// Vertical follow distance
+	//垂直距離
 	float mVertDist;
 	// Target distance
+	//ターゲット距離
 	float mTargetDist;
+	//ばね定数(大きいほど硬い)
 	// Spring constant (higher is more stiff)
 	float mSpringConstant;
 };

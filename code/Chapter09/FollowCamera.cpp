@@ -11,45 +11,78 @@
 
 FollowCamera::FollowCamera(Actor* owner)
 	:CameraComponent(owner)
-	,mHorzDist(350.0f)
-	,mVertDist(150.0f)
-	,mTargetDist(100.0f)
-	,mSpringConstant(64.0f)
+	, mHorzDist(350.0f)
+	, mVertDist(150.0f)
+	, mTargetDist(100.0f)
+	, mSpringConstant(64.0f)
 {
 }
 
 void FollowCamera::Update(float deltaTime)
 {
+	//CameraComponent::Update(deltaTime);
+	//// Compute dampening from spring constant
+	//float dampening = 2.0f * Math::Sqrt(mSpringConstant);
+	//// Compute ideal position
+	//Vector3 idealPos = ComputeCameraPos();
+	//// Compute difference between actual and ideal
+	//Vector3 diff = mActualPos - idealPos;
+	//// Compute acceleration of spring
+	//Vector3 acel = -mSpringConstant * diff -
+	//	dampening * mVelocity;
+	//// Update velocity
+	//mVelocity += acel * deltaTime;
+	//// Update actual camera position
+	//mActualPos += mVelocity * deltaTime;
+	//// Target is target dist in front of owning actor
+	//Vector3 target = mOwner->GetPosition() +
+	//	mOwner->GetForward() * mTargetDist;
+	//// Use actual position here, not ideal
+	//Matrix4 view = Matrix4::CreateLookAt(mActualPos, target,
+	//	Vector3::UnitZ);
+	//SetViewMatrix(view);
+
+	//カメラ位置と注視点を求めて、ビュー行列を得る
+	//CameraComponent::Update(deltaTime);
+	//Vector3 target = mOwner->GetPosition() + mOwner->GetForward() * mTargetDist;
+	//Matrix4 view = Matrix4::CreateLookAt(ComputeCameraPos(), target, Vector3::UnitZ);
+	//SetViewMatrix(view);
+
 	CameraComponent::Update(deltaTime);
-	// Compute dampening from spring constant
+
+	//ばね定数から減衰を計算
 	float dampening = 2.0f * Math::Sqrt(mSpringConstant);
-	// Compute ideal position
+
+	//理想位置の取得
 	Vector3 idealPos = ComputeCameraPos();
-	// Compute difference between actual and ideal
+
+	//実際と理想の差を計算(実際の位置は前フレームの値を使用)
 	Vector3 diff = mActualPos - idealPos;
-	// Compute acceleration of spring
-	Vector3 acel = -mSpringConstant * diff -
-		dampening * mVelocity;
-	// Update velocity
+	//ばねによる加速度を計算
+	Vector3 acel = -mSpringConstant * diff - dampening * mVelocity;
+
+	//速度の更新
 	mVelocity += acel * deltaTime;
-	// Update actual camera position
+	//実際のカメラ位置の更新
 	mActualPos += mVelocity * deltaTime;
-	// Target is target dist in front of owning actor
-	Vector3 target = mOwner->GetPosition() +
-		mOwner->GetForward() * mTargetDist;
-	// Use actual position here, not ideal
-	Matrix4 view = Matrix4::CreateLookAt(mActualPos, target,
-		Vector3::UnitZ);
+
+	//ターゲットは所有アクターの前方にある目標点
+	Vector3 target = mOwner->GetPosition() + mOwner->GetForward() * mTargetDist;
+	Matrix4 view = Matrix4::CreateLookAt(/*ComputeCameraPos()*/mActualPos, target, Vector3::UnitZ);
 	SetViewMatrix(view);
 }
 
+//FollowActorが初期化時に呼ぶ関数
 void FollowCamera::SnapToIdeal()
 {
 	// Set actual position to ideal
+	//実際の位置を理想の位置は同じ
 	mActualPos = ComputeCameraPos();
 	// Zero velocity
+	//速度0
 	mVelocity = Vector3::Zero;
 	// Compute target and view
+	//注視点とビュー計算
 	Vector3 target = mOwner->GetPosition() +
 		mOwner->GetForward() * mTargetDist;
 	// Use actual position here, not ideal
@@ -61,6 +94,10 @@ void FollowCamera::SnapToIdeal()
 Vector3 FollowCamera::ComputeCameraPos() const
 {
 	// Set camera position behind and above owner
+	//Vector3 cameraPos = mOwner->GetPosition();
+	//cameraPos -= mOwner->GetForward() * mHorzDist;
+	//cameraPos += Vector3::UnitZ * mVertDist;
+	//return cameraPos;
 	Vector3 cameraPos = mOwner->GetPosition();
 	cameraPos -= mOwner->GetForward() * mHorzDist;
 	cameraPos += Vector3::UnitZ * mVertDist;

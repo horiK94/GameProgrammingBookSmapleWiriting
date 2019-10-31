@@ -25,5 +25,6 @@ public:
 private:
 	float mAngularSpeed;
 	float mForwardSpeed;
-	float mStrafeSpeed;
+	//float mStrafeSpeed;
+	float mStrafeSpeed;		//横歩きのスピード
 };

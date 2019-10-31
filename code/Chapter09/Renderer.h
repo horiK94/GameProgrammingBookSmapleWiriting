@@ -51,10 +51,11 @@ public:
 
 	// Given a screen space point, unprojects it into world space,
 	// based on the current 3D view/projection matrices
-	// Expected ranges:
+	// 引数として期待されるスクリーン座標
 	// x = [-screenWidth/2, +screenWidth/2]
 	// y = [-screenHeight/2, +screenHeight/2]
-	// z = [0, 1) -- 0 is closer to camera, 1 is further
+	// z = [0, 1) -- 0 は 近接平面,1は遠方平面 
+	//逆射影行列を求める関数(スクリーン座標をワールド座標(点)に変換する)
 	Vector3 Unproject(const Vector3& screenPoint) const;
 	void GetScreenDirection(Vector3& outStart, Vector3& outDir) const;
 	float GetScreenWidth() const { return mScreenWidth; }

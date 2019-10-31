@@ -43,11 +43,15 @@ public:
 	void SetScale(float scale) { mScale = scale;  mRecomputeWorldTransform = true; }
 	const Quaternion& GetRotation() const { return mRotation; }
 	void SetRotation(const Quaternion& rotation) { mRotation = rotation;  mRecomputeWorldTransform = true; }
-	
+
 	void ComputeWorldTransform();
 	const Matrix4& GetWorldTransform() const { return mWorldTransform; }
 
+	//X軸をもとに回転
 	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitX, mRotation); }
+	//Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
+	//右方向ベクトルの取得(右向きの軸をクォーテーションで回転)
+	//Y軸をもとに回転
 	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
 
 	State GetState() const { return mState; }

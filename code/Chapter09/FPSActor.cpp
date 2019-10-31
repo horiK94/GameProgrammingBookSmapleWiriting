@@ -19,7 +19,7 @@
 FPSActor::FPSActor(Game* game)
 	:Actor(game)
 {
-	mMoveComp = new MoveComponent(this);
+	mMoveComp = new MoveComponent(this);		//前後の移動はこれで対応
 	mAudioComp = new AudioComponent(this);
 	mLastFootstep = 0.0f;
 	mFootstep = mAudioComp->PlayEvent("event:/Footstep");
@@ -27,6 +27,7 @@ FPSActor::FPSActor(Game* game)
 
 	mCameraComp = new FPSCamera(this);
 
+	//FPSModelアクターの作成
 	mFPSModel = new Actor(game);
 	mFPSModel->SetScale(0.75f);
 	mMeshComp = new MeshComponent(mFPSModel);
@@ -47,15 +48,18 @@ void FPSActor::UpdateActor(float deltaTime)
 	}
 	
 	// Update position of FPS model relative to actor position
+	//FPSモデルが、アクターに対してどのような相対位置を持つか
 	const Vector3 modelOffset(Vector3(10.0f, 10.0f, -10.0f));
 	Vector3 modelPos = GetPosition();
-	modelPos += GetForward() * modelOffset.x;
-	modelPos += GetRight() * modelOffset.y;
-	modelPos.z += modelOffset.z;
+	modelPos += GetForward() * modelOffset.x;			//前方向に10移動
+	modelPos += GetRight() * modelOffset.y;				//右方向に10移動
+	modelPos.z += modelOffset.z;		//modelPos.z += Vector3::UnitZ(= (0, 0, 1)) * modelOffset.z;
 	mFPSModel->SetPosition(modelPos);
+
 	// Initialize rotation to actor rotation
-	Quaternion q = GetRotation();
+	Quaternion q = GetRotation();		//左右の回転取得
 	// Rotate by pitch from camera
+	//上下の回転はカメラの回転であるから、カメラのピッチによる回転でqを回転させる
 	q = Quaternion::Concatenate(q, Quaternion(GetRight(), mCameraComp->GetPitch()));
 	mFPSModel->SetRotation(q);
 }
@@ -73,32 +77,57 @@ void FPSActor::ActorInput(const uint8_t* keys)
 	{
 		forwardSpeed -= 400.0f;
 	}
-	if (keys[SDL_SCANCODE_A])
-	{
-		strafeSpeed -= 400.0f;
-	}
+	//if (keys[SDL_SCANCODE_A])
+	//{
+	//	strafeSpeed -= 400.0f;
+	//}
+	//if (keys[SDL_SCANCODE_D])
+	//{
+	//	strafeSpeed += 400.0f;
+	//}
 	if (keys[SDL_SCANCODE_D])
 	{
 		strafeSpeed += 400.0f;
 	}
+	if (keys[SDL_SCANCODE_A])		//else if にすると、DもAも押した時に0にならない
+	{
+		strafeSpeed -= 400.0f;
+	}
 
-	mMoveComp->SetForwardSpeed(forwardSpeed);
-	mMoveComp->SetStrafeSpeed(strafeSpeed);
+	mMoveComp->SetForwardSpeed(forwardSpeed);		//上下移動
+	mMoveComp->SetStrafeSpeed(strafeSpeed);		//左右移動
 
 	// Mouse movement
 	// Get relative movement from SDL
+	//int x, y;
+	//SDL_GetRelativeMouseState(&x, &y);
+	//// Assume mouse movement is usually between -500 and +500
+	//const int maxMouseSpeed = 500;
+	//// Rotation/sec at maximum speed
+	//const float maxAngularSpeed = Math::Pi * 8;
+	//float angularSpeed = 0.0f;
+	//if (x != 0)
+	//{
+	//	// Convert to ~[-1.0, 1.0]
+	//	angularSpeed = static_cast<float>(x) / maxMouseSpeed;
+	//	// Multiply by rotation/sec
+	//	angularSpeed *= maxAngularSpeed;
+	//}
+	//mMoveComp->SetAngularSpeed(angularSpeed);
+	
+	//マウス移動
 	int x, y;
-	SDL_GetRelativeMouseState(&x, &y);
-	// Assume mouse movement is usually between -500 and +500
+	Uint32 buttons = SDL_GetRelativeMouseState(&x, &y);
+	//マウスの動きは-500 ～ 500の範囲とする
 	const int maxMouseSpeed = 500;
-	// Rotation/sec at maximum speed
-	const float maxAngularSpeed = Math::Pi * 8;
-	float angularSpeed = 0.0f;
+	//最大移動量(500)のときの角速度設定
+	const float maxAngularSpeed = 8 * Math::Pi;
+	float angularSpeed = 0;
+
 	if (x != 0)
 	{
-		// Convert to ~[-1.0, 1.0]
 		angularSpeed = static_cast<float>(x) / maxMouseSpeed;
-		// Multiply by rotation/sec
+		//最大移動量のときの角速度をかける
 		angularSpeed *= maxAngularSpeed;
 	}
 	mMoveComp->SetAngularSpeed(angularSpeed);
