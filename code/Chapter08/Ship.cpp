@@ -27,11 +27,16 @@ void Ship::UpdateActor(float deltaTime)
 	mLaserCooldown -= deltaTime;
 
 	// Update position based on velocity
+	//Vector2 pos = GetPosition();
+	//pos += mVelocityDir * mSpeed * deltaTime;
+	//SetPosition(pos);
 	Vector2 pos = GetPosition();
-	pos += mVelocityDir * mSpeed * deltaTime;
+	pos += mVelocityDir * mSpeed * deltaTime;		//左スティックを動かす量に応じて減速する
 	SetPosition(pos);
 
 	// Update rotation
+	//float angle = Math::Atan2(mRotationDir.y, mRotationDir.x);
+	//SetRotation(angle);
 	float angle = Math::Atan2(mRotationDir.y, mRotationDir.x);
 	SetRotation(angle);
 }
@@ -50,10 +55,18 @@ void Ship::ActorInput(const InputState& state)
 		mLaserCooldown = 0.25f;
 	}
 
+	//if (state.Controller.GetIsConnected())
+	//{
+	//	mVelocityDir = state.Controller.GetLeftStick();
+	//	if (!Math::NearZero(state.Controller.GetRightStick().Length()))
+	//	{
+	//		mRotationDir = state.Controller.GetRightStick();
+	//	}
+	//}
 	if (state.Controller.GetIsConnected())
 	{
 		mVelocityDir = state.Controller.GetLeftStick();
-		if (!Math::NearZero(state.Controller.GetRightStick().Length()))
+		if (!Math::NearZero(state.Controller.GetRightStick().Length()))		//右スティックを手放したときに、宇宙船が自動的に0の向きにならないよう修正
 		{
 			mRotationDir = state.Controller.GetRightStick();
 		}

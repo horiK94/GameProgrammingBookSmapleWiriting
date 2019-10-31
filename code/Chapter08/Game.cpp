@@ -21,21 +21,23 @@
 #include "InputSystem.h"
 
 Game::Game()
-:mWindow(nullptr)
-,mSpriteShader(nullptr)
-,mIsRunning(true)
-,mUpdatingActors(false)
+	:mWindow(nullptr)
+	, mSpriteShader(nullptr)
+	, mIsRunning(true)
+	, mUpdatingActors(false)
 {
 }
 
 bool Game::Initialize()
 {
-	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_GAMECONTROLLER) != 0)
+	//if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER) != 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER) != 0)
 	{
+		//SDL_INIT_GAMECONTROLLERでコントローラーを処理するSDLサブシステムの初期化
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return false;
 	}
-	
+
 	// Set OpenGL attributes
 	// Use the core OpenGL profile
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -51,9 +53,9 @@ bool Game::Initialize()
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	// Force OpenGL to use hardware acceleration
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-	
+
 	mWindow = SDL_CreateWindow("Game Programming in C++ (Chapter 8)", 100, 100,
-							   1024, 768, SDL_WINDOW_OPENGL);
+		1024, 768, SDL_WINDOW_OPENGL);
 	if (!mWindow)
 	{
 		SDL_Log("Failed to create window: %s", SDL_GetError());
@@ -61,16 +63,16 @@ bool Game::Initialize()
 	}
 
 	// Initialize input system
-	mInputSystem = new InputSystem();
+	mInputSystem = new InputSystem();		//入力システムの初期化
 	if (!mInputSystem->Initialize())
 	{
 		SDL_Log("Failed to initialize input system");
 		return false;
 	}
-	
+
 	// Create an OpenGL context
 	mContext = SDL_GL_CreateContext(mWindow);
-	
+
 	// Initialize GLEW
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
@@ -78,11 +80,11 @@ bool Game::Initialize()
 		SDL_Log("Failed to initialize GLEW.");
 		return false;
 	}
-	
+
 	// On some platforms, GLEW will emit a benign error code,
 	// so clear it
 	glGetError();
-	
+
 	// Make sure we can create/compile shaders
 	if (!LoadShaders())
 	{
@@ -96,7 +98,7 @@ bool Game::Initialize()
 	LoadData();
 
 	mTicksCount = SDL_GetTicks();
-	
+
 	return true;
 }
 
@@ -112,39 +114,75 @@ void Game::RunLoop()
 
 void Game::ProcessInput()
 {
+	//PollEventの前に呼ぶ
 	mInputSystem->PrepareForUpdate();
 
+	//SDL_Event event;
+	//while (SDL_PollEvent(&event))
+	//{
+	//	switch (event.type)
+	//	{
+	//		case SDL_QUIT:
+	//			mIsRunning = false;
+	//			break;
+	//		case SDL_MOUSEWHEEL:
+	//			mInputSystem->ProcessEvent(event);
+	//			break;
+	//		default:
+	//			break;
+	//	}
+	//}
+
+	//SDL_PollEventのループ(イベント分だけループを回す)
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
 		{
-			case SDL_QUIT:
-				mIsRunning = false;
-				break;
-			case SDL_MOUSEWHEEL:
-				mInputSystem->ProcessEvent(event);
-				break;
-			default:
-				break;
+		case SDL_QUIT:
+			mIsRunning = false;
+			break;
+		case SDL_MOUSEWHEEL:
+			//マウスホイールは状態をポーリングする関数がないため、イベントが呼び出された時にこのように取得するしかない
+			mInputSystem->ProcessEvent(event);
+			break;
+		default:
+			break;
 		}
 	}
 
+	//mInputSystem->Update();
+	//const InputState& state = mInputSystem->GetState();
 	mInputSystem->Update();
 	const InputState& state = mInputSystem->GetState();
-	
-	if (state.Keyboard.GetKeyState(SDL_SCANCODE_ESCAPE)
-		== EReleased)
+	//
+	//if (state.Keyboard.GetKeyState(SDL_SCANCODE_ESCAPE)
+	//	== EReleased)
+	//{
+	//	mIsRunning = false;
+	//}
+	//ゲーム終了のためのキー処理
+	//if(state.Keyboard.GetKeyValue(SDL_SCANCODE_SPACE))
+	if (state.Keyboard.GetKeyState(SDL_SCANCODE_ESCAPE) == ButtonState::EReleased)
 	{
+		//ESCボタンを話した時に有効にする
 		mIsRunning = false;
 	}
 
+
+	//各Actorに入力情報を伝える
 	mUpdatingActors = true;
 	for (auto actor : mActors)
 	{
 		actor->ProcessInput(state);
 	}
 	mUpdatingActors = false;
+	//mUpdatingActors = true;
+	//for (auto actor : mActors)
+	//{
+	//	actor->ProcessInput(state);
+	//}
+	//mUpdatingActors = false;
 }
 
 void Game::UpdateGame()
@@ -200,12 +238,12 @@ void Game::GenerateOutput()
 	glClearColor(0.86f, 0.86f, 0.86f, 1.0f);
 	// Clear the color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+
 	// Draw all sprite components
 	// Enable alpha blending on the color buffer
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+
 	// Set shader/vao as active
 	mSpriteShader->SetActive();
 	mSpriteVerts->SetActive();
@@ -325,7 +363,7 @@ void Game::Shutdown()
 {
 	UnloadData();
 
-	mInputSystem->Shutdown();
+	mInputSystem->Shutdown();		//入力システムのシャットダウン
 	delete mInputSystem;
 
 	delete mSpriteVerts;
