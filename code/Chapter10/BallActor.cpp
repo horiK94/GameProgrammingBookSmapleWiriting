@@ -22,7 +22,7 @@ BallActor::BallActor(Game* game)
 	MeshComponent* mc = new MeshComponent(this);
 	Mesh* mesh = GetGame()->GetRenderer()->GetMesh("Assets/Sphere.gpmesh");
 	mc->SetMesh(mesh);
-	mMyMove = new BallMove(this);
+	mMyMove = new BallMove(this);		//Ballの移動に関するコンポーネント追加
 	mMyMove->SetForwardSpeed(1500.0f);
 	mAudioComp = new AudioComponent(this);
 }
@@ -34,7 +34,7 @@ void BallActor::UpdateActor(float deltaTime)
 	mLifeSpan -= deltaTime;
 	if (mLifeSpan < 0.0f)
 	{
-		SetState(EDead);
+		SetState(EDead);		//一定時間立ったら、弾を消す
 	}
 }
 

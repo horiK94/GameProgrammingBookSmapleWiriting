@@ -79,25 +79,47 @@ void Actor::ActorInput(const uint8_t* keyState)
 
 void Actor::RotateToNewForward(const Vector3& forward)
 {
-	// Figure out difference between original (unit x) and new
+	//// Figure out difference between original (unit x) and new
+	//float dot = Vector3::Dot(Vector3::UnitX, forward);
+	//float angle = Math::Acos(dot);
+	//// Facing down X
+	//if (dot > 0.9999f)
+	//{
+	//	SetRotation(Quaternion::Identity);
+	//}
+	//// Facing down -X
+	//else if (dot < -0.9999f)
+	//{
+	//	SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
+	//}
+	//else
+	//{
+	//	// Rotate about axis from cross product
+	//	Vector3 axis = Vector3::Cross(Vector3::UnitX, forward);
+	//	axis.Normalize();
+	//	SetRotation(Quaternion(axis, angle));
+	//}
+	
+	//内積を求める(元の方向=単位Xと前方forwardの内積)
 	float dot = Vector3::Dot(Vector3::UnitX, forward);
+	//角度を求める
 	float angle = Math::Acos(dot);
-	// Facing down X
 	if (dot > 0.9999f)
 	{
+		//forwardの方向がほぼxのとき
 		SetRotation(Quaternion::Identity);
 	}
-	// Facing down -X
 	else if (dot < -0.9999f)
 	{
-		SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));
+		//forwardの方向がほぼ-xのとき
+		SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));		//fowardをz軸を基点にPiラジアン回転させる
 	}
 	else
 	{
-		// Rotate about axis from cross product
+		//クロス積で得た軸回りに回転
 		Vector3 axis = Vector3::Cross(Vector3::UnitX, forward);
 		axis.Normalize();
-		SetRotation(Quaternion(axis, angle));
+		SetRotation(Quaternion(axis, angle));		//axisを軸に、angleだけ回転
 	}
 }
 

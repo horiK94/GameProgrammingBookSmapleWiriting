@@ -59,6 +59,7 @@ bool Game::Initialize()
 	}
 
 	// Create the physics world
+	//mPhysWorld = new PhysWorld(this);
 	mPhysWorld = new PhysWorld(this);
 
 	LoadData();

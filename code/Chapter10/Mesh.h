@@ -33,7 +33,8 @@ public:
 	float GetSpecPower() const { return mSpecPower; }
 private:
 	// AABB collision
-	AABB mBox;
+	//AABB mBox;
+	AABB mBox;				//BoxComponentÇ≈Ç‡égópÇ∑ÇÈÇΩÇﬂÅAí«â¡
 	// Textures associated with this mesh
 	std::vector<class Texture*> mTextures;
 	// Vertex array associated with this mesh

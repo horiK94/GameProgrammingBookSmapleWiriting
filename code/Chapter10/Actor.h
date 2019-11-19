@@ -50,6 +50,8 @@ public:
 	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitX, mRotation); }
 	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
 
+	//ドット積とクロス積とクオータニオンでアクターの進行方向を新しい方向へと回転させるヘルパー関数
+	//設定したforwardの向きへ現在のActorを回転させる
 	void RotateToNewForward(const Vector3& forward);
 
 	State GetState() const { return mState; }

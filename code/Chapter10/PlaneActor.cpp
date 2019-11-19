@@ -18,12 +18,17 @@ PlaneActor::PlaneActor(Game* game)
 {
 	SetScale(10.0f);
 	MeshComponent* mc = new MeshComponent(this);
+	//Mesh* mesh = GetGame()->GetRenderer()->GetMesh("Assets/Plane.gpmesh");
+	//gpmeshから必要なMeshデータの取得
 	Mesh* mesh = GetGame()->GetRenderer()->GetMesh("Assets/Plane.gpmesh");
 	mc->SetMesh(mesh);
 	// Add collision box
+	//mBox = new BoxComponent(this);
+	//mBox->SetObjectBox(mesh->GetBox());
 	mBox = new BoxComponent(this);
 	mBox->SetObjectBox(mesh->GetBox());
 
+	//壁をgameに保存する(Actorとの衝突判定のため)
 	game->AddPlane(this);
 }
 
