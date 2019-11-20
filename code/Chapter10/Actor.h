@@ -49,6 +49,7 @@ public:
 
 	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitX, mRotation); }
 	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
+	Vector3 GetUp() const { return Vector3::Transform(Vector3::UnitZ, mRotation); }
 
 	//ドット積とクロス積とクオータニオンでアクターの進行方向を新しい方向へと回転させるヘルパー関数
 	//設定したforwardの向きへ現在のActorを回転させる

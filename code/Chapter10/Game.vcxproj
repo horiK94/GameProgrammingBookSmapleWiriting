@@ -20,6 +20,7 @@
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="FloorActor.cpp" />
     <ClCompile Include="FPSActor.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="FloorActor.h" />
     <ClInclude Include="FPSActor.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="Game.h" />

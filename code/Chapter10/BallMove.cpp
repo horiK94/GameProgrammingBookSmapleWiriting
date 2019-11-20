@@ -62,7 +62,7 @@ void BallMove::Update(float deltaTime)
 	//ü•ª‚Æƒ[ƒ‹ƒh‚ÌÕ“Ë”»’è
 	PhysWorld* phys = mOwner->GetGame()->GetPhysWorld();
 	PhysWorld::CollisionInfo info;
-	if (phys->SegmentCast(ls, info))
+	if (phys->SegmentCast(ls, info) && info.mActor != mPlayer)
 	{
 		//Õ“Ë‚ª‚ ‚Á‚½ê‡
 		//”½Ë‚µ‚½‚Æ‚«‚Ì•ûŒü‚ğ‹‚ß‚é

@@ -18,6 +18,7 @@
 #include "BallActor.h"
 #include "BoxComponent.h"
 #include "PlaneActor.h"
+#include "FloorActor.h"
 
 FPSActor::FPSActor(Game* game)
 	:Actor(game)
@@ -127,6 +128,16 @@ void FPSActor::ActorInput(const uint8_t* keys)
 		pitchSpeed *= maxPitchSpeed;
 	}
 	mCameraComp->SetPitchSpeed(pitchSpeed);
+
+	//Jump
+	if (keys[SDL_SCANCODE_SPACE])
+	{
+		mMoveComp->SetAccelerationSpeed(1000.0f);
+		mMoveComp->SetAccelerationCalc(true);
+		state = State::JUMP;
+	}
+	SDL_Log("state %d", state);
+	SDL_Log("accel %f", mMoveComp->GetAccelerationSpeed());
 }
 
 void FPSActor::Shoot()
@@ -264,6 +275,20 @@ void FPSActor::FixCollisions()
 			SetPosition(pos);
 			//Actor‚ÌBoxComponent‚ÌˆÊ’u‚àC³
 			mBoxComp->OnUpdateWorldTransform();
+
+			if (mMoveComp->GetAccelerationSpeed() < -5)
+			{
+				state = State::FALL;
+			}
+
+			if (dynamic_cast<FloorActor*>(plane))
+			{
+				if (state == State::FALL)
+				{
+					mMoveComp->SetAccelerationCalc(false);
+					state = State::GROUND;
+				}
+			}
 		}
 	}
 }

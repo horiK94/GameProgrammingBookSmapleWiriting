@@ -18,6 +18,7 @@
 #include "PlaneActor.h"
 #include "TargetActor.h"
 #include "BallActor.h"
+#include "FloorActor.h"
 
 Game::Game()
 :mRenderer(nullptr)
@@ -227,7 +228,7 @@ void Game::LoadData()
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			a = new PlaneActor(this);
+			a = new FloorActor(this);
 			a->SetPosition(Vector3(start + i * size, start + j * size, -100.0f));
 		}
 	}

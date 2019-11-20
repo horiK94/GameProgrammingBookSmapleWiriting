@@ -25,6 +25,13 @@ public:
 	void SetVisible(bool visible);
 
 	void FixCollisions();
+
+	enum State
+	{
+		GROUND,
+		JUMP,
+		FALL,
+	};
 private:
 	class MoveComponent* mMoveComp;
 	class AudioComponent* mAudioComp;
@@ -34,4 +41,5 @@ private:
 	class Actor* mFPSModel;
 	SoundEvent mFootstep;
 	float mLastFootstep;
+	State state;
 };
