@@ -19,6 +19,7 @@
 #include "BoxComponent.h"
 #include "PlaneActor.h"
 #include "FloorActor.h"
+#include "PhysWorld.h"
 
 FPSActor::FPSActor(Game* game)
 	:Actor(game)
@@ -136,8 +137,6 @@ void FPSActor::ActorInput(const uint8_t* keys)
 		mMoveComp->SetAccelerationCalc(true);
 		state = State::JUMP;
 	}
-	SDL_Log("state %d", state);
-	SDL_Log("accel %f", mMoveComp->GetAccelerationSpeed());
 }
 
 void FPSActor::Shoot()
@@ -290,5 +289,32 @@ void FPSActor::FixCollisions()
 				}
 			}
 		}
+	}
+
+	if (state == State::GROUND)
+	{
+		//下向きにSegmentCastを作成し、落下してないかチェック
+		const float semengLength = 110.0f;
+		//start位置を自身の位置にしてしまうと、PlayerについているAABBと線分がぶつかったとして判定されてしまう
+		//なぜなら、SegmentCast()はstartに近い値を返そうとするから
+		//そのため、床下をstart位置にするよう変更
+		Vector3 end = GetPosition();
+		Vector3 dir = -1 * GetUp();
+		Vector3 start = end + dir * semengLength;
+		LineSegment ls(start, end);
+
+		PhysWorld* physWorld = GetGame()->GetPhysWorld();
+		PhysWorld::CollisionInfo info;
+
+		if (physWorld->SegmentCast(ls, info))
+		{
+			if (dynamic_cast<FloorActor*>(info.mActor))
+			{
+				return;
+			}
+		}
+		//床と設置していないため、落下処理を行う
+		mMoveComp->SetAccelerationCalc(true);
+		state = State::FALL;
 	}
 }

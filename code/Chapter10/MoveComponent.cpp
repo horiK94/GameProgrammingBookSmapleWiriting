@@ -41,19 +41,13 @@ void MoveComponent::Update(float deltaTime)
 		mOwner->SetPosition(pos);
 	}
 
-	if (Math::NearZero(accelerationZSpeed))
-	{
-		return;
-	}
 	if (!isCalculate)
 	{
 		accelerationZSpeed = 0;
 		return;
 	}
-	SDL_Log("foo");
 	Vector3 pos = mOwner->GetPosition();
 	pos += mOwner->GetUp() * accelerationZSpeed * deltaTime;
 	accelerationZSpeed -= 30.0f;
-	SDL_Log("acceleration %f", accelerationZSpeed);
 	mOwner->SetPosition(pos);
 }
