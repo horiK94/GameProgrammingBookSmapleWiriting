@@ -10,6 +10,9 @@
 #include <algorithm>
 #include "BoxComponent.h"
 #include <SDL/SDL.h>
+#include <vector>
+#include <map>
+#include <list>
 
 PhysWorld::PhysWorld(Game* game)
 	:mGame(game)
@@ -136,29 +139,53 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 	//}
 
 	//min.xですべてのバウンディングボックスを並び替え
+	//std::sort(mBoxes.begin(), mBoxes.end(),
+	//	[](BoxComponent* a, BoxComponent* b)
+	//	{
+	//		return a->GetWorldBox().mMin.x < b->GetWorldBox().mMin.x;
+	//	});
+	//for (size_t i = 0; i < mBoxes.size(); i++)
+	//{
+	//	//box[i]のBoxComponent取得
+	//	BoxComponent* a = mBoxes[i];
+	//	float max = a->GetWorldBox().mMax.x;
+	//	for (size_t k = i + 1; k < mBoxes.size(); k++)
+	//	{
+	//		BoxComponent* b = mBoxes[k];
+	//		if (b->GetWorldBox().mMin.x > max)
+	//		{
+	//			//box[k]のmin.xの値がbox[i]のmax.xの値より大きかったら、box[i]と交差する可能性があるボックスは他に存在しない
+	//			break;
+	//		}
+	//		//交差する可能性があるボックスがある
+	//		if (Intersect(a->GetWorldBox(), b->GetWorldBox()))
+	//		{
+	//			f(a->GetOwner(), b->GetOwner());
+	//		}
+	//	}
+	//}
+
+	//ボックスをminXが小さい順に並べる
 	std::sort(mBoxes.begin(), mBoxes.end(),
 		[](BoxComponent* a, BoxComponent* b)
 		{
 			return a->GetWorldBox().mMin.x < b->GetWorldBox().mMin.x;
 		});
+
+	//x座標における交差するボックスペア
+	std::map<BoxComponent*, std::list<BoxComponent*>> collisionX;
 	for (size_t i = 0; i < mBoxes.size(); i++)
 	{
-		//box[i]のBoxComponent取得
 		BoxComponent* a = mBoxes[i];
 		float max = a->GetWorldBox().mMax.x;
-		for (size_t k = i + 1; k < mBoxes.size(); k++)
+		for (size_t k = i + 1; mBoxes.size(); k++)
 		{
 			BoxComponent* b = mBoxes[k];
 			if (b->GetWorldBox().mMin.x > max)
 			{
-				//box[k]のmin.xの値がbox[i]のmax.xの値より大きかったら、box[i]と交差する可能性があるボックスは他に存在しない
-				break;
+				return;
 			}
-			//交差する可能性があるボックスがある
-			if (Intersect(a->GetWorldBox(), b->GetWorldBox()))
-			{
-				f(a->GetOwner(), b->GetOwner());
-			}
+			collisionX[a].push_back(b);
 		}
 	}
 }
@@ -166,6 +193,9 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 void PhysWorld::AddBox(BoxComponent* box)
 {
 	mBoxes.emplace_back(box);
+	boxesX.emplace_back(box);
+	boxesY.emplace_back(box);
+	boxesZ.emplace_back(box);
 }
 
 void PhysWorld::RemoveBox(BoxComponent* box)
@@ -176,5 +206,20 @@ void PhysWorld::RemoveBox(BoxComponent* box)
 		// Swap to end of vector and pop off (avoid erase copies)
 		std::iter_swap(iter, mBoxes.end() - 1);
 		mBoxes.pop_back();
+	}
+	auto boxX = std::find(boxesX.begin(), boxesX.end(), box);
+	if (boxX != boxesX.end())
+	{
+		std::iter_swap(boxX, boxesX.end() - 1);
+	}
+	auto boxY = std::find(boxesY.begin(), boxesY.end(), box);
+	if (boxY != boxesY.end())
+	{
+		std::iter_swap(boxY, boxesY.end() - 1);
+	}
+	auto boxZ = std::find(boxesZ.begin(), boxesZ.end(), box);
+	if (boxZ != boxesZ.end())
+	{
+		std::iter_swap(boxZ, boxesZ.end() - 1);
 	}
 }

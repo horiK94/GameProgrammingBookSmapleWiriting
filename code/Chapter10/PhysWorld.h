@@ -52,4 +52,7 @@ public:
 private:
 	class Game* mGame;
 	std::vector<class BoxComponent*> mBoxes;		//BoxComponent‚ÌQÆ”z—ñ
+	std::vector<class BoxComponent*> boxesX;
+	std::vector<class BoxComponent*> boxesY;
+	std::vector<class BoxComponent*> boxesZ;
 };
