@@ -208,7 +208,9 @@ void Game::UpdateGame()
 	// Update audio system
 	mAudioSystem->Update(deltaTime);
 
-	//かなり重い処理なのでコメントアウト
+	//かなり重い処理なのでコメントアウト(いくらなんでも重いので、　もうちょっと処理をよくできるのかもしれない)
+	//呼ばれる回数は床+1(プレイヤーのバウンディングボックス)の2乗
+	//中でfor文をさらに回しているため、100個あるとしたらだいたい30000+並び替えにかかる回数となっている
 	//mPhysWorld->TestSweepAndPrune([](Actor* a, Actor* b)
 	//	{
 	//		SDL_Log("a b conflict!");

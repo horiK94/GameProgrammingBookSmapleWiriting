@@ -240,6 +240,7 @@ void FPSActor::FixCollisions()
 	{
 		//planeのバウンディングボックスを取得
 		const AABB& planeBox = plane->GetBox()->GetWorldBox();		//GetWorldBox()はconst関数であるため、変数の方にもconstが必要
+		//playerBoxとplaneの衝突判定はplane回数分だけで済む
 		if (Intersect(playerBox, planeBox))
 		{
 			//衝突がある場合は差を計算する
