@@ -243,34 +243,28 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 		}
 		std::list<BoxComponent*> candidateX = collisionX[target];
 
-		std::list<BoxComponent*> targetCollisionY = {};
 		for (BoxComponent* bc : candidateX)
 		{
-			if (collisionY.find(bc) == collisionY.end())
+			if (collisionY.find(target) == collisionY.end())
 			{
 				continue;
 			}
-			std::list<BoxComponent*> ta = collisionY[bc];
-			if (std::find(ta.begin(), ta.end(), target) == ta.end())
+			if (std::find(collisionY[target].begin(), collisionY[target].end(), bc) == collisionY[target].end())
 			{
+				//targetとbcは重ならないので終了
 				continue;
 			}
-			targetCollisionY.push_back(bc);
-		}
 
-		for (BoxComponent* bc : targetCollisionY)
-		{
-			if (collisionZ.find(bc) == collisionZ.end())
+			if (collisionZ.find(target) == collisionZ.end())
 			{
 				continue;
 			}
-			std::list<BoxComponent*> ta = collisionZ[bc];
-			auto findBox = std::find(ta.begin(), ta.end(), target);
-			if (findBox == ta.end())
+			if (std::find(collisionZ[target].begin(), collisionZ[target].end(), bc) == collisionZ[target].end())
 			{
+				//targetとbcは重ならないので終了
 				continue;
 			}
-			f(target->GetOwner(), (*findBox)->GetOwner());
+			f(target->GetOwner(), bc->GetOwner());
 		}
 	}
 }
