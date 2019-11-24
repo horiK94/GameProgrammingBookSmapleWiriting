@@ -164,7 +164,6 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 	//		}
 	//	}
 	//}
-
 	//ボックスをminXが小さい順に並べる
 	std::sort(mBoxes.begin(), mBoxes.end(),
 		[](BoxComponent* a, BoxComponent* b)
@@ -178,14 +177,100 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 	{
 		BoxComponent* a = mBoxes[i];
 		float max = a->GetWorldBox().mMax.x;
-		for (size_t k = i + 1; mBoxes.size(); k++)
+		for (size_t k = i + 1; k < mBoxes.size(); k++)
 		{
 			BoxComponent* b = mBoxes[k];
 			if (b->GetWorldBox().mMin.x > max)
 			{
-				return;
+				break;
 			}
 			collisionX[a].push_back(b);
+			collisionX[b].push_back(a);
+		}
+	}
+
+	std::sort(mBoxes.begin(), mBoxes.end(),
+		[](BoxComponent* a, BoxComponent* b)
+		{
+			return a->GetWorldBox().mMin.y < b->GetWorldBox().mMin.y;
+		});
+	std::map<BoxComponent*, std::list<BoxComponent*>> collisionY;
+	for (size_t i = 0; i < mBoxes.size(); i++)
+	{
+		BoxComponent* a = mBoxes[i];
+		float max = a->GetWorldBox().mMax.y;
+		for (size_t k = i + 1; k < mBoxes.size(); k++)
+		{
+			BoxComponent* b = mBoxes[k];
+			if (b->GetWorldBox().mMin.y > max)
+			{
+				break;
+			}
+			collisionY[a].push_back(b);
+			collisionX[b].push_back(a);
+		}
+	}
+
+	std::sort(mBoxes.begin(), mBoxes.end(),
+		[](BoxComponent* a, BoxComponent* b)
+		{
+			return a->GetWorldBox().mMin.z < b->GetWorldBox().mMin.z;
+		});
+	std::map<BoxComponent*, std::list<BoxComponent*>> collisionZ;
+	for (size_t i = 0; i < mBoxes.size(); i++)
+	{
+		BoxComponent* a = mBoxes[i];
+		float max = a->GetWorldBox().mMax.z;
+		for (size_t k = i + 1; k < mBoxes.size(); k++)
+		{
+			BoxComponent* b = mBoxes[k];
+			if (b->GetWorldBox().mMin.z > max)
+			{
+				break;
+			}
+			collisionZ[a].push_back(b);
+			collisionX[b].push_back(a);
+		}
+	}
+
+	//全ボックスに対して、交差するボックスがあるかチェック
+	for (size_t i = 0; i < mBoxes.size(); i++)
+	{
+		BoxComponent* target = mBoxes[i];
+		if (collisionX.find(target) == collisionX.end())
+		{
+			continue;
+		}
+		std::list<BoxComponent*> candidateX = collisionX[target];
+
+		std::list<BoxComponent*> targetCollisionY = {};
+		for (BoxComponent* bc : candidateX)
+		{
+			if (collisionY.find(bc) == collisionY.end())
+			{
+				continue;
+			}
+			std::list<BoxComponent*> ta = collisionY[bc];
+			if (std::find(ta.begin(), ta.end(), target) == ta.end())
+			{
+				continue;
+			}
+			targetCollisionY.push_back(bc);
+		}
+
+		for (BoxComponent* bc : targetCollisionY)
+		{
+			if (collisionZ.find(bc) == collisionZ.end())
+			{
+				continue;
+			}
+			std::list<BoxComponent*> ta = collisionZ[bc];
+			auto findBox = std::find(ta.begin(), ta.end(), target);
+			if (findBox == ta.end())
+			{
+				continue;
+			}
+			f(target->GetOwner(), (*findBox)->GetOwner());
 		}
 	}
 }

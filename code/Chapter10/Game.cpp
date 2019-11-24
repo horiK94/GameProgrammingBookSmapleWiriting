@@ -207,6 +207,12 @@ void Game::UpdateGame()
 
 	// Update audio system
 	mAudioSystem->Update(deltaTime);
+
+	//かなり重い処理なのでコメントアウト
+	//mPhysWorld->TestSweepAndPrune([](Actor* a, Actor* b)
+	//	{
+	//		SDL_Log("a b conflict!");
+	//	});
 }
 
 void Game::GenerateOutput()
