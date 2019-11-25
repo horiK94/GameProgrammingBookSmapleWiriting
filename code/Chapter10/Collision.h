@@ -103,6 +103,7 @@ struct ConvexPolygon
 //当たり判定調査関数(globalであるため、他のクラスではIntersect()だけで使用可能)
 bool Intersect(const Sphere& a, const Sphere& b);
 bool Intersect(const AABB& a, const AABB& b);
+bool Intersect(const OBB& a, const OBB& b);
 bool Intersect(const Capsule& a, const Capsule& b);
 bool Intersect(const Sphere& s, const AABB& box);
 

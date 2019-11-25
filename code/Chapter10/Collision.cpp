@@ -412,6 +412,163 @@ bool Intersect(const AABB& a, const AABB& b)
 	return !no;
 }
 
+bool Intersect(const OBB& a, const OBB& b)
+{
+	Vector3 ax = (a.mExtents.x / 2.0f) * Vector3::Normalize(Vector3::Transform(Vector3::UnitX, a.mRotation));
+	Vector3 ay = (a.mExtents.y / 2.0f) * Vector3::Normalize(Vector3::Transform(Vector3::UnitY, a.mRotation));
+	Vector3 az = (a.mExtents.z / 2.0f) * Vector3::Normalize(Vector3::Transform(Vector3::UnitZ, a.mRotation));
+	Vector3 bx = (b.mExtents.x / 2.0f) * Vector3::Normalize(Vector3::Transform(Vector3::UnitX, b.mRotation));
+	Vector3 by = (b.mExtents.y / 2.0f) * Vector3::Normalize(Vector3::Transform(Vector3::UnitY, b.mRotation));
+	Vector3 bz = (b.mExtents.z / 2.0f) * Vector3::Normalize(Vector3::Transform(Vector3::UnitZ, b.mRotation));
+
+	//分離軸ax
+	float ra = ax.Length();
+	float rb = Math::Abs(Vector3::Dot(ax, bx)) + Math::Abs(Vector3::Dot(ax, by)) + Math::Abs(Vector3::Dot(ax, bz));
+	Vector3 ab = Vector3(b.mCenter - a.mCenter);
+	float l = Vector3::Dot(ax, ab);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸ay
+	ra = ay.Length();
+	rb = Math::Abs(Vector3::Dot(ay, bx)) + Math::Abs(Vector3::Dot(ay, by)) + Math::Abs(Vector3::Dot(ay, bz));
+	l = Vector3::Dot(ay, ab);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸az
+	ra = az.Length();
+	rb = Math::Abs(Vector3::Dot(az, bx)) + Math::Abs(Vector3::Dot(az, by)) + Math::Abs(Vector3::Dot(az, bz));
+	l = Vector3::Dot(az, ab);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸bx
+	ra = Math::Abs(Vector3::Dot(ax, bx)) + Math::Abs(Vector3::Dot(ay, bx)) + Math::Abs(Vector3::Dot(az, bx));
+	rb = bx.Length();
+	l = Vector3::Dot(ab, bx);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸by
+	ra = Math::Abs(Vector3::Dot(ax, by)) + Math::Abs(Vector3::Dot(ay, by)) + Math::Abs(Vector3::Dot(az, by));
+	rb = by.Length();
+	l = Vector3::Dot(ab, by);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸bz
+	ra = Math::Abs(Vector3::Dot(ax, bz)) + Math::Abs(Vector3::Dot(ay, bz)) + Math::Abs(Vector3::Dot(az, bz));
+	rb = bz.Length();
+	l = Vector3::Dot(ab, bz);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸 axとbxの垂直ベクトル
+	Vector3 c = Vector3::Cross(ax, bx);
+	ra = Math::Abs(Vector3::Dot(ay, c)) + Math::Abs(Vector3::Dot(az, c));
+	rb = Math::Abs(Vector3::Dot(by, c)) + Math::Abs(Vector3::Dot(bz, c));
+	l = Vector3::Dot(ab, c);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸 ayとbxの垂直ベクトル
+	c = Vector3::Cross(ay, bx);
+	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(az, c));
+	rb = Math::Abs(Vector3::Dot(by, c)) + Math::Abs(Vector3::Dot(bz, c));
+	l = Vector3::Dot(ab, c);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸 azとbxの垂直ベクトル
+	c = Vector3::Cross(az, bx);
+	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(ay, c));
+	rb = Math::Abs(Vector3::Dot(by, c)) + Math::Abs(Vector3::Dot(bz, c));
+	l = Vector3::Dot(ab, c);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸 axとbyの垂直ベクトル
+	c = Vector3::Cross(ax, by);
+	ra = Math::Abs(Vector3::Dot(ay, c)) + Math::Abs(Vector3::Dot(az, c));
+	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(bz, c));
+	l = Vector3::Dot(ab, c);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸 ayとbyの垂直ベクトル
+	c = Vector3::Cross(ay, by);
+	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(az, c));
+	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(bz, c));
+	l = Vector3::Dot(ab, c);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸 azとbyの垂直ベクトル
+	c = Vector3::Cross(az, by);
+	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(ay, c));
+	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(bz, c));
+	l = Vector3::Dot(ab, c);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸 axとbzの垂直ベクトル
+	c = Vector3::Cross(ax, bz);
+	ra = Math::Abs(Vector3::Dot(ay, c)) + Math::Abs(Vector3::Dot(az, c));
+	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(by, c));
+	l = Vector3::Dot(ab, c);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸 ayとbzの垂直ベクトル
+	c = Vector3::Cross(ay, bz);
+	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(az, c));
+	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(by, c));
+	l = Vector3::Dot(ab, c);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	//分離軸 azとbzの垂直ベクトル
+	c = Vector3::Cross(az, bz);
+	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(ay, c));
+	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(by, c));
+	l = Vector3::Dot(ab, c);
+	if (ra + rb < l)
+	{
+		return false;
+	}
+
+	return true;
+}
+
 bool Intersect(const Capsule& a, const Capsule& b)
 {
 	float distSq = LineSegment::MinDistSq(a.mSegment,

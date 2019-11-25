@@ -67,6 +67,23 @@ bool Game::Initialize()
 
 	mTicksCount = SDL_GetTicks();
 
+	//OBBƒeƒXƒg
+	OBB* oa = new OBB();
+	oa->mCenter = Vector3(0, 0, 0);
+	oa->mExtents = Vector3(1, 1, 1);
+
+	OBB* ob = new OBB();
+	ob->mCenter = Vector3(3, 3, 3);
+	ob->mExtents = Vector3(1, 1, 1);
+	if (Intersect(*oa, *ob))
+	{
+		SDL_Log("OBB is collision");
+	}
+	else
+	{
+		SDL_Log("OBB is not collision");
+	}
+
 	return true;
 }
 
