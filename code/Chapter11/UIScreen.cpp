@@ -24,6 +24,7 @@ UIScreen::UIScreen(Game* game)
 {
 	// Add to UI Stack
 	mGame->PushUI(this);
+	//英語とロシア語しか対応していない言語だった
 	mFont = mGame->GetFont("Assets/Carlito-Regular.ttf");
 	mButtonOn = mGame->GetRenderer()->GetTexture("Assets/ButtonYellow.png");
 	mButtonOff = mGame->GetRenderer()->GetTexture("Assets/ButtonBlue.png");
@@ -62,12 +63,16 @@ void UIScreen::Draw(Shader* shader)
 		DrawTexture(shader, mTitle, mTitlePos);
 	}
 	// Draw buttons
+	//ボタンの描画
 	for (auto b : mButtons)
 	{
 		// Draw background of button
+		//ボタンが選択されているかで表示する画像を変更する
 		Texture* tex = b->GetHighlighted() ? mButtonOn : mButtonOff;
-		DrawTexture(shader, tex, b->GetPosition());
+		//ボタンの背景を描画
+		DrawTexture(shader, tex, b->GetPosition());		//シェーダー、Texture、位置をもとに描画
 		// Draw text of button
+		//ボタンのUI(名前)の描画
 		DrawTexture(shader, b->GetNameTex(), b->GetPosition());
 	}
 	// Override in subclasses to draw any textures
@@ -78,23 +83,31 @@ void UIScreen::ProcessInput(const uint8_t* keys)
 	// Do we have buttons?
 	if (!mButtons.empty())
 	{
+		//ボタンが有る場合
 		// Get position of mouse
 		int x, y;
+		//マウスの絶対値を取得
 		SDL_GetMouseState(&x, &y);
 		// Convert to (0,0) center coordinates
+		//画面の真ん中を(0, 0).今回でいうと右下が(512, 384)の座標に変換する
 		Vector2 mousePos(static_cast<float>(x), static_cast<float>(y));
 		mousePos.x -= mGame->GetRenderer()->GetScreenWidth() * 0.5f;
 		mousePos.y = mGame->GetRenderer()->GetScreenHeight() * 0.5f - mousePos.y;
 		
 		// Highlight any buttons
+		//全ボタンに対してボタンの中にマウスがあるか調べる
 		for (auto b : mButtons)
 		{
 			if (b->ContainsPoint(mousePos))
 			{
+				//マウスがボタン上にあるとき
+				//Buttonのフラグを立てる
+				//フラグをもとにボタンの背景の画像や、押されたときにonClick()を呼ぶButtonを決める
 				b->SetHighlighted(true);
 			}
 			else
 			{
+				//Buttonのフラグを折る
 				b->SetHighlighted(false);
 			}
 		}
@@ -112,6 +125,8 @@ void UIScreen::HandleKeyPress(int key)
 			{
 				if (b->GetHighlighted())
 				{
+					//マウスがボタン上にある、というフラグが立っていて、左クリックされたという状況
+					//OnClick()を呼ぶ
 					b->OnClick();
 					break;
 				}
@@ -139,18 +154,23 @@ void UIScreen::SetTitle(const std::string& text,
 		delete mTitle;
 		mTitle = nullptr;
 	}
+	//文字のテクスチャの作成及び代入
 	mTitle = mFont->RenderText(text, color, pointSize);
 }
 
 void UIScreen::AddButton(const std::string& name, std::function<void()> onClick)
 {
+	//"ボタンが選択されているときのボタンの背景画像"のサイズをもとに、ボタンのサイズを設定
 	Vector2 dims(static_cast<float>(mButtonOn->GetWidth()), 
 		static_cast<float>(mButtonOn->GetHeight()));
+	//位置などの情報を指定
 	Button* b = new Button(name, mFont, onClick, mNextButtonPos, dims);
+	//ボタン群に追加
 	mButtons.emplace_back(b);
 
 	// Update position of next button
 	// Move down by height of button plus padding
+	//次のボタンの位置を代入しておく
 	mNextButtonPos.y -= mButtonOff->GetHeight() + 20.0f;
 }
 
@@ -174,16 +194,21 @@ void UIScreen::DrawTexture(class Shader* shader, class Texture* texture,
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
+//相対マウスモードを使用するか設定する
 void UIScreen::SetRelativeMouseMode(bool relative)
 {
 	if (relative)
 	{
 		SDL_SetRelativeMouseMode(SDL_TRUE);
 		// Make an initial call to get relative to clear out
+		//マウスの最後に記録された座標が引数に代入される
+		//今回はnullptrを指定している。つまり、今のマウスの位置を記憶しておき、
+		//次のフレームから正しい相対値が使えるようにしている
 		SDL_GetRelativeMouseState(nullptr, nullptr);
 	}
 	else
 	{
+		//絶対値で使用する
 		SDL_SetRelativeMouseMode(SDL_FALSE);
 	}
 }
@@ -220,6 +245,7 @@ void Button::SetName(const std::string& name)
 		delete mNameTex;
 		mNameTex = nullptr;
 	}
+	//文字のテクスチャの作成及び代入(ボタン背景はUIScrrenのサポート関数が対応)
 	mNameTex = mFont->RenderText(mName);
 }
 
@@ -235,6 +261,7 @@ bool Button::ContainsPoint(const Vector2& pt) const
 void Button::OnClick()
 {
 	// Call attached handler, if it exists
+	//ハンドラがあったら呼ぶ
 	if (mOnClick)
 	{
 		mOnClick();

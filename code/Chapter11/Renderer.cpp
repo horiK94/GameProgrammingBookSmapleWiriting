@@ -119,6 +119,7 @@ void Renderer::UnloadData()
 
 void Renderer::Draw()
 {
+	//メッシュシェーダーですべて3Dメッシュコンポーネントを描画
 	// Set the clear color to light grey
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// Clear the color buffer
@@ -142,6 +143,7 @@ void Renderer::Draw()
 		}
 	}
 
+	//スプライトシェーダーですべてのスプライトの描画
 	// Draw all sprite components
 	// Disable depth buffering
 	glDisable(GL_DEPTH_TEST);
@@ -162,8 +164,10 @@ void Renderer::Draw()
 	}
 	
 	// Draw any UI screens
+	//UIはいくつかのテクスチャで構成されるので最後に描画する
 	for (auto ui : mGame->GetUIStack())
 	{
+		//奥のUIScreenから順に
 		ui->Draw(mSpriteShader);
 	}
 
@@ -337,6 +341,7 @@ void Renderer::GetScreenDirection(Vector3& outStart, Vector3& outDir) const
 {
 	// Get start point (in center of screen on near plane)
 	Vector3 screenPoint(0.0f, 0.0f, 0.0f);
+	//画面の中心点に向けてカメラからRayを飛ばしたときの近接平面から遠方平面でのワールド座標での方向ベクトルを取得する
 	outStart = Unproject(screenPoint);
 	// Get end point (in center of screen, between near and far)
 	screenPoint.z = 0.9f;

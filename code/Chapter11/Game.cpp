@@ -28,18 +28,18 @@
 #include <rapidjson/document.h>
 
 Game::Game()
-:mRenderer(nullptr)
-,mAudioSystem(nullptr)
-,mPhysWorld(nullptr)
-,mGameState(EGameplay)
-,mUpdatingActors(false)
+	:mRenderer(nullptr)
+	, mAudioSystem(nullptr)
+	, mPhysWorld(nullptr)
+	, mGameState(EGameplay)
+	, mUpdatingActors(false)
 {
-	
+
 }
 
 bool Game::Initialize()
 {
-	if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) != 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0)
 	{
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return false;
@@ -68,7 +68,6 @@ bool Game::Initialize()
 
 	// Create the physics world
 	mPhysWorld = new PhysWorld(this);
-	
 	// Initialize SDL_ttf
 	if (TTF_Init() != 0)
 	{
@@ -79,12 +78,13 @@ bool Game::Initialize()
 	LoadData();
 
 	mTicksCount = SDL_GetTicks();
-	
+
 	return true;
 }
 
 void Game::RunLoop()
 {
+	//eQuitではないなら継続
 	while (mGameState != EQuit)
 	{
 		ProcessInput();
@@ -111,46 +111,64 @@ void Game::ProcessInput()
 	{
 		switch (event.type)
 		{
-			case SDL_QUIT:
-				mGameState = EQuit;
-				break;
+		case SDL_QUIT:
+			mGameState = EQuit;
+			break;
 			// This fires when a key's initially pressed
-			case SDL_KEYDOWN:
-				if (!event.key.repeat)
-				{
-					if (mGameState == EGameplay)
-					{
-						HandleKeyPress(event.key.keysym.sym);
-					}
-					else if (!mUIStack.empty())
-					{
-						mUIStack.back()->
-							HandleKeyPress(event.key.keysym.sym);
-					}
-				}
-				break;
-			case SDL_MOUSEBUTTONDOWN:
+		case SDL_KEYDOWN:
+			if (!event.key.repeat)
+			{
+				//ゲーム中ならGameクラス内のHandleKeyPress()に、ゲーム中でなくてUIのスタックが空でない(=UI表示中)ならUIScreenのHandleKeyPress()を呼ぶ
 				if (mGameState == EGameplay)
 				{
-					HandleKeyPress(event.button.button);
+					HandleKeyPress(event.key.keysym.sym);
 				}
 				else if (!mUIStack.empty())
 				{
 					mUIStack.back()->
-						HandleKeyPress(event.button.button);
+						HandleKeyPress(event.key.keysym.sym);
 				}
-				break;
-			default:
-				break;
+			}
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			if (mGameState == EGameplay)
+			{
+				HandleKeyPress(event.button.button);
+			}
+			else if (!mUIStack.empty())
+			{
+				mUIStack.back()->
+					HandleKeyPress(event.button.button);
+			}
+			break;
+		default:
+			break;
 		}
 	}
-	
+
+
+	//入力した情報をゲームかUIに渡す
+	//const Uint8* state = SDL_GetKeyboardState(NULL);
+	//if (mGameState == EGameplay)
+	//{
+	//	for (auto actor : mActors)
+	//	{
+	//		if (actor->GetState() == Actor::EActive)
+	//		{
+	//			actor->ProcessInput(state);
+	//		}
+	//	}
+	//}
+	//else if (!mUIStack.empty())
+	//{
+	//	mUIStack.back()->ProcessInput(state);
+	//}
 	const Uint8* state = SDL_GetKeyboardState(NULL);
-	if (mGameState == EGameplay)
+	if (mGameState == GameState::EGameplay)
 	{
 		for (auto actor : mActors)
 		{
-			if (actor->GetState() == Actor::EActive)
+			if (actor->GetState() == Actor::State::EActive)
 			{
 				actor->ProcessInput(state);
 			}
@@ -158,6 +176,7 @@ void Game::ProcessInput()
 	}
 	else if (!mUIStack.empty())
 	{
+		//最後のUIにのみ入力処理を適応する
 		mUIStack.back()->ProcessInput(state);
 	}
 }
@@ -168,6 +187,7 @@ void Game::HandleKeyPress(int key)
 	{
 	case SDLK_ESCAPE:
 		// Create pause menu
+		//ポーズメニューを開く
 		new PauseMenu(this);
 		break;
 	case '-':
@@ -223,6 +243,7 @@ void Game::UpdateGame()
 	}
 	mTicksCount = SDL_GetTicks();
 
+	//ゲームプレイ中のみ画面の更新
 	if (mGameState == EGameplay)
 	{
 		// Update all actors
@@ -260,8 +281,9 @@ void Game::UpdateGame()
 
 	// Update audio system
 	mAudioSystem->Update(deltaTime);
-	
+
 	// Update UI screens
+	//ワールドにあるすべてのActorが更新されたらUIの更新を行う
 	for (auto ui : mUIStack)
 	{
 		if (ui->GetState() == UIScreen::EActive)
@@ -273,9 +295,10 @@ void Game::UpdateGame()
 	auto iter = mUIStack.begin();
 	while (iter != mUIStack.end())
 	{
+		//全UIに対し、閉じている状態があるかチェックし、閉じているなら削除
 		if ((*iter)->GetState() == UIScreen::EClosing)
 		{
-			delete *iter;
+			delete* iter;
 			iter = mUIStack.erase(iter);
 		}
 		else
@@ -319,7 +342,7 @@ void Game::LoadData()
 		a = new PlaneActor(this);
 		a->SetPosition(Vector3(start + i * size, start - size, 0.0f));
 		a->SetRotation(q);
-		
+
 		a = new PlaneActor(this);
 		a->SetPosition(Vector3(start + i * size, -start + size, 0.0f));
 		a->SetRotation(q);
@@ -347,7 +370,7 @@ void Game::LoadData()
 
 	// UI elements
 	mHUD = new HUD(this);
-	
+
 	// Start music
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
 
@@ -455,9 +478,30 @@ void Game::PushUI(UIScreen* screen)
 
 Font* Game::GetFont(const std::string& fileName)
 {
+	//auto iter = mFonts.find(fileName);
+	//if (iter != mFonts.end())
+	//{
+	//	return iter->second;
+	//}
+	//else
+	//{
+	//	Font* font = new Font(this);
+	//	if (font->Load(fileName))
+	//	{
+	//		mFonts.emplace(fileName, font);
+	//	}
+	//	else
+	//	{
+	//		font->Unload();
+	//		delete font;
+	//		font = nullptr;
+	//	}
+	//	return font;
+	//}
 	auto iter = mFonts.find(fileName);
 	if (iter != mFonts.end())
 	{
+		//見つかったとき(返したいのはvalueのFontタイプだから)
 		return iter->second;
 	}
 	else
@@ -465,10 +509,12 @@ Font* Game::GetFont(const std::string& fileName)
 		Font* font = new Font(this);
 		if (font->Load(fileName))
 		{
+			//ロード成功
 			mFonts.emplace(fileName, font);
 		}
 		else
 		{
+			//ロード失敗
 			font->Unload();
 			delete font;
 			font = nullptr;
@@ -477,45 +523,60 @@ Font* Game::GetFont(const std::string& fileName)
 	}
 }
 
+//gpmeshファイルを解析し、mTextMapに登録
 void Game::LoadText(const std::string& fileName)
 {
 	// Clear the existing map, if already loaded
 	mText.clear();
 	// Try to open the file
+	//ファイルを開く
 	std::ifstream file(fileName);
 	if (!file.is_open())
 	{
+		//開けなかったらログ出力して終了
 		SDL_Log("Text file %s not found", fileName.c_str());
 		return;
 	}
 	// Read the entire file to a string stream
+	//string streamを定義
 	std::stringstream fileStream;
+	//string streamに保存
 	fileStream << file.rdbuf();
+	//ファイル内の文字を保存
 	std::string contents = fileStream.str();
 	// Open this file in rapidJSON
+	//rapidJSON内に文字列を保存
 	rapidjson::StringStream jsonStr(contents.c_str());
+	//DOM treeを定義(詳細は https://rapidjson.org/md_doc_tutorial.html )
 	rapidjson::Document doc;
+	//rapidJSON型のstringをDOM Tree型に変換していると思う
 	doc.ParseStream(jsonStr);
 	if (!doc.IsObject())
 	{
+		//DOM Treeの型に変換できなかった
 		SDL_Log("Text file %s is not valid JSON", fileName.c_str());
 		return;
 	}
 	// Parse the text map
+	//親のキーの中身を受け取る
 	const rapidjson::Value& actions = doc["TextMap"];
 	for (rapidjson::Value::ConstMemberIterator itr = actions.MemberBegin();
 		itr != actions.MemberEnd(); ++itr)
 	{
+		//TextMeshをキーとするValueの配列をfor文で回す
 		if (itr->name.IsString() && itr->value.IsString())
 		{
-			mText.emplace(itr->name.GetString(), 
+			//KeyもValueも文字列なら保存する
+			mText.emplace(itr->name.GetString(),
 				itr->value.GetString());
 		}
 	}
 }
 
+//キーに割り当てられたテキストを返す
 const std::string& Game::GetText(const std::string& key)
 {
+	//English.gptextにないキーを選択するとエラーになる
 	static std::string errorMsg("**KEY NOT FOUND**");
 	// Find this text in the map, if it exists
 	auto iter = mText.find(key);

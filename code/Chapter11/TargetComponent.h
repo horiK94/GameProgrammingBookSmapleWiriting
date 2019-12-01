@@ -9,6 +9,7 @@
 #pragma once
 #include "Component.h"
 
+//ターゲット把握コンポーネント
 class TargetComponent : public Component
 {
 public:

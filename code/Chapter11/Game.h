@@ -30,8 +30,10 @@ public:
 	class PhysWorld* GetPhysWorld() { return mPhysWorld; }
 	class HUD* GetHUD() { return mHUD; }
 	
+	//スタック全体を参照で返す
 	// Manage UI stack
 	const std::vector<class UIScreen*>& GetUIStack() { return mUIStack; }
+	//スタックに追加
 	void PushUI(class UIScreen* screen);
 	
 	class FPSActor* GetPlayer() { return mFPSActor; }
@@ -46,6 +48,7 @@ public:
 	GameState GetState() const { return mGameState; }
 	void SetState(GameState state) { mGameState = state; }
 	
+	//引数のファイル名を探す(ないならロード)
 	class Font* GetFont(const std::string& fileName);
 
 	void LoadText(const std::string& fileName);
@@ -64,10 +67,14 @@ private:
 	
 	// All the actors in the game
 	std::vector<class Actor*> mActors;
+	//uiStack変数
 	std::vector<class UIScreen*> mUIStack;
+	//フォントを一元管理した変数(キーがフォントファイル名、valueがFontポインタ)
 	std::unordered_map<std::string, class Font*> mFonts;
 
 	// Map for text localization
+	//unordered_mapは同一キーの要素を複数格納できず、格納順が規定されていないコンテナ
+	//例えば"QuitText"というキーに対し、「終了しますか?」といったローケルのテキストを保存する
 	std::unordered_map<std::string, std::string> mText;
 	// Any pending actors
 	std::vector<class Actor*> mPendingActors;

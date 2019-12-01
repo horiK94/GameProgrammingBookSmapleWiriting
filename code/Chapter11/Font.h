@@ -12,6 +12,7 @@
 #include <SDL/SDL_ttf.h>
 #include "Math.h"
 
+//複数のフォントを管理するクラスではなく、単一のフォントを管理
 class Font
 {
 public:
@@ -19,10 +20,13 @@ public:
 	~Font();
 	
 	// Load/unload from a file
+	//ファイルからフォントをロード
 	bool Load(const std::string& fileName);
+	//データ開放
 	void Unload();
 	
 	// Given string and this font, draw to a texture
+	//文字列、色、ポインタサイズを渡すとテキストを含むテクスチャが作成される
 	class Texture* RenderText(const std::string& textKey,
 							  const Vector3& color = Color::White,
 							  int pointSize = 30);
