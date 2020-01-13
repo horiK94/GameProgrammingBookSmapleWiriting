@@ -13,9 +13,11 @@ class BoneTransform
 {
 public:
 	// For now, just make this data public
+	//‰ñ“]s—ñ
 	Quaternion mRotation;
+	//ˆÊ’u
 	Vector3 mTranslation;
-
+	//s—ñ‚É•ÏŠ·
 	Matrix4 ToMatrix() const;
 
 	static BoneTransform Interpolate(const BoneTransform& a, const BoneTransform& b, float f);

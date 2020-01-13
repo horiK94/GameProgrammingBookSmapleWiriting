@@ -77,6 +77,7 @@ bool Mesh::Load(const std::string & fileName, Renderer* renderer)
 	std::string vertexFormat = doc["vertexformat"].GetString();
 	if (vertexFormat == "PosNormSkinTex")
 	{
+		//スケルタルアニメーション用Mesh
 		layout = VertexArray::PosNormSkinTex;
 		// This is the number of "Vertex" unions, which is 8 + 2 (for skinning)s
 		vertSize = 10;

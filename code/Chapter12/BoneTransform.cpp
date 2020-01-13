@@ -13,9 +13,11 @@ Matrix4 BoneTransform::ToMatrix() const
 	Matrix4 rot = Matrix4::CreateFromQuaternion(mRotation);
 	Matrix4 trans = Matrix4::CreateTranslation(mTranslation);
 
+	//âÒì] -> à íu
 	return rot * trans;
 }
 
+//ï‚ä‘ä÷êî
 BoneTransform BoneTransform::Interpolate(const BoneTransform& a, const BoneTransform& b, float f)
 {
 	BoneTransform retVal;

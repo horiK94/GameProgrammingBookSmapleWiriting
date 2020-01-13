@@ -28,6 +28,7 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 	glBindVertexArray(mVertexArray);;
 
 	//頂点バッファの作成
+	//この上2つでは頂点インデックスと頂点バッファのidを取得
 	//// Create vertex buffer
 	//glGenBuffers(1, &mVertexBuffer);
 	glGenBuffers(1, &mVertexBuffer);
@@ -52,6 +53,7 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 	//glBufferData(GL_ARRAY_BUFFER, numVerts * 5 * sizeof(float), verts, GL_STATIC_DRAW);
 
 	//インデックスバッファの作成
+	//ここでは頂点バッファの中身を指定していく
 	//// Create index buffer
 	//作り方は頂点バッファとほぼ同様
 	glGenBuffers(1, &mIndexBuffer);

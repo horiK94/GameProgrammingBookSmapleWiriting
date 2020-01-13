@@ -144,11 +144,13 @@ void Renderer::Draw()
 		}
 	}
 
+	//すべてのスケルタルメッシュを描画
 	// Draw any skinned meshes now
 	mSkinnedShader->SetActive();
 	// Update view-projection matrix
 	mSkinnedShader->SetMatrixUniform("uViewProj", mView * mProjection);
 	// Update lighting uniforms
+	//ライティングのuniform変更
 	SetLightUniforms(mSkinnedShader);
 	for (auto sk : mSkeletalMeshes)
 	{
@@ -318,6 +320,7 @@ bool Renderer::LoadShaders()
 	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
 
 	// Create skinned shader
+	//スキニング頂点シェーダーのロード
 	mSkinnedShader = new Shader();
 	if (!mSkinnedShader->Load("Shaders/Skinned.vert", "Shaders/Phong.frag"))
 	{

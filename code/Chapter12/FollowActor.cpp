@@ -19,6 +19,7 @@ FollowActor::FollowActor(Game* game)
 {
 	mMeshComp = new SkeletalMeshComponent(this);
 	mMeshComp->SetMesh(game->GetRenderer()->GetMesh("Assets/CatWarrior.gpmesh"));
+	//Skeltonの設定
 	mMeshComp->SetSkeleton(game->GetSkeleton("Assets/CatWarrior.gpskel"));
 	mMeshComp->PlayAnimation(game->GetAnimation("Assets/CatActionIdle.gpanim"));
 	SetPosition(Vector3(0.0f, 0.0f, -100.0f));
@@ -51,14 +52,18 @@ void FollowActor::ActorInput(const uint8_t* keys)
 	}
 
 	// Did we just start moving?
+	//動き始めたかのチェック
 	if (!mMoving && !Math::NearZero(forwardSpeed))
 	{
+		//走るモーションに変更
 		mMoving = true;
 		mMeshComp->PlayAnimation(GetGame()->GetAnimation("Assets/CatRunSprint.gpanim"), 1.25f);
 	}
 	// Or did we just stop moving?
+	//いまちょうど止まったかのチェック
 	else if (mMoving && Math::NearZero(forwardSpeed))
 	{
+		//止まるモーションに変更
 		mMoving = false;
 		mMeshComp->PlayAnimation(GetGame()->GetAnimation("Assets/CatActionIdle.gpanim"));
 	}

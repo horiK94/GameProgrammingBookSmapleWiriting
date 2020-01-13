@@ -131,43 +131,98 @@ bool Animation::Load(const std::string& fileName)
 
 void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skeleton* inSkeleton, float inTime) const
 {
+	//if (outPoses.size() != mNumBones)
+	//{
+	//	outPoses.resize(mNumBones);
+	//}
+
+	//// Figure out the current frame index and next frame
+	//// (This assumes inTime is bounded by [0, AnimDuration]
+	//size_t frame = static_cast<size_t>(inTime / mFrameDuration);
+	//size_t nextFrame = frame + 1;
+	//// Calculate fractional value between frame and next frame
+	//float pct = inTime / mFrameDuration - frame;
+
+	//// Setup the pose for the root
+	//if (mTracks[0].size() > 0)
+	//{
+	//	// Interpolate between the current frame's pose and the next frame
+	//	BoneTransform interp = BoneTransform::Interpolate(mTracks[0][frame],
+	//		mTracks[0][nextFrame], pct);
+	//	outPoses[0] = interp.ToMatrix();
+	//}
+	//else
+	//{
+	//	outPoses[0] = Matrix4::Identity;
+	//}
+
+	//const std::vector<Skeleton::Bone>& bones = inSkeleton->GetBones();
+	//// Now setup the poses for the rest
+	//for (size_t bone = 1; bone < mNumBones; bone++)
+	//{
+	//	Matrix4 localMat; // (Defaults to identity)
+	//	if (mTracks[bone].size() > 0)
+	//	{
+	//		BoneTransform interp = BoneTransform::Interpolate(mTracks[bone][frame],
+	//			mTracks[bone][nextFrame], pct);
+	//		localMat = interp.ToMatrix();
+	//	}
+
+	//	outPoses[bone] = localMat * outPoses[bones[bone].mParent];
+	//}
+
+	//outPosesの配列のサイズがボーン数似合っていない場合は再設定
 	if (outPoses.size() != mNumBones)
 	{
 		outPoses.resize(mNumBones);
 	}
 
-	// Figure out the current frame index and next frame
-	// (This assumes inTime is bounded by [0, AnimDuration]
+	//0フレーム目と最後のフレームが同じポーズのため、最後のフレームから最初のフレームへの遷移が正しく行われる
+
+	//現在は0フレームでハードコーディング
+	//現在と次のフレームインデックスを求める
+	//inTimeは[0, mDuration]であることを想定
+	//frameは[0, mNumFrames-1]になる
 	size_t frame = static_cast<size_t>(inTime / mFrameDuration);
 	size_t nextFrame = frame + 1;
-	// Calculate fractional value between frame and next frame
+
+	//frameとnextFrameの間の少数値を求める
 	float pct = inTime / mFrameDuration - frame;
 
-	// Setup the pose for the root
+	//const int frame = 0;
+
+	//ルートボーンのチェック
 	if (mTracks[0].size() > 0)
 	{
-		// Interpolate between the current frame's pose and the next frame
-		BoneTransform interp = BoneTransform::Interpolate(mTracks[0][frame],
-			mTracks[0][nextFrame], pct);
+		//ルートボーンのトラックが存在するとき
+		//ルートボーンのグローバルポーズはローカルポーズと同じ
+		//outPoses[0] = mTracks[0][frame].ToMatrix();
+
+		//現在のフレームポーズと、次のフレームポーズの間で補間する
+		BoneTransform interp = BoneTransform::Interpolate(mTracks[0][frame], mTracks[0][nextFrame], pct);
 		outPoses[0] = interp.ToMatrix();
 	}
 	else
 	{
+		//ルートボーンのトラックが存在しないときは変換を行わなくて良い(変換行列は単位行列になる)
 		outPoses[0] = Matrix4::Identity;
 	}
 
+	//スケルトンデータからボーンデータを取得(親ボーンを知るために使用)
 	const std::vector<Skeleton::Bone>& bones = inSkeleton->GetBones();
-	// Now setup the poses for the rest
-	for (size_t bone = 1; bone < mNumBones; bone++)
+	//その他すべてのボーンに対してグローバルポーズ行列を計算
+	for (size_t i = 1; i < mNumBones; i++)
 	{
-		Matrix4 localMat; // (Defaults to identity)
-		if (mTracks[bone].size() > 0)
+		Matrix4 localMat;		//デフォルトは単位行列
+		if (mTracks[i].size() > 0)
 		{
-			BoneTransform interp = BoneTransform::Interpolate(mTracks[bone][frame],
-				mTracks[bone][nextFrame], pct);
+			//トラックが存在するとき
+			//localMat = mTracks[i][frame].ToMatrix();		//特定のフレームの変換行列を取得
+
+			BoneTransform interp = BoneTransform::Interpolate(mTracks[i][frame], mTracks[i][nextFrame], pct);
 			localMat = interp.ToMatrix();
 		}
 
-		outPoses[bone] = localMat * outPoses[bones[bone].mParent];
+		outPoses[i] = localMat * outPoses[bones[i].mParent];
 	}
 }
