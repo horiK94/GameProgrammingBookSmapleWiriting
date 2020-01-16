@@ -24,6 +24,7 @@ Texture::~Texture()
 	
 }
 
+//Texture::Load()はUIだけでなく、メッシュとして貼るテクスチャもロードされるので注意
 bool Texture::Load(const std::string& fileName)
 {
 	int channels = 0;
@@ -51,19 +52,41 @@ bool Texture::Load(const std::string& fileName)
 	
 	SOIL_free_image_data(image);
 	
+	//テクスチャのフィルタリングを設定
+
 	// Generate mipmaps for texture
+	//glGenerateMipmap(GL_TEXTURE_2D);
+	//ミップマッピングを有効化
 	glGenerateMipmap(GL_TEXTURE_2D);
 	// Enable linear filtering
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//トライリニアフィルタリングを有効にする
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);		//縮小用フィルタリング機能(トライリニアミップマッピング)
+	//最近傍ミップマッピングを使用する場合は GL_LINEAR_MIPMAP_NEAREST を渡す
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);			//拡大用フィルタリング機能(バイリニアフィルタリング)
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	//フィルタリングを設定したら、異方性フィルタリングを設定
 
 	// Enable aniostropic filtering, if supported
+	// OpenGL3.3では異方性フィルタリングはエクステンション(追加機能的な立ち位置)のため、グラフィックハードウェアが対応しているか確認する(大体のグラフィックハードウェアが対応している)
+	//if (GLEW_EXT_texture_filter_anisotropic)
+	//{
+	//	// Get the maximum anisotropy value
+	//	GLfloat largest;
+	//	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest);
+	//	// Enable it
+	//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest);
+	//}
 	if (GLEW_EXT_texture_filter_anisotropic)
 	{
-		// Get the maximum anisotropy value
+		//グラフィックハードウェアが異方性フィルタリングに対応しているなら
+
+		//最大の異方性を示す値を取得
 		GLfloat largest;
-		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest);
-		// Enable it
+		//異方性の最大を表すパラメータ: GL_MAX_TEXTURE_MAX_ANISOTROPY. largestに異方性の最大値が代入されて帰ってくる
+		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &largest);
+		//有効にする
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest);
 	}
 	
