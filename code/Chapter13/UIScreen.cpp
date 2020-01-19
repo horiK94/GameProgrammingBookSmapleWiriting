@@ -159,7 +159,9 @@ void UIScreen::DrawTexture(class Shader* shader, class Texture* texture,
 {
 	// Scale the quad by the width/height of texture
 	// and flip the y if we need to
+	//テクスチャの幅と高さで矩形をスケーリング(必要ならy座標反転)
 	float yScale = static_cast<float>(texture->GetHeight()) * scale;
+	//flipYがtrueならy座標反転する
 	if (flipY) { yScale *= -1.0f; }
 	Matrix4 scaleMat = Matrix4::CreateScale(
 		static_cast<float>(texture->GetWidth()) * scale,
@@ -168,15 +170,20 @@ void UIScreen::DrawTexture(class Shader* shader, class Texture* texture,
 
 
 	// Translate to position on screen
+	//画面上を平行移動(中央からどのくらい平行移動するか)
 	Matrix4 transMat = Matrix4::CreateTranslation(
 		Vector3(offset.x, offset.y, 0.0f));
 
 	// Set world transform
+	//ワールド変換を設定
 	Matrix4 world = scaleMat * transMat;
+	//uWorldTransformにワールド変換を送る
 	shader->SetMatrixUniform("uWorldTransform", world);
 	// Set current texture
+	//これから使うテクスチャを設定
 	texture->SetActive();
 	// Draw quad
+	//矩形を描画
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 

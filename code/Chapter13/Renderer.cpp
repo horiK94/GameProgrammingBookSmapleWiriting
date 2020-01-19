@@ -94,6 +94,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	CreateSpriteVerts();
 
 	// Create render target for mirror
+	//ミラーのフレームバッファオブジェクトの作成
 	if (!CreateMirrorTarget())
 	{
 		SDL_Log("Failed to create render target for mirror.");
@@ -167,23 +168,29 @@ void Renderer::UnloadData()
 void Renderer::Draw()
 {
 	// Draw to the mirror texture first
+	//ミラーのテクスチャへの描画
 	Draw3DScene(mMirrorBuffer, mMirrorView, mProjection, 0.25f);
 	// Draw the 3D scene to the G-buffer
-	Draw3DScene(mGBuffer->GetBufferID(), mView, mProjection, 1.0f, false);
-	// Set the frame buffer back to zero (screen's frame buffer)
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	// Draw from the GBuffer
-	DrawFromGBuffer();
+	//デフォルトフレームバッファへの描画
+	Draw3DScene(/*mGBuffer->GetBufferID()*/0, mView, mProjection, 1.0f, false);
+	//// Set the frame buffer back to zero (screen's frame buffer)
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//// Draw from the GBuffer
+	//DrawFromGBuffer();
 	
 	// Draw all sprite components
 	// Disable depth buffering
+	//デプスバッファの無効化
 	glDisable(GL_DEPTH_TEST);
 	// Enable alpha blending on the color buffer
+	//アルファブレンディングの有効
 	glEnable(GL_BLEND);
+	//TODO: 下2行調べる
 	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
 	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
 
 	// Set shader/vao as active
+	//Spriteの描画
 	mSpriteShader->SetActive();
 	mSpriteVerts->SetActive();
 	for (auto sprite : mSprites)
@@ -195,6 +202,7 @@ void Renderer::Draw()
 	}
 	
 	// Draw any UI screens
+	//UIの描画
 	for (auto ui : mGame->GetUIStack())
 	{
 		ui->Draw(mSpriteShader);
@@ -317,26 +325,38 @@ Mesh* Renderer::GetMesh(const std::string & fileName)
 	return m;
 }
 
+//frameBuffer: フレームバッファID
+//view: ビュー行列
+// proj: 射影行列
+//viewPortScale: ビューポートのスケール(これにより、OpenGLはフレームバッファターゲットの実際のサイズを知る)
+//バックミラーのために、ビューポートをスケーリングするパラメータ
 void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj, 
 	float viewPortScale, bool lit)
 {
 	// Set the current frame buffer
+	//これから書きこむフレームバッファに指定
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
 	// Set viewport size based on scale
+	//スケールに基づいてビューポートサイズを設定
 	glViewport(0, 0,
 		static_cast<int>(mScreenWidth * viewPortScale),
 		static_cast<int>(mScreenHeight * viewPortScale)
 	);
 
 	// Clear color buffer/depth buffer
+	//グレーでカラーを初期化
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glDepthMask(GL_TRUE);
+	//カラーバッファ、デプスバッファのクリア
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw mesh components
+	//メッシュコンポーネントの描画
 	// Enable depth buffering/disable alpha blend
+	//デプスバッファの有効
 	glEnable(GL_DEPTH_TEST);
+	//アルファブレンディングの無効
 	glDisable(GL_BLEND);
 	// Set the mesh shader active
 	mMeshShader->SetActive();
@@ -355,6 +375,7 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 		}
 	}
 
+	//スケルタルメッシュコンポーネントの描画
 	// Draw any skinned meshes now
 	mSkinnedShader->SetActive();
 	// Update view-projection matrix
@@ -373,38 +394,56 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	}
 }
 
+///バックミラーのフレームバッファオブジェクトの作成
 bool Renderer::CreateMirrorTarget()
 {
+	//サイズを1/4にする
 	int width = static_cast<int>(mScreenWidth) / 4;
 	int height = static_cast<int>(mScreenHeight) / 4;
 
 	// Generate a frame buffer for the mirror texture
+	//フレームバッファオブジェクトの作成(IDの取得)
 	glGenFramebuffers(1, &mMirrorBuffer);
+	//アクティブにする
 	glBindFramebuffer(GL_FRAMEBUFFER, mMirrorBuffer);
 
 	// Create the texture we'll use for rendering
+	//レンダリングに使うテクスチャの初期化
 	mMirrorTexture = new Texture();
+	//レンダリング用テクスチャの作成(大きさはwidth*height. 視点から見た色を出力するためにRGBを指定)
 	mMirrorTexture->CreateForRendering(width, height, GL_RGB);
 
 	// Add a depth buffer to this target
+	//デプス(深度)バッファの追加
 	GLuint depthBuffer;
+	//デプスバッファの作成(IDの取得)(正確にはレンダーバッファ作成: 保持できる値は各ピクセルの特定の値(color, depthなど))
 	glGenRenderbuffers(1, &depthBuffer);
+	//レンダーバッファをアクティブにする
 	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+
+	//作成したレンダーバッファにGL_DEPTH_COMPONENT: デプスバッファ ストレージとして使用することを宣言
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+	// フレームバッファにレンダーバッファを、デプスバッファとしてアタッチ
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
 
 	// Attach mirror texture as the output target for the frame buffer
+	//バックミラー用Textureをバックミラー用フレームバッファオブジェクトに割り当てる
+	//GL_COLOR_ATTACHMENT0: フラグメントシェーダーの最初の色出力に対応しますよという意味
+	//フラグメントシェーダーは今まで1つのみの出力だったが複数のテクスチャに出力できる(複数の出力ができる)
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mMirrorTexture->GetTextureID(), 0);
 
 	// Set the list of buffers to draw to for this frame buffer
+	//今回のフレームバッファオブジェクトではGL_COLOR_ATTACHMENT0スロットのTexture(つまり、mMirrorTexture)に描画することを設定
 	GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
 	glDrawBuffers(1, drawBuffers);
 
 	// Make sure everything worked
+	//glCheckFramebufferStatusで状態チェック
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		// If it didn't work, delete the framebuffer,
 		// unload/delete the texture and return false
+		//問題があるならフレームバッファを消し、テクスチャを解放、削除してfalseを返す
 		glDeleteFramebuffers(1, &mMirrorBuffer);
 		mMirrorTexture->Unload();
 		delete mMirrorTexture;

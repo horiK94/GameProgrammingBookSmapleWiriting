@@ -64,10 +64,12 @@ void HUD::Draw(Shader* shader)
 	//// Health bar
 	//DrawTexture(shader, mHealthBar, Vector2(-350.0f, -350.0f));
 	// Draw the mirror (bottom left)
-	Texture* mirror = mGame->GetRenderer()->GetMirrorTexture();
-	DrawTexture(shader, mirror, Vector2(-350.0f, -250.0f), 1.0f, true);
+	//Texture* mirror = mGame->GetRenderer()->GetMirrorTexture();
+	//DrawTexture(shader, mirror, Vector2(-350.0f, -250.0f), 1.0f, true);
 	//Texture* tex = mGame->GetRenderer()->GetGBuffer()->GetTexture(GBuffer::EDiffuse);
 	//DrawTexture(shader, tex, Vector2::Zero, 1.0f, true);
+	Texture* mirror = mGame->GetRenderer()->GetMirrorTexture();
+	DrawTexture(shader, mirror, Vector2(-350.0f, -250.0f), 1.0f, true);
 }
 
 void HUD::AddTargetComponent(TargetComponent* tc)

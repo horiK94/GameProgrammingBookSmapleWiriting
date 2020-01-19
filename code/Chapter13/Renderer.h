@@ -122,7 +122,11 @@ private:
 	float mScreenWidth;
 	float mScreenHeight;
 
+	//unsigned int mMirrorBuffer;
+	//class Texture* mMirrorTexture;
+	//バックミラー用のフレームバッファオブジェクト(のID値)
 	unsigned int mMirrorBuffer;
+	//フレームバッファオブジェクトに割り当てるTextureオブジェクト
 	class Texture* mMirrorTexture;
 	Matrix4 mMirrorView;
 	

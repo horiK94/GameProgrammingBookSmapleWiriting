@@ -29,6 +29,7 @@ bool Texture::Load(const std::string& fileName)
 {
 	int channels = 0;
 	
+	//テクスチャのロード
 	unsigned char* image = SOIL_load_image(fileName.c_str(),
 										   &mWidth, &mHeight, &channels, SOIL_LOAD_AUTO);
 	
@@ -38,17 +39,28 @@ bool Texture::Load(const std::string& fileName)
 		return false;
 	}
 	
+	//チャネル数を確認して、画像がRBGかRGBAか確認
 	int format = GL_RGB;
 	if (channels == 4)
 	{
 		format = GL_RGBA;
 	}
 	
+	//OpenGL Texture Objectを作成
 	glGenTextures(1, &mTextureID);
+	//テクスチャをアクティブに
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
-	
-	glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, format,
-				 GL_UNSIGNED_BYTE, image);
+	//生の画像データをコピー
+	glTexImage2D(GL_TEXTURE_2D,	//テクスチャターゲット
+		0,				//Lod(詳細レベル)
+		format,			//OpenGLが使うべきカラーフォーマット
+		mWidth,			//テクスチャの幅
+		mHeight,		//テクスチャの高さ
+		0,				//境界色
+		format,			//Textureのカラーフォーマット
+		GL_UNSIGNED_BYTE,		//入力データのビット深度(unsigned byteで8bit / chanel)
+		image			//画像データのポインタ
+	);
 	
 	SOIL_free_image_data(image);
 	
@@ -114,15 +126,20 @@ void Texture::CreateFromSurface(SDL_Surface* surface)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
+//RGBAフォーマットであると決め打ちせず、formatで選択できるようにする
 void Texture::CreateForRendering(int width, int height, unsigned int format)
 {
 	mWidth = width;
 	mHeight = height;
 	// Create the texture id
+	//OpenGL Texture Objectの生成
 	glGenTextures(1, &mTextureID);
+	//テクスチャオブジェクトを有効に
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
 	// Set the image width/height with null initial data
-	glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, GL_RGB,
+	//初期データが無いため、nullptrを渡す(第2引数と後ろから2つ目の引数は無視される)
+	//初期データはなし
+	glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, GL_RGB,		//画像はAを取得できない(カメラから受け取れる画像データだから)
 		GL_FLOAT, nullptr);
 
 	// For a texture we'll render to, just use nearest neighbor
