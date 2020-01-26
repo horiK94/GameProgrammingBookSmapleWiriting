@@ -30,10 +30,10 @@ public:
 	class PhysWorld* GetPhysWorld() { return mPhysWorld; }
 	class HUD* GetHUD() { return mHUD; }
 	
-	//ƒXƒ^ƒbƒN‘S‘Ì‚ğQÆ‚Å•Ô‚·
+	//ã‚¹ã‚¿ãƒƒã‚¯å…¨ä½“ã‚’å‚ç…§ã§è¿”ã™
 	// Manage UI stack
 	const std::vector<class UIScreen*>& GetUIStack() { return mUIStack; }
-	//ƒXƒ^ƒbƒN‚É’Ç‰Á
+	//ã‚¹ã‚¿ãƒƒã‚¯ã«è¿½åŠ 
 	void PushUI(class UIScreen* screen);
 	
 	class FPSActor* GetPlayer() { return mFPSActor; }
@@ -48,7 +48,7 @@ public:
 	GameState GetState() const { return mGameState; }
 	void SetState(GameState state) { mGameState = state; }
 	
-	//ˆø”‚Ìƒtƒ@ƒCƒ‹–¼‚ğ’T‚·(‚È‚¢‚È‚çƒ[ƒh)
+	//å¼•æ•°ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’æ¢ã™(ãªã„ãªã‚‰ãƒ­ãƒ¼ãƒ‰)
 	class Font* GetFont(const std::string& fileName);
 
 	void LoadText(const std::string& fileName);
@@ -67,14 +67,14 @@ private:
 	
 	// All the actors in the game
 	std::vector<class Actor*> mActors;
-	//uiStack•Ï”
+	//uiStackå¤‰æ•°
 	std::vector<class UIScreen*> mUIStack;
-	//ƒtƒHƒ“ƒg‚ğˆêŒ³ŠÇ—‚µ‚½•Ï”(ƒL[‚ªƒtƒHƒ“ƒgƒtƒ@ƒCƒ‹–¼Avalue‚ªFontƒ|ƒCƒ“ƒ^)
+	//ãƒ•ã‚©ãƒ³ãƒˆã‚’ä¸€å…ƒç®¡ç†ã—ãŸå¤‰æ•°(ã‚­ãƒ¼ãŒãƒ•ã‚©ãƒ³ãƒˆãƒ•ã‚¡ã‚¤ãƒ«åã€valueãŒFontãƒã‚¤ãƒ³ã‚¿)
 	std::unordered_map<std::string, class Font*> mFonts;
 
 	// Map for text localization
-	//unordered_map‚Í“¯ˆêƒL[‚Ì—v‘f‚ğ•¡”Ši”[‚Å‚«‚¸AŠi”[‡‚ª‹K’è‚³‚ê‚Ä‚¢‚È‚¢ƒRƒ“ƒeƒi
-	//—á‚¦‚Î"QuitText"‚Æ‚¢‚¤ƒL[‚É‘Î‚µAuI—¹‚µ‚Ü‚·‚©?v‚Æ‚¢‚Á‚½ƒ[ƒPƒ‹‚ÌƒeƒLƒXƒg‚ğ•Û‘¶‚·‚é
+	//unordered_mapã¯åŒä¸€ã‚­ãƒ¼ã®è¦ç´ ã‚’è¤‡æ•°æ ¼ç´ã§ããšã€æ ¼ç´é †ãŒè¦å®šã•ã‚Œã¦ã„ãªã„ã‚³ãƒ³ãƒ†ãƒŠ
+	//ä¾‹ãˆã°"QuitText"ã¨ã„ã†ã‚­ãƒ¼ã«å¯¾ã—ã€ã€Œçµ‚äº†ã—ã¾ã™ã‹?ã€ã¨ã„ã£ãŸãƒ­ãƒ¼ã‚±ãƒ«ã®ãƒ†ã‚­ã‚¹ãƒˆã‚’ä¿å­˜ã™ã‚‹
 	std::unordered_map<std::string, std::string> mText;
 	// Any pending actors
 	std::vector<class Actor*> mPendingActors;

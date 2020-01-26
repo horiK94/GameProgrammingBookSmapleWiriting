@@ -84,7 +84,7 @@ bool Game::Initialize()
 
 void Game::RunLoop()
 {
-	//eQuit‚Å‚Í‚È‚¢‚È‚çŒp‘±
+	//eQuitã§ã¯ãªã„ãªã‚‰ç¶™ç¶š
 	while (mGameState != EQuit)
 	{
 		ProcessInput();
@@ -118,7 +118,7 @@ void Game::ProcessInput()
 		case SDL_KEYDOWN:
 			if (!event.key.repeat)
 			{
-				//ƒQ[ƒ€’†‚È‚çGameƒNƒ‰ƒX“à‚ÌHandleKeyPress()‚ÉAƒQ[ƒ€’†‚Å‚È‚­‚ÄUI‚ÌƒXƒ^ƒbƒN‚ª‹ó‚Å‚È‚¢(=UI•\¦’†)‚È‚çUIScreen‚ÌHandleKeyPress()‚ğŒÄ‚Ô
+				//ã‚²ãƒ¼ãƒ ä¸­ãªã‚‰Gameã‚¯ãƒ©ã‚¹å†…ã®HandleKeyPress()ã«ã€ã‚²ãƒ¼ãƒ ä¸­ã§ãªãã¦UIã®ã‚¹ã‚¿ãƒƒã‚¯ãŒç©ºã§ãªã„(=UIè¡¨ç¤ºä¸­)ãªã‚‰UIScreenã®HandleKeyPress()ã‚’å‘¼ã¶
 				if (mGameState == EGameplay)
 				{
 					HandleKeyPress(event.key.keysym.sym);
@@ -147,7 +147,7 @@ void Game::ProcessInput()
 	}
 
 
-	//“ü—Í‚µ‚½î•ñ‚ğƒQ[ƒ€‚©UI‚É“n‚·
+	//å…¥åŠ›ã—ãŸæƒ…å ±ã‚’ã‚²ãƒ¼ãƒ ã‹UIã«æ¸¡ã™
 	//const Uint8* state = SDL_GetKeyboardState(NULL);
 	//if (mGameState == EGameplay)
 	//{
@@ -176,7 +176,7 @@ void Game::ProcessInput()
 	}
 	else if (!mUIStack.empty())
 	{
-		//ÅŒã‚ÌUI‚É‚Ì‚İ“ü—Íˆ—‚ğ“K‰‚·‚é
+		//æœ€å¾Œã®UIã«ã®ã¿å…¥åŠ›å‡¦ç†ã‚’é©å¿œã™ã‚‹
 		mUIStack.back()->ProcessInput(state);
 	}
 }
@@ -187,7 +187,7 @@ void Game::HandleKeyPress(int key)
 	{
 	case SDLK_ESCAPE:
 		// Create pause menu
-		//ƒ|[ƒYƒƒjƒ…[‚ğŠJ‚­
+		//ãƒãƒ¼ã‚ºãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’é–‹ã
 		new PauseMenu(this);
 		break;
 	case '-':
@@ -243,7 +243,7 @@ void Game::UpdateGame()
 	}
 	mTicksCount = SDL_GetTicks();
 
-	//ƒQ[ƒ€ƒvƒŒƒC’†‚Ì‚İ‰æ–Ê‚ÌXV
+	//ã‚²ãƒ¼ãƒ ãƒ—ãƒ¬ã‚¤ä¸­ã®ã¿ç”»é¢ã®æ›´æ–°
 	if (mGameState == EGameplay)
 	{
 		// Update all actors
@@ -283,7 +283,7 @@ void Game::UpdateGame()
 	mAudioSystem->Update(deltaTime);
 
 	// Update UI screens
-	//ƒ[ƒ‹ƒh‚É‚ ‚é‚·‚×‚Ä‚ÌActor‚ªXV‚³‚ê‚½‚çUI‚ÌXV‚ğs‚¤
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ã«ã‚ã‚‹ã™ã¹ã¦ã®ActorãŒæ›´æ–°ã•ã‚ŒãŸã‚‰UIã®æ›´æ–°ã‚’è¡Œã†
 	for (auto ui : mUIStack)
 	{
 		if (ui->GetState() == UIScreen::EActive)
@@ -295,7 +295,7 @@ void Game::UpdateGame()
 	auto iter = mUIStack.begin();
 	while (iter != mUIStack.end())
 	{
-		//‘SUI‚É‘Î‚µA•Â‚¶‚Ä‚¢‚éó‘Ô‚ª‚ ‚é‚©ƒ`ƒFƒbƒN‚µA•Â‚¶‚Ä‚¢‚é‚È‚çíœ
+		//å…¨UIã«å¯¾ã—ã€é–‰ã˜ã¦ã„ã‚‹çŠ¶æ…‹ãŒã‚ã‚‹ã‹ãƒã‚§ãƒƒã‚¯ã—ã€é–‰ã˜ã¦ã„ã‚‹ãªã‚‰å‰Šé™¤
 		if ((*iter)->GetState() == UIScreen::EClosing)
 		{
 			delete* iter;
@@ -501,7 +501,7 @@ Font* Game::GetFont(const std::string& fileName)
 	auto iter = mFonts.find(fileName);
 	if (iter != mFonts.end())
 	{
-		//Œ©‚Â‚©‚Á‚½‚Æ‚«(•Ô‚µ‚½‚¢‚Ì‚Ívalue‚ÌFontƒ^ƒCƒv‚¾‚©‚ç)
+		//è¦‹ã¤ã‹ã£ãŸã¨ã(è¿”ã—ãŸã„ã®ã¯valueã®Fontã‚¿ã‚¤ãƒ—ã ã‹ã‚‰)
 		return iter->second;
 	}
 	else
@@ -509,12 +509,12 @@ Font* Game::GetFont(const std::string& fileName)
 		Font* font = new Font(this);
 		if (font->Load(fileName))
 		{
-			//ƒ[ƒh¬Œ÷
+			//ãƒ­ãƒ¼ãƒ‰æˆåŠŸ
 			mFonts.emplace(fileName, font);
 		}
 		else
 		{
-			//ƒ[ƒh¸”s
+			//ãƒ­ãƒ¼ãƒ‰å¤±æ•—
 			font->Unload();
 			delete font;
 			font = nullptr;
@@ -523,60 +523,60 @@ Font* Game::GetFont(const std::string& fileName)
 	}
 }
 
-//gpmeshƒtƒ@ƒCƒ‹‚ğ‰ğÍ‚µAmTextMap‚É“o˜^
+//gpmeshãƒ•ã‚¡ã‚¤ãƒ«ã‚’è§£æã—ã€mTextMapã«ç™»éŒ²
 void Game::LoadText(const std::string& fileName)
 {
 	// Clear the existing map, if already loaded
 	mText.clear();
 	// Try to open the file
-	//ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	std::ifstream file(fileName);
 	if (!file.is_open())
 	{
-		//ŠJ‚¯‚È‚©‚Á‚½‚çƒƒOo—Í‚µ‚ÄI—¹
+		//é–‹ã‘ãªã‹ã£ãŸã‚‰ãƒ­ã‚°å‡ºåŠ›ã—ã¦çµ‚äº†
 		SDL_Log("Text file %s not found", fileName.c_str());
 		return;
 	}
 	// Read the entire file to a string stream
-	//string stream‚ğ’è‹`
+	//string streamã‚’å®šç¾©
 	std::stringstream fileStream;
-	//string stream‚É•Û‘¶
+	//string streamã«ä¿å­˜
 	fileStream << file.rdbuf();
-	//ƒtƒ@ƒCƒ‹“à‚Ì•¶š‚ğ•Û‘¶
+	//ãƒ•ã‚¡ã‚¤ãƒ«å†…ã®æ–‡å­—ã‚’ä¿å­˜
 	std::string contents = fileStream.str();
 	// Open this file in rapidJSON
-	//rapidJSON“à‚É•¶š—ñ‚ğ•Û‘¶
+	//rapidJSONå†…ã«æ–‡å­—åˆ—ã‚’ä¿å­˜
 	rapidjson::StringStream jsonStr(contents.c_str());
-	//DOM tree‚ğ’è‹`(Ú×‚Í https://rapidjson.org/md_doc_tutorial.html )
+	//DOM treeã‚’å®šç¾©(è©³ç´°ã¯ https://rapidjson.org/md_doc_tutorial.html )
 	rapidjson::Document doc;
-	//rapidJSONŒ^‚Ìstring‚ğDOM TreeŒ^‚É•ÏŠ·‚µ‚Ä‚¢‚é‚Æv‚¤
+	//rapidJSONå‹ã®stringã‚’DOM Treeå‹ã«å¤‰æ›ã—ã¦ã„ã‚‹ã¨æ€ã†
 	doc.ParseStream(jsonStr);
 	if (!doc.IsObject())
 	{
-		//DOM Tree‚ÌŒ^‚É•ÏŠ·‚Å‚«‚È‚©‚Á‚½
+		//DOM Treeã®å‹ã«å¤‰æ›ã§ããªã‹ã£ãŸ
 		SDL_Log("Text file %s is not valid JSON", fileName.c_str());
 		return;
 	}
 	// Parse the text map
-	//e‚ÌƒL[‚Ì’†g‚ğó‚¯æ‚é
+	//è¦ªã®ã‚­ãƒ¼ã®ä¸­èº«ã‚’å—ã‘å–ã‚‹
 	const rapidjson::Value& actions = doc["TextMap"];
 	for (rapidjson::Value::ConstMemberIterator itr = actions.MemberBegin();
 		itr != actions.MemberEnd(); ++itr)
 	{
-		//TextMesh‚ğƒL[‚Æ‚·‚éValue‚Ì”z—ñ‚ğfor•¶‚Å‰ñ‚·
+		//TextMeshã‚’ã‚­ãƒ¼ã¨ã™ã‚‹Valueã®é…åˆ—ã‚’foræ–‡ã§å›ã™
 		if (itr->name.IsString() && itr->value.IsString())
 		{
-			//Key‚àValue‚à•¶š—ñ‚È‚ç•Û‘¶‚·‚é
+			//Keyã‚‚Valueã‚‚æ–‡å­—åˆ—ãªã‚‰ä¿å­˜ã™ã‚‹
 			mText.emplace(itr->name.GetString(),
 				itr->value.GetString());
 		}
 	}
 }
 
-//ƒL[‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½ƒeƒLƒXƒg‚ğ•Ô‚·
+//ã‚­ãƒ¼ã«å‰²ã‚Šå½“ã¦ã‚‰ã‚ŒãŸãƒ†ã‚­ã‚¹ãƒˆã‚’è¿”ã™
 const std::string& Game::GetText(const std::string& key)
 {
-	//English.gptext‚É‚È‚¢ƒL[‚ğ‘I‘ğ‚·‚é‚ÆƒGƒ‰[‚É‚È‚é
+	//English.gptextã«ãªã„ã‚­ãƒ¼ã‚’é¸æŠã™ã‚‹ã¨ã‚¨ãƒ©ãƒ¼ã«ãªã‚‹
 	static std::string errorMsg("**KEY NOT FOUND**");
 	// Find this text in the map, if it exists
 	auto iter = mText.find(key);

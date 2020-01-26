@@ -9,7 +9,7 @@
 #pragma once
 #include "Component.h"
 
-//ƒ^[ƒQƒbƒg”cˆ¬ƒRƒ“ƒ|[ƒlƒ“ƒg
+//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæŠŠæ¡ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 class TargetComponent : public Component
 {
 public:

@@ -27,16 +27,16 @@ PauseMenu::PauseMenu(Game* game)
 	//	});
 	//});
 	mGame->SetState(Game::EPaused);
-	//â‘Î’lƒ‚[ƒh‚É‚·‚é(ƒ{ƒ^ƒ“‚Ì“–‚½‚è”»’èŒŸ¸‚Ég—ps)
+	//çµ¶å¯¾å€¤ãƒ¢ãƒ¼ãƒ‰ã«ã™ã‚‹(ãƒœã‚¿ãƒ³ã®å½“ãŸã‚Šåˆ¤å®šæ¤œæŸ»ã«ä½¿ç”¨s)
 	SetRelativeMouseMode(false);
 	SetTitle("PauseTitle");
-	//ƒ{ƒ^ƒ“‚Ì’Ç‰Á
+	//ãƒœã‚¿ãƒ³ã®è¿½åŠ 
 	AddButton("ResumeButton", [this]() {
-		//UI•\¦‚ğ•Â‚¶‚é(UI‚Ì•\¦ƒXƒe[ƒg‚ğClose‚É‚·‚é)
+		//UIè¡¨ç¤ºã‚’é–‰ã˜ã‚‹(UIã®è¡¨ç¤ºã‚¹ãƒ†ãƒ¼ãƒˆã‚’Closeã«ã™ã‚‹)
 		Close();
 	});
 	AddButton("QuitButton", [this]() {
-		//ƒQ[ƒ€‚Ìó‘ÔƒXƒe[ƒg‚ğQuit‚É‚·‚é
+		//ã‚²ãƒ¼ãƒ ã®çŠ¶æ…‹ã‚¹ãƒ†ãƒ¼ãƒˆã‚’Quitã«ã™ã‚‹
 		/*mGame->SetState(Game::EQuit);*/
 		new DialogBox(mGame, "QuitText", [this]() {
 			mGame->SetState(Game::EQuit);
@@ -46,13 +46,13 @@ PauseMenu::PauseMenu(Game* game)
 
 PauseMenu::~PauseMenu()
 {
-	//‘Š‘Îƒ‚[ƒh‚É‚·‚é(‚±‚ê‚ÅAƒ}ƒEƒX‚É‚æ‚éƒJƒƒ‰‚Ì‰ñ“]‚ª‚Å‚«‚é‚æ‚¤‚É‚à‚Æ‚É–ß‚é)
+	//ç›¸å¯¾ãƒ¢ãƒ¼ãƒ‰ã«ã™ã‚‹(ã“ã‚Œã§ã€ãƒã‚¦ã‚¹ã«ã‚ˆã‚‹ã‚«ãƒ¡ãƒ©ã®å›è»¢ãŒã§ãã‚‹ã‚ˆã†ã«ã‚‚ã¨ã«æˆ»ã‚‹)
 	SetRelativeMouseMode(true);
 	//mGame->SetState(Game::EGameplay);
 	mGame->SetState(Game::EGameplay);
 }
 
-//ƒL[‚ª‰Ÿ‚³‚ê‚½‚çŒÄ‚Î‚ê‚éŠÖ”
+//ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã‚‰å‘¼ã°ã‚Œã‚‹é–¢æ•°
 void PauseMenu::HandleKeyPress(int key)
 {
 	UIScreen::HandleKeyPress(key);

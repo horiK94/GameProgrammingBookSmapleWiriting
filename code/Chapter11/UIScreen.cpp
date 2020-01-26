@@ -24,7 +24,7 @@ UIScreen::UIScreen(Game* game)
 {
 	// Add to UI Stack
 	mGame->PushUI(this);
-	//‰pŒê‚ÆƒƒVƒAŒê‚µ‚©‘Î‰‚µ‚Ä‚¢‚È‚¢Œ¾Œê‚¾‚Á‚½
+	//è‹±èªã¨ãƒ­ã‚·ã‚¢èªã—ã‹å¯¾å¿œã—ã¦ã„ãªã„è¨€èªã ã£ãŸ
 	mFont = mGame->GetFont("Assets/Carlito-Regular.ttf");
 	mButtonOn = mGame->GetRenderer()->GetTexture("Assets/ButtonYellow.png");
 	mButtonOff = mGame->GetRenderer()->GetTexture("Assets/ButtonBlue.png");
@@ -63,16 +63,16 @@ void UIScreen::Draw(Shader* shader)
 		DrawTexture(shader, mTitle, mTitlePos);
 	}
 	// Draw buttons
-	//ƒ{ƒ^ƒ“‚Ì•`‰æ
+	//ãƒœã‚¿ãƒ³ã®æç”»
 	for (auto b : mButtons)
 	{
 		// Draw background of button
-		//ƒ{ƒ^ƒ“‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚é‚©‚Å•\¦‚·‚é‰æ‘œ‚ğ•ÏX‚·‚é
+		//ãƒœã‚¿ãƒ³ãŒé¸æŠã•ã‚Œã¦ã„ã‚‹ã‹ã§è¡¨ç¤ºã™ã‚‹ç”»åƒã‚’å¤‰æ›´ã™ã‚‹
 		Texture* tex = b->GetHighlighted() ? mButtonOn : mButtonOff;
-		//ƒ{ƒ^ƒ“‚Ì”wŒi‚ğ•`‰æ
-		DrawTexture(shader, tex, b->GetPosition());		//ƒVƒF[ƒ_[ATextureAˆÊ’u‚ğ‚à‚Æ‚É•`‰æ
+		//ãƒœã‚¿ãƒ³ã®èƒŒæ™¯ã‚’æç”»
+		DrawTexture(shader, tex, b->GetPosition());		//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã€Textureã€ä½ç½®ã‚’ã‚‚ã¨ã«æç”»
 		// Draw text of button
-		//ƒ{ƒ^ƒ“‚ÌUI(–¼‘O)‚Ì•`‰æ
+		//ãƒœã‚¿ãƒ³ã®UI(åå‰)ã®æç”»
 		DrawTexture(shader, b->GetNameTex(), b->GetPosition());
 	}
 	// Override in subclasses to draw any textures
@@ -83,31 +83,31 @@ void UIScreen::ProcessInput(const uint8_t* keys)
 	// Do we have buttons?
 	if (!mButtons.empty())
 	{
-		//ƒ{ƒ^ƒ“‚ª—L‚éê‡
+		//ãƒœã‚¿ãƒ³ãŒæœ‰ã‚‹å ´åˆ
 		// Get position of mouse
 		int x, y;
-		//ƒ}ƒEƒX‚Ìâ‘Î’l‚ğæ“¾
+		//ãƒã‚¦ã‚¹ã®çµ¶å¯¾å€¤ã‚’å–å¾—
 		SDL_GetMouseState(&x, &y);
 		// Convert to (0,0) center coordinates
-		//‰æ–Ê‚Ì^‚ñ’†‚ğ(0, 0).¡‰ñ‚Å‚¢‚¤‚Æ‰E‰º‚ª(512, 384)‚ÌÀ•W‚É•ÏŠ·‚·‚é
+		//ç”»é¢ã®çœŸã‚“ä¸­ã‚’(0, 0).ä»Šå›ã§ã„ã†ã¨å³ä¸‹ãŒ(512, 384)ã®åº§æ¨™ã«å¤‰æ›ã™ã‚‹
 		Vector2 mousePos(static_cast<float>(x), static_cast<float>(y));
 		mousePos.x -= mGame->GetRenderer()->GetScreenWidth() * 0.5f;
 		mousePos.y = mGame->GetRenderer()->GetScreenHeight() * 0.5f - mousePos.y;
 		
 		// Highlight any buttons
-		//‘Sƒ{ƒ^ƒ“‚É‘Î‚µ‚Äƒ{ƒ^ƒ“‚Ì’†‚Éƒ}ƒEƒX‚ª‚ ‚é‚©’²‚×‚é
+		//å…¨ãƒœã‚¿ãƒ³ã«å¯¾ã—ã¦ãƒœã‚¿ãƒ³ã®ä¸­ã«ãƒã‚¦ã‚¹ãŒã‚ã‚‹ã‹èª¿ã¹ã‚‹
 		for (auto b : mButtons)
 		{
 			if (b->ContainsPoint(mousePos))
 			{
-				//ƒ}ƒEƒX‚ªƒ{ƒ^ƒ“ã‚É‚ ‚é‚Æ‚«
-				//Button‚Ìƒtƒ‰ƒO‚ğ—§‚Ä‚é
-				//ƒtƒ‰ƒO‚ğ‚à‚Æ‚Éƒ{ƒ^ƒ“‚Ì”wŒi‚Ì‰æ‘œ‚âA‰Ÿ‚³‚ê‚½‚Æ‚«‚ÉonClick()‚ğŒÄ‚ÔButton‚ğŒˆ‚ß‚é
+				//ãƒã‚¦ã‚¹ãŒãƒœã‚¿ãƒ³ä¸Šã«ã‚ã‚‹ã¨ã
+				//Buttonã®ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
+				//ãƒ•ãƒ©ã‚°ã‚’ã‚‚ã¨ã«ãƒœã‚¿ãƒ³ã®èƒŒæ™¯ã®ç”»åƒã‚„ã€æŠ¼ã•ã‚ŒãŸã¨ãã«onClick()ã‚’å‘¼ã¶Buttonã‚’æ±ºã‚ã‚‹
 				b->SetHighlighted(true);
 			}
 			else
 			{
-				//Button‚Ìƒtƒ‰ƒO‚ğÜ‚é
+				//Buttonã®ãƒ•ãƒ©ã‚°ã‚’æŠ˜ã‚‹
 				b->SetHighlighted(false);
 			}
 		}
@@ -125,8 +125,8 @@ void UIScreen::HandleKeyPress(int key)
 			{
 				if (b->GetHighlighted())
 				{
-					//ƒ}ƒEƒX‚ªƒ{ƒ^ƒ“ã‚É‚ ‚éA‚Æ‚¢‚¤ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚ÄA¶ƒNƒŠƒbƒN‚³‚ê‚½‚Æ‚¢‚¤ó‹µ
-					//OnClick()‚ğŒÄ‚Ô
+					//ãƒã‚¦ã‚¹ãŒãƒœã‚¿ãƒ³ä¸Šã«ã‚ã‚‹ã€ã¨ã„ã†ãƒ•ãƒ©ã‚°ãŒç«‹ã£ã¦ã„ã¦ã€å·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã¨ã„ã†çŠ¶æ³
+					//OnClick()ã‚’å‘¼ã¶
 					b->OnClick();
 					break;
 				}
@@ -154,23 +154,23 @@ void UIScreen::SetTitle(const std::string& text,
 		delete mTitle;
 		mTitle = nullptr;
 	}
-	//•¶š‚ÌƒeƒNƒXƒ`ƒƒ‚Ìì¬‹y‚Ñ‘ã“ü
+	//æ–‡å­—ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ä½œæˆåŠã³ä»£å…¥
 	mTitle = mFont->RenderText(text, color, pointSize);
 }
 
 void UIScreen::AddButton(const std::string& name, std::function<void()> onClick)
 {
-	//"ƒ{ƒ^ƒ“‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚é‚Æ‚«‚Ìƒ{ƒ^ƒ“‚Ì”wŒi‰æ‘œ"‚ÌƒTƒCƒY‚ğ‚à‚Æ‚ÉAƒ{ƒ^ƒ“‚ÌƒTƒCƒY‚ğİ’è
+	//"ãƒœã‚¿ãƒ³ãŒé¸æŠã•ã‚Œã¦ã„ã‚‹ã¨ãã®ãƒœã‚¿ãƒ³ã®èƒŒæ™¯ç”»åƒ"ã®ã‚µã‚¤ã‚ºã‚’ã‚‚ã¨ã«ã€ãƒœã‚¿ãƒ³ã®ã‚µã‚¤ã‚ºã‚’è¨­å®š
 	Vector2 dims(static_cast<float>(mButtonOn->GetWidth()), 
 		static_cast<float>(mButtonOn->GetHeight()));
-	//ˆÊ’u‚È‚Ç‚Ìî•ñ‚ğw’è
+	//ä½ç½®ãªã©ã®æƒ…å ±ã‚’æŒ‡å®š
 	Button* b = new Button(name, mFont, onClick, mNextButtonPos, dims);
-	//ƒ{ƒ^ƒ“ŒQ‚É’Ç‰Á
+	//ãƒœã‚¿ãƒ³ç¾¤ã«è¿½åŠ 
 	mButtons.emplace_back(b);
 
 	// Update position of next button
 	// Move down by height of button plus padding
-	//Ÿ‚Ìƒ{ƒ^ƒ“‚ÌˆÊ’u‚ğ‘ã“ü‚µ‚Ä‚¨‚­
+	//æ¬¡ã®ãƒœã‚¿ãƒ³ã®ä½ç½®ã‚’ä»£å…¥ã—ã¦ãŠã
 	mNextButtonPos.y -= mButtonOff->GetHeight() + 20.0f;
 }
 
@@ -194,21 +194,21 @@ void UIScreen::DrawTexture(class Shader* shader, class Texture* texture,
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
-//‘Š‘Îƒ}ƒEƒXƒ‚[ƒh‚ğg—p‚·‚é‚©İ’è‚·‚é
+//ç›¸å¯¾ãƒã‚¦ã‚¹ãƒ¢ãƒ¼ãƒ‰ã‚’ä½¿ç”¨ã™ã‚‹ã‹è¨­å®šã™ã‚‹
 void UIScreen::SetRelativeMouseMode(bool relative)
 {
 	if (relative)
 	{
 		SDL_SetRelativeMouseMode(SDL_TRUE);
 		// Make an initial call to get relative to clear out
-		//ƒ}ƒEƒX‚ÌÅŒã‚É‹L˜^‚³‚ê‚½À•W‚ªˆø”‚É‘ã“ü‚³‚ê‚é
-		//¡‰ñ‚Ínullptr‚ğw’è‚µ‚Ä‚¢‚éB‚Â‚Ü‚èA¡‚Ìƒ}ƒEƒX‚ÌˆÊ’u‚ğ‹L‰¯‚µ‚Ä‚¨‚«A
-		//Ÿ‚ÌƒtƒŒ[ƒ€‚©‚ç³‚µ‚¢‘Š‘Î’l‚ªg‚¦‚é‚æ‚¤‚É‚µ‚Ä‚¢‚é
+		//ãƒã‚¦ã‚¹ã®æœ€å¾Œã«è¨˜éŒ²ã•ã‚ŒãŸåº§æ¨™ãŒå¼•æ•°ã«ä»£å…¥ã•ã‚Œã‚‹
+		//ä»Šå›ã¯nullptrã‚’æŒ‡å®šã—ã¦ã„ã‚‹ã€‚ã¤ã¾ã‚Šã€ä»Šã®ãƒã‚¦ã‚¹ã®ä½ç½®ã‚’è¨˜æ†¶ã—ã¦ãŠãã€
+		//æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‹ã‚‰æ­£ã—ã„ç›¸å¯¾å€¤ãŒä½¿ãˆã‚‹ã‚ˆã†ã«ã—ã¦ã„ã‚‹
 		SDL_GetRelativeMouseState(nullptr, nullptr);
 	}
 	else
 	{
-		//â‘Î’l‚Åg—p‚·‚é
+		//çµ¶å¯¾å€¤ã§ä½¿ç”¨ã™ã‚‹
 		SDL_SetRelativeMouseMode(SDL_FALSE);
 	}
 }
@@ -245,7 +245,7 @@ void Button::SetName(const std::string& name)
 		delete mNameTex;
 		mNameTex = nullptr;
 	}
-	//•¶š‚ÌƒeƒNƒXƒ`ƒƒ‚Ìì¬‹y‚Ñ‘ã“ü(ƒ{ƒ^ƒ“”wŒi‚ÍUIScrren‚ÌƒTƒ|[ƒgŠÖ”‚ª‘Î‰)
+	//æ–‡å­—ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ä½œæˆåŠã³ä»£å…¥(ãƒœã‚¿ãƒ³èƒŒæ™¯ã¯UIScrrenã®ã‚µãƒãƒ¼ãƒˆé–¢æ•°ãŒå¯¾å¿œ)
 	mNameTex = mFont->RenderText(mName);
 }
 
@@ -261,7 +261,7 @@ bool Button::ContainsPoint(const Vector2& pt) const
 void Button::OnClick()
 {
 	// Call attached handler, if it exists
-	//ƒnƒ“ƒhƒ‰‚ª‚ ‚Á‚½‚çŒÄ‚Ô
+	//ãƒãƒ³ãƒ‰ãƒ©ãŒã‚ã£ãŸã‚‰å‘¼ã¶
 	if (mOnClick)
 	{
 		mOnClick();

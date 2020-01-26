@@ -12,7 +12,7 @@
 #include <SDL/SDL_ttf.h>
 #include "Math.h"
 
-//•¡”‚ÌƒtƒHƒ“ƒg‚ğŠÇ—‚·‚éƒNƒ‰ƒX‚Å‚Í‚È‚­A’Pˆê‚ÌƒtƒHƒ“ƒg‚ğŠÇ—
+//è¤‡æ•°ã®ãƒ•ã‚©ãƒ³ãƒˆã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ã§ã¯ãªãã€å˜ä¸€ã®ãƒ•ã‚©ãƒ³ãƒˆã‚’ç®¡ç†
 class Font
 {
 public:
@@ -20,13 +20,13 @@ public:
 	~Font();
 	
 	// Load/unload from a file
-	//ƒtƒ@ƒCƒ‹‚©‚çƒtƒHƒ“ƒg‚ğƒ[ƒh
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ•ã‚©ãƒ³ãƒˆã‚’ãƒ­ãƒ¼ãƒ‰
 	bool Load(const std::string& fileName);
-	//ƒf[ƒ^ŠJ•ú
+	//ãƒ‡ãƒ¼ã‚¿é–‹æ”¾
 	void Unload();
 	
 	// Given string and this font, draw to a texture
-	//•¶š—ñAFAƒ|ƒCƒ“ƒ^ƒTƒCƒY‚ğ“n‚·‚ÆƒeƒLƒXƒg‚ğŠÜ‚ŞƒeƒNƒXƒ`ƒƒ‚ªì¬‚³‚ê‚é
+	//æ–‡å­—åˆ—ã€è‰²ã€ãƒã‚¤ãƒ³ã‚¿ã‚µã‚¤ã‚ºã‚’æ¸¡ã™ã¨ãƒ†ã‚­ã‚¹ãƒˆã‚’å«ã‚€ãƒ†ã‚¯ã‚¹ãƒãƒ£ãŒä½œæˆã•ã‚Œã‚‹
 	class Texture* RenderText(const std::string& textKey,
 							  const Vector3& color = Color::White,
 							  int pointSize = 30);

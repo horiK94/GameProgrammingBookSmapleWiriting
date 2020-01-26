@@ -20,38 +20,38 @@ public:
 	void Update(float deltaTime) override;
 	void Draw(class Shader* shader) override;
 	
-	//TargetComponent‚Ì’Ç‰Á
+	//TargetComponentã®è¿½åŠ 
 	void AddTargetComponent(class TargetComponent* tc);
 	void RemoveTargetComponent(class TargetComponent* tc);
 protected:
-	//Õ“Ë‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN‚·‚éŠÖ”
+	//è¡çªã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹é–¢æ•°
 	void UpdateCrosshair(float deltaTime);
-	//ƒŒ[ƒU[‚Ì‹P“_‚ÌXV
+	//ãƒ¬ãƒ¼ã‚¶ãƒ¼ã®è¼ç‚¹ã®æ›´æ–°
 	void UpdateRadar(float deltaTime);
 	
 	class Texture* mHealthBar;
 	class Texture* mRadar;
-	//\šü‚ÌƒeƒNƒXƒ`ƒƒ
+	//åå­—ç·šã®ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	class Texture* mCrosshair;
-	//“G‚ğ‘¨‚¦‚½‚Æ‚«‚Ì\šü‚ÌƒeƒNƒXƒ`ƒƒ
+	//æ•µã‚’æ‰ãˆãŸã¨ãã®åå­—ç·šã®ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	class Texture* mCrosshairEnemy;
 	class Texture* mBlipTex;
 	class Texture* mRadarArrow;
 	
 	// All the target components in the game
-	// ƒ^[ƒQƒbƒg”cˆ¬ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìƒ|ƒCƒ“ƒ^”z—ñ
+	// ã‚¿ãƒ¼ã‚²ãƒƒãƒˆæŠŠæ¡ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ãƒã‚¤ãƒ³ã‚¿é…åˆ—
 	std::vector<class TargetComponent*> mTargetComps;
 	// 2D offsets of blips relative to radar
-	//ƒŒ[ƒ_[’†S‚©‚ç‹P“_‚Ö‚Ì2D‘Š‘ÎƒIƒtƒZƒbƒg
-	//ƒŒ[ƒ_[‚ÌXV‚Í‚±‚±‚Ì’l‚ğXV‚·‚é
-	//”wŒi•`‰æŒãA‚±‚Ì’l‚ğ‚à‚Æ‚É‹P“_‚ğ•`‰æ‚·‚ê‚Î—Ç‚¢
+	//ãƒ¬ãƒ¼ãƒ€ãƒ¼ä¸­å¿ƒã‹ã‚‰è¼ç‚¹ã¸ã®2Dç›¸å¯¾ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+	//ãƒ¬ãƒ¼ãƒ€ãƒ¼ã®æ›´æ–°æ™‚ã¯ã“ã“ã®å€¤ã‚’æ›´æ–°ã™ã‚‹
+	//èƒŒæ™¯æç”»å¾Œã€ã“ã®å€¤ã‚’ã‚‚ã¨ã«è¼ç‚¹ã‚’æç”»ã™ã‚Œã°è‰¯ã„
 	std::vector<Vector2> mBlips;
 	// Adjust range of radar and radius
-	//ƒŒ[ƒ_[‚Ì•\¦—LŒø”ÍˆÍ(‚±‚Ì”ÍˆÍƒMƒŠƒMƒŠ‚Ì‚Æ‚«‚ÍAƒŒ[ƒ_[‚Ì‹P“_‚ªÁ‚¦‚éƒMƒŠƒMƒŠ‚Ì‰“‚³‚É‚ ‚é‚Æ‚¢‚¤‚±‚Æ)(ã‚©‚çŒ©‚½ƒ[ƒ‹ƒhÀ•W‚ÌƒTƒCƒY)
+	//ãƒ¬ãƒ¼ãƒ€ãƒ¼ã®è¡¨ç¤ºæœ‰åŠ¹ç¯„å›²(ã“ã®ç¯„å›²ã‚®ãƒªã‚®ãƒªã®ã¨ãã¯ã€ãƒ¬ãƒ¼ãƒ€ãƒ¼ã®è¼ç‚¹ãŒæ¶ˆãˆã‚‹ã‚®ãƒªã‚®ãƒªã®é ã•ã«ã‚ã‚‹ã¨ã„ã†ã“ã¨)(ä¸Šã‹ã‚‰è¦‹ãŸãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã®ã‚µã‚¤ã‚º)
 	float mRadarRange;
-	//ƒŒ[ƒ_[‚Ì‹P“_‚Ì•\¦ã‚Å‚Ì—LŒø”¼Œa(‰æ‘œƒTƒCƒY‚É‡‚í‚¹‚é•K—v‚ª‚ ‚é)(ƒXƒNƒŠ[ƒ“2D‚ÌƒTƒCƒY)
+	//ãƒ¬ãƒ¼ãƒ€ãƒ¼ã®è¼ç‚¹ã®è¡¨ç¤ºä¸Šã§ã®æœ‰åŠ¹åŠå¾„(ç”»åƒã‚µã‚¤ã‚ºã«åˆã‚ã›ã‚‹å¿…è¦ãŒã‚ã‚‹)(ã‚¹ã‚¯ãƒªãƒ¼ãƒ³2Dã®ã‚µã‚¤ã‚º)
 	float mRadarRadius;
 	// Whether the crosshair targets an enemy
-	//\šü‚ª“G‚ğ‘¨‚¦‚Ä‚¢‚é‚©
+	//åå­—ç·šãŒæ•µã‚’æ‰ãˆã¦ã„ã‚‹ã‹
 	bool mTargetEnemy;
 };

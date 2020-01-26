@@ -16,16 +16,16 @@
 class Button
 {
 public:
-	//ƒNƒŠƒbƒN‚ÌƒR[ƒ‹ƒoƒbƒN‚ÍƒRƒ“ƒXƒgƒ‰ƒNƒ^[‚Åİ’è
-	//İ’è“à—e‚Í–¼Ì, ƒtƒHƒ“ƒgAƒR[ƒ‹ƒoƒbƒNŠÖ”AˆÊ’u‚Æ¡–@
-	//‚±‚Á‚¿‚Å‚àSetName()‚ÍŒÄ‚Î‚ê‚é
+	//ã‚¯ãƒªãƒƒã‚¯æ™‚ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã¯ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ¼ã§è¨­å®š
+	//è¨­å®šå†…å®¹ã¯åç§°, ãƒ•ã‚©ãƒ³ãƒˆã€ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã€ä½ç½®ã¨å¯¸æ³•
+	//ã“ã£ã¡ã§ã‚‚SetName()ã¯å‘¼ã°ã‚Œã‚‹
 	Button(const std::string& name, class Font* font,
 		std::function<void()> onClick,
 		const Vector2& pos, const Vector2& dims);
 	~Button();
 
 	// Set the name of the button
-	//•\¦ƒeƒLƒXƒg‚Ìİ’è‚ÆAƒeƒNƒXƒ`ƒƒ‚Ì¶¬
+	//è¡¨ç¤ºãƒ†ã‚­ã‚¹ãƒˆã®è¨­å®šã¨ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç”Ÿæˆ
 	void SetName(const std::string& name);
 
 	// Getters/setters
@@ -35,13 +35,13 @@ public:
 	bool GetHighlighted() const { return mHighlighted; }
 
 	// Returns true if the point is within the button's bounds
-	//ˆø”‚ÌÀ•W‚ª‚±‚Ìƒ{ƒ^ƒ“‚Ì”ÍˆÍ“à‚È‚çtrue‚ğ•Ô‚·0
+	//å¼•æ•°ã®åº§æ¨™ãŒã“ã®ãƒœã‚¿ãƒ³ã®ç¯„å›²å†…ãªã‚‰trueã‚’è¿”ã™0
 	bool ContainsPoint(const Vector2& pt) const;
 	// Called when button is clicked
-	//ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚é
+	//ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã¨ãã«å‘¼ã°ã‚Œã‚‹
 	void OnClick();
 private:
-	//ƒ{ƒ^ƒ“ƒNƒŠƒbƒN‚ÌƒR[ƒ‹ƒoƒbƒN
+	//ãƒœã‚¿ãƒ³ã‚¯ãƒªãƒƒã‚¯æ™‚ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
 	std::function<void()> mOnClick;
 	std::string mName;
 	class Texture* mNameTex;
@@ -57,36 +57,36 @@ public:
 	UIScreen(class Game* game);
 	virtual ~UIScreen();
 	// UIScreen subclasses can override these
-	//‰æ–Êó‘ÔXV
+	//ç”»é¢çŠ¶æ…‹æ›´æ–°
 	virtual void Update(float deltaTime);
-	//‰æ–Ê•`‰æ
+	//ç”»é¢æç”»
 	virtual void Draw(class Shader* shader);
 	virtual void ProcessInput(const uint8_t* keys);
 	virtual void HandleKeyPress(int key);
 	// Tracks if the UI is active or closing
-	//ó‘Ô‚ªƒAƒNƒeƒBƒu‚©ƒNƒ[ƒWƒ“ƒO‚©‚ğŠÇ—
+	//çŠ¶æ…‹ãŒã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã‹ã‚¯ãƒ­ãƒ¼ã‚¸ãƒ³ã‚°ã‹ã‚’ç®¡ç†
 	enum UIState
 	{
 		EActive,
 		EClosing
 	};
-	//ó‘Ô‚ğƒNƒ[ƒWƒ“ƒO‚É
+	//çŠ¶æ…‹ã‚’ã‚¯ãƒ­ãƒ¼ã‚¸ãƒ³ã‚°ã«
 	// Set state to closing
 	void Close();
-	//ó‘Ô‚Ìæ“¾
+	//çŠ¶æ…‹ã®å–å¾—
 	// Get state of UI screen
 	UIState GetState() const { return mState; }
 	// Change the title text
-	//ƒ^ƒCƒgƒ‹‚Ì•¶š—ñ‚Ì•ÏX
+	//ã‚¿ã‚¤ãƒˆãƒ«ã®æ–‡å­—åˆ—ã®å¤‰æ›´
 	void SetTitle(const std::string& text,
 		const Vector3& color = Color::White,
 		int pointSize = 40);
 	// Add a button to this screen
-	//ƒ{ƒ^ƒ“‚ğ‰æ–Ê‚É’Ç‰Á(’Ç‰Á‚µ‚½ƒ{ƒ^ƒ“‚ğ®—ñ‚³‚¹‚Ä‚­‚ê‚é•Ö—˜ŠÖ”)
+	//ãƒœã‚¿ãƒ³ã‚’ç”»é¢ã«è¿½åŠ (è¿½åŠ ã—ãŸãƒœã‚¿ãƒ³ã‚’æ•´åˆ—ã•ã›ã¦ãã‚Œã‚‹ä¾¿åˆ©é–¢æ•°)
 	void AddButton(const std::string& name, std::function<void()> onClick);
 protected:
 	// Helper to draw a texture
-	//ƒeƒNƒXƒ`ƒƒ‚ğ•\¦‚·‚éƒwƒ‹ƒp[ŠÖ”(Actor‚Å‚Í‚È‚¢‚©‚çTextureComponent‚ğŒÄ‚×‚È‚¢‚½‚ß)
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¡¨ç¤ºã™ã‚‹ãƒ˜ãƒ«ãƒ‘ãƒ¼é–¢æ•°(Actorã§ã¯ãªã„ã‹ã‚‰TextureComponentã‚’å‘¼ã¹ãªã„ãŸã‚)
 	void DrawTexture(class Shader* shader, class Texture* texture,
 		const Vector2& offset = Vector2::Zero,
 		float scale = 1.0f);
@@ -97,20 +97,20 @@ protected:
 	class Font* mFont;
 	class Texture* mTitle;
 	class Texture* mBackground;
-	//ƒ{ƒ^ƒ“‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚é‚Æ‚«‚Ì‰æ‘œ
+	//ãƒœã‚¿ãƒ³ãŒé¸æŠã•ã‚Œã¦ã„ã‚‹ã¨ãã®ç”»åƒ
 	class Texture* mButtonOn;
-	//ƒ{ƒ^ƒ“‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚Ì‰æ‘œ
+	//ãƒœã‚¿ãƒ³ãŒé¸æŠã•ã‚Œã¦ã„ãªã„ã¨ãã®ç”»åƒ
 	class Texture* mButtonOff;
 
 	// Configure positions
 	Vector2 mTitlePos;
-	//Ÿ‚Ìƒ{ƒ^ƒ“‚ÌˆÊ’u
+	//æ¬¡ã®ãƒœã‚¿ãƒ³ã®ä½ç½®
 	Vector2 mNextButtonPos;
 	Vector2 mBGPos;
 
 	// State
 	UIState mState;
 	// List of buttons
-	//Buttonƒ|ƒCƒ“ƒ^ŒQ
+	//Buttonãƒã‚¤ãƒ³ã‚¿ç¾¤
 	std::vector<Button*> mButtons;
 };

@@ -119,7 +119,7 @@ void Renderer::UnloadData()
 
 void Renderer::Draw()
 {
-	//ƒƒbƒVƒ…ƒVƒF[ƒ_[‚Å‚·‚×‚Ä3DƒƒbƒVƒ…ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•`‰æ
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã§ã™ã¹ã¦3Dãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æç”»
 	// Set the clear color to light grey
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// Clear the color buffer
@@ -143,7 +143,7 @@ void Renderer::Draw()
 		}
 	}
 
-	//ƒXƒvƒ‰ƒCƒgƒVƒF[ƒ_[‚Å‚·‚×‚Ä‚ÌƒXƒvƒ‰ƒCƒg‚Ì•`‰æ
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã§ã™ã¹ã¦ã®ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æç”»
 	// Draw all sprite components
 	// Disable depth buffering
 	glDisable(GL_DEPTH_TEST);
@@ -164,10 +164,10 @@ void Renderer::Draw()
 	}
 	
 	// Draw any UI screens
-	//UI‚Í‚¢‚­‚Â‚©‚ÌƒeƒNƒXƒ`ƒƒ‚Å\¬‚³‚ê‚é‚Ì‚ÅÅŒã‚É•`‰æ‚·‚é
+	//UIã¯ã„ãã¤ã‹ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã§æ§‹æˆã•ã‚Œã‚‹ã®ã§æœ€å¾Œã«æç”»ã™ã‚‹
 	for (auto ui : mGame->GetUIStack())
 	{
-		//‰œ‚ÌUIScreen‚©‚ç‡‚É
+		//å¥¥ã®UIScreenã‹ã‚‰é †ã«
 		ui->Draw(mSpriteShader);
 	}
 
@@ -341,7 +341,7 @@ void Renderer::GetScreenDirection(Vector3& outStart, Vector3& outDir) const
 {
 	// Get start point (in center of screen on near plane)
 	Vector3 screenPoint(0.0f, 0.0f, 0.0f);
-	//‰æ–Ê‚Ì’†S“_‚ÉŒü‚¯‚ÄƒJƒƒ‰‚©‚çRay‚ğ”ò‚Î‚µ‚½‚Æ‚«‚Ì‹ßÚ•½–Ê‚©‚ç‰“•û•½–Ê‚Å‚Ìƒ[ƒ‹ƒhÀ•W‚Å‚Ì•ûŒüƒxƒNƒgƒ‹‚ğæ“¾‚·‚é
+	//ç”»é¢ã®ä¸­å¿ƒç‚¹ã«å‘ã‘ã¦ã‚«ãƒ¡ãƒ©ã‹ã‚‰Rayã‚’é£›ã°ã—ãŸã¨ãã®è¿‘æ¥å¹³é¢ã‹ã‚‰é æ–¹å¹³é¢ã§ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã§ã®æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã™ã‚‹
 	outStart = Unproject(screenPoint);
 	// Get end point (in center of screen, between near and far)
 	screenPoint.z = 0.9f;

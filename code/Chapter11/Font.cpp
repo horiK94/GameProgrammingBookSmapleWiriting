@@ -25,7 +25,7 @@ Font::~Font()
 bool Font::Load(const std::string& fileName)
 {
 	// We support these font sizes
-	//ƒTƒ|[ƒg‚·‚éƒtƒHƒ“ƒgƒTƒCƒY
+	//ã‚µãƒãƒ¼ãƒˆã™ã‚‹ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚º
 	std::vector<int> fontSizes = {
 		8, 9,
 		10, 11, 12, 14, 16, 18,
@@ -50,7 +50,7 @@ bool Font::Load(const std::string& fileName)
 	//return true;
 	for (auto& size : fontSizes)
 	{
-		//TTF_OpenFont‚Í.ttfƒtƒ@ƒCƒ‹‚ğƒ[ƒh‚µAw’è‚µ‚½ƒ|ƒCƒ“ƒgƒTƒCƒY‚ÌTTF_Fontƒf[ƒ^‚µ‚©•Ô‚³‚È‚¢‚½‚ßAƒTƒCƒY‚²‚Æ‚É‰½“x‚àŒÄ‚Ño‚·•K—v‚ª‚ ‚é
+		//TTF_OpenFontã¯.ttfãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã€æŒ‡å®šã—ãŸãƒã‚¤ãƒ³ãƒˆã‚µã‚¤ã‚ºã®TTF_Fontãƒ‡ãƒ¼ã‚¿ã—ã‹è¿”ã•ãªã„ãŸã‚ã€ã‚µã‚¤ã‚ºã”ã¨ã«ä½•åº¦ã‚‚å‘¼ã³å‡ºã™å¿…è¦ãŒã‚ã‚‹
 		TTF_Font* font = TTF_OpenFont(fileName.c_str(), size);
 		if (font == nullptr)
 		{
@@ -70,17 +70,17 @@ void Font::Unload()
 	}
 }
 
-//ƒeƒNƒXƒ`ƒƒì¬‚ÍƒRƒXƒg‚ª‚‚¢‚Ì‚ÅA•¶š‚ª•Ï‚í‚Á‚½‚çŒÄ‚Ô
+//ãƒ†ã‚¯ã‚¹ãƒãƒ£ä½œæˆã¯ã‚³ã‚¹ãƒˆãŒé«˜ã„ã®ã§ã€æ–‡å­—ãŒå¤‰ã‚ã£ãŸã‚‰å‘¼ã¶
 Texture* Font::RenderText(const std::string& textKey,
 						  const Vector3& color /*= Color::White*/,
 						  int pointSize /*= 24*/)
 {
-	////•\¦‚·‚éƒeƒNƒXƒ`ƒƒ
+	////è¡¨ç¤ºã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	//Texture* texture = nullptr;
 	//
 	//// Convert to SDL_Color
 	//SDL_Color sdlColor;
-	//sdlColor.r = static_cast<Uint8>(color.x * 255);		// 0 ` 1‚ğ 0 `255‚Ü‚Å‚ÌSDL_Color‚É•ÏŠ·
+	//sdlColor.r = static_cast<Uint8>(color.x * 255);		// 0 ã€œ 1ã‚’ 0 ã€œ255ã¾ã§ã®SDL_Colorã«å¤‰æ›
 	//sdlColor.g = static_cast<Uint8>(color.y * 255);
 	//sdlColor.b = static_cast<Uint8>(color.z * 255);
 	//sdlColor.a = 255;
@@ -108,11 +108,11 @@ Texture* Font::RenderText(const std::string& textKey,
 	//
 	//return texture;
 
-	//•\¦‚·‚éƒeƒNƒXƒ`ƒƒ
+	//è¡¨ç¤ºã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	Texture* texture = nullptr;
 
 	SDL_Color sdlColor;
-	sdlColor.r = static_cast<Uint8>(color.x * 255);		//0 ` 1‚ğ 0 `255‚Ü‚Å‚ÌSDL_Color‚É•ÏŠ·, Uint8 -> unsignedchar => 0-255
+	sdlColor.r = static_cast<Uint8>(color.x * 255);		//0 ã€œ 1ã‚’ 0 ã€œ255ã¾ã§ã®SDL_Colorã«å¤‰æ›, Uint8 -> unsignedchar => 0-255
 	sdlColor.g = static_cast<Uint8>(color.y * 255);
 	sdlColor.b = static_cast<Uint8>(color.z * 255);
 	sdlColor.a = 255;
@@ -120,24 +120,24 @@ Texture* Font::RenderText(const std::string& textKey,
 	auto iter = mFontData.find(pointSize);
 	if (iter != mFontData.end())
 	{
-		//ƒtƒHƒ“ƒgƒf[ƒ^‚ª‘¶İ‚·‚é
+		//ãƒ•ã‚©ãƒ³ãƒˆãƒ‡ãƒ¼ã‚¿ãŒå­˜åœ¨ã™ã‚‹
 		TTF_Font* font = iter->second;
-		//ƒ[ƒhÏ‚İ‚Ìtext‚©’²‚×‚é
+		//ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã®textã‹èª¿ã¹ã‚‹
 		//const std::string& actualText = textKey;
-		//JSON‚Åİ’è‚µ‚½ƒeƒLƒXƒgƒL[‚É‘Î‰‚·‚éƒeƒLƒXƒgƒ}ƒbƒv‚Ì’l‚ğó‚¯æ‚é
+		//JSONã§è¨­å®šã—ãŸãƒ†ã‚­ã‚¹ãƒˆã‚­ãƒ¼ã«å¯¾å¿œã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆãƒãƒƒãƒ—ã®å€¤ã‚’å—ã‘å–ã‚‹
 		const std::string& actualText = mGame->GetText(textKey);
-		//TTF_Font*‚Æ•¶š—ñAF‚ğ“n‚·‚±‚Æ‚Å•`‰æ‚ğs‚¤
-		//ƒOƒŠƒt‚Ì—ÖŠs‚Éİ’è‚³‚ê‚Ä‚¢‚é•s“§–¾“x‚É‰‚¶‚ÄƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒfƒBƒ“ƒO‚ğs‚¤•`‰æ
-		//ˆÈ‰º‚ÌŠÖ”‚¾‚ÆASC‡U•¶š—ñ‚ğó‚¯æ‚é‚Ì‚ÅA“ú–{Œê‚ª•\¦‚Å‚«‚È‚¢
+		//TTF_Font*ã¨æ–‡å­—åˆ—ã€è‰²ã‚’æ¸¡ã™ã“ã¨ã§æç”»ã‚’è¡Œã†
+		//ã‚°ãƒªãƒ•ã®è¼ªéƒ­ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹ä¸é€æ˜åº¦ã«å¿œã˜ã¦ã‚¢ãƒ«ãƒ•ã‚¡ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã‚’è¡Œã†æç”»
+		//ä»¥ä¸‹ã®é–¢æ•°ã ã¨ASCâ…¡æ–‡å­—åˆ—ã‚’å—ã‘å–ã‚‹ã®ã§ã€æ—¥æœ¬èªãŒè¡¨ç¤ºã§ããªã„
 		//SDL_Surface* surface = TTF_RenderText_Blended(font, actualText.c_str(), sdlColor);
-		//UTF-8‚ÅƒGƒ“ƒR[ƒh‚µ‚½•¶š—ñ‚ğ•`‰æ‚µ‚½‚à‚Ì‚ğæ“¾‚Å‚«‚é
+		//UTF-8ã§ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰ã—ãŸæ–‡å­—åˆ—ã‚’æç”»ã—ãŸã‚‚ã®ã‚’å–å¾—ã§ãã‚‹
 		SDL_Surface* surface = TTF_RenderUTF8_Blended(font, actualText.c_str(), sdlColor);
-		//OpenGL‚ªSDL_Surface‚ğ•`‰æ‚Å‚«‚È‚¢‚½‚ßATexture‚É•ÏŠ·‚·‚é
+		//OpenGLãŒSDL_Surfaceã‚’æç”»ã§ããªã„ãŸã‚ã€Textureã«å¤‰æ›ã™ã‚‹
 		if (surface != nullptr)
 		{
 			texture = new Texture();
 			texture->CreateFromSurface(surface);
-			SDL_FreeSurface(surface);		//surface‚Ì‰ğ•ú	
+			SDL_FreeSurface(surface);		//surfaceã®è§£æ”¾	
 		}
 		else
 		{
