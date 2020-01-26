@@ -55,11 +55,11 @@ bool Game::Initialize()
 	//	mAudioSystem = nullptr;
 	//	return false;
 	//}
-	mAudioSystem = new AudioSystem(this);		//AudioSystemコンポーネント追加
+	mAudioSystem = new AudioSystem(this);		//AudioSystem繧ｳ繝ｳ繝昴�ｼ繝阪Φ繝郁ｿｽ蜉
 	if (!mAudioSystem->Initialize())
 	{
 		SDL_Log("Failed to initialize audio system");
-		mAudioSystem->Shutdown();		//失敗したらシャットダウン
+		mAudioSystem->Shutdown();		//螟ｱ謨励＠縺溘ｉ繧ｷ繝｣繝�繝医ム繧ｦ繝ｳ
 		delete mAudioSystem;
 		mAudioSystem = nullptr;
 		return false;
@@ -216,7 +216,7 @@ void Game::UpdateGame()
 
 	// Update audio system
 	//mAudioSystem->Update(deltaTime);
-	// Audioの更新
+	// Audio縺ｮ譖ｴ譁ｰ
 	mAudioSystem->Update(deltaTime);
 }
 

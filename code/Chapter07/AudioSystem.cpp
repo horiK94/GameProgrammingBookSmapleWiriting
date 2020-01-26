@@ -28,54 +28,54 @@ AudioSystem::~AudioSystem()
 bool AudioSystem::Initialize()
 {
 	// Initialize debug logging
-	//ƒGƒ‰[ƒƒOİ’è
+	//ã‚¨ãƒ©ãƒ¼ãƒ­ã‚°è¨­å®š
 	//FMOD::Debug_Initialize(
 	//	FMOD_DEBUG_LEVEL_ERROR, // Log only errors
 	//	FMOD_DEBUG_MODE_TTY // Output to stdout
 	//);
 	FMOD::Debug_Initialize(
-		//ƒGƒ‰[‚¾‚¯ƒƒO‚ğ‚Æ‚é
+		//ã‚¨ãƒ©ãƒ¼ã ã‘ãƒ­ã‚°ã‚’ã¨ã‚‹
 		FMOD_DEBUG_LEVEL_ERROR,
-		//stdout‚Éo—Í
+		//stdoutã«å‡ºåŠ›
 		FMOD_DEBUG_MODE_TTY
 	);
 
 	// Create FMOD studio system object
-	//FMOD studioƒVƒXƒeƒ€‚ÌƒCƒ“ƒXƒ^ƒ“ƒXì¬
-	//FMOD_RESULT result;		//ƒCƒ“ƒXƒ^ƒ“ƒXì¬Œ‹‰Ê‚ğ•Û‘¶‚·‚é•Ï”
-	//result = FMOD::Studio::System::create(&mSystem);		//Fmod studioƒVƒXƒeƒ€ì¬
+	//FMOD studioã‚·ã‚¹ãƒ†ãƒ ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆ
+	//FMOD_RESULT result;		//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆçµæœã‚’ä¿å­˜ã™ã‚‹å¤‰æ•°
+	//result = FMOD::Studio::System::create(&mSystem);		//Fmod studioã‚·ã‚¹ãƒ†ãƒ ä½œæˆ
 	//if (result != FMOD_OK)
 	//{
-	//	//Œ‹‰Ê‚ªOK‚Å‚È‚©‚Á‚½‚çAƒGƒ‰[‚ğ“f‚­
-	//	SDL_Log("Failed to create FMOD system: %s", FMOD_ErrorString(result));		//FMOD_ErrorString(): ƒGƒ‰[ƒR[ƒh‚ğ“Ç‚ß‚éŒ`‚Å•Ô‚·
+	//	//çµæœãŒOKã§ãªã‹ã£ãŸã‚‰ã€ã‚¨ãƒ©ãƒ¼ã‚’åã
+	//	SDL_Log("Failed to create FMOD system: %s", FMOD_ErrorString(result));		//FMOD_ErrorString(): ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’èª­ã‚ã‚‹å½¢ã§è¿”ã™
 	//	return false;
 	//}
-	//FMOD StudioƒVƒXƒeƒ€‚Ì‰Šú‰»
+	//FMOD Studioã‚·ã‚¹ãƒ†ãƒ ã®åˆæœŸåŒ–
 	FMOD_RESULT result;
-	//ƒVƒXƒeƒ€‚Ìì¬(mSystem‚Éì¬‚µ‚½‚à‚Ì‚Ìƒ|ƒCƒ“ƒ^‚ª“ü‚é)
+	//ã‚·ã‚¹ãƒ†ãƒ ã®ä½œæˆ(mSystemã«ä½œæˆã—ãŸã‚‚ã®ã®ãƒã‚¤ãƒ³ã‚¿ãŒå…¥ã‚‹)
 	result = FMOD::Studio::System::create(&mSystem);
 	if (result != FMOD_OK)
 	{
-		SDL_Log("FMODƒVƒXƒeƒ€‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½: %s", FMOD_ErrorString(result));		//ƒGƒ‰[ƒR[ƒh‚ğlŠÔ‚ª“Ç‚ß‚éŒ`®‚É‚·‚é‚æ‚¤
+		SDL_Log("FMODã‚·ã‚¹ãƒ†ãƒ ã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ: %s", FMOD_ErrorString(result));		//ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’äººé–“ãŒèª­ã‚ã‚‹å½¢å¼ã«ã™ã‚‹ã‚ˆã†
 
 		return false;
 	}
 
-	//ƒVƒXƒeƒ€‚ğì‚Á‚½‚ç‰Šú‰»‚·‚é
+	//ã‚·ã‚¹ãƒ†ãƒ ã‚’ä½œã£ãŸã‚‰åˆæœŸåŒ–ã™ã‚‹
 	result = mSystem->initialize(
-		512,		//ƒ`ƒƒƒlƒ‹Å‘å”
-		FMOD_STUDIO_INIT_NORMAL,		//FMOD Studio API‚Ì‚Ó‚é‚Ü‚¢(¡‰ñ‚ÍƒfƒtƒHƒ‹ƒg’l)
-		FMOD_INIT_NORMAL,		//FMOD Low Level API‚Ì‚Ó‚é‚Ü‚¢(¡‰ñ‚ÍƒfƒtƒHƒ‹ƒg’l)
-		nullptr		//’Ç‰Á‚Ìƒhƒ‰ƒCƒo[‚ğg—p‚·‚é‚Æ‚«‚Éİ’è‚·‚é(g‚í‚È‚¢ê‡‚Ínullptr)
+		512,		//ãƒãƒ£ãƒãƒ«æœ€å¤§æ•°
+		FMOD_STUDIO_INIT_NORMAL,		//FMOD Studio APIã®ãµã‚‹ã¾ã„(ä»Šå›ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤)
+		FMOD_INIT_NORMAL,		//FMOD Low Level APIã®ãµã‚‹ã¾ã„(ä»Šå›ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤)
+		nullptr		//è¿½åŠ ã®ãƒ‰ãƒ©ã‚¤ãƒãƒ¼ã‚’ä½¿ç”¨ã™ã‚‹ã¨ãã«è¨­å®šã™ã‚‹(ä½¿ã‚ãªã„å ´åˆã¯nullptr)
 	);
 	if (result != FMOD_OK)
 	{
-		SDL_Log("FMODƒVƒXƒeƒ€‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½: %s", FMOD_ErrorString(result));		//ƒGƒ‰[ƒR[ƒh‚ğlŠÔ‚ª“Ç‚ß‚éŒ`®‚É‚·‚é‚æ‚¤
+		SDL_Log("FMODã‚·ã‚¹ãƒ†ãƒ ã®åˆæœŸåŒ–ã«å¤±æ•—ã—ã¾ã—ãŸ: %s", FMOD_ErrorString(result));		//ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’äººé–“ãŒèª­ã‚ã‚‹å½¢å¼ã«ã™ã‚‹ã‚ˆã†
 
 		return false;
 	}
 
-	//Low LevelƒVƒXƒeƒ€ƒ|ƒCƒ“ƒ^‚Ìæ“¾
+	//Low Levelã‚·ã‚¹ãƒ†ãƒ ãƒã‚¤ãƒ³ã‚¿ã®å–å¾—
 	mSystem->getLowLevelSystem(&mLowLevelSystem);
 	mLowLevelSystem->set3DSettings(
 		10.0f,
@@ -84,15 +84,15 @@ bool AudioSystem::Initialize()
 	);
 
 	//// Initialize FMOD studio system
-	////FMOD studioƒVƒXƒeƒ€‚Ì‰Šú‰»
+	////FMOD studioã‚·ã‚¹ãƒ†ãƒ ã®åˆæœŸåŒ–
 	//result = mSystem->initialize(
-	//	//Å‘å“¯”­º”(ƒTƒEƒ“ƒhƒ`ƒƒƒlƒ‹”‚ÌÅ‘å)
+	//	//æœ€å¤§åŒæ™‚ç™ºå£°æ•°(ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒ£ãƒãƒ«æ•°ã®æœ€å¤§)
 	//	512, // Max number of concurrent sounds
-	//	//FMOD studio‚Ì‚Ó‚é‚Ü‚¢İ’è(ƒfƒtƒHƒ‹ƒgİ’è)
+	//	//FMOD studioã®ãµã‚‹ã¾ã„è¨­å®š(ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè¨­å®š)
 	//	FMOD_STUDIO_INIT_NORMAL, // Use default settings
-	//	//FMOD Lowlevel API‚Ì‚Ó‚é‚Ü‚¢İ’è(ƒfƒtƒHƒ‹ƒgİ’è)
+	//	//FMOD Lowlevel APIã®ãµã‚‹ã¾ã„è¨­å®š(ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè¨­å®š)
 	//	FMOD_INIT_NORMAL, // Use default settings
-	//	//’Ç‰Á‚Ìƒhƒ‰ƒCƒuƒf[ƒ^‚ğg‚¤‚Æ‚«‚Ég—p
+	//	//è¿½åŠ ã®ãƒ‰ãƒ©ã‚¤ãƒ–ãƒ‡ãƒ¼ã‚¿ã‚’ä½¿ã†ã¨ãã«ä½¿ç”¨
 	//	nullptr // Usually null
 	//);
 	//if (result != FMOD_OK)
@@ -102,16 +102,16 @@ bool AudioSystem::Initialize()
 	//}
 
 	//// Save the low-level system pointer
-	////low levelƒVƒXƒeƒ€ƒ|ƒCƒ“ƒ^‚Ìæ“¾
+	////low levelã‚·ã‚¹ãƒ†ãƒ ãƒã‚¤ãƒ³ã‚¿ã®å–å¾—
 	//mSystem->getLowLevelSystem(&mLowLevelSystem);
 
 	//// Load the master banks (strings first)
 	//LoadBank("Assets/Master Bank.strings.bank");
 	//LoadBank("Assets/Master Bank.bank");
 
-	//FMOD Studio‚ÉƒfƒtƒHƒ‹ƒg‚Å—pˆÓ‚³‚ê‚Ä‚¢‚é2‚Â‚Ìƒtƒ@ƒCƒ‹‚ğƒ[ƒh‚·‚é(2‚Â‚Ìƒ}ƒXƒ^[ƒoƒ“ƒNƒtƒ@ƒCƒ‹‚ğƒ[ƒh‚µ‚È‚¢‚Æ‘¼‚Ìƒoƒ“ƒN‚âƒCƒxƒ“ƒg‚ÉƒAƒNƒZƒX‚Å‚«‚È‚¢)
-	//(string‚ªæ‚ç‚µ‚¢)
-	//FMOD StudioƒvƒƒWƒFƒNƒg‚Ì‚·‚×‚Ä‚ÌƒCƒxƒ“ƒg‚Æ‚»‚Ì‘¼‚Ìî•ñ‚ªlŠÔ‚É“Ç‚ß‚é–¼‘O‚Æ‚µ‚Ä“ü‚Á‚Ä‚¢‚éB‚±‚ê‚ğƒ[ƒh‚µ‚È‚¢‚ÆA–¼‘O‚ÅƒAƒNƒZƒX‚Å‚«‚¸Aguid‚ÅƒAƒNƒZƒX‚µ‚È‚¢‚Æ‚È‚ç‚È‚¢(ƒIƒvƒVƒ‡ƒ“)
+	//FMOD Studioã«ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ç”¨æ„ã•ã‚Œã¦ã„ã‚‹2ã¤ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹(2ã¤ã®ãƒã‚¹ã‚¿ãƒ¼ãƒãƒ³ã‚¯ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã—ãªã„ã¨ä»–ã®ãƒãƒ³ã‚¯ã‚„ã‚¤ãƒ™ãƒ³ãƒˆã«ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„)
+	//(stringãŒå…ˆã‚‰ã—ã„)
+	//FMOD Studioãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ã™ã¹ã¦ã®ã‚¤ãƒ™ãƒ³ãƒˆã¨ãã®ä»–ã®æƒ…å ±ãŒäººé–“ã«èª­ã‚ã‚‹åå‰ã¨ã—ã¦å…¥ã£ã¦ã„ã‚‹ã€‚ã“ã‚Œã‚’ãƒ­ãƒ¼ãƒ‰ã—ãªã„ã¨ã€åå‰ã§ã‚¢ã‚¯ã‚»ã‚¹ã§ããšã€guidã§ã‚¢ã‚¯ã‚»ã‚¹ã—ãªã„ã¨ãªã‚‰ãªã„(ã‚ªãƒ—ã‚·ãƒ§ãƒ³)
 	LoadBank("Assets/Master Bank.strings.bank");
 	LoadBank("Assets/Master Bank.bank");
 
@@ -120,9 +120,9 @@ bool AudioSystem::Initialize()
 
 void AudioSystem::Shutdown()
 {
-	if (mSystem)		//mSystem‚ª‘¶İ‚·‚é‚È‚ç
+	if (mSystem)		//mSystemãŒå­˜åœ¨ã™ã‚‹ãªã‚‰
 	{
-		mSystem->release();		//‰ğ•ú
+		mSystem->release();		//è§£æ”¾
 	}
 	// Unload all banks
 	//UnloadAllBanks();
@@ -135,47 +135,47 @@ void AudioSystem::Shutdown()
 
 void AudioSystem::LoadBank(const std::string& name)
 {
-	//‘½d‚É“Ç‚İ‚Ü‚È‚¢‚æ‚¤ƒ`ƒFƒbƒN
+	//å¤šé‡ã«èª­ã¿è¾¼ã¾ãªã„ã‚ˆã†ãƒã‚§ãƒƒã‚¯
 	if (mBanks.find(name) != mBanks.end())
 	{
 		return;
 	}
 
-	//ƒoƒ“ƒN‚ğƒ[ƒh(ƒoƒ“ƒN‚Ìƒ[ƒh‚¾‚¯‚¾‚ÆƒTƒ“ƒvƒ‹ƒf[ƒ^‚Íƒ[ƒh‚³‚ê‚Ä‚¨‚ç‚¸AEventDescription‚É‚àƒAƒNƒZƒX‚ª—eˆÕ‚Å‚È‚¢‚±‚Æ‚É’ˆÓ)
-	FMOD::Studio::Bank* bank = nullptr;		//ƒ[ƒh‚µ‚½ƒoƒ“ƒN
+	//ãƒãƒ³ã‚¯ã‚’ãƒ­ãƒ¼ãƒ‰(ãƒãƒ³ã‚¯ã®ãƒ­ãƒ¼ãƒ‰ã ã‘ã ã¨ã‚µãƒ³ãƒ—ãƒ«ãƒ‡ãƒ¼ã‚¿ã¯ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ãŠã‚‰ãšã€EventDescriptionã«ã‚‚ã‚¢ã‚¯ã‚»ã‚¹ãŒå®¹æ˜“ã§ãªã„ã“ã¨ã«æ³¨æ„)
+	FMOD::Studio::Bank* bank = nullptr;		//ãƒ­ãƒ¼ãƒ‰ã—ãŸãƒãƒ³ã‚¯
 	FMOD_RESULT result = mSystem->loadBankFile(
-		name.c_str(),		//ƒtƒ@ƒCƒ‹–¼‚à‚µ‚­‚Í‹ó”’
-		FMOD_STUDIO_LOAD_BANK_NORMAL,		//•’Ê‚Ì“Ç‚İ‚İ
-		&bank		//ƒoƒ“ƒN‚Ö‚Ìƒ|ƒCƒ“ƒ^‚ğ•Û‘¶
+		name.c_str(),		//ãƒ•ã‚¡ã‚¤ãƒ«åã‚‚ã—ãã¯ç©ºç™½
+		FMOD_STUDIO_LOAD_BANK_NORMAL,		//æ™®é€šã®èª­ã¿è¾¼ã¿
+		&bank		//ãƒãƒ³ã‚¯ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã‚’ä¿å­˜
 	);
 
 	const int maxPathLength = 512;
 	if (result == FMOD_OK)
 	{
-		//ƒoƒ“ƒN‚ğ˜A‘z”z—ñ‚É’Ç‰Á
+		//ãƒãƒ³ã‚¯ã‚’é€£æƒ³é…åˆ—ã«è¿½åŠ 
 		mBanks.emplace(name, bank);
-		//ƒXƒgƒŠ[ƒ~ƒ“ƒOƒf[ƒ^ˆÈŠO‚ÌƒTƒ“ƒvƒ‹ƒf[ƒ^‚ğ‚·‚×‚Äƒ[ƒh
+		//ã‚¹ãƒˆãƒªãƒ¼ãƒŸãƒ³ã‚°ãƒ‡ãƒ¼ã‚¿ä»¥å¤–ã®ã‚µãƒ³ãƒ—ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’ã™ã¹ã¦ãƒ­ãƒ¼ãƒ‰
 		bank->loadSampleData();
-		//‚±‚Ìƒoƒ“ƒN‚É‚ ‚éƒCƒxƒ“ƒg‚Ì”‚ğæ“¾‚·‚é•Ï”
+		//ã“ã®ãƒãƒ³ã‚¯ã«ã‚ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã®æ•°ã‚’å–å¾—ã™ã‚‹å¤‰æ•°
 		int numEvents = 0;
-		//ƒoƒ“ƒN‚É‚ ‚éƒCƒxƒ“ƒg‚Ì”‚ğŠ“¾‚·‚é
+		//ãƒãƒ³ã‚¯ã«ã‚ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã®æ•°ã‚’æ‰€å¾—ã™ã‚‹
 		bank->getEventCount(&numEvents);
 		if (numEvents > 0)
 		{
-			//ƒoƒ“ƒN‚É‚ ‚éƒCƒxƒ“ƒg‚Ì‹Lqq(Œ^: EventDesription)‚ÌƒŠƒXƒg‚Ìæ“¾
-			std::vector<FMOD::Studio::EventDescription*> events(numEvents);		//ƒŠƒXƒg‚Ì” = numEvents
+			//ãƒãƒ³ã‚¯ã«ã‚ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã®è¨˜è¿°å­(å‹: EventDesription)ã®ãƒªã‚¹ãƒˆã®å–å¾—
+			std::vector<FMOD::Studio::EventDescription*> events(numEvents);		//ãƒªã‚¹ãƒˆã®æ•° = numEvents
 			bank->getEventList(events.data(), numEvents, &numEvents);
 			char eventName[maxPathLength];
 			for (int i = 0; i < numEvents; i++)
 			{
 				FMOD::Studio::EventDescription* e = events[i];
-				//‚±‚ÌƒCƒxƒ“ƒg‚ÌƒpƒX‚ğæ“¾
+				//ã“ã®ã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ‘ã‚¹ã‚’å–å¾—
 				e->getPath(eventName, maxPathLength, nullptr);
-				//ƒCƒxƒ“ƒg˜A‘z”z—ñ‚É’Ç‰Á
+				//ã‚¤ãƒ™ãƒ³ãƒˆé€£æƒ³é…åˆ—ã«è¿½åŠ 
 				mEvents.emplace(eventName, e);
 			}
 		}
-		//ƒoƒX‚ÌŒÂ”‚Ì•\¦
+		//ãƒã‚¹ã®å€‹æ•°ã®è¡¨ç¤º
 		int numBuses = 0;
 		bank->getBusCount(&numBuses);
 		if (numBuses > 0)
@@ -265,7 +265,7 @@ void AudioSystem::UnloadBank(const std::string& name)
 	FMOD::Studio::Bank* bank = iter->second;
 	int numEvents = 0;
 	bank->getEventCount(&numEvents);
-	//‚Ü‚¸Å‰‚ÉmEvents‚É‚ ‚éŠY“–‚ÌƒCƒxƒ“ƒg‚ğíœ‚·‚é
+	//ã¾ãšæœ€åˆã«mEventsã«ã‚ã‚‹è©²å½“ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹
 	if (numEvents > 0)
 	{
 		// Get event descriptions for this bank
@@ -293,8 +293,8 @@ void AudioSystem::UnloadBank(const std::string& name)
 	{
 		// Get list of buses in this bank
 		std::vector<FMOD::Studio::Bus*> buses(numBuses);
-		//ŠY“–‚·‚éƒoƒ“ƒN‚ÌƒpƒX‚ğæ“¾(‚±‚ÌŠÖ”‚ğg—p‚·‚é‚ÆAƒOƒ[ƒoƒ‹ƒ~ƒLƒT[“à‚ÌƒoƒX‚Ìƒnƒ“ƒhƒ‹‚ğæ“¾‚Å‚«‚Ü‚·B)
-		//ƒoƒX‚Á‚Ä‚È‚ñ‚¼BBB
+		//è©²å½“ã™ã‚‹ãƒãƒ³ã‚¯ã®ãƒ‘ã‚¹ã‚’å–å¾—(ã“ã®é–¢æ•°ã‚’ä½¿ç”¨ã™ã‚‹ã¨ã€ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒŸã‚­ã‚µãƒ¼å†…ã®ãƒã‚¹ã®ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—ã§ãã¾ã™ã€‚)
+		//ãƒã‚¹ã£ã¦ãªã‚“ãã€‚ã€‚ã€‚
 		bank->getBusList(buses.data(), numBuses, &numBuses);
 		char busName[512];
 		for (int i = 0; i < numBuses; i++)
@@ -323,7 +323,7 @@ void AudioSystem::UnloadAllBanks()
 	for (auto& iter : mBanks)
 	{
 		// Unload the sample data, then the bank itself
-		//‘SƒTƒ“ƒvƒ‹ƒf[ƒ^‚Ìíœ
+		//å…¨ã‚µãƒ³ãƒ—ãƒ«ãƒ‡ãƒ¼ã‚¿ã®å‰Šé™¤
 		iter.second->unloadSampleData();
 		iter.second->unload();
 	}
@@ -344,40 +344,40 @@ SoundEvent AudioSystem::PlayEvent(const std::string& name)
 		if (event)
 		{
 			// Start the event instance
-			//Ä¶‚ªn‚Ü‚é
+			//å†ç”ŸãŒå§‹ã¾ã‚‹
 			event->start();
 			// Get the next id, and add to map
 			sNextID++;
 			retID = sNextID;
-			//PlayEvent‚Æid‚Ì˜A‘z”z—ñ‚É’Ç‰Á
+			//PlayEventã¨idã®é€£æƒ³é…åˆ—ã«è¿½åŠ 
 			mEventInstances.emplace(retID, event);
 		}
 	}
-	//id‚ğŠ„‚è“–‚Ä‚½soundEvent‚ğ•Ô‚·
+	//idã‚’å‰²ã‚Šå½“ã¦ãŸsoundEventã‚’è¿”ã™
 	return SoundEvent(this, retID);
 }
 
 void AudioSystem::Update(float deltaTime)
 {
-	//•s—v‚É‚È‚Á‚½eventInstance‚ğƒNƒŠ[ƒ“ƒAƒbƒv‚·‚é
+	//ä¸è¦ã«ãªã£ãŸeventInstanceã‚’ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ—ã™ã‚‹
 
-	//ƒXƒgƒbƒv‚É‚È‚Á‚Ä‚¢‚éeventInstance‚ğŒ©‚Â‚¯‚é(Á‚µ‚Ä‚¨‚«‚½‚­‚È‚¯‚ê‚ÎPause‚É‚µ‚Ä‚¨‚­)
+	//ã‚¹ãƒˆãƒƒãƒ—ã«ãªã£ã¦ã„ã‚‹eventInstanceã‚’è¦‹ã¤ã‘ã‚‹(æ¶ˆã—ã¦ãŠããŸããªã‘ã‚Œã°Pauseã«ã—ã¦ãŠã)
 	std::vector<unsigned int> done;
 	for (auto& iter : mEventInstances)
 	{
 		FMOD::Studio::EventInstance* e = iter.second;
-		//ƒCƒxƒ“ƒg‚Ìó‘Ô‚ğæ“¾
+		//ã‚¤ãƒ™ãƒ³ãƒˆã®çŠ¶æ…‹ã‚’å–å¾—
 		FMOD_STUDIO_PLAYBACK_STATE state;
 		e->getPlaybackState(&state);
 		if (state == FMOD_STUDIO_PLAYBACK_STOPPED)
 		{
-			//ƒCƒxƒ“ƒgƒCƒ“ƒXƒ^ƒ“ƒX‚ª’â~ó‘Ô‚Ìê‡
-			e->release();	//‰ğ•ú
+			//ã‚¤ãƒ™ãƒ³ãƒˆã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒåœæ­¢çŠ¶æ…‹ã®å ´åˆ
+			e->release();	//è§£æ”¾
 			done.emplace_back(iter.first);
 		}
 	}
 
-	//I—¹‚µ‚½ƒCƒxƒ“ƒgƒCƒ“ƒXƒ^ƒ“ƒX‚ğ˜A‘z”z—ñ‚©‚çÁ‚·
+	//çµ‚äº†ã—ãŸã‚¤ãƒ™ãƒ³ãƒˆã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’é€£æƒ³é…åˆ—ã‹ã‚‰æ¶ˆã™
 	for (auto id : done)
 	{
 		mEventInstances.erase(id);
@@ -408,7 +408,7 @@ void AudioSystem::Update(float deltaTime)
 	//// Update FMOD
 	//mSystem->update();
 
-	//FMOD‚ÌXV(3DƒI[ƒfƒBƒI‚ÌÄŒvZ“™‚ğ‚·‚é•K—v‚ª‚ ‚é‚½‚ß)
+	//FMODã®æ›´æ–°(3Dã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã®å†è¨ˆç®—ç­‰ã‚’ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ãŸã‚)
 	mSystem->update();
 }
 
@@ -426,7 +426,7 @@ namespace
 	}
 }
 
-//ƒŠƒXƒi[‚Ì’Ç‰Á
+//ãƒªã‚¹ãƒŠãƒ¼ã®è¿½åŠ 
 void AudioSystem::SetListener(const Matrix4& viewMatrix)
 {
 	//// Invert the view matrix to get the correct vectors
@@ -444,21 +444,21 @@ void AudioSystem::SetListener(const Matrix4& viewMatrix)
 	//// Send to FMOD
 	//mSystem->setListenerAttributes(0, &listener);
 
-	//ƒŠƒXƒi[‚Ìî•ñ‚Æ‚µ‚Ä•K—v‚È‚Ì‚ÍƒJƒƒ‰‚ÌˆÊ’u‚Æ•ûŒü
-	//ˆø”‚Æ‚µ‚Äƒrƒ…[s—ñ‚ğó‚¯æ‚èAƒ[ƒ‹ƒhs—ñ‚É–ß‚µ‚Äæ“¾‚·‚é‚±‚Æ‚ğl‚¦‚é
+	//ãƒªã‚¹ãƒŠãƒ¼ã®æƒ…å ±ã¨ã—ã¦å¿…è¦ãªã®ã¯ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã¨æ–¹å‘
+	//å¼•æ•°ã¨ã—ã¦ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã‚’å—ã‘å–ã‚Šã€ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«æˆ»ã—ã¦å–å¾—ã™ã‚‹ã“ã¨ã‚’è€ƒãˆã‚‹
 	Matrix4 invView = viewMatrix;
 	invView.Invert();
-	//FMOD_3D_ATTRIBUTES: ˆÊ’uA‘¬“xA•ûŒü‚ğ‹Lq‚·‚é\‘¢B
+	//FMOD_3D_ATTRIBUTES: ä½ç½®ã€é€Ÿåº¦ã€æ–¹å‘ã‚’è¨˜è¿°ã™ã‚‹æ§‹é€ ã€‚
 	FMOD_3D_ATTRIBUTES listener;
-	//ˆÊ’u‚ÌƒZƒbƒg
+	//ä½ç½®ã®ã‚»ãƒƒãƒˆ
 	listener.position = VecToFMOD(invView.GetTranslation());
-	//‹tƒrƒ…[‚Å‚Í‘æ3s‚ª‘O•ûŒü‚Æ‚È‚é
+	//é€†ãƒ“ãƒ¥ãƒ¼ã§ã¯ç¬¬3è¡ŒãŒå‰æ–¹å‘ã¨ãªã‚‹
 	listener.forward = VecToFMOD(invView.GetZAxis());
-	//‹tƒrƒ…[‚Å‚Í‘æ2s—ñ‚ªã•ûŒü
+	//é€†ãƒ“ãƒ¥ãƒ¼ã§ã¯ç¬¬2è¡Œåˆ—ãŒä¸Šæ–¹å‘
 	listener.up = VecToFMOD(invView.GetYAxis());
-	//‘¬“x‚Í0‚Å(ƒhƒbƒvƒ‰[Œø‰Ê‚ğİ’è‚·‚é‚Æ‚«‚É‘Î‰)
+	//é€Ÿåº¦ã¯0ã§(ãƒ‰ãƒƒãƒ—ãƒ©ãƒ¼åŠ¹æœã‚’è¨­å®šã™ã‚‹ã¨ãã«å¯¾å¿œ)
 	listener.velocity = { 0.f, 0.f, 0.f };
-	//FMOD‚É‘—‚é(0‚ÍƒŠƒXƒi[‚ª1l‚Ì‚Éw’è)
+	//FMODã«é€ã‚‹(0ã¯ãƒªã‚¹ãƒŠãƒ¼ãŒ1äººã®æ™‚ã«æŒ‡å®š)
 	mSystem->setListenerAttributes(0, &listener);
 }
 

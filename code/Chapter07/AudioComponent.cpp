@@ -31,12 +31,12 @@ void AudioComponent::Update(float deltaTime)
 	{
 		if (!iter->IsValid())
 		{
-			//event‚ª–³Œø‚É‚È‚Á‚Ä‚¢‚½‚ç
-			iter = mEvents2D.erase(iter);		//íœ‚³‚ê‚½—v‘f‚ÌŸ‚Ì—v‘f‚ğw‚·ƒCƒeƒŒ[ƒ^‚ğ•Ô‚·
+			//eventãŒç„¡åŠ¹ã«ãªã£ã¦ã„ãŸã‚‰
+			iter = mEvents2D.erase(iter);		//å‰Šé™¤ã•ã‚ŒãŸè¦ç´ ã®æ¬¡ã®è¦ç´ ã‚’æŒ‡ã™ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ã‚’è¿”ã™
 		}
 		else
 		{
-			++iter;		//íŸ‚Ì—v‘f‚ğw‚·ƒCƒeƒŒ[ƒ^‚ğ•Ô‚·
+			++iter;		//å‰Šæ¬¡ã®è¦ç´ ã‚’æŒ‡ã™ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ã‚’è¿”ã™
 		}
 	}
 
@@ -55,7 +55,7 @@ void AudioComponent::Update(float deltaTime)
 	}
 }
 
-//Š—LƒAƒNƒ^[‚ªƒ[ƒ‹ƒhs—ñ‚ğŒvZ‚·‚é‚½‚Ñ‚É‚±‚ÌŠÖ”‚ªŒÄ‚Î‚ê‚é
+//æ‰€æœ‰ã‚¢ã‚¯ã‚¿ãƒ¼ãŒãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã‚’è¨ˆç®—ã™ã‚‹ãŸã³ã«ã“ã®é–¢æ•°ãŒå‘¼ã°ã‚Œã‚‹
 void AudioComponent::OnUpdateWorldTransform()
 {
 	//// Update 3D events' world transforms
@@ -95,14 +95,14 @@ SoundEvent AudioComponent::PlayEvent(const std::string& name)
 	SoundEvent e = mOwner->GetGame()->GetAudioSystem()->PlayEvent(name);
 	if (e.Is3D())
 	{
-		//3D‚Ì
+		//3Dã®æ™‚
 		mEvents3D.emplace_back(e);
-		//3D‘®«‚ğ‰Šú‰»‚·‚é
+		//3Då±æ€§ã‚’åˆæœŸåŒ–ã™ã‚‹
 		e.Set3DAttributes(mOwner->GetWorldTransform(), mOwner->GetVelocity());
 	}
 	else
 	{
-		//2D‚Ì
+		//2Dã®æ™‚
 		mEvents2D.emplace_back(e);
 	}
 	return e;

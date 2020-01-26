@@ -32,12 +32,12 @@ public:
 	float GetParameter(const std::string& name);
 	// Positional
 	bool Is3D() const;
-	//イベントに対して、位置情報の更新
+	//繧､繝吶Φ繝医↓蟇ｾ縺励※縲∽ｽ咲ｽｮ諠�蝣ｱ縺ｮ譖ｴ譁ｰ
 	void Set3DAttributes(const Matrix4& worldTrans, Vector3 velocity);
 protected:
 	// Make this constructor protected and AudioSystem a friend
 	// so that only AudioSystem can access this constructor.
-	//AudioClassのイベントインスタンを取得する必要があるためfriendに
+	//AudioClass縺ｮ繧､繝吶Φ繝医う繝ｳ繧ｹ繧ｿ繝ｳ繧貞叙蠕励☆繧句ｿ�隕√′縺ゅｋ縺溘ａfriend縺ｫ
 	friend class AudioSystem;
 	SoundEvent(class AudioSystem* system, unsigned int id);
 private:

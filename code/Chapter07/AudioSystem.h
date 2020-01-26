@@ -12,7 +12,7 @@
 #include "SoundEvent.h"
 #include "Math.h"
 
-//FMODŒ^‚Ì‘O•ûéŒ¾‚ğ‚·‚é‚±‚Æ‚ÅAfmod_studio.hpp‚ÌƒCƒ“ƒNƒ‹[ƒh‚ğ”ğ‚¯‚é
+//FMODå‹ã®å‰æ–¹å®£è¨€ã‚’ã™ã‚‹ã“ã¨ã§ã€fmod_studio.hppã®ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ã‚’é¿ã‘ã‚‹
 namespace FMOD
 {
 	class System;
@@ -45,7 +45,7 @@ public:
 	void Update(float deltaTime);
 
 	// For positional audio
-	//ƒŠƒXƒi[‚Ìİ’è
+	//ãƒªã‚¹ãƒŠãƒ¼ã®è¨­å®š
 	void SetListener(const Matrix4& viewMatrix);
 	//// Control buses
 	float GetBusVolume(const std::string& name) const;
@@ -54,31 +54,31 @@ public:
 	void SetBusPaused(const std::string& name, bool pause);
 protected:
 	//friend class SoundEvent;
-	//GetEventInstanceƒ|ƒCƒ“ƒ^‚ğæ“¾‚·‚é‚½‚ß‚ÌŠÖ”(protected‚É‚µ‚Ä‚¢‚é‚Ì‚ÍAŒÄ‚Ño‚µ‚à‚Æ‚Åƒ|ƒCƒ“ƒ^‚ğG‚Á‚Ä‚Ù‚µ‚­‚È‚¢‚©‚ç)
-	friend class SoundEvent;		//ƒTƒEƒ“ƒhƒCƒxƒ“ƒg‚Ífriend‚É‚µ‚ÄAƒAƒNƒZƒX‚Å‚«‚é‚æ‚¤‚É‚µ‚½
+	//GetEventInstanceãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—ã™ã‚‹ãŸã‚ã®é–¢æ•°(protectedã«ã—ã¦ã„ã‚‹ã®ã¯ã€å‘¼ã³å‡ºã—ã‚‚ã¨ã§ãƒã‚¤ãƒ³ã‚¿ã‚’è§¦ã£ã¦ã»ã—ããªã„ã‹ã‚‰)
+	friend class SoundEvent;		//ã‚µã‚¦ãƒ³ãƒ‰ã‚¤ãƒ™ãƒ³ãƒˆã¯friendã«ã—ã¦ã€ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹ã‚ˆã†ã«ã—ãŸ
 	FMOD::Studio::EventInstance* GetEventInstance(unsigned int id);
 private:
 	// Tracks the next ID to use for event instances
-	//ƒCƒxƒ“ƒgƒCƒ“ƒXƒ^ƒ“‚ğ¶¬‚·‚é‚½‚Ñ‚ÉƒCƒ“ƒNƒŠƒƒ“ƒg‚µ‚ÄAƒOƒ[ƒoƒ‹‚È’l‚É‚·‚é‚½‚ß
+	//ã‚¤ãƒ™ãƒ³ãƒˆã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚’ç”Ÿæˆã™ã‚‹ãŸã³ã«ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã—ã¦ã€ã‚°ãƒ­ãƒ¼ãƒãƒ«ãªå€¤ã«ã™ã‚‹ãŸã‚
 	static unsigned int sNextID;
 
 	class Game* mGame;
-	//ƒ[ƒh‚³‚ê‚½ƒoƒ“ƒN‚Ì˜A‘z”z—ñ(ƒL[‚Íƒoƒ“ƒN‚Ìƒtƒ@ƒCƒ‹–¼)(ƒ[ƒh‚³‚ê‚½ƒoƒ“ƒN‚È‚Ì‚ÅAƒoƒ“ƒN“à‚ÌƒCƒxƒ“ƒg‚ğŒ©‚é‚±‚Æ‚ª‚Å‚«‚é)
+	//ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸãƒãƒ³ã‚¯ã®é€£æƒ³é…åˆ—(ã‚­ãƒ¼ã¯ãƒãƒ³ã‚¯ã®ãƒ•ã‚¡ã‚¤ãƒ«å)(ãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸãƒãƒ³ã‚¯ãªã®ã§ã€ãƒãƒ³ã‚¯å†…ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’è¦‹ã‚‹ã“ã¨ãŒã§ãã‚‹)
 	std::unordered_map<std::string, FMOD::Studio::Bank*> mBanks;
-	//ƒCƒxƒ“ƒg–¼‚©‚çEventDescription‚Ö‚Ì˜A‘z”z—ñ(ƒL[‚ÍFMOD‚ªƒCƒxƒ“ƒg‚ÉŠ„‚è“–‚Ä‚½–¼‘O=ƒpƒX‚ÌŒ`®(ex. event:/Explositon2D))
+	//ã‚¤ãƒ™ãƒ³ãƒˆåã‹ã‚‰EventDescriptionã¸ã®é€£æƒ³é…åˆ—(ã‚­ãƒ¼ã¯FMODãŒã‚¤ãƒ™ãƒ³ãƒˆã«å‰²ã‚Šå½“ã¦ãŸåå‰=ãƒ‘ã‚¹ã®å½¢å¼(ex. event:/Explositon2D))
 	std::unordered_map<std::string, FMOD::Studio::EventDescription*> mEvents;
 	// Map of loaded banks
 	//std::unordered_map<std::string, FMOD::Studio::Bank*> mBanks;
 	//// Map of event name to EventDescription
 	//std::unordered_map<std::string, FMOD::Studio::EventDescription*> mEvents;
 	//// Map of event id to EventInstance
-	//®”‚©‚çƒCƒxƒ“ƒgƒCƒ“ƒXƒ^ƒ“ƒX‚Ö‚Ì˜A‘z”z—ñ
+	//æ•´æ•°ã‹ã‚‰ã‚¤ãƒ™ãƒ³ãƒˆã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¸ã®é€£æƒ³é…åˆ—
 	std::unordered_map<unsigned int, FMOD::Studio::EventInstance*> mEventInstances;
 	//// Map of buses
-	//ƒoƒX(ƒTƒEƒ“ƒh‚ÌƒOƒ‹[ƒv)‚Ì˜A‘z”z—ñ
+	//ãƒã‚¹(ã‚µã‚¦ãƒ³ãƒ‰ã®ã‚°ãƒ«ãƒ¼ãƒ—)ã®é€£æƒ³é…åˆ—
 	std::unordered_map<std::string, FMOD::Studio::Bus*> mBuses;
-	// FMOD studio ƒVƒXƒeƒ€
+	// FMOD studio ã‚·ã‚¹ãƒ†ãƒ 
 	FMOD::Studio::System* mSystem;
-	// FMOD Low-level system (•K—v‚Ì‚½‚ß‚É)
+	// FMOD Low-level system (å¿…è¦æ™‚ã®ãŸã‚ã«)
 	FMOD::System* mLowLevelSystem;
 };

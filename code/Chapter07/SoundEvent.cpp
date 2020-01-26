@@ -50,7 +50,7 @@ void SoundEvent::Stop(bool allowFadeOut /* true */)
 
 void SoundEvent::SetPaused(bool pause)
 {
-	//ƒI[ƒfƒBƒIƒVƒXƒeƒ€‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ª‚È‚©‚Á‚½‚çI—¹(mSysmte‚ÆeventInstance‚Ì—¼•û‚Ånullƒ`ƒFƒbƒN‚ğs‚Á‚Ä‚¢‚é)
+	//ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚·ã‚¹ãƒ†ãƒ ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒãªã‹ã£ãŸã‚‰çµ‚äº†(mSysmteã¨eventInstanceã®ä¸¡æ–¹ã§nullãƒã‚§ãƒƒã‚¯ã‚’è¡Œã£ã¦ã„ã‚‹)
 	auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
 	if (event)
 	{
@@ -148,13 +148,13 @@ bool SoundEvent::Is3D() const
 	auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
 	if(event)
 	{
-		//ƒCƒxƒ“ƒg‹Lqq‚ğæ“¾
+		//ã‚¤ãƒ™ãƒ³ãƒˆè¨˜è¿°å­ã‚’å–å¾—
 		FMOD::Studio::EventDescription* ed = nullptr;
-		//event‚É‘Î‰‚·‚édescription‚Ìæ“¾
+		//eventã«å¯¾å¿œã™ã‚‹descriptionã®å–å¾—
 		event->getDescription(&ed);
 		if (ed)
 		{
-			//ƒCƒxƒ“ƒg‚ª2D ‚È‚Ì‚© 3D‚È‚Ì‚©‚ğæ“¾
+			//ã‚¤ãƒ™ãƒ³ãƒˆãŒ2D ãªã®ã‹ 3Dãªã®ã‹ã‚’å–å¾—
 			ed->is3D(&retVal);
 		}
 	}
@@ -174,11 +174,11 @@ namespace
 	//	return v;
 	//}
 
-	//FMOD_VECTOR: FMOD‚ÌƒxƒNƒgƒ‹Œ^
+	//FMOD_VECTOR: FMODã®ãƒ™ã‚¯ãƒˆãƒ«å‹
 	FMOD_VECTOR VecToFMOD(const Vector3& in)
 	{
-		//‚±‚ÌƒQ[ƒ€‚Å‚Í¶èÀ•WŒn(+x‚Í‘O•û, +y‚ª‰E, +z‚ªã)
-		//FMODƒxƒNƒgƒ‹‚Å‚Í‰EèÀ•WŒn(+z‚ª‘O•û, +x‚ª‰E, +y‚ªã)
+		//ã“ã®ã‚²ãƒ¼ãƒ ã§ã¯å·¦æ‰‹åº§æ¨™ç³»(+xã¯å‰æ–¹, +yãŒå³, +zãŒä¸Š)
+		//FMODãƒ™ã‚¯ãƒˆãƒ«ã§ã¯å³æ‰‹åº§æ¨™ç³»(+zãŒå‰æ–¹, +xãŒå³, +yãŒä¸Š)
 		FMOD_VECTOR v;
 		v.x = in.y;
 		v.y = in.z;
@@ -204,16 +204,16 @@ void SoundEvent::Set3DAttributes(const Matrix4& worldTrans, Vector3 velocity)
 	//	event->set3DAttributes(&attr);
 	//}
 
-	//ƒCƒxƒ“ƒg‚ÌˆÊ’u‚â•ûŒü‚ÌXV‚ÌÛ‚ÉA‚±‚ÌŠÖ”‚ÉƒAƒNƒ^[‚Ìƒ[ƒ‹ƒhs—ñ(¡‰ñ‚Å‚¢‚¤ƒJƒƒ‰)‚ğ“ü‚ê‚é‚¾‚¯‚Å‚æ‚¢
+	//ã‚¤ãƒ™ãƒ³ãƒˆã®ä½ç½®ã‚„æ–¹å‘ã®æ›´æ–°ã®éš›ã«ã€ã“ã®é–¢æ•°ã«ã‚¢ã‚¯ã‚¿ãƒ¼ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—(ä»Šå›ã§ã„ã†ã‚«ãƒ¡ãƒ©)ã‚’å…¥ã‚Œã‚‹ã ã‘ã§ã‚ˆã„
 	auto event = mSystem ? mSystem->GetEventInstance(mID) : nullptr;
 	if (event)
 	{
 		FMOD_3D_ATTRIBUTES attr;
-		//ˆÊ’u‚ÌƒZƒbƒg
+		//ä½ç½®ã®ã‚»ãƒƒãƒˆ
 		attr.position = VecToFMOD(worldTrans.GetTranslation());
-		//‘O•ûƒxƒNƒgƒ‹‚Ìæ“¾(ƒ[ƒ‹ƒhs—ñ‚Ì‘æ‚Ps)
+		//å‰æ–¹ãƒ™ã‚¯ãƒˆãƒ«ã®å–å¾—(ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®ç¬¬ï¼‘è¡Œ)
 		attr.forward = VecToFMOD(worldTrans.GetXAxis());
-		//ãŒü‚«ƒxƒNƒgƒ‹‚Ìæ“¾(ƒ[ƒ‹ƒhs—ñ‚Ì‘ã‚Rs)
+		//ä¸Šå‘ããƒ™ã‚¯ãƒˆãƒ«ã®å–å¾—(ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®ä»£ï¼“è¡Œ)
 		attr.up = VecToFMOD(worldTrans.GetZAxis());
 		attr.velocity = VecToFMOD(velocity);
 		event->set3DAttributes(&attr);
