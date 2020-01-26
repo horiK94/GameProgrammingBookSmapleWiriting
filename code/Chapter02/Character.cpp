@@ -9,7 +9,7 @@ Character::Character(Game* game)
 	animSpriteComponent = asc;
 	std::vector<SDL_Texture*> walking =
 	{
-		//include "Game.h"‚µ‚È‚¢‚ÆA•sŠ®‘SƒNƒ‰ƒXŒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^[‚ÍŽg—p‚Å‚«‚È‚¢‚Æ‚¢‚í‚ê‚é‚Ì‚Å’ˆÓ
+		//include "Game.h"ã—ãªã„ã¨ã€ä¸å®Œå…¨ã‚¯ãƒ©ã‚¹åž‹ã¸ã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼ã¯ä½¿ç”¨ã§ããªã„ã¨ã„ã‚ã‚Œã‚‹ã®ã§æ³¨æ„
 		game->GetTexture("Assets/Character01.png"),
 		game->GetTexture("Assets/Character02.png"),
 		game->GetTexture("Assets/Character03.png"),

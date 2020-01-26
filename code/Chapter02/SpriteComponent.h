@@ -13,19 +13,19 @@ class SpriteComponent : public Component
 {
 public:
 	// (Lower draw order corresponds with further back)
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^[‚Ì’†‚ÅGame::AddSprite()‚ğŒÄ‚ñ‚ÅAƒXƒvƒ‰ƒCƒgƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì”z—ñ‚É“o˜^‚·‚é
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ¼ã®ä¸­ã§Game::AddSprite()ã‚’å‘¼ã‚“ã§ã€ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®é…åˆ—ã«ç™»éŒ²ã™ã‚‹
 	SpriteComponent(class Actor* owner, int drawOrder = 100);
 	~SpriteComponent();
 
 	virtual void Draw(SDL_Renderer* renderer);
 	virtual void SetTexture(SDL_Texture* texture);
 
-	//’; •`‰æ‡˜‚ª’á‚¢‚Ù‚Ç‰“‚­‚É’u‚©‚ê‚é
+	//æ³¨; æç”»é †åºãŒä½ã„ã»ã©é ãã«ç½®ã‹ã‚Œã‚‹
 	int GetDrawOrder() const { return mDrawOrder; }
 	int GetTexHeight() const { return mTexHeight; }
 	int GetTexWidth() const { return mTexWidth; }
 protected:
-	SDL_Texture* mTexture;		//Texture‚ÌQÆ
+	SDL_Texture* mTexture;		//Textureã®å‚ç…§
 	int mDrawOrder;
 	int mTexWidth;
 	int mTexHeight;

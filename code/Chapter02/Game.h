@@ -35,17 +35,17 @@ private:
 	void UnloadData();
 	
 	// Map of textures loaded
-	std::unordered_map<std::string, SDL_Texture*> mTextures;			//‰½“x‚à“¯‚¶‰æ‘œ‚ğƒ[ƒh‚ğ‚·‚é‚±‚Æ‚ª‚È‚¢‚æ‚¤‚É‚·‚é‚½‚ß‚Ì˜A‘z”z—ñ
+	std::unordered_map<std::string, SDL_Texture*> mTextures;			//ä½•åº¦ã‚‚åŒã˜ç”»åƒã‚’ãƒ­ãƒ¼ãƒ‰ã‚’ã™ã‚‹ã“ã¨ãŒãªã„ã‚ˆã†ã«ã™ã‚‹ãŸã‚ã®é€£æƒ³é…åˆ—
 
 	// All the actors in the game
 	std::vector<class Actor*> mActors;
 	// Any pending actors
 	std::vector<class Actor*> mPendingActors;
-	//PendingActors‚ª‚ ‚é——R‚ÍAmActors‚Ì‡Ÿˆ—’†‚ÉV‚µ‚¢ƒAƒNƒ^[‚ğ’Ç‰Á‚·‚é‚ÆA‡˜‚É‚æ‚Á‚Ä‚ÍŒÄ‚Î‚ê‚éŒÄ‚Î‚ê‚È‚¢‚Æ‚¢‚Á‚½•s®‡‚ª”­¶‚·‚é‚½‚ß
-	//„‰ñˆ—Œã‚ÉActors‚É’Ç‰Á‚·‚é
+	//PendingActorsãŒã‚ã‚‹ç†ç”±ã¯ã€mActorsã®é †æ¬¡å‡¦ç†ä¸­ã«æ–°ã—ã„ã‚¢ã‚¯ã‚¿ãƒ¼ã‚’è¿½åŠ ã™ã‚‹ã¨ã€é †åºã«ã‚ˆã£ã¦ã¯å‘¼ã°ã‚Œã‚‹å‘¼ã°ã‚Œãªã„ã¨ã„ã£ãŸä¸æ•´åˆãŒç™ºç”Ÿã™ã‚‹ãŸã‚
+	//å·¡å›å‡¦ç†å¾Œã«Actorsã«è¿½åŠ ã™ã‚‹
 
 	// All the sprite components drawn
-	//SpriteƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“®“I”z—ñ
+	//Spriteã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹•çš„é…åˆ—
 	std::vector<class SpriteComponent*> mSprites;
 
 	SDL_Window* mWindow;

@@ -15,7 +15,7 @@ CSV::~CSV()
 
 std::vector<std::vector<int>> CSV::LoadCSV(std::string fileName)
 {
-	std::ifstream ifs(fileName);		//�t�@�C���ǂݍ���
+	std::ifstream ifs(fileName);		//ファイル読み込み
 	if (!ifs)
 	{
 		SDL_Log("filename: %s failed loading.", fileName);
@@ -35,7 +35,7 @@ std::vector<std::vector<int>> CSV::LoadCSV(std::string fileName)
 		{
 			if (num.compare("") == 0)
 			{
-				//"-1,"�Ƃ��ŏI����Ă���Ƃ��ɁA�Ō�̃J���}�̌��""�������Ă��Ă��܂����ߗ�O����
+				//"-1,"とかで終わっているときに、最後のカンマの後の""が入ってきてしまうため例外処理
 				continue;
 			}
 			std::stringstream numss{ num };

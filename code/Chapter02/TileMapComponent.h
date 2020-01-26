@@ -10,24 +10,24 @@ class TileMapComponent :
 public:
 	TileMapComponent(Actor* actor, int drawOrder = 100);
 	~TileMapComponent();
-	//ƒ^ƒCƒ‹ƒZƒbƒg‚Ì‰æ‘œƒf[ƒ^‚Ì“Ç‚İ‚İ
+	//ã‚¿ã‚¤ãƒ«ã‚»ãƒƒãƒˆã®ç”»åƒãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
 	void SetTileSet(SDL_Texture* tileSet, Vector2 screenSize, int tileXNum, int tileYNum);
 	void Draw(SDL_Renderer* renderer) override;
 	void SetTileData(std::string fileName);
 private:
-	void GetDrawSetMapRect(SDL_Rect* rect, int id);		//w’è‚Ìid‚Ìƒ^ƒCƒ‹ƒ}ƒbƒvRectƒf[ƒ^‚Ìæ“¾
-	void DrawTile(SDL_Renderer* renderer, int x, int y, int id);		//ƒ^ƒCƒ‹‚Ì•`‰æ
+	void GetDrawSetMapRect(SDL_Rect* rect, int id);		//æŒ‡å®šã®idã®ã‚¿ã‚¤ãƒ«ãƒãƒƒãƒ—Rectãƒ‡ãƒ¼ã‚¿ã®å–å¾—
+	void DrawTile(SDL_Renderer* renderer, int x, int y, int id);		//ã‚¿ã‚¤ãƒ«ã®æç”»
 
-	//c, ‰¡‚Ì•\¦ŒÂ”
+	//ç¸¦, æ¨ªã®è¡¨ç¤ºå€‹æ•°
 	int tileWidth;
 	int tileHeight;
 
-	//ƒ^ƒCƒ‹ƒZƒbƒgƒTƒCƒY
+	//ã‚¿ã‚¤ãƒ«ã‚»ãƒƒãƒˆã‚µã‚¤ã‚º
 	Vector2 tileSetSize;
-	//ƒ^ƒCƒ‹ƒZƒbƒg‚Ìx, yÀ•W‚ÌŒÂ”
+	//ã‚¿ã‚¤ãƒ«ã‚»ãƒƒãƒˆã®x, yåº§æ¨™ã®å€‹æ•°
 	int tileSetXNum;
 	int tileSetYNum;
-	//ƒ^ƒCƒ‹ƒ}ƒbƒvî•ñ
+	//ã‚¿ã‚¤ãƒ«ãƒãƒƒãƒ—æƒ…å ±
 	std::vector<std::vector<int>> tileMapData;
 
 	Vector2 screenSize;

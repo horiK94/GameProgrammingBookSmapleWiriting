@@ -17,7 +17,7 @@ SpriteComponent::SpriteComponent(Actor* owner, int drawOrder)
 	,mTexWidth(0)
 	,mTexHeight(0)
 {
-	mOwner->GetGame()->AddSprite(this);		//©g‚ğ“o˜^‚·‚é
+	mOwner->GetGame()->AddSprite(this);		//è‡ªèº«ã‚’ç™»éŒ²ã™ã‚‹
 }
 
 SpriteComponent::~SpriteComponent()
@@ -29,46 +29,46 @@ void SpriteComponent::Draw(SDL_Renderer* renderer)
 {
 	if (mTexture)
 	{
-		SDL_Rect r;		//SDL_Rext‚Ìx, yÀ•W‚Í¶ã‚ÌÀ•W‚Ì‚½‚ßAˆÈ‰º‚Å•â³‚ğs‚¤
+		SDL_Rect r;		//SDL_Rextã®x, yåº§æ¨™ã¯å·¦ä¸Šã®åº§æ¨™ã®ãŸã‚ã€ä»¥ä¸‹ã§è£œæ­£ã‚’è¡Œã†
 		// Scale the width/height by owner's scale
-		r.w = static_cast<int>(mTexWidth * mOwner->GetScale());		//‰¡•*ƒTƒCƒY
-		r.h = static_cast<int>(mTexHeight * mOwner->GetScale());		//c•*ƒTƒCƒY
+		r.w = static_cast<int>(mTexWidth * mOwner->GetScale());		//æ¨ªå¹…*ã‚µã‚¤ã‚º
+		r.h = static_cast<int>(mTexHeight * mOwner->GetScale());		//ç¸¦å¹…*ã‚µã‚¤ã‚º
 		// Center the rectangle around the position of the owner
-		r.x = static_cast<int>(mOwner->GetPosition().x - r.w / 2);		//Actor‚ª•Û‚µ‚Ä‚¢‚émPosition‚Í’†S“_‚ÌÀ•W‚Ì‚½‚ßAC³‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+		r.x = static_cast<int>(mOwner->GetPosition().x - r.w / 2);		//ActorãŒä¿æŒã—ã¦ã„ã‚‹mPositionã¯ä¸­å¿ƒç‚¹ã®åº§æ¨™ã®ãŸã‚ã€ä¿®æ­£ã—ãªã‘ã‚Œã°ãªã‚‰ãªã„
 		r.y = static_cast<int>(mOwner->GetPosition().y - r.h / 2);
 
 		// Draw (have to convert angle from radians to degrees, and clockwise to counter)
-		SDL_RenderCopyEx(renderer,		//ƒŒƒ“ƒ_ƒ‰[ƒ^[ƒQƒbƒg
-			mTexture,		//•`‰æ‚µ‚½‚¢ƒeƒNƒXƒ`ƒƒ	
-			nullptr,		//•`‰æ‚µ‚½‚¢ƒeƒNƒXƒ`ƒƒ‚Ì”ÍˆÍ(‘S‘Ì‚Ínullptr)
-			&r,				//•`‰æ”ÍˆÍ‚Ì‹éŒ`(—v‚ÍAƒeƒNƒXƒ`ƒƒ‚Í‚±‚Ì—Ìˆæ‚É‡‚¤‚æ‚¤Šg‘åk¬‚ğs‚¤)
-			-Math::ToDegrees(mOwner->GetRotation()),		//‰ñ“]Šp(“x, Œv‰ñ‚è)
-			nullptr,		//‰ñ“]’†S(’†‰›‚È‚çnullptr)
-			SDL_FLIP_NONE);				//ƒeƒNƒXƒ`ƒƒ‚ğ”½“]‚·‚é‚©(”½“]‚µ‚È‚¢ê‡‚Í¶‚Ì‚æ‚¤‚Éİ’è‚·‚é)
+		SDL_RenderCopyEx(renderer,		//ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ
+			mTexture,		//æç”»ã—ãŸã„ãƒ†ã‚¯ã‚¹ãƒãƒ£	
+			nullptr,		//æç”»ã—ãŸã„ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¯„å›²(å…¨ä½“ã¯nullptr)
+			&r,				//æç”»ç¯„å›²ã®çŸ©å½¢(è¦ã¯ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¯ã“ã®é ˜åŸŸã«åˆã†ã‚ˆã†æ‹¡å¤§ç¸®å°ã‚’è¡Œã†)
+			-Math::ToDegrees(mOwner->GetRotation()),		//å›è»¢è§’(åº¦, æ™‚è¨ˆå›ã‚Š)
+			nullptr,		//å›è»¢ä¸­å¿ƒ(ä¸­å¤®ãªã‚‰nullptr)
+			SDL_FLIP_NONE);				//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’åè»¢ã™ã‚‹ã‹(åè»¢ã—ãªã„å ´åˆã¯å·¦ã®ã‚ˆã†ã«è¨­å®šã™ã‚‹)
 	}
 }
 
-//Texture‚ğİ’è‚·‚é
-//Texture...‰æ‘œ‚»‚Ì‚à‚Ì
-//Sprite..2DƒOƒ‰ƒtƒBƒJƒ‹ƒIƒuƒWƒFƒNƒg. Texturen‚Ì‚±‚±‚Ì•”•ª‚ğg—p‚µ‚Ü‚·‚æ‚Æ‚¢‚Á‚½‚±‚Æ‚ğw’è‚·‚éƒNƒ‰ƒX
-//Atlas‰»‚âƒRƒ}Š„‚èƒAƒjƒ‚Æ‚©‚Ì‚Æ‚«‚ÍATexture != Sprite‚Ìg—p•”•ª‚Æ‚È‚é–‚ª‘½‚¢
+//Textureã‚’è¨­å®šã™ã‚‹
+//Texture...ç”»åƒãã®ã‚‚ã®
+//Sprite..2Dã‚°ãƒ©ãƒ•ã‚£ã‚«ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ. Texturenã®ã“ã“ã®éƒ¨åˆ†ã‚’ä½¿ç”¨ã—ã¾ã™ã‚ˆã¨ã„ã£ãŸã“ã¨ã‚’æŒ‡å®šã™ã‚‹ã‚¯ãƒ©ã‚¹
+//AtlasåŒ–ã‚„ã‚³ãƒå‰²ã‚Šã‚¢ãƒ‹ãƒ¡ã¨ã‹ã®ã¨ãã¯ã€Texture != Spriteã®ä½¿ç”¨éƒ¨åˆ†ã¨ãªã‚‹äº‹ãŒå¤šã„
 void SpriteComponent::SetTexture(SDL_Texture* texture)
 {
 	mTexture = texture;
 	// Set width/height
-	SDL_QueryTexture(texture, nullptr, nullptr, &mTexWidth, &mTexHeight);		//Texture‚Ìî•ñ‚Ìæ“¾
-	//ŠÈ’P‚ÉŒ¾‚¤‚Æ, ‘æ‚Pˆø”‚ÉTexture‚ğ‘ã“ü‚·‚é‚ÆAmTexWidth, mTexHeight‚ª•Ô‚³‚ê‚é
+	SDL_QueryTexture(texture, nullptr, nullptr, &mTexWidth, &mTexHeight);		//Textureã®æƒ…å ±ã®å–å¾—
+	//ç°¡å˜ã«è¨€ã†ã¨, ç¬¬ï¼‘å¼•æ•°ã«Textureã‚’ä»£å…¥ã™ã‚‹ã¨ã€mTexWidth, mTexHeightãŒè¿”ã•ã‚Œã‚‹
 
-	//Texture‚Ì•`‰æ‚ÍˆÈ‰º‚Ì2í—Ş
+	//Textureã®æç”»ã¯ä»¥ä¸‹ã®2ç¨®é¡
 	/*
-	ƒVƒ“ƒvƒ‹:
+	ã‚·ãƒ³ãƒ—ãƒ«:
 	int SDL_RenderCopy(SDL_Renderer* renderer, SDL_Texture* texture, const SDL_Rect* srcrect, const SDL_Rect* dstrect)
-	SDL_Renderer* renderer:•`‰æ‚·‚éƒŒƒ“ƒ_ƒŠƒ“ƒOƒRƒ“ƒeƒLƒXƒg
-	SDL_Texture* texture: •`‰æ‚µ‚½‚¢ƒeƒNƒXƒ`ƒƒ
-	const SDL_Rect* srcrect: •`‰æ‚µ‚½‚¢ƒeƒNƒXƒ`ƒƒ‚Ì”ÍˆÍ(‚·‚×‚Ä‚È‚çnullptr)
-	const SDL_Rect* dstrect: •`‰æ”ÍˆÍ‚Ì‹éŒ`(—v‚ÍAƒeƒNƒXƒ`ƒƒ‚Í‚±‚Ì—Ìˆæ‚É‡‚¤‚æ‚¤Šg‘åk¬‚ğs‚¤)
+	SDL_Renderer* renderer:æç”»ã™ã‚‹ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+	SDL_Texture* texture: æç”»ã—ãŸã„ãƒ†ã‚¯ã‚¹ãƒãƒ£
+	const SDL_Rect* srcrect: æç”»ã—ãŸã„ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç¯„å›²(ã™ã¹ã¦ãªã‚‰nullptr)
+	const SDL_Rect* dstrect: æç”»ç¯„å›²ã®çŸ©å½¢(è¦ã¯ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¯ã“ã®é ˜åŸŸã«åˆã†ã‚ˆã†æ‹¡å¤§ç¸®å°ã‚’è¡Œã†)
 	
-	ƒXƒvƒ‰ƒCƒg‚ğ‰ñ“]‚³‚¹‚½‚¢ê‡‚ÍˆÈ‰º‚ÌŠÖ”‚ğg—p‚·‚é
+	ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’å›è»¢ã•ã›ãŸã„å ´åˆã¯ä»¥ä¸‹ã®é–¢æ•°ã‚’ä½¿ç”¨ã™ã‚‹
 
 	*/
 }

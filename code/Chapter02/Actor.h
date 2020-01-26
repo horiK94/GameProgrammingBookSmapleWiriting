@@ -19,7 +19,7 @@ public:
 		EDead
 	};
 
-	Actor(class Game* game);	//コンストラクタ
+	Actor(class Game* game);	//繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	virtual ~Actor();
 
 	// Update function called from Game (not overridable)
@@ -28,7 +28,7 @@ public:
 	void UpdateComponents(float deltaTime);
 	// Any actor-specific update code (overridable)
 	virtual void UpdateActor(float deltaTime);
-	//Update()では UpdateComponent -> UpdateActor()と呼ばれる
+	//Update()縺ｧ縺ｯ UpdateComponent -> UpdateActor()縺ｨ蜻ｼ縺ｰ繧後ｋ
 
 	// Getters/setters
 	const Vector2& GetPosition() const { return mPosition; }

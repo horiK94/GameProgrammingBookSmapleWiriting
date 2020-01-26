@@ -19,7 +19,7 @@ AnimSpriteComponent::AnimSpriteComponent(Actor* owner, int drawOrder)
 void AnimSpriteComponent::Update(float deltaTime)
 {
 	SpriteComponent::Update(deltaTime);
-	//İ’è‚³‚ê‚Ä‚¢‚éƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÅ‰, ÅŒã‚Ìindex‚ğæ“¾
+	//è¨­å®šã•ã‚Œã¦ã„ã‚‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®æœ€åˆ, æœ€å¾Œã®indexã‚’å–å¾—
 	std::vector<int> indexInfo = animIndex[currentAnimName];
 	int firstIndex = indexInfo[0];
 	int lastIndex = indexInfo[1];
@@ -57,14 +57,14 @@ void AnimSpriteComponent::SetAnimTextures(std::string animName, const std::vecto
 		return;
 	}
 
-	//“o˜^‚·‚éindex‚Ì”Ô†‚ğæ“¾
+	//ç™»éŒ²ã™ã‚‹indexã®ç•ªå·ã‚’å–å¾—
 	int registedMaxIndex = mAnimTextures.size();
-	//texture‚Ì“o˜^
+	//textureã®ç™»éŒ²
 	for (auto texture : textures)
 	{
 		mAnimTextures.push_back(texture);
 	}
-	//ƒeƒNƒXƒ`ƒƒî•ñ‚Ì“o˜^
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£æƒ…å ±ã®ç™»éŒ²
 	animIndex[animName] = { registedMaxIndex, static_cast<int>(mAnimTextures.size()) };
 	isRoopAnimInfo[animName] = isRoop;
 
@@ -72,9 +72,9 @@ void AnimSpriteComponent::SetAnimTextures(std::string animName, const std::vecto
 	{
 		// Set the active texture to first frame
 		mCurrFrame = 0.0f;
-		//ƒAƒjƒ[ƒVƒ‡ƒ“‚Ìİ’è
+		//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®è¨­å®š
 		currentAnimName = animName;
-		//İ’è‚µ‚½ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÅ‰‚ÉƒeƒNƒXƒ`ƒƒ‚ğİ’è
+		//è¨­å®šã—ãŸã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®æœ€åˆã«ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¨­å®š
 		SetTexture(mAnimTextures[registedMaxIndex]);
 		isRoopAnim = isRoop;
 	}
@@ -94,6 +94,6 @@ void AnimSpriteComponent::ChangeAnim(std::string animName)
 	isRoopAnim = isRoopAnimInfo[animName];
 
 	int index = animIndex[animName][0];
-	//İ’è‚µ‚½ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌÅ‰‚ÉƒeƒNƒXƒ`ƒƒ‚ğİ’è
+	//è¨­å®šã—ãŸã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®æœ€åˆã«ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¨­å®š
 	SetTexture(mAnimTextures[index]);
 }

@@ -18,17 +18,17 @@ Actor::Actor(Game* game)
 	, mRotation(0.0f)
 	, mGame(game)
 {
-	mGame->AddActor(this);		//Game‚ÉActor‚ğ’Ç‰Á‚µ‚Ä‚¢‚é
+	mGame->AddActor(this);		//Gameã«Actorã‚’è¿½åŠ ã—ã¦ã„ã‚‹
 }
 
 Actor::~Actor()
 {
-	mGame->RemoveActor(this);		//Game‚©‚çActor‚ğÁ‹‚µ‚Ä‚¢‚é
+	mGame->RemoveActor(this);		//Gameã‹ã‚‰Actorã‚’æ¶ˆå»ã—ã¦ã„ã‚‹
 	// Need to delete components
 	// Because ~Component calls RemoveComponent, need a different style loop
 	while (!mComponents.empty())
 	{
-		delete mComponents.back();		//component‚àÁ‹‚·‚é
+		delete mComponents.back();		//componentã‚‚æ¶ˆå»ã™ã‚‹
 	}
 }
 

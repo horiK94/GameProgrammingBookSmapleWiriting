@@ -14,12 +14,12 @@ Component::Component(Actor* owner, int updateOrder)
 	,mUpdateOrder(updateOrder)
 {
 	// Add to actor's vector of components
-	mOwner->AddComponent(this);			//owner‚Ìcomponent‚É’Ç‰Á‚·‚é
+	mOwner->AddComponent(this);			//ownerã®componentã«è¿½åŠ ã™ã‚‹
 }
 
 Component::~Component()
 {
-	mOwner->RemoveComponent(this);		//owner‚Ìcomponent‚ÌƒŠƒXƒg‚©‚çŠO‚ê‚é
+	mOwner->RemoveComponent(this);		//ownerã®componentã®ãƒªã‚¹ãƒˆã‹ã‚‰å¤–ã‚Œã‚‹
 }
 
 void Component::Update(float deltaTime)

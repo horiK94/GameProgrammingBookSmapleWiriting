@@ -47,7 +47,7 @@ bool Game::Initialize()
 		return false;
 	}
 	
-	if (IMG_Init(IMG_INIT_PNG) == 0)		//‰æ‘œƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚Ì‚½‚ß‚Ì‰Šú‰»
+	if (IMG_Init(IMG_INIT_PNG) == 0)		//ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã®ãŸã‚ã®åˆæœŸåŒ–
 	{
 		SDL_Log("Unable to initialize SDL_image: %s", SDL_GetError());
 		return false;
@@ -91,21 +91,21 @@ void Game::ProcessInput()
 	/*
 	// Process ship input
 	mShip->ProcessKeyboard(state);
-	//ƒLƒƒƒ‰ƒNƒ^[‚Ì“ü—Íˆ—
+	//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®å…¥åŠ›å‡¦ç†
 	character->ProcessAnimKeyBoard(state);
 	*/
 }
 
 void Game::UpdateGame()
 {
-	// 16msˆÈ‰º‚Ìê‡‚Í‘Ò‚Â
+	// 16msä»¥ä¸‹ã®å ´åˆã¯å¾…ã¤
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16))
 		;
 
 	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
 	if (deltaTime > 0.05f)
 	{
-		deltaTime = 0.05f;		//ƒuƒŒƒCƒNƒ|ƒCƒ“ƒg‚Æ‚©‚ÅdeltaTime‚ª’l‚Å‚©‚­‚È‚Á‚½‚Ì•â³
+		deltaTime = 0.05f;		//ãƒ–ãƒ¬ã‚¤ã‚¯ãƒã‚¤ãƒ³ãƒˆã¨ã‹ã§deltaTimeãŒå€¤ã§ã‹ããªã£ãŸæ™‚ã®è£œæ­£
 	}
 	mTicksCount = SDL_GetTicks();
 
@@ -118,27 +118,27 @@ void Game::UpdateGame()
 	mUpdatingActors = false;
 
 	// Move any pending actors to mActors
-	for (auto pending : mPendingActors)		//foreach‚İ‚½‚¢‚È‚â‚Â
+	for (auto pending : mPendingActors)		//foreachã¿ãŸã„ãªã‚„ã¤
 	{
-		mActors.emplace_back(pending);		//actors‚É’Ç‰Á‚µ‚Ä‚¢‚­
+		mActors.emplace_back(pending);		//actorsã«è¿½åŠ ã—ã¦ã„ã
 	}
-	mPendingActors.clear();		//’Ç‰Á‚µI‚í‚Á‚½‚Ì‚ÅAclear‚µ‚Ä‚¨‚­
+	mPendingActors.clear();		//è¿½åŠ ã—çµ‚ã‚ã£ãŸã®ã§ã€clearã—ã¦ãŠã
 
-	// €‚ñ‚¾actor‚ÌÁ‹
+	// æ­»ã‚“ã actorã®æ¶ˆå»
 	std::vector<Actor*> deadActors;
 	for (auto actor : mActors)
 	{
 		if (actor->GetState() == Actor::EDead)
 		{
-			deadActors.emplace_back(actor);		//€‚ñ‚Å‚¢‚éactor‚ğdeadActors‚É’Ç‰Á
+			deadActors.emplace_back(actor);		//æ­»ã‚“ã§ã„ã‚‹actorã‚’deadActorsã«è¿½åŠ 
 		}
 	}
 
-	// Delete dead actors (which removes them from mActors)	mActors‚©‚çÁ‹‚³‚ê‚é(‚Æ‚¢‚¤‚Ì‚àAActor‚ÌƒfƒXƒgƒ‰ƒNƒ^‚ÅAÁ‚·ˆ—‚ª‘–‚Á‚Ä‚¢‚é‚½‚ß)
-	//‚»‚Ì‚½‚ßA‚±‚Á‚¿‘¤‚ÅÁ‚·ˆ—‚Í‚µ‚Ä‚Í‚¢‚¯‚È‚¢
+	// Delete dead actors (which removes them from mActors)	mActorsã‹ã‚‰æ¶ˆå»ã•ã‚Œã‚‹(ã¨ã„ã†ã®ã‚‚ã€Actorã®ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã€æ¶ˆã™å‡¦ç†ãŒèµ°ã£ã¦ã„ã‚‹ãŸã‚)
+	//ãã®ãŸã‚ã€ã“ã£ã¡å´ã§æ¶ˆã™å‡¦ç†ã¯ã—ã¦ã¯ã„ã‘ãªã„
 	for (auto actor : deadActors)
 	{
-		delete actor;		//€‚ñ‚Å‚¢‚éactor‚ğÁ‚µ‚Ä‚¢‚­
+		delete actor;		//æ­»ã‚“ã§ã„ã‚‹actorã‚’æ¶ˆã—ã¦ã„ã
 	}
 }
 
@@ -156,7 +156,7 @@ void Game::GenerateOutput()
 	SDL_RenderPresent(mRenderer);
 }
 
-//ƒQ[ƒ€ƒ[ƒ‹ƒh‚É“oê‚·‚é‚·‚×‚Ä‚ÌƒAƒNƒ^[‚ğì¬‚·‚éŠÖ”
+//ã‚²ãƒ¼ãƒ ãƒ¯ãƒ¼ãƒ«ãƒ‰ã«ç™»å ´ã™ã‚‹ã™ã¹ã¦ã®ã‚¢ã‚¯ã‚¿ãƒ¼ã‚’ä½œæˆã™ã‚‹é–¢æ•°
 void Game::LoadData()
 {
 	/*
@@ -165,16 +165,16 @@ void Game::LoadData()
 	mShip->SetPosition(Vector2(100.0f, 384.0f));
 	mShip->SetScale(1.5f);
 
-	//ƒLƒƒƒ‰ƒNƒ^[‚Ìì¬
+	//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ä½œæˆ
 	character = new Character(this);
 	character->SetPosition(Vector2(200.0f, 384.0f));
 	character->SetScale(1.0f);
 	
-	//SDL_Image‚ğ‰Šú‰»‚·‚ê‚ÎA‚ ‚Æ‚ÍIMG_Load()‚ÅSDL_Surface\‘¢‘Ì‚Éƒ[ƒh‚Å‚«‚é
+	//SDL_Imageã‚’åˆæœŸåŒ–ã™ã‚Œã°ã€ã‚ã¨ã¯IMG_Load()ã§SDL_Surfaceæ§‹é€ ä½“ã«ãƒ­ãƒ¼ãƒ‰ã§ãã‚‹
 
 	// Create actor for the background (this doesn't need a subclass)
 	Actor* temp = new Actor(this);
-	temp->SetPosition(Vector2(512.0f, 384.0f));		//‰æ–Ê‚Ì’†S
+	temp->SetPosition(Vector2(512.0f, 384.0f));		//ç”»é¢ã®ä¸­å¿ƒ
 	// Create the "far back" background
 	BGSpriteComponent* bg = new BGSpriteComponent(temp);
 	bg->SetScreenSize(Vector2(1024.0f, 768.0f));
@@ -200,7 +200,7 @@ void Game::LoadData()
 
 	Vector2 screenSize(1024.0f, 768.0f);
 
-	//ˆÈ‰º‚Ífor•¶‚Å‚â‚Á‚½‚Ù‚¤‚ªƒzƒ“ƒg‚Í—Ç‚¢‚Æv‚í‚ê‚é
+	//ä»¥ä¸‹ã¯foræ–‡ã§ã‚„ã£ãŸã»ã†ãŒãƒ›ãƒ³ãƒˆã¯è‰¯ã„ã¨æ€ã‚ã‚Œã‚‹
 	TileMapComponent* tm1 = new TileMapComponent(bg, 150);
 	tm1->SetTileSet(tileTexture, screenSize, Game::TILE_WIDTH_NUM, Game::TILE_HEIGHT_NUM);
 	tm1->SetTileData("Assets/MapLayer1.csv");
@@ -221,10 +221,10 @@ void Game::UnloadData()
 {
 	// Delete actors
 	// Because ~Actor calls RemoveActor, have to use a different style loop
-	// removeActor‚·‚é‚Ì‚ÍƒfƒXƒgƒ‰ƒNƒ^‚æ‚èAdelete‚ğ‚µ‚Ä‚¢‚é
+	// removeActorã™ã‚‹ã®ã¯ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿æ™‚ã‚ˆã‚Šã€deleteã‚’ã—ã¦ã„ã‚‹
 	while (!mActors.empty())
 	{
-		delete mActors.back();		//––”ö‚Ì—v‘f‚Ö‚ÌQÆ‚ğíœ‚·‚é
+		delete mActors.back();		//æœ«å°¾ã®è¦ç´ ã¸ã®å‚ç…§ã‚’å‰Šé™¤ã™ã‚‹
 	}
 
 	// Destroy textures
@@ -235,14 +235,14 @@ void Game::UnloadData()
 	mTextures.clear();
 }
 
-//‰æ‘œ‚Ìƒ[ƒh
+//ç”»åƒã®ãƒ­ãƒ¼ãƒ‰
 SDL_Texture* Game::GetTexture(const std::string& fileName)
 {
-	//C++03‚Ü‚ÅAƒkƒ‹ƒ|ƒCƒ“ƒ^‚ğ•\‚·‚½‚ß‚É0”’lƒŠƒeƒ‰ƒ‹‚âNULLƒ}ƒNƒ‚ğg—p‚µ‚Ä‚¢‚½BC++11‚©‚ç‚ÍAnullptrƒL[ƒ[ƒh‚Åƒkƒ‹ƒ|ƒCƒ“ƒ^’l‚ğ•\‚·‚±‚Æ‚ğ„§‚·‚éB
+	//C++03ã¾ã§ã€ãƒŒãƒ«ãƒã‚¤ãƒ³ã‚¿ã‚’è¡¨ã™ãŸã‚ã«0æ•°å€¤ãƒªãƒ†ãƒ©ãƒ«ã‚„NULLãƒã‚¯ãƒ­ã‚’ä½¿ç”¨ã—ã¦ã„ãŸã€‚C++11ã‹ã‚‰ã¯ã€nullptrã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã§ãƒŒãƒ«ãƒã‚¤ãƒ³ã‚¿å€¤ã‚’è¡¨ã™ã“ã¨ã‚’æ¨å¥¨ã™ã‚‹ã€‚
 
 	SDL_Texture* tex = nullptr;
 	// Is the texture already in the map?
-	auto iter = mTextures.find(fileName);		//‚·‚Å‚Éƒ[ƒh‚µ‚½‰æ‘œ‚ª‘ã“ü‚³‚ê‚½˜A‘z”z—ñ
+	auto iter = mTextures.find(fileName);		//ã™ã§ã«ãƒ­ãƒ¼ãƒ‰ã—ãŸç”»åƒãŒä»£å…¥ã•ã‚ŒãŸé€£æƒ³é…åˆ—
 	if (iter != mTextures.end())
 	{
 		tex = iter->second;
@@ -250,15 +250,15 @@ SDL_Texture* Game::GetTexture(const std::string& fileName)
 	else
 	{
 		// Load from file
-		//SDL_Surface: ƒRƒs[—p‚Ég‚í‚ê‚éƒsƒNƒZƒ‹‚ÌW‚Ü‚è‚Ì\‘¢‘Ì
-		SDL_Surface* surf = IMG_Load(fileName.c_str());		//‰æ‘œ‚Ì“Ç‚İ‚İ
-		//c_str(): NULL‚ÅI’[‚³‚ê‚½•¶š”z—ñ‚Ìæ“ª‚Ìƒ|ƒCƒ“ƒ^‚ğ•Ô‚·
+		//SDL_Surface: ã‚³ãƒ”ãƒ¼ç”¨ã«ä½¿ã‚ã‚Œã‚‹ãƒ”ã‚¯ã‚»ãƒ«ã®é›†ã¾ã‚Šã®æ§‹é€ ä½“
+		SDL_Surface* surf = IMG_Load(fileName.c_str());		//ç”»åƒã®èª­ã¿è¾¼ã¿
+		//c_str(): NULLã§çµ‚ç«¯ã•ã‚ŒãŸæ–‡å­—é…åˆ—ã®å…ˆé ­ã®ãƒã‚¤ãƒ³ã‚¿ã‚’è¿”ã™
 		/*
 		  std::string s("Hello, world!");
 		  std::puts(s.c_str());		//Hello, World!
 
 		  s[5] = '\0';
-		  std::puts(s.c_str());  // ',' ˆÈ~‚Ío—Í‚³‚ê‚È‚¢(Hello‚Ì‚İo—Í‚³‚ê‚é)
+		  std::puts(s.c_str());  // ',' ä»¥é™ã¯å‡ºåŠ›ã•ã‚Œãªã„(Helloã®ã¿å‡ºåŠ›ã•ã‚Œã‚‹)
 		*/
 		if (!surf)
 		{
@@ -267,7 +267,7 @@ SDL_Texture* Game::GetTexture(const std::string& fileName)
 		}
 
 		// Create texture from surface
-		tex = SDL_CreateTextureFromSurface(mRenderer, surf);		//SDL_Surface\‘¢‘Ì‚©‚çSDL_Texture\‘¢‘Ì‚Ö•ÏŠ·
+		tex = SDL_CreateTextureFromSurface(mRenderer, surf);		//SDL_Surfaceæ§‹é€ ä½“ã‹ã‚‰SDL_Textureæ§‹é€ ä½“ã¸å¤‰æ›
 		SDL_FreeSurface(surf);
 		if (!tex)
 		{
@@ -292,7 +292,7 @@ void Game::Shutdown()
 void Game::AddActor(Actor* actor)
 {
 	// If we're updating actors, need to add to pending
-	//update’†‚È‚çmPendingActors‚É, update’†‚Å‚È‚¢ê‡actors‚É’Ç‰Á
+	//updateä¸­ãªã‚‰mPendingActorsã«, updateä¸­ã§ãªã„å ´åˆactorsã«è¿½åŠ 
 	if (mUpdatingActors)
 	{
 		mPendingActors.emplace_back(actor);
@@ -306,14 +306,14 @@ void Game::AddActor(Actor* actor)
 void Game::RemoveActor(Actor* actor)
 {
 	// Is it in pending actors?
-	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);		//auto‚Æ‚Íc#‚Å‚¢‚¤var‚Ì‚æ‚¤‚È‚â‚Â
-	//std;;find(): [begin, last)“à‚Éactor‚Æ“¯‚¶‚à‚Ì‚ÌÅ‰‚ğ•Ô‚·.‚È‚©‚Á‚½last‚ğ•Ô‚·(std::vector::end‚ÍŠm•Û‚µ‚½ƒƒ‚ƒŠ‚É+1‚µ‚½êŠ(‚Â‚Ü‚èA’l‚Í–¢’è‹`))
+	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);		//autoã¨ã¯c#ã§ã„ã†varã®ã‚ˆã†ãªã‚„ã¤
+	//std;;find(): [begin, last)å†…ã«actorã¨åŒã˜ã‚‚ã®ã®æœ€åˆã‚’è¿”ã™.ãªã‹ã£ãŸlastã‚’è¿”ã™(std::vector::endã¯ç¢ºä¿ã—ãŸãƒ¡ãƒ¢ãƒªã«+1ã—ãŸå ´æ‰€(ã¤ã¾ã‚Šã€å€¤ã¯æœªå®šç¾©))
 	if (iter != mPendingActors.end())
 	{
-		//Œ©‚Â‚©‚Á‚½ê‡
+		//è¦‹ã¤ã‹ã£ãŸå ´åˆ
 		// Swap to end of vector and pop off (avoid erase copies)
-		std::iter_swap(iter, mPendingActors.end() - 1);		//Šm•Û‚µ‚½ƒƒ‚ƒŠ‚ÌÅŒã‚Ì—v‘f‚Æiter‚ğŒğŠ·‚·‚é
-		mPendingActors.pop_back();		//––”ö—v‘f‚ğíœ‚·‚é
+		std::iter_swap(iter, mPendingActors.end() - 1);		//ç¢ºä¿ã—ãŸãƒ¡ãƒ¢ãƒªã®æœ€å¾Œã®è¦ç´ ã¨iterã‚’äº¤æ›ã™ã‚‹
+		mPendingActors.pop_back();		//æœ«å°¾è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹
 	}
 
 	// Is it in actors?
@@ -330,13 +330,13 @@ void Game::AddSprite(SpriteComponent* sprite)
 {
 	// Find the insertion point in the sorted vector
 	// (The first element with a higher draw order than me)
-	int myDrawOrder = sprite->GetDrawOrder();		//•`‰æ‡˜‚Ìæ“¾
-	auto iter = mSprites.begin();		//SpriteComponent‚ÌQÆ‚ª‘ã“ü‚³‚ê‚½“®“I”z—ñ‚Ìæ“ª‚Ìƒ|ƒCƒ“ƒ^‚ğæ“¾
+	int myDrawOrder = sprite->GetDrawOrder();		//æç”»é †åºã®å–å¾—
+	auto iter = mSprites.begin();		//SpriteComponentã®å‚ç…§ãŒä»£å…¥ã•ã‚ŒãŸå‹•çš„é…åˆ—ã®å…ˆé ­ã®ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—
 	for ( ;
 		iter != mSprites.end();
 		++iter)
 	{
-		//’; •`‰æ‡˜‚ª’á‚¢‚Ù‚Ç‰“‚­‚É’u‚©‚ê‚é
+		//æ³¨; æç”»é †åºãŒä½ã„ã»ã©é ãã«ç½®ã‹ã‚Œã‚‹
 		if (myDrawOrder < (*iter)->GetDrawOrder())
 		{
 			break;
@@ -344,8 +344,8 @@ void Game::AddSprite(SpriteComponent* sprite)
 	}
 
 	// Inserts element before position of iterator
-	mSprites.insert(iter, sprite);		//‘}“ü
-	//insert(‚Ç‚Ì—v‘f‚Ì‘O‚É‘}“ü‚·‚é‚©, ‰½‚ğ‘}“ü‚·‚é‚©)
+	mSprites.insert(iter, sprite);		//æŒ¿å…¥
+	//insert(ã©ã®è¦ç´ ã®å‰ã«æŒ¿å…¥ã™ã‚‹ã‹, ä½•ã‚’æŒ¿å…¥ã™ã‚‹ã‹)
 }
 
 void Game::RemoveSprite(SpriteComponent* sprite)

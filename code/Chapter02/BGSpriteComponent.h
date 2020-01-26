@@ -16,9 +16,9 @@ public:
 	// Set draw order to default to lower (so it's in the background)
 	BGSpriteComponent(class Actor* owner, int drawOrder = 10);
 	// Update/draw overriden from parent
-	void Update(float deltaTime) override;		//deltatime‚É‚æ‚Á‚ÄA•\¦ƒXƒ^[ƒgˆÊ’u‚ª•Ï‚í‚é‚½‚ß
-	void Draw(SDL_Renderer* renderer) override;		//•`‰æ‚Ì‰ŠúˆÊ’u‚ª•Ï‚í‚é‚½‚ß
-	// Set the textures used for the background(BGTexture\‘¢‘Ì‚ÌmOffeset‚Í‚±‚ÌŠÖ”‚Å‰Šú‰»‚³‚ê‚é)
+	void Update(float deltaTime) override;		//deltatimeã«ã‚ˆã£ã¦ã€è¡¨ç¤ºã‚¹ã‚¿ãƒ¼ãƒˆä½ç½®ãŒå¤‰ã‚ã‚‹ãŸã‚
+	void Draw(SDL_Renderer* renderer) override;		//æç”»ã®åˆæœŸä½ç½®ãŒå¤‰ã‚ã‚‹ãŸã‚
+	// Set the textures used for the background(BGTextureæ§‹é€ ä½“ã®mOffesetã¯ã“ã®é–¢æ•°ã§åˆæœŸåŒ–ã•ã‚Œã‚‹)
 	void SetBGTextures(const std::vector<SDL_Texture*>& textures);
 	// Get/set screen size and scroll speed
 	void SetScreenSize(const Vector2& size) { mScreenSize = size; }

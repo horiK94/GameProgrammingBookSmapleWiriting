@@ -18,13 +18,13 @@ TileMapComponent::~TileMapComponent()
 
 void TileMapComponent::SetTileSet(SDL_Texture* tileSet, Vector2 screenSize, int tileXNum, int tileYNum)
 {
-	//Texture‚Ìİ’è(‚±‚±‚Å‰æ‘œ‚ÌƒTƒCƒY‚ÍŒvZ‚³‚ê‚é)
+	//Textureã®è¨­å®š(ã“ã“ã§ç”»åƒã®ã‚µã‚¤ã‚ºã¯è¨ˆç®—ã•ã‚Œã‚‹)
 	SetTexture(tileSet);
 
 	tileSetXNum = tileXNum;
 	tileSetYNum = tileYNum;
 
-	//ƒ^ƒCƒ‹1–‡‚ ‚½‚è‚ÌƒTƒCƒY‚ğ•Û‘¶‚µ‚Ä‚¨‚­
+	//ã‚¿ã‚¤ãƒ«1æšã‚ãŸã‚Šã®ã‚µã‚¤ã‚ºã‚’ä¿å­˜ã—ã¦ãŠã
 	tileSetSize.x = mTexWidth / tileXNum;
 	tileSetSize.y = mTexHeight / tileYNum;
 
@@ -39,11 +39,11 @@ void TileMapComponent::Draw(SDL_Renderer* rendere)
 		{
 			for (int k = 0; k < tileWidth; k++)
 			{
-				//•`‰æêŠ‚Ì•`‰æ‚ğs‚¤
+				//æç”»å ´æ‰€ã®æç”»ã‚’è¡Œã†
 				int id = tileMapData[i][k];
 				if (id == -1)
 				{
-					//•`‰æ‚ğs‚í‚È‚¢
+					//æç”»ã‚’è¡Œã‚ãªã„
 					continue;
 				}
 				DrawTile(rendere, k, i, id);
@@ -58,16 +58,16 @@ void TileMapComponent::DrawTile(SDL_Renderer* renderer, int x, int y, int id)
 	{
 		if (id == -1)
 		{
-			//id ‚ª-1‚Ì‚Æ‚«‚Í•`‰æ‚µ‚È‚¢(—áŠOˆ—)
+			//id ãŒ-1ã®ã¨ãã¯æç”»ã—ãªã„(ä¾‹å¤–å‡¦ç†)
 			return;
 		}
 
-		SDL_Rect r;		//SDL_Rext‚Ìx, yÀ•W‚Í¶ã‚ÌÀ•W‚Ì‚½‚ßAˆÈ‰º‚Å•â³‚ğs‚¤
+		SDL_Rect r;		//SDL_Rextã®x, yåº§æ¨™ã¯å·¦ä¸Šã®åº§æ¨™ã®ãŸã‚ã€ä»¥ä¸‹ã§è£œæ­£ã‚’è¡Œã†
 // Scale the width/height by owner's scale
-		r.w = static_cast<int>(tileSetSize.x * mOwner->GetScale());		//‰¡•*ƒTƒCƒY
-		r.h = static_cast<int>(tileSetSize.y * mOwner->GetScale());		//c•*ƒTƒCƒY
+		r.w = static_cast<int>(tileSetSize.x * mOwner->GetScale());		//æ¨ªå¹…*ã‚µã‚¤ã‚º
+		r.h = static_cast<int>(tileSetSize.y * mOwner->GetScale());		//ç¸¦å¹…*ã‚µã‚¤ã‚º
 		// Center the rectangle around the position of the owner
-		r.x = static_cast<int>(mOwner->GetPosition().x - (tileWidth * tileSetSize.x / 2) + x * r.w);		//Actor‚ª•Û‚µ‚Ä‚¢‚émPosition‚Í’†S“_‚ÌÀ•W‚Ì‚½‚ßAC³‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+		r.x = static_cast<int>(mOwner->GetPosition().x - (tileWidth * tileSetSize.x / 2) + x * r.w);		//ActorãŒä¿æŒã—ã¦ã„ã‚‹mPositionã¯ä¸­å¿ƒç‚¹ã®åº§æ¨™ã®ãŸã‚ã€ä¿®æ­£ã—ãªã‘ã‚Œã°ãªã‚‰ãªã„
 		r.y = static_cast<int>(mOwner->GetPosition().y - (tileHeight * tileSetSize.y / 2) + y * r.h);
 
 		SDL_Rect tileRect;
@@ -87,7 +87,7 @@ void TileMapComponent::DrawTile(SDL_Renderer* renderer, int x, int y, int id)
 
 void TileMapComponent::GetDrawSetMapRect(SDL_Rect* rect, int id)
 {
-	//0‚©‚çn‚Ü‚éc, ‰¡‚É‘Î‚·‚éid‚ğŒvZ
+	//0ã‹ã‚‰å§‹ã¾ã‚‹ç¸¦, æ¨ªã«å¯¾ã™ã‚‹idã‚’è¨ˆç®—
 	int xNumber = id % tileSetXNum;
 	int yNumber = id / tileSetXNum;
 	if (yNumber < 0 || yNumber >= tileSetYNum)
@@ -104,7 +104,7 @@ void TileMapComponent::GetDrawSetMapRect(SDL_Rect* rect, int id)
 
 SDL_Rect* TileMapComponent::GetDrawRect(int id)
 {
-	//0‚©‚çn‚Ü‚éc, ‰¡‚É‘Î‚·‚éid‚ğŒvZ
+	//0ã‹ã‚‰å§‹ã¾ã‚‹ç¸¦, æ¨ªã«å¯¾ã™ã‚‹idã‚’è¨ˆç®—
 	int xNumber = id % tileSetXNum;
 	int yNumber = id / tileSetXNum;
 	if (yNumber < 0 || yNumber >= tileSetYNum)
@@ -121,7 +121,7 @@ SDL_Rect* TileMapComponent::GetDrawRect(int id)
 
 	return &rect;
 } 
-ã‚Ì‚æ‚¤‚É‘‚­‚ÆArect‚ÌƒAƒhƒŒƒX‚ª•Ô‚³‚ê‚é‘O‚ÉA•Ô‚è’l‚Ìrect‚Ìõ–½‚ª—ˆ‚Ä‚µ‚Ü‚¤‚Ì‚Å’ˆÓ(‚¤‚Ü‚­“®‚©‚È‚­‚È‚é)
+ä¸Šã®ã‚ˆã†ã«æ›¸ãã¨ã€rectã®ã‚¢ãƒ‰ãƒ¬ã‚¹ãŒè¿”ã•ã‚Œã‚‹å‰ã«ã€è¿”ã‚Šå€¤ã®rectã®å¯¿å‘½ãŒæ¥ã¦ã—ã¾ã†ã®ã§æ³¨æ„(ã†ã¾ãå‹•ã‹ãªããªã‚‹)
 */
 
 void TileMapComponent::SetTileData(std::string fileName)

@@ -22,21 +22,21 @@ public:
 	// Set/get the animation FPS
 	float GetAnimFPS() const { return mAnimFPS; }
 	void SetAnimFPS(float fps) { mAnimFPS = fps; }
-	//ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì•ÏX
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å¤‰æ›´
 	void ChangeAnim(std::string animName);
 private:
 	// All textures in the animation
 	std::vector<SDL_Texture*> mAnimTextures;
-	//ƒAƒjƒ[ƒVƒ‡ƒ“‚É‘Î‰‚·‚éƒCƒ“ƒfƒbƒNƒX
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã«å¯¾å¿œã™ã‚‹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	std::map<std::string, std::vector<int>> animIndex;
-	//ƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒ‹[ƒv‚³‚¹‚é‚©
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ãƒ«ãƒ¼ãƒ—ã•ã›ã‚‹ã‹
 	std::map<std::string, bool> isRoopAnimInfo;
-	//Œ»İÄ¶’†‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+	//ç¾åœ¨å†ç”Ÿä¸­ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 	std::string currentAnimName;
 	// Current frame displayed
 	float mCurrFrame;
 	// Animation frame rate
 	float mAnimFPS;
-	// Œ»İ‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚Ìƒ‹[ƒvİ’è
+	// ç¾åœ¨ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ«ãƒ¼ãƒ—è¨­å®š
 	bool isRoopAnim;
 };
