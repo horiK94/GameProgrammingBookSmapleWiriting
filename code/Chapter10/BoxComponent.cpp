@@ -18,7 +18,7 @@ BoxComponent::BoxComponent(Actor* owner, int updateOrder)
 	,mShouldRotate(true)
 {
 	//mOwner->GetGame()->GetPhysWorld()->AddBox(this);
-	mOwner->GetGame()->GetPhysWorld()->AddBox(this);		//‚±‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ðABoxComponent‚ðŠÇ—‚µ‚Ä‚¢‚éPhysWorld‚ÉAdd
+	mOwner->GetGame()->GetPhysWorld()->AddBox(this);		//ã“ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã€BoxComponentã‚’ç®¡ç†ã—ã¦ã„ã‚‹PhysWorldã«Add
 }
 
 BoxComponent::~BoxComponent()
@@ -43,19 +43,19 @@ void BoxComponent::OnUpdateWorldTransform()
 	//mWorldBox.mMin += mOwner->GetPosition();
 	//mWorldBox.mMax += mOwner->GetPosition();
 
-	//ƒIƒuƒWƒFƒNƒg‹óŠÔ‚ðƒXƒP[ƒŠƒ“ƒOA‰ñ“]A•½sˆÚ“®‚ð“K—p‚µAƒ[ƒ‹ƒhÀ•W‚É‚·‚é
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç©ºé–“ã‚’ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã€å›žè»¢ã€å¹³è¡Œç§»å‹•ã‚’é©ç”¨ã—ã€ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã«ã™ã‚‹
 	mWorldBox = mObjectBox;
-	//ƒXƒP[ƒŠƒ“ƒO“K—p
+	//ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°é©ç”¨
 	mWorldBox.mMin *= mOwner->GetScale();
 	mWorldBox.mMax *= mOwner->GetScale();
 
-	//‰ñ“]“K—p
+	//å›žè»¢é©ç”¨
 	if (mShouldRotate)
 	{
-		//‰ñ“]‚ð‚·‚éÝ’è‚È‚çŠ—LƒAƒNƒ^[‚ÌQuaternion‚ð“n‚·
+		//å›žè»¢ã‚’ã™ã‚‹è¨­å®šãªã‚‰æ‰€æœ‰ã‚¢ã‚¯ã‚¿ãƒ¼ã®Quaternionã‚’æ¸¡ã™
 		mWorldBox.Rotate(mOwner->GetRotation());
 	}
-	//•½sˆÚ“®
+	//å¹³è¡Œç§»å‹•
 	mWorldBox.mMin += mOwner->GetPosition();
 	mWorldBox.mMax += mOwner->GetPosition();
 }

@@ -173,8 +173,8 @@ void FPSActor::SetVisible(bool visible)
 	mMeshComp->SetVisible(visible);
 }
 
-//Actor‚ğˆÚ“®‚µ‚½‚ ‚Æ‚ÉŒÄ‚ÔŠÖ”
-//ƒRƒŠƒWƒ‡ƒ“‰‚¶‚ÄAActor‚ÌˆÊ’u‚ğ”÷’²®‚·‚é
+//Actorã‚’ç§»å‹•ã—ãŸã‚ã¨ã«å‘¼ã¶é–¢æ•°
+//ã‚³ãƒªã‚¸ãƒ§ãƒ³å¿œã˜ã¦ã€Actorã®ä½ç½®ã‚’å¾®èª¿æ•´ã™ã‚‹
 void FPSActor::FixCollisions()
 {
 	//// Need to recompute my world transform to update world box
@@ -228,9 +228,9 @@ void FPSActor::FixCollisions()
 	//	}
 	//}
 
-	//MoveComponent‚É‚æ‚Á‚ÄAƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ª•Ï‚í‚Á‚Ä‚¢‚é‚½‚ßA
-	//BoxComponent‚ÆActor‚ÌˆÊ’u‚ª‚¸‚ê‚Ä‚¢‚é‰Â”\«‚ª‚ ‚é
-	//‚»‚Ì‚½‚ßAƒ[ƒ‹ƒh‹óŠÔ‚ÌXV‚ğs‚¢A³‚µ‚¢BoxComponent‚ÌˆÊ’u‚ÉXV‚µ‚Ä‚¢‚é
+	//MoveComponentã«ã‚ˆã£ã¦ã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ãŒå¤‰ã‚ã£ã¦ã„ã‚‹ãŸã‚ã€
+	//BoxComponentã¨Actorã®ä½ç½®ãŒãšã‚Œã¦ã„ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹
+	//ãã®ãŸã‚ã€ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã®æ›´æ–°ã‚’è¡Œã„ã€æ­£ã—ã„BoxComponentã®ä½ç½®ã«æ›´æ–°ã—ã¦ã„ã‚‹
 	ComputeWorldTransform();
 
 	const AABB& playerBox = mBoxComp->GetWorldBox();
@@ -238,12 +238,12 @@ void FPSActor::FixCollisions()
 	auto& planes = GetGame()->GetPlanes();
 	for (auto plane : planes)
 	{
-		//plane‚ÌƒoƒEƒ“ƒfƒBƒ“ƒOƒ{ƒbƒNƒX‚ğæ“¾
-		const AABB& planeBox = plane->GetBox()->GetWorldBox();		//GetWorldBox()‚ÍconstŠÖ”‚Å‚ ‚é‚½‚ßA•Ï”‚Ì•û‚É‚àconst‚ª•K—v
-		//playerBox‚Æplane‚ÌÕ“Ë”»’è‚Íplane‰ñ”•ª‚¾‚¯‚ÅÏ‚Ş
+		//planeã®ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹ã‚’å–å¾—
+		const AABB& planeBox = plane->GetBox()->GetWorldBox();		//GetWorldBox()ã¯consté–¢æ•°ã§ã‚ã‚‹ãŸã‚ã€å¤‰æ•°ã®æ–¹ã«ã‚‚constãŒå¿…è¦
+		//playerBoxã¨planeã®è¡çªåˆ¤å®šã¯planeå›æ•°åˆ†ã ã‘ã§æ¸ˆã‚€
 		if (Intersect(playerBox, planeBox))
 		{
-			//Õ“Ë‚ª‚ ‚éê‡‚Í·‚ğŒvZ‚·‚é
+			//è¡çªãŒã‚ã‚‹å ´åˆã¯å·®ã‚’è¨ˆç®—ã™ã‚‹
 			float dx1 = planeBox.mMax.x - playerBox.mMin.x;
 			float dx2 = planeBox.mMin.x - playerBox.mMax.x;
 			float dx3 = planeBox.mMax.y - playerBox.mMin.y;
@@ -251,12 +251,12 @@ void FPSActor::FixCollisions()
 			float dx5 = planeBox.mMax.z - playerBox.mMin.z;
 			float dx6 = planeBox.mMin.z - playerBox.mMax.z;
 
-			//·‚Ì’á‚¢•û‚ğƒZƒbƒg‚·‚é
+			//å·®ã®ä½ã„æ–¹ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 			float dx = Math::Abs(dx1) < Math::Abs(dx2) ? dx1 : dx2;
 			float dy = Math::Abs(dx3) < Math::Abs(dx4) ? dx3 : dx4;
 			float dz = Math::Abs(dx5) < Math::Abs(dx6) ? dx5 : dx6;
 
-			//Å‚à·‚Ì¬‚³‚¢²‚ÅC³‚·‚é
+			//æœ€ã‚‚å·®ã®å°ã•ã„è»¸ã§ä¿®æ­£ã™ã‚‹
 			if (Math::Abs(dx) < Math::Abs(dy)
 				&& Math::Abs(dx) < Math::Abs(dz))
 			{
@@ -271,9 +271,9 @@ void FPSActor::FixCollisions()
 				pos.z += dz;
 			}
 
-			//ˆÊ’u‚ğİ’è
+			//ä½ç½®ã‚’è¨­å®š
 			SetPosition(pos);
-			//Actor‚ÌBoxComponent‚ÌˆÊ’u‚àC³
+			//Actorã®BoxComponentã®ä½ç½®ã‚‚ä¿®æ­£
 			mBoxComp->OnUpdateWorldTransform();
 
 			if (mMoveComp->GetAccelerationSpeed() < -5)
@@ -294,11 +294,11 @@ void FPSActor::FixCollisions()
 
 	if (state == State::GROUND)
 	{
-		//‰ºŒü‚«‚ÉSegmentCast‚ğì¬‚µA—‰º‚µ‚Ä‚È‚¢‚©ƒ`ƒFƒbƒN
+		//ä¸‹å‘ãã«SegmentCastã‚’ä½œæˆã—ã€è½ä¸‹ã—ã¦ãªã„ã‹ãƒã‚§ãƒƒã‚¯
 		const float semengLength = 110.0f;
-		//startˆÊ’u‚ğ©g‚ÌˆÊ’u‚É‚µ‚Ä‚µ‚Ü‚¤‚ÆAPlayer‚É‚Â‚¢‚Ä‚¢‚éAABB‚Æü•ª‚ª‚Ô‚Â‚©‚Á‚½‚Æ‚µ‚Ä”»’è‚³‚ê‚Ä‚µ‚Ü‚¤
-		//‚È‚º‚È‚çASegmentCast()‚Ístart‚É‹ß‚¢’l‚ğ•Ô‚»‚¤‚Æ‚·‚é‚©‚ç
-		//‚»‚Ì‚½‚ßA°‰º‚ğstartˆÊ’u‚É‚·‚é‚æ‚¤•ÏX
+		//startä½ç½®ã‚’è‡ªèº«ã®ä½ç½®ã«ã—ã¦ã—ã¾ã†ã¨ã€Playerã«ã¤ã„ã¦ã„ã‚‹AABBã¨ç·šåˆ†ãŒã¶ã¤ã‹ã£ãŸã¨ã—ã¦åˆ¤å®šã•ã‚Œã¦ã—ã¾ã†
+		//ãªãœãªã‚‰ã€SegmentCast()ã¯startã«è¿‘ã„å€¤ã‚’è¿”ãã†ã¨ã™ã‚‹ã‹ã‚‰
+		//ãã®ãŸã‚ã€åºŠä¸‹ã‚’startä½ç½®ã«ã™ã‚‹ã‚ˆã†å¤‰æ›´
 		Vector3 end = GetPosition();
 		Vector3 dir = -1 * GetUp();
 		Vector3 start = end + dir * semengLength;
@@ -314,7 +314,7 @@ void FPSActor::FixCollisions()
 				return;
 			}
 		}
-		//°‚Æİ’u‚µ‚Ä‚¢‚È‚¢‚½‚ßA—‰ºˆ—‚ğs‚¤
+		//åºŠã¨è¨­ç½®ã—ã¦ã„ãªã„ãŸã‚ã€è½ä¸‹å‡¦ç†ã‚’è¡Œã†
 		mMoveComp->SetAccelerationCalc(true);
 		state = State::FALL;
 	}

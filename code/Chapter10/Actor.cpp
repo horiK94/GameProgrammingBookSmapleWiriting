@@ -100,26 +100,26 @@ void Actor::RotateToNewForward(const Vector3& forward)
 	//	SetRotation(Quaternion(axis, angle));
 	//}
 	
-	//“àÏ‚ğ‹‚ß‚é(Œ³‚Ì•ûŒü=’PˆÊX‚Æ‘O•ûforward‚Ì“àÏ)
+	//å†…ç©ã‚’æ±‚ã‚ã‚‹(å…ƒã®æ–¹å‘=å˜ä½Xã¨å‰æ–¹forwardã®å†…ç©)
 	float dot = Vector3::Dot(Vector3::UnitX, forward);
-	//Šp“x‚ğ‹‚ß‚é
+	//è§’åº¦ã‚’æ±‚ã‚ã‚‹
 	float angle = Math::Acos(dot);
 	if (dot > 0.9999f)
 	{
-		//forward‚Ì•ûŒü‚ª‚Ù‚Úx‚Ì‚Æ‚«
+		//forwardã®æ–¹å‘ãŒã»ã¼xã®ã¨ã
 		SetRotation(Quaternion::Identity);
 	}
 	else if (dot < -0.9999f)
 	{
-		//forward‚Ì•ûŒü‚ª‚Ù‚Ú-x‚Ì‚Æ‚«
-		SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));		//foward‚ğz²‚ğŠî“_‚ÉPiƒ‰ƒWƒAƒ“‰ñ“]‚³‚¹‚é
+		//forwardã®æ–¹å‘ãŒã»ã¼-xã®ã¨ã
+		SetRotation(Quaternion(Vector3::UnitZ, Math::Pi));		//fowardã‚’zè»¸ã‚’åŸºç‚¹ã«Piãƒ©ã‚¸ã‚¢ãƒ³å›è»¢ã•ã›ã‚‹
 	}
 	else
 	{
-		//ƒNƒƒXÏ‚Å“¾‚½²‰ñ‚è‚É‰ñ“]
+		//ã‚¯ãƒ­ã‚¹ç©ã§å¾—ãŸè»¸å›ã‚Šã«å›è»¢
 		Vector3 axis = Vector3::Cross(Vector3::UnitX, forward);
 		axis.Normalize();
-		SetRotation(Quaternion(axis, angle));		//axis‚ğ²‚ÉAangle‚¾‚¯‰ñ“]
+		SetRotation(Quaternion(axis, angle));		//axisã‚’è»¸ã«ã€angleã ã‘å›è»¢
 	}
 }
 

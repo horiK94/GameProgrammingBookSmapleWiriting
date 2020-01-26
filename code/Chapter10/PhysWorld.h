@@ -12,33 +12,33 @@
 #include "Math.h"
 #include "Collision.h"
 
-//•¨—ƒNƒ‰ƒX(¡‚Ì‚Æ‚±‚ëAƒRƒŠƒWƒ‡ƒ“‚Ü‚Æ‚ß‚½ƒNƒ‰ƒX‚ÆŒ¾‚¤Š´‚¶)
+//ç‰©ç†ã‚¯ãƒ©ã‚¹(ä»Šã®ã¨ã“ã‚ã€ã‚³ãƒªã‚¸ãƒ§ãƒ³ã¾ã¨ã‚ãŸã‚¯ãƒ©ã‚¹ã¨è¨€ã†æ„Ÿã˜)
 class PhysWorld
 {
 public:
 	PhysWorld(class Game* game);
 
 	// Used to give helpful information about collision results
-	//Õ“Ë‚É•Ô‚·ƒRƒŠƒWƒ‡ƒ“î•ñ
+	//è¡çªæ™‚ã«è¿”ã™ã‚³ãƒªã‚¸ãƒ§ãƒ³æƒ…å ±
 	struct CollisionInfo
 	{
 		// Point of collision
-		//Õ“ËˆÊ’u
+		//è¡çªä½ç½®
 		Vector3 mPoint;
 		// Normal at collision
-		//Õ“Ë“X‚Ì–@ü
+		//è¡çªåº—ã®æ³•ç·š
 		Vector3 mNormal;
 		// Component collided with
-		//Œğ·‚µ‚½BoxComponent
+		//äº¤å·®ã—ãŸBoxComponent
 		class BoxComponent* mBox;
 		// Owning actor of componnet
-		//Œğ·‚µ‚½Component‚ğŠ—L‚·‚éActor
+		//äº¤å·®ã—ãŸComponentã‚’æ‰€æœ‰ã™ã‚‹Actor
 		class Actor* mActor;
 	};
 
 	// Test a line segment against boxes
 	// Returns true if it collides against a box
-	//ü•ª‚ğó‚¯æ‚èAü•ª‚Æƒ{ƒbƒNƒX‚ªŒğ·‚·‚é‚È‚çtrue‚Å•Ô‚·B‚³‚ç‚É•¡”ŒÂŒğ·‚·‚é‚±‚Æ‚à‘z’è‚µAÅ‰‚ÉŒğ·‚µ‚½Collisionî•ñ‚ğ•Ô‚·
+	//ç·šåˆ†ã‚’å—ã‘å–ã‚Šã€ç·šåˆ†ã¨ãƒœãƒƒã‚¯ã‚¹ãŒäº¤å·®ã™ã‚‹ãªã‚‰trueã§è¿”ã™ã€‚ã•ã‚‰ã«è¤‡æ•°å€‹äº¤å·®ã™ã‚‹ã“ã¨ã‚‚æƒ³å®šã—ã€æœ€åˆã«äº¤å·®ã—ãŸCollisionæƒ…å ±ã‚’è¿”ã™
 	bool SegmentCast(const LineSegment& l, CollisionInfo& outColl);
 
 	// Tests collisions using naive pairwise
@@ -47,11 +47,11 @@ public:
 	void TestSweepAndPrune(std::function<void(class Actor*, class Actor*)> f);
 
 	// Add/remove box components from world
-	void AddBox(class BoxComponent* box);		//BoxComponent’Ç‰Á
-	void RemoveBox(class BoxComponent* box);		//æ‚èœ‚­
+	void AddBox(class BoxComponent* box);		//BoxComponentè¿½åŠ 
+	void RemoveBox(class BoxComponent* box);		//å–ã‚Šé™¤ã
 private:
 	class Game* mGame;
-	std::vector<class BoxComponent*> mBoxes;		//BoxComponent‚ÌQÆ”z—ñ
+	std::vector<class BoxComponent*> mBoxes;		//BoxComponentã®å‚ç…§é…åˆ—
 	std::vector<class BoxComponent*> boxesX;
 	std::vector<class BoxComponent*> boxesY;
 	std::vector<class BoxComponent*> boxesZ;

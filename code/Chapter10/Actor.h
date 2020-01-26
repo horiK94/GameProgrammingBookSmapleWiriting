@@ -51,8 +51,8 @@ public:
 	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
 	Vector3 GetUp() const { return Vector3::Transform(Vector3::UnitZ, mRotation); }
 
-	//ƒhƒbƒgÏ‚ÆƒNƒƒXÏ‚ÆƒNƒI[ƒ^ƒjƒIƒ“‚ÅƒAƒNƒ^[‚Ìis•ûŒü‚ğV‚µ‚¢•ûŒü‚Ö‚Æ‰ñ“]‚³‚¹‚éƒwƒ‹ƒp[ŠÖ”
-	//İ’è‚µ‚½forward‚ÌŒü‚«‚ÖŒ»İ‚ÌActor‚ğ‰ñ“]‚³‚¹‚é
+	//ãƒ‰ãƒƒãƒˆç©ã¨ã‚¯ãƒ­ã‚¹ç©ã¨ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã§ã‚¢ã‚¯ã‚¿ãƒ¼ã®é€²è¡Œæ–¹å‘ã‚’æ–°ã—ã„æ–¹å‘ã¸ã¨å›è»¢ã•ã›ã‚‹ãƒ˜ãƒ«ãƒ‘ãƒ¼é–¢æ•°
+	//è¨­å®šã—ãŸforwardã®å‘ãã¸ç¾åœ¨ã®Actorã‚’å›è»¢ã•ã›ã‚‹
 	void RotateToNewForward(const Vector3& forward);
 
 	State GetState() const { return mState; }

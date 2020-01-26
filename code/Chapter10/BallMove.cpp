@@ -51,35 +51,35 @@ void BallMove::Update(float deltaTime)
 
 
 
-	//�i�s�����̐������\�z
+	//進行方向の線分を構築
 	const float segmentLength = 30.0f;
 	Vector3 start = mOwner->GetPosition();
 	Vector3 dir = mOwner->GetForward();
 	Vector3 end = start + dir * segmentLength;
-	//�����̍쐬
+	//線分の作成
 	LineSegment ls(start, end);
 
-	//�����ƃ��[���h�̏Փ˔���
+	//線分とワールドの衝突判定
 	PhysWorld* phys = mOwner->GetGame()->GetPhysWorld();
 	PhysWorld::CollisionInfo info;
 	if (phys->SegmentCast(ls, info) && info.mActor != mPlayer)
 	{
-		//�Փ˂��������ꍇ
-		//���˂����Ƃ��̕��������߂�
+		//衝突があった場合
+		//反射したときの方向を求める
 		dir = Vector3::Reflect(dir, info.mNormal);
 		mOwner->RotateToNewForward(dir);
 
-		//�^�[�Q�b�g�ɂ��������Ƃ�
-		//static_cast �͐ÓI�ȕ��ʂ̌^�ϊ����s���L���X�g�Bstatic_cast���ƃR���p�C�����ɕ]������A�L���X�g�ł��Ȃ��ꍇ�́A�R���p�C���G���[�ɂȂ�
-		//dynamic_cast ���g���Όp���֌W���`�F�b�N���Ă����Bdynamic_cast���s���ȃL���X�g�̂Ƃ���NULL��Ԃ�
-		TargetActor* ta = dynamic_cast<TargetActor*>(info.mActor);		//actor(Actor�^)�𖳗����TargetActor�^�ɕϊ�����
-		if (ta)		//null�łȂ��Ƃ� = �Ԃ������R���|�[�l���g�̏��L�҂�TargetActor�Œ�`���Ă��� = �Ԃ������R���|�[�l���g�̏����҂��W�I
+		//ターゲットにあたったとき
+		//static_cast は静的な普通の型変換を行うキャスト。static_castだとコンパイル時に評価され、キャストできない場合は、コンパイルエラーになる
+		//dynamic_cast を使えば継承関係をチェックしてくれる。dynamic_castが不当なキャストのときはNULLを返す
+		TargetActor* ta = dynamic_cast<TargetActor*>(info.mActor);		//actor(Actor型)を無理やりTargetActor型に変換する
+		if (ta)		//nullでないとき = ぶつかったコンポーネントの所有者がTargetActorで定義している = ぶつかったコンポーネントの所持者が標的
 		{
-			//BallMove�������Ă���B���Actor = BallActor
+			//BallMoveを持っている唯一のActor = BallActor
 			static_cast<BallActor*>(mOwner)->HitTarget();
 		}
 	}
 
-	//�O�i���x����Ƃ��āA���N���X�œ������X�V
+	//前進速度を基準として、基底クラスで動きを更新
 	MoveComponent::Update(deltaTime);
 }

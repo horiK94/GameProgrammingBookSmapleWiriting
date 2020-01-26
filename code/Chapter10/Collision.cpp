@@ -58,23 +58,23 @@ float LineSegment::MinDistSq(const Vector3& point) const
 	//	return (ac - p).LengthSq();
 	//}
 
-	//ƒxƒNƒgƒ‹p‚ª‚ ‚é’¼üã‚ÌƒxƒNƒgƒ‹ab‚ğ‹‚ß‚é
+	//ãƒ™ã‚¯ãƒˆãƒ«pãŒã‚ã‚‹ç›´ç·šä¸Šã®ãƒ™ã‚¯ãƒˆãƒ«abã‚’æ±‚ã‚ã‚‹
 	Vector3 ab = mEnd - mStart;
 	Vector3 ac = point - mStart;
-	//“_b‚©‚çL‚Î‚·‚Ì‚ªÅ’Z‚Ì‚Æ‚«‚Ég—p‚·‚éba, bc‚à‹‚ß‚Ä‚¨‚­
+	//ç‚¹bã‹ã‚‰ä¼¸ã°ã™ã®ãŒæœ€çŸ­ã®ã¨ãã«ä½¿ç”¨ã™ã‚‹ba, bcã‚‚æ±‚ã‚ã¦ãŠã
 	Vector3 ba = -1 * ab;
 	Vector3 bc = point - mEnd;
-	//ƒP[ƒX1 c‚ªa‚Ì‘O‚É“Ë‚«o‚Ä‚¢‚é
+	//ã‚±ãƒ¼ã‚¹1 cãŒaã®å‰ã«çªãå‡ºã¦ã„ã‚‹
 	if (Vector3::Dot(ac, ab) < 0)
 	{
 		return ac.LengthSq();
 	}
-	//ƒP[ƒX2 c‚ªb‚Ì‚ ‚Æ‚É“Ë‚«o‚Ä‚¢‚é
+	//ã‚±ãƒ¼ã‚¹2 cãŒbã®ã‚ã¨ã«çªãå‡ºã¦ã„ã‚‹
 	else if (Vector3::Dot(ba, bc) < 0)
 	{
 		return bc.LengthSq();
 	}
-	//ƒP[ƒX3 c‚ğab‚Æ‚’¼‚É‚È‚é“_‚ğ’²‚×‚ÄŒvZ‚·‚é
+	//ã‚±ãƒ¼ã‚¹3 cã‚’abã¨å‚ç›´ã«ãªã‚‹ç‚¹ã‚’èª¿ã¹ã¦è¨ˆç®—ã™ã‚‹
 	else
 	{
 		float dotAcAb = Vector3::Dot(ac, ab);
@@ -172,10 +172,10 @@ Plane::Plane(const Vector3& a, const Vector3& b, const Vector3& c)
 	//mD = -Vector3::Dot(a, mNormal);
 	Vector3 ab = b - a;
 	Vector3 ac = c - a;
-	//ƒNƒƒXÏ‚Æ³‹K‰»‚Å–@ü‚ğ“¾‚é
+	//ã‚¯ãƒ­ã‚¹ç©ã¨æ­£è¦åŒ–ã§æ³•ç·šã‚’å¾—ã‚‹
 	mNormal = Vector3::Cross(ab, ac);
 	mNormal.Normalize();
-	// d‚Í“_a‚Æ–@üƒxƒNƒgƒ‹‚Ì“àÏ‚Ì•‰
+	// dã¯ç‚¹aã¨æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©ã®è² 
 	mD = -1 * Vector3::Dot(a, mNormal);
 }
 
@@ -209,7 +209,7 @@ AABB::AABB(const Vector3& min, const Vector3& max)
 void AABB::UpdateMinMax(const Vector3& point)
 {
 	// Update each component separately
-	//‚·‚×‚Ä‚Ì“_‚É‘Î‚µ‚ÄÅ¬“_AÅ‘å“_‚Å‚È‚¢‚©‚ğŠm”F‚·‚é
+	//ã™ã¹ã¦ã®ç‚¹ã«å¯¾ã—ã¦æœ€å°ç‚¹ã€æœ€å¤§ç‚¹ã§ãªã„ã‹ã‚’ç¢ºèªã™ã‚‹
 	mMin.x = Math::Min(mMin.x, point.x);
 	mMin.y = Math::Min(mMin.y, point.y);
 	mMin.z = Math::Min(mMin.z, point.z);
@@ -248,10 +248,10 @@ void AABB::Rotate(const Quaternion& q)
 	//	UpdateMinMax(p);
 	//}
 
-	//‰ñ“]‘O‚ÌƒoƒEƒ“ƒfƒBƒ“ƒOƒ{ƒbƒNƒX
-	//ƒ{ƒbƒNƒX‚ÌŠp‚Ì8“_‚ğ\’z
+	//å›è»¢å‰ã®ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹
+	//ãƒœãƒƒã‚¯ã‚¹ã®è§’ã®8ç‚¹ã‚’æ§‹ç¯‰
 	std::array<Vector3, 8> points;
-	//Å¬‚Ì“_‚Íí‚ÉŠp‚É‚ ‚é
+	//æœ€å°ã®ç‚¹ã¯å¸¸ã«è§’ã«ã‚ã‚‹
 	points[0] = mMin;
 	points[1] = Vector3(mMax.x, mMax.y, mMin.z);
 	points[2] = Vector3(mMax.x, mMin.y, mMax.z);
@@ -261,13 +261,13 @@ void AABB::Rotate(const Quaternion& q)
 	points[6] = Vector3(mMin.x, mMin.y, mMax.z);
 	points[7] = mMax;
 
-	//ˆÈ‰º‰ñ“]Œã
+	//ä»¥ä¸‹å›è»¢å¾Œ
 	Vector3 p = Vector3::Transform(points[0], q);
-	//‰ñ“]Œã‚Ì“_‚Å‰Šú‰»
+	//å›è»¢å¾Œã®ç‚¹ã§åˆæœŸåŒ–
 	mMin = p;
 	mMax = p;
 
-	//c‚è‚Ì“_‚ÅÅ‘å’l‚ÆÅ¬’l‚ğXV
+	//æ®‹ã‚Šã®ç‚¹ã§æœ€å¤§å€¤ã¨æœ€å°å€¤ã‚’æ›´æ–°
 	for (size_t i = 1; i < points.size(); i++)
 	{
 		UpdateMinMax(Vector3::Transform(points[i], q));
@@ -303,7 +303,7 @@ float AABB::MinDistSq(const Vector3& point) const
 	//dz = Math::Max(dy, point.z - mMax.z);
 	//// Distance squared formula
 	//return dx * dx + dy * dy + dz * dz;
-	float dx = Math::Max(mMin.x - point.x, 0.0f);		//point.x < mMin.x ‚Ì‚Æ‚«‚ÆA mMin.x <= point.x <= mMax.x ‚Ì‚Æ‚«‚Ì”äŠr
+	float dx = Math::Max(mMin.x - point.x, 0.0f);		//point.x < mMin.x ã®ã¨ãã¨ã€ mMin.x <= point.x <= mMax.x ã®ã¨ãã®æ¯”è¼ƒ
 	dx = Math::Max(dx, point.x - mMax.x);
 	float dy = Math::Max(mMin.y - point.y, 0.0f);
 	dy = Math::Max(dy, point.y - mMax.y);
@@ -357,28 +357,28 @@ bool ConvexPolygon::Contains(const Vector2& point) const
 	//// Return true if approximately 2pi
 	//return Math::NearZero(sum - Math::TwoPi);
 
-	//•½•ûª‚Æarccos‚ğ‘½—p‚µ‚Ä‚¢‚é‚½‚ßAŒø—¦‚ª—Ç‚­‚È‚¢
-	float sum = 0.0f;		//ƒ‰ƒWƒAƒ“‡Œv
+	//å¹³æ–¹æ ¹ã¨arccosã‚’å¤šç”¨ã—ã¦ã„ã‚‹ãŸã‚ã€åŠ¹ç‡ãŒè‰¯ããªã„
+	float sum = 0.0f;		//ãƒ©ã‚¸ã‚¢ãƒ³åˆè¨ˆ
 	Vector2 a, b;
 	for (size_t i = 0; i < mVertices.size() - 1; i++)
 	{
-		//“_‚©‚ç1‚Â–Ú‚Ì’¸“_‚Ö‚ÌƒxƒNƒgƒ‹
+		//ç‚¹ã‹ã‚‰1ã¤ç›®ã®é ‚ç‚¹ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
 		a = mVertices[i] - point;
 		a.Normalize();
-		//“_‚©‚ç2‚Â–Ú‚Ì’¸“_‚Ö‚ÌƒxƒNƒgƒ‹
+		//ç‚¹ã‹ã‚‰2ã¤ç›®ã®é ‚ç‚¹ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
 		b = mVertices[i + 1] - point;
 		b.Normalize();
-		//2‚Â‚ÌƒxƒNƒgƒ‹‚ª¬‚·Šp“x‚ğ‡Œv‚É‰ÁZ
+		//2ã¤ã®ãƒ™ã‚¯ãƒˆãƒ«ãŒæˆã™è§’åº¦ã‚’åˆè¨ˆã«åŠ ç®—
 		sum += Math::Acos(Vector2::Dot(a, b));
 	}
-	//ÅŒã‚ÆÅ‰‚Ì¬‚·Šp“x‚ğ‹‚ß‚é
+	//æœ€å¾Œã¨æœ€åˆã®æˆã™è§’åº¦ã‚’æ±‚ã‚ã‚‹
 	a = mVertices[mVertices.size() - 1];
 	a.Normalize();
 	b = mVertices[0];
 	b.Normalize();
 	sum += Math::Acos(Vector2::Dot(a, b));
 
-	//‡Œv‚ª–ñ2ƒÎ‚È‚çtrue‚ğ•Ô‚·
+	//åˆè¨ˆãŒç´„2Ï€ãªã‚‰trueã‚’è¿”ã™
 	return Math::NearZero(sum - Math::TwoPi);
 }
 
@@ -400,8 +400,8 @@ bool Intersect(const AABB& a, const AABB& b)
 		b.mMax.x < a.mMin.x ||
 		b.mMax.y < a.mMin.y ||
 		b.mMax.z < a.mMin.z;*/
-		// •ª—£²’è—‚Ì‰—p
-		// “ÊƒIƒuƒWƒFƒNƒgA, B‚ªŒğ·‚µ‚È‚¢‚Æ‚«‚Í•ª—£‚·‚é²‚ª•K‚¸‘¶İ‚·‚é
+		// åˆ†é›¢è»¸å®šç†ã®å¿œç”¨
+		// å‡¸ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆA, BãŒäº¤å·®ã—ãªã„ã¨ãã¯åˆ†é›¢ã™ã‚‹è»¸ãŒå¿…ãšå­˜åœ¨ã™ã‚‹
 	bool no = a.mMax.x < b.mMin.x ||
 		a.mMax.y < b.mMin.y ||
 		a.mMax.z < b.mMin.z ||
@@ -421,7 +421,7 @@ bool Intersect(const OBB& a, const OBB& b)
 	Vector3 by = (b.mExtents.y / 2.0f) * Vector3::Normalize(Vector3::Transform(Vector3::UnitY, b.mRotation));
 	Vector3 bz = (b.mExtents.z / 2.0f) * Vector3::Normalize(Vector3::Transform(Vector3::UnitZ, b.mRotation));
 
-	//•ª—£²ax
+	//åˆ†é›¢è»¸ax
 	float ra = ax.Length();
 	float rb = Math::Abs(Vector3::Dot(ax, bx)) + Math::Abs(Vector3::Dot(ax, by)) + Math::Abs(Vector3::Dot(ax, bz));
 	Vector3 ab = Vector3(b.mCenter - a.mCenter);
@@ -431,7 +431,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£²ay
+	//åˆ†é›¢è»¸ay
 	ra = ay.Length();
 	rb = Math::Abs(Vector3::Dot(ay, bx)) + Math::Abs(Vector3::Dot(ay, by)) + Math::Abs(Vector3::Dot(ay, bz));
 	l = Vector3::Dot(ay, ab);
@@ -440,7 +440,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£²az
+	//åˆ†é›¢è»¸az
 	ra = az.Length();
 	rb = Math::Abs(Vector3::Dot(az, bx)) + Math::Abs(Vector3::Dot(az, by)) + Math::Abs(Vector3::Dot(az, bz));
 	l = Vector3::Dot(az, ab);
@@ -449,7 +449,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£²bx
+	//åˆ†é›¢è»¸bx
 	ra = Math::Abs(Vector3::Dot(ax, bx)) + Math::Abs(Vector3::Dot(ay, bx)) + Math::Abs(Vector3::Dot(az, bx));
 	rb = bx.Length();
 	l = Vector3::Dot(ab, bx);
@@ -458,7 +458,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£²by
+	//åˆ†é›¢è»¸by
 	ra = Math::Abs(Vector3::Dot(ax, by)) + Math::Abs(Vector3::Dot(ay, by)) + Math::Abs(Vector3::Dot(az, by));
 	rb = by.Length();
 	l = Vector3::Dot(ab, by);
@@ -467,7 +467,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£²bz
+	//åˆ†é›¢è»¸bz
 	ra = Math::Abs(Vector3::Dot(ax, bz)) + Math::Abs(Vector3::Dot(ay, bz)) + Math::Abs(Vector3::Dot(az, bz));
 	rb = bz.Length();
 	l = Vector3::Dot(ab, bz);
@@ -476,7 +476,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£² ax‚Æbx‚Ì‚’¼ƒxƒNƒgƒ‹
+	//åˆ†é›¢è»¸ axã¨bxã®å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 c = Vector3::Cross(ax, bx);
 	ra = Math::Abs(Vector3::Dot(ay, c)) + Math::Abs(Vector3::Dot(az, c));
 	rb = Math::Abs(Vector3::Dot(by, c)) + Math::Abs(Vector3::Dot(bz, c));
@@ -486,7 +486,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£² ay‚Æbx‚Ì‚’¼ƒxƒNƒgƒ‹
+	//åˆ†é›¢è»¸ ayã¨bxã®å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«
 	c = Vector3::Cross(ay, bx);
 	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(az, c));
 	rb = Math::Abs(Vector3::Dot(by, c)) + Math::Abs(Vector3::Dot(bz, c));
@@ -496,7 +496,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£² az‚Æbx‚Ì‚’¼ƒxƒNƒgƒ‹
+	//åˆ†é›¢è»¸ azã¨bxã®å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«
 	c = Vector3::Cross(az, bx);
 	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(ay, c));
 	rb = Math::Abs(Vector3::Dot(by, c)) + Math::Abs(Vector3::Dot(bz, c));
@@ -506,7 +506,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£² ax‚Æby‚Ì‚’¼ƒxƒNƒgƒ‹
+	//åˆ†é›¢è»¸ axã¨byã®å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«
 	c = Vector3::Cross(ax, by);
 	ra = Math::Abs(Vector3::Dot(ay, c)) + Math::Abs(Vector3::Dot(az, c));
 	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(bz, c));
@@ -516,7 +516,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£² ay‚Æby‚Ì‚’¼ƒxƒNƒgƒ‹
+	//åˆ†é›¢è»¸ ayã¨byã®å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«
 	c = Vector3::Cross(ay, by);
 	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(az, c));
 	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(bz, c));
@@ -526,7 +526,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£² az‚Æby‚Ì‚’¼ƒxƒNƒgƒ‹
+	//åˆ†é›¢è»¸ azã¨byã®å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«
 	c = Vector3::Cross(az, by);
 	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(ay, c));
 	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(bz, c));
@@ -536,7 +536,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£² ax‚Æbz‚Ì‚’¼ƒxƒNƒgƒ‹
+	//åˆ†é›¢è»¸ axã¨bzã®å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«
 	c = Vector3::Cross(ax, bz);
 	ra = Math::Abs(Vector3::Dot(ay, c)) + Math::Abs(Vector3::Dot(az, c));
 	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(by, c));
@@ -546,7 +546,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£² ay‚Æbz‚Ì‚’¼ƒxƒNƒgƒ‹
+	//åˆ†é›¢è»¸ ayã¨bzã®å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«
 	c = Vector3::Cross(ay, bz);
 	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(az, c));
 	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(by, c));
@@ -556,7 +556,7 @@ bool Intersect(const OBB& a, const OBB& b)
 		return false;
 	}
 
-	//•ª—£² az‚Æbz‚Ì‚’¼ƒxƒNƒgƒ‹
+	//åˆ†é›¢è»¸ azã¨bzã®å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«
 	c = Vector3::Cross(az, bz);
 	ra = Math::Abs(Vector3::Dot(ax, c)) + Math::Abs(Vector3::Dot(ay, c));
 	rb = Math::Abs(Vector3::Dot(bx, c)) + Math::Abs(Vector3::Dot(by, c));
@@ -579,7 +579,7 @@ bool Intersect(const Capsule& a, const Capsule& b)
 
 bool Intersect(const Sphere& s, const AABB& box)
 {
-	//	float distSq = box.MinDistSq(s.mCenter);		// ‹…‚ÆAABB‚Ì‹——£‚ª”¼ŒaˆÈ‰º‚È‚ç”ÍˆÍ“à
+	//	float distSq = box.MinDistSq(s.mCenter);		// çƒã¨AABBã®è·é›¢ãŒåŠå¾„ä»¥ä¸‹ãªã‚‰ç¯„å›²å†…
 	//	return distSq <= (s.mRadius * s.mRadius);
 	float distSq = box.MinDistSq(s.mCenter);
 	return distSq <= s.mRadius * s.mRadius;
@@ -622,25 +622,25 @@ bool Intersect(const LineSegment& l, const Sphere& s, float& outT)
 	//	}
 	//}
 
-	// Ql‘‚É‰ˆ‚Á‚ÄAX, Y, a, b, c‚Ì’l‚ğŒˆ’è‚µ‚Ä‚¢‚­
+	// å‚è€ƒæ›¸ã«æ²¿ã£ã¦ã€X, Y, a, b, cã®å€¤ã‚’æ±ºå®šã—ã¦ã„ã
 	Vector3 X = l.mStart - s.mCenter;
 	Vector3 Y = l.mEnd - l.mStart;
 
 	float a = Vector3::Dot(Y, Y);
 	float b = 2 * Vector3::Dot(X, Y);
 	float c = Vector3::Dot(X, X); -s.mRadius * s.mRadius;
-	//”»•Ê®‚ÌŒvZ
+	//åˆ¤åˆ¥å¼ã®è¨ˆç®—
 	float disc = b * b - 4 * a * c;
 	if (disc < 0)
 	{
-		//Œğ“_‚È‚µ
+		//äº¤ç‚¹ãªã—
 		return false;
 	}
 	else
 	{
-		//Œğ“_‚ ‚è
+		//äº¤ç‚¹ã‚ã‚Š
 		disc = Math::Sqrt(disc);
-		//t‚Ì‰ğ‚ğ‹‚ß‚é
+		//tã®è§£ã‚’æ±‚ã‚ã‚‹
 		float tMin = (-b - disc) / (2 * a);
 		float tMax = (-b + disc) / (2 * a);
 		if (tMin >= 0 && tMin <= 1)
@@ -695,12 +695,12 @@ bool Intersect(const LineSegment& l, const Plane& p, float& outT)
 	//	}
 	//}
 
-	//’¼ü‚Æ•½–Ê‚Ì‚’¼ƒxƒNƒgƒ‹‚ª’¼s <=> ’¼ü‚Æ•½–Ê‚ª•½s‚Ì‚Æ‚«‚Í—áŠO“I‚É‹‚ß‚é•K—v‚ª‚ ‚é
+	//ç›´ç·šã¨å¹³é¢ã®å‚ç›´ãƒ™ã‚¯ãƒˆãƒ«ãŒç›´è¡Œ <=> ç›´ç·šã¨å¹³é¢ãŒå¹³è¡Œã®ã¨ãã¯ä¾‹å¤–çš„ã«æ±‚ã‚ã‚‹å¿…è¦ãŒã‚ã‚‹
 	float denom = Vector3::Dot(l.mEnd - l.mStart, p.mNormal);
 	if (Math::NearZero(denom))
 	{
-		//0‚È‚ç‚ÎA•½–Êã‚É’¼ü‚ª‚ ‚é‚©‚ğ‹‚ß‚é
-		//‚·‚È‚í‚¿Al.mStart dot p.mNormal == 0‚Ì‚Æ‚« 
+		//0ãªã‚‰ã°ã€å¹³é¢ä¸Šã«ç›´ç·šãŒã‚ã‚‹ã‹ã‚’æ±‚ã‚ã‚‹
+		//ã™ãªã‚ã¡ã€l.mStart dot p.mNormal == 0ã®ã¨ã 
 		if (Math::NearZero(Vector3::Dot(l.mStart, p.mNormal) + p.mD))
 		{
 			outT = 0.0f;
@@ -719,9 +719,9 @@ bool Intersect(const LineSegment& l, const Plane& p, float& outT)
 	}
 }
 
-//start, end‚Íü•ª‚Ìn“_‚ÆI“_
-//negd‚Í•½–Ê‚Ì-d‚ğ‹‚ß‚é‚Ì‚Ég—p
-//norm‚Í•½–Ê‚Ì–@ü
+//start, endã¯ç·šåˆ†ã®å§‹ç‚¹ã¨çµ‚ç‚¹
+//negdã¯å¹³é¢ã®-dã‚’æ±‚ã‚ã‚‹ã®ã«ä½¿ç”¨
+//normã¯å¹³é¢ã®æ³•ç·š
 bool TestSidePlane(float start, float end, float negd, const Vector3& norm,
 	std::vector<std::pair<float, Vector3>>& out)
 {
@@ -747,8 +747,8 @@ bool TestSidePlane(float start, float end, float negd, const Vector3& norm,
 	}
 }
 
-//start, end‚Íü•ª‚Ìn“_‚ÆI“_
-//negd‚Í•½–Ê‚Ì-d‚ğ‹‚ß‚é‚Ì‚Ég—p
+//start, endã¯ç·šåˆ†ã®å§‹ç‚¹ã¨çµ‚ç‚¹
+//negdã¯å¹³é¢ã®-dã‚’æ±‚ã‚ã‚‹ã®ã«ä½¿ç”¨
 bool TestSidePlane(float start, float end, float negd, std::vector<float>& out)
 {
 	//float denom = end - start;
@@ -772,20 +772,20 @@ bool TestSidePlane(float start, float end, float negd, std::vector<float>& out)
 	//	}
 	//}
 
-	//ü•ª‚ÆAABB‚ÌŒğ·”»’è‚Ég—p‚·‚éƒwƒ‹ƒp[ŠÖ”
+	//ç·šåˆ†ã¨AABBã®äº¤å·®åˆ¤å®šã«ä½¿ç”¨ã™ã‚‹ãƒ˜ãƒ«ãƒ‘ãƒ¼é–¢æ•°
 	float demon = end - start;
 	if (Math::NearZero(demon))
 	{
-		//t‚Ì’l‚Ì•ª•ê‚ª0‚É‚È‚é‚Ì‚ÅA‚±‚Ì‚Æ‚«‚Í•Êˆ—
-		//start‚Æend‚Ì‹——£‚ª0‚Æ‚¢‚¤‚±‚Æ‚Íüã‚Å‚ ‚é‚±‚Æ‚ğw‚·B
-		//Œğ·‚µ‚Ä‚È‚¢‚©‚çfalse‚ğ•Ô‚µ‚Ä‚é‚à‚Ì‚Æv‚í‚ê‚é
+		//tã®å€¤ã®åˆ†æ¯ãŒ0ã«ãªã‚‹ã®ã§ã€ã“ã®ã¨ãã¯åˆ¥å‡¦ç†
+		//startã¨endã®è·é›¢ãŒ0ã¨ã„ã†ã“ã¨ã¯ç·šä¸Šã§ã‚ã‚‹ã“ã¨ã‚’æŒ‡ã™ã€‚
+		//äº¤å·®ã—ã¦ãªã„ã‹ã‚‰falseã‚’è¿”ã—ã¦ã‚‹ã‚‚ã®ã¨æ€ã‚ã‚Œã‚‹
 		return false;
 	}
 	else
 	{
-		float number = -start + negd;		//t‚Ì’l‚ğ‹‚ß‚é•ªq
+		float number = -start + negd;		//tã®å€¤ã‚’æ±‚ã‚ã‚‹åˆ†å­
 		float t = number / demon;
-		//t‚ª”ÍˆÍ“à‚É‚ ‚é‚©ƒ`ƒFƒbƒN
+		//tãŒç¯„å›²å†…ã«ã‚ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 		if (t >= 0 && t <= 1)
 		{
 			out.emplace_back(t);
@@ -885,34 +885,34 @@ bool Intersect(const LineSegment& l, const AABB& b, float& outT/*,
 	//	//None of the intersections are within bounds of box
 	//	return false;
 
-		//‰Â”\«‚Ì‚ ‚ét‚ğ•Û‘¶‚·‚é”z—ñ
+		//å¯èƒ½æ€§ã®ã‚ã‚‹tã‚’ä¿å­˜ã™ã‚‹é…åˆ—
 	std::vector<float> tValue;
-	//x•½–Ê‚ÌƒeƒXƒg
-	//x•½–Ê¶‘¤‚ÌƒeƒXƒg(ü•ª‚ÍŒğ“_‚ğ‹‚ß‚é‚½‚ß‚Éstart‚Æend‚ÌxÀ•W‚ªAd‚Í-min dot <1, 0>‚©‚çAminX‚ª“ü‚é)
+	//xå¹³é¢ã®ãƒ†ã‚¹ãƒˆ
+	//xå¹³é¢å·¦å´ã®ãƒ†ã‚¹ãƒˆ(ç·šåˆ†ã¯äº¤ç‚¹ã‚’æ±‚ã‚ã‚‹ãŸã‚ã«startã¨endã®xåº§æ¨™ãŒã€dã¯-min dot <1, 0>ã‹ã‚‰ã€minXãŒå…¥ã‚‹)
 	TestSidePlane(l.mStart.x, l.mEnd.x, b.mMin.x, tValue);
-	//‰E‘¤‚ÌƒeƒXƒg
+	//å³å´ã®ãƒ†ã‚¹ãƒˆ
 	TestSidePlane(l.mStart.x, l.mEnd.x, b.mMax.x, tValue);
 
-	//y•½–Ê‚ÌƒeƒXƒg
-	//‰º‘¤
+	//yå¹³é¢ã®ãƒ†ã‚¹ãƒˆ
+	//ä¸‹å´
 	TestSidePlane(l.mStart.y, l.mEnd.y, b.mMin.y, tValue);
-	//ã‘¤
+	//ä¸Šå´
 	TestSidePlane(l.mStart.y, l.mEnd.y, b.mMax.y, tValue);
 
-	//z•½–Ê‚ÌƒeƒXƒg
-	//è‘O‘¤
+	//zå¹³é¢ã®ãƒ†ã‚¹ãƒˆ
+	//æ‰‹å‰å´
 	TestSidePlane(l.mStart.z, l.mEnd.z, b.mMin.z, tValue);
-	//‰œ‘¤
+	//å¥¥å´
 	TestSidePlane(l.mStart.z, l.mEnd.z, b.mMax.z, tValue);
-	//t‚Ì’l‚ğ¬‚³‚¢‡‚Éƒ\[ƒg
+	//tã®å€¤ã‚’å°ã•ã„é †ã«ã‚½ãƒ¼ãƒˆ
 	std::sort(tValue.begin(), tValue.end());
-	//ƒ{ƒbƒNƒX‚ÉŒğ“_‚ªŠÜ‚Ü‚ê‚é‚©ƒeƒXƒg
+	//ãƒœãƒƒã‚¯ã‚¹ã«äº¤ç‚¹ãŒå«ã¾ã‚Œã‚‹ã‹ãƒ†ã‚¹ãƒˆ
 	Vector3 point;
 	for (float t : tValue)
 	{
-		//‚±‚Ìt‚Íü•ªã‚Ì’l‚Å‚ ‚éB‘¤–Ê‚ÍAABB‚ÌƒTƒCƒY‚Å‚Í‚È‚­A•½–Ê‚Æ‚µ‚Ä‚¸‚Á‚ÆL‚Ñ‚Ä‚¢‚­‚à‚Ì‚Æ‚µ‚Äã‚Å‚Í‹‚ß‚Ä‚¢‚½‚½‚ßA‘¤–Ê‚Æü•ª‚ª‚Ô‚Â‚©‚é‚©‚ğ‰º‚Åƒ`ƒFƒbƒN‚·‚é
+		//ã“ã®tã¯ç·šåˆ†ä¸Šã®å€¤ã§ã‚ã‚‹ã€‚å´é¢ã¯AABBã®ã‚µã‚¤ã‚ºã§ã¯ãªãã€å¹³é¢ã¨ã—ã¦ãšã£ã¨ä¼¸ã³ã¦ã„ãã‚‚ã®ã¨ã—ã¦ä¸Šã§ã¯æ±‚ã‚ã¦ã„ãŸãŸã‚ã€å´é¢ã¨ç·šåˆ†ãŒã¶ã¤ã‹ã‚‹ã‹ã‚’ä¸‹ã§ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 		point = l.PointOnSegment(t);
-		if (b.Contains(point))		//“_‚ªAABB‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚Ìƒ`ƒFƒbƒN(¡‰ñ‚ÍŒğ·‚·‚é“_‚ğ‹‚ß‚æ‚¤‚Æ‚µ‚Ä‚¢‚é‚Ì‚ÅAAABB‚Ì‘¤–Ê}ã‚ÉˆÊ’u‚·‚é‚©‚Ìƒ`ƒFƒbƒN)
+		if (b.Contains(point))		//ç‚¹ãŒAABBã«å«ã¾ã‚Œã¦ã„ã‚‹ã‹ã®ãƒã‚§ãƒƒã‚¯(ä»Šå›ã¯äº¤å·®ã™ã‚‹ç‚¹ã‚’æ±‚ã‚ã‚ˆã†ã¨ã—ã¦ã„ã‚‹ã®ã§ã€AABBã®å´é¢å›³ä¸Šã«ä½ç½®ã™ã‚‹ã‹ã®ãƒã‚§ãƒƒã‚¯)
 		{
 			outT = t;
 			return true;
@@ -957,16 +957,16 @@ bool SweptSphere(const Sphere& P0, const Sphere& P1,
 	float a = Vector3::Dot(Y, Y);
 	float b = 2 * Vector3::Dot(X, Y);
 	float c = Vector3::Dot(Y, Y) - (P0.mRadius + Q0.mRadius) * (P0.mRadius + Q0.mRadius);
-	//”»•Ê®
+	//åˆ¤åˆ¥å¼
 	float disc = b * b - 4 * a * c;
 	if (disc < 0)
 	{
-		//Œğ“_‚È‚µ
+		//äº¤ç‚¹ãªã—
 		return false;
 	}
 	else
 	{
-		//¬‚³‚¢’l‚ªŒğ“_‚É‚È‚é
+		//å°ã•ã„å€¤ãŒäº¤ç‚¹ã«ãªã‚‹
 		disc = Math::Sqrt(disc);
 		outT = (-b - disc) / 2 * a;
 		return outT >= 0 && outT <= 1;

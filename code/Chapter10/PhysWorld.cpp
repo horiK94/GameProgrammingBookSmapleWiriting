@@ -47,15 +47,15 @@ bool PhysWorld::SegmentCast(const LineSegment& l, CollisionInfo& outColl)
 	//return collided;
 
 	bool mColllied = false;
-	//Õ“Ë‚µ‚½‚Æ‚«‚Ìt‚Ì’l‚ğ‡‚Åİ’è‚·‚é(1‚Â‚Å‚àƒ{ƒbƒNƒX‚ÉÕ“Ë‚·‚ê‚ÎA‚»‚ÌÕ“Ë‚Ì’l‚Ì¬‚³‚¢‚à‚Ì‚ª‘ã“ü‚³‚ê‚Ä‚¢‚­)
+	//è¡çªã—ãŸã¨ãã®tã®å€¤ã‚’âˆã§è¨­å®šã™ã‚‹(1ã¤ã§ã‚‚ãƒœãƒƒã‚¯ã‚¹ã«è¡çªã™ã‚Œã°ã€ãã®è¡çªæ™‚ã®å€¤ã®å°ã•ã„ã‚‚ã®ãŒä»£å…¥ã•ã‚Œã¦ã„ã)
 	float closestT = Math::Infinity;
-	Vector3 norm;		//–@üƒxƒNƒgƒ‹
+	Vector3 norm;		//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 
-	//‘Sƒ{ƒbƒNƒX‚ğƒeƒXƒg
+	//å…¨ãƒœãƒƒã‚¯ã‚¹ã‚’ãƒ†ã‚¹ãƒˆ
 	for (auto box : mBoxes)
 	{
 		float t;
-		//ü•ª‚Æƒ{ƒbƒNƒX‚ªŒğ·‚·‚é‚©
+		//ç·šåˆ†ã¨ãƒœãƒƒã‚¯ã‚¹ãŒäº¤å·®ã™ã‚‹ã‹
 		if (Intersect(l, box->GetWorldBox(), t, norm))
 		{
 			if (t < closestT)
@@ -90,7 +90,7 @@ void PhysWorld::TestPairwise(std::function<void(Actor*, Actor*)> f)
 	//	}
 	//}
 
-	//‘f’¼‚ÈÀ‘• O(n^2)
+	//ç´ ç›´ãªå®Ÿè£… O(n^2)
 	for (size_t i = 0; i < mBoxes.size(); i++)
 	{
 		for (size_t k = i + 1; k < mBoxes.size(); k++)
@@ -99,8 +99,8 @@ void PhysWorld::TestPairwise(std::function<void(Actor*, Actor*)> f)
 			BoxComponent* b = mBoxes[k];
 			if (Intersect(a->GetWorldBox(), b->GetWorldBox()))
 			{
-				//Õ“Ë‚ª‚ ‚Á‚½ê‡
-				//’ñ‹Ÿ‚³‚ê‚½ŠÖ”‚ğŒÄ‚Ño‚·
+				//è¡çªãŒã‚ã£ãŸå ´åˆ
+				//æä¾›ã•ã‚ŒãŸé–¢æ•°ã‚’å‘¼ã³å‡ºã™
 				f(a->GetOwner(), b->GetOwner());
 			}
 		}
@@ -138,7 +138,7 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 	//	}
 	//}
 
-	//min.x‚Å‚·‚×‚Ä‚ÌƒoƒEƒ“ƒfƒBƒ“ƒOƒ{ƒbƒNƒX‚ğ•À‚Ñ‘Ö‚¦
+	//min.xã§ã™ã¹ã¦ã®ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹ã‚’ä¸¦ã³æ›¿ãˆ
 	//std::sort(mBoxes.begin(), mBoxes.end(),
 	//	[](BoxComponent* a, BoxComponent* b)
 	//	{
@@ -146,7 +146,7 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 	//	});
 	//for (size_t i = 0; i < mBoxes.size(); i++)
 	//{
-	//	//box[i]‚ÌBoxComponentæ“¾
+	//	//box[i]ã®BoxComponentå–å¾—
 	//	BoxComponent* a = mBoxes[i];
 	//	float max = a->GetWorldBox().mMax.x;
 	//	for (size_t k = i + 1; k < mBoxes.size(); k++)
@@ -154,24 +154,24 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 	//		BoxComponent* b = mBoxes[k];
 	//		if (b->GetWorldBox().mMin.x > max)
 	//		{
-	//			//box[k]‚Ìmin.x‚Ì’l‚ªbox[i]‚Ìmax.x‚Ì’l‚æ‚è‘å‚«‚©‚Á‚½‚çAbox[i]‚ÆŒğ·‚·‚é‰Â”\«‚ª‚ ‚éƒ{ƒbƒNƒX‚Í‘¼‚É‘¶İ‚µ‚È‚¢
+	//			//box[k]ã®min.xã®å€¤ãŒbox[i]ã®max.xã®å€¤ã‚ˆã‚Šå¤§ãã‹ã£ãŸã‚‰ã€box[i]ã¨äº¤å·®ã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ãƒœãƒƒã‚¯ã‚¹ã¯ä»–ã«å­˜åœ¨ã—ãªã„
 	//			break;
 	//		}
-	//		//Œğ·‚·‚é‰Â”\«‚ª‚ ‚éƒ{ƒbƒNƒX‚ª‚ ‚é
+	//		//äº¤å·®ã™ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ãƒœãƒƒã‚¯ã‚¹ãŒã‚ã‚‹
 	//		if (Intersect(a->GetWorldBox(), b->GetWorldBox()))
 	//		{
 	//			f(a->GetOwner(), b->GetOwner());
 	//		}
 	//	}
 	//}
-	//ƒ{ƒbƒNƒX‚ğminX‚ª¬‚³‚¢‡‚É•À‚×‚é
+	//ãƒœãƒƒã‚¯ã‚¹ã‚’minXãŒå°ã•ã„é †ã«ä¸¦ã¹ã‚‹
 	std::sort(mBoxes.begin(), mBoxes.end(),
 		[](BoxComponent* a, BoxComponent* b)
 		{
 			return a->GetWorldBox().mMin.x < b->GetWorldBox().mMin.x;
 		});
 
-	//xÀ•W‚É‚¨‚¯‚éŒğ·‚·‚éƒ{ƒbƒNƒXƒyƒA
+	//xåº§æ¨™ã«ãŠã‘ã‚‹äº¤å·®ã™ã‚‹ãƒœãƒƒã‚¯ã‚¹ãƒšã‚¢
 	std::map<BoxComponent*, std::list<BoxComponent*>> collisionX;
 	for (size_t i = 0; i < mBoxes.size(); i++)
 	{
@@ -233,7 +233,7 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 		}
 	}
 
-	//‘Sƒ{ƒbƒNƒX‚É‘Î‚µ‚ÄAŒğ·‚·‚éƒ{ƒbƒNƒX‚ª‚ ‚é‚©ƒ`ƒFƒbƒN
+	//å…¨ãƒœãƒƒã‚¯ã‚¹ã«å¯¾ã—ã¦ã€äº¤å·®ã™ã‚‹ãƒœãƒƒã‚¯ã‚¹ãŒã‚ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
 	for (size_t i = 0; i < mBoxes.size(); i++)
 	{
 		BoxComponent* target = mBoxes[i];
@@ -251,7 +251,7 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 			}
 			if (std::find(collisionY[target].begin(), collisionY[target].end(), bc) == collisionY[target].end())
 			{
-				//target‚Æbc‚Íd‚È‚ç‚È‚¢‚Ì‚ÅI—¹
+				//targetã¨bcã¯é‡ãªã‚‰ãªã„ã®ã§çµ‚äº†
 				continue;
 			}
 
@@ -261,7 +261,7 @@ void PhysWorld::TestSweepAndPrune(std::function<void(Actor*, Actor*)> f)
 			}
 			if (std::find(collisionZ[target].begin(), collisionZ[target].end(), bc) == collisionZ[target].end())
 			{
-				//target‚Æbc‚Íd‚È‚ç‚È‚¢‚Ì‚ÅI—¹
+				//targetã¨bcã¯é‡ãªã‚‰ãªã„ã®ã§çµ‚äº†
 				continue;
 			}
 			f(target->GetOwner(), bc->GetOwner());

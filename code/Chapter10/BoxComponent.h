@@ -16,14 +16,14 @@ public:
 	BoxComponent(class Actor* owner, int updateOrder = 100);
 	~BoxComponent();
 
-	void OnUpdateWorldTransform() override;		//Update‚Å‚Í‚È‚¢BŠ—LƒAƒNƒ^[‚ªƒ[ƒ‹ƒh•ÏŠ·‚ğÄŒvZ‚·‚é‚Æ‚«‚ÉŒÄ‚Î‚ê‚é
+	void OnUpdateWorldTransform() override;		//Updateã§ã¯ãªã„ã€‚æ‰€æœ‰ã‚¢ã‚¯ã‚¿ãƒ¼ãŒãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã‚’å†è¨ˆç®—ã™ã‚‹ã¨ãã«å‘¼ã°ã‚Œã‚‹
 
 	void SetObjectBox(const AABB& model) { mObjectBox = model; }
 	const AABB& GetWorldBox() const { return mWorldBox; }
 
-	void SetShouldRotate(bool value) { mShouldRotate = value; }		//ƒAƒNƒ^[‚ª‰ñ“]‚·‚é‚Æ‚«‚ÉBoxComponent‚à‰ñ“]‚³‚¹‚é‚©İ’è
+	void SetShouldRotate(bool value) { mShouldRotate = value; }		//ã‚¢ã‚¯ã‚¿ãƒ¼ãŒå›è»¢ã™ã‚‹ã¨ãã«BoxComponentã‚‚å›è»¢ã•ã›ã‚‹ã‹è¨­å®š
 private:
-	AABB mObjectBox;		//ƒIƒuƒWƒFƒNƒg‹óŠÔ‚ÌƒoƒEƒ“ƒfƒBƒ“ƒOƒ{ƒbƒNƒX
-	AABB mWorldBox;			//ƒ[ƒ‹ƒh‹óŠÔ‚ÌƒoƒEƒ“ƒfƒBƒ“ƒOƒ{ƒbƒNƒX.Š—LƒAƒNƒ^[‚Ìƒ[ƒ‹ƒh•ÏŠ·‚É’Ç]
+	AABB mObjectBox;		//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç©ºé–“ã®ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹
+	AABB mWorldBox;			//ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã®ãƒã‚¦ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ãƒœãƒƒã‚¯ã‚¹.æ‰€æœ‰ã‚¢ã‚¯ã‚¿ãƒ¼ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã«è¿½å¾“
 	bool mShouldRotate;
 };

@@ -20,9 +20,9 @@ struct LineSegment
 	// Get MinDistSq between two line segments
 	static float MinDistSq(const LineSegment& s1, const LineSegment& s2);
 
-	//n“_
+	//å§‹ç‚¹
 	Vector3 mStart;
-	//I“_
+	//çµ‚ç‚¹
 	Vector3 mEnd;
 };
 
@@ -30,14 +30,14 @@ struct Plane
 {
 	Plane(const Vector3& normal, float d);
 	// Construct plane from three points
-	//3‚Â‚Ì“_‚©‚ç•½–Ê‚ğ\’z(OŠpŒ`‚Í•K‚¸‚»‚ÌOŠpŒ`‚ªæ‚Á‚Ä‚¢‚é•½–Ê‚ª‘¶İ‚·‚é‚Æ‚¢‚¤’è‹`‚æ‚è)
+	//3ã¤ã®ç‚¹ã‹ã‚‰å¹³é¢ã‚’æ§‹ç¯‰(ä¸‰è§’å½¢ã¯å¿…ãšãã®ä¸‰è§’å½¢ãŒä¹—ã£ã¦ã„ã‚‹å¹³é¢ãŒå­˜åœ¨ã™ã‚‹ã¨ã„ã†å®šç¾©ã‚ˆã‚Š)
 	Plane(const Vector3& a, const Vector3& b, const Vector3& c);
 	// Get the signed distance between the point and the plane
 	float SignedDist(const Vector3& point) const;
 
-	//•½–Ê‚Ì–@üƒxƒNƒgƒ‹
+	//å¹³é¢ã®æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 mNormal;
-	//•½–Ê‚ÆŒ´“_‚Ì‹——£
+	//å¹³é¢ã¨åŸç‚¹ã®è·é›¢
 	float mD;
 };
 
@@ -46,9 +46,9 @@ struct Sphere
 	Sphere(const Vector3& center, float radius);
 	bool Contains(const Vector3& point) const;
 
-	//’†S
+	//ä¸­å¿ƒ
 	Vector3 mCenter;
-	//”¼Œa
+	//åŠå¾„
 	float mRadius;
 };
 
@@ -69,15 +69,15 @@ struct AABB
 
 struct OBB
 {
-	//’†S
+	//ä¸­å¿ƒ
 	Vector3 mCenter;
-	//‰ñ“]
+	//å›è»¢
 	Quaternion mRotation;
-	//•
+	//å¹…
 	Vector3 mExtents;
 };
 
-//ƒJƒvƒZƒ‹
+//ã‚«ãƒ—ã‚»ãƒ«
 struct Capsule
 {
 	Capsule(const Vector3& start, const Vector3& end, float radius);
@@ -85,9 +85,9 @@ struct Capsule
 	Vector3 PointOnSegment(float t) const;
 	bool Contains(const Vector3& point) const;
 
-	//ü•ª
+	//ç·šåˆ†
 	LineSegment mSegment;
-	//‰~‚Ì”¼Œa
+	//å††ã®åŠå¾„
 	float mRadius;
 };
 
@@ -95,12 +95,12 @@ struct ConvexPolygon
 {
 	bool Contains(const Vector2& point) const;
 	// Vertices have a clockwise ordering
-	//’¸“_‚Ì‡˜‚ÍŒv‰ñ‚è
+	//é ‚ç‚¹ã®é †åºã¯æ™‚è¨ˆå›ã‚Š
 	std::vector<Vector2> mVertices;
 };
 
 // Intersection functions
-//“–‚½‚è”»’è’²¸ŠÖ”(global‚Å‚ ‚é‚½‚ßA‘¼‚ÌƒNƒ‰ƒX‚Å‚ÍIntersect()‚¾‚¯‚Åg—p‰Â”\)
+//å½“ãŸã‚Šåˆ¤å®šèª¿æŸ»é–¢æ•°(globalã§ã‚ã‚‹ãŸã‚ã€ä»–ã®ã‚¯ãƒ©ã‚¹ã§ã¯Intersect()ã ã‘ã§ä½¿ç”¨å¯èƒ½)
 bool Intersect(const Sphere& a, const Sphere& b);
 bool Intersect(const AABB& a, const AABB& b);
 bool Intersect(const OBB& a, const OBB& b);

@@ -34,7 +34,7 @@ public:
 private:
 	// AABB collision
 	//AABB mBox;
-	AABB mBox;				//BoxComponent‚Å‚àg—p‚·‚é‚½‚ßA’Ç‰Á
+	AABB mBox;				//BoxComponentã§ã‚‚ä½¿ç”¨ã™ã‚‹ãŸã‚ã€è¿½åŠ 
 	// Textures associated with this mesh
 	std::vector<class Texture*> mTextures;
 	// Vertex array associated with this mesh

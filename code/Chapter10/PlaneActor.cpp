@@ -19,7 +19,7 @@ PlaneActor::PlaneActor(Game* game)
 	SetScale(10.0f);
 	MeshComponent* mc = new MeshComponent(this);
 	//Mesh* mesh = GetGame()->GetRenderer()->GetMesh("Assets/Plane.gpmesh");
-	//gpmesh‚©‚ç•K—v‚ÈMeshƒf[ƒ^‚ÌŽæ“¾
+	//gpmeshã‹ã‚‰å¿…è¦ãªMeshãƒ‡ãƒ¼ã‚¿ã®å–å¾—
 	Mesh* mesh = GetGame()->GetRenderer()->GetMesh("Assets/Plane.gpmesh");
 	mc->SetMesh(mesh);
 	// Add collision box
@@ -28,7 +28,7 @@ PlaneActor::PlaneActor(Game* game)
 	mBox = new BoxComponent(this);
 	mBox->SetObjectBox(mesh->GetBox());
 
-	//•Ç‚ðgame‚É•Û‘¶‚·‚é(Actor‚Æ‚ÌÕ“Ë”»’è‚Ì‚½‚ß)
+	//å£ã‚’gameã«ä¿å­˜ã™ã‚‹(Actorã¨ã®è¡çªåˆ¤å®šã®ãŸã‚)
 	game->AddPlane(this);
 }
 
