@@ -30,19 +30,19 @@ void AIComponent::ChangeState(const std::string& name)
 	// First exit the current state
 	if (mCurrentState)
 	{
-		mCurrentState->OnExit();		//Œ»İ‚Ìstate‚ª‘¶İ‚·‚éê‡Astate‚ÌOnExit()‚ğŒÄ‚Ô
+		mCurrentState->OnExit();		//ç¾åœ¨ã®stateãŒå­˜åœ¨ã™ã‚‹å ´åˆã€stateã®OnExit()ã‚’å‘¼ã¶
 	}
 	
 	// Try to find the new state from the map
-	auto iter = mStateMap.find(name);		//ˆø”‚Ìname‚ğƒL[‚Æ‚·‚éState‚ğŒŸõ
-	if (iter != mStateMap.end())		//Œ©‚Â‚©‚Á‚½‚ç...
+	auto iter = mStateMap.find(name);		//å¼•æ•°ã®nameã‚’ã‚­ãƒ¼ã¨ã™ã‚‹Stateã‚’æ¤œç´¢
+	if (iter != mStateMap.end())		//è¦‹ã¤ã‹ã£ãŸã‚‰...
 	{
-		mCurrentState = iter->second;		//’l(IState‚ÌƒCƒ“ƒXƒ^ƒ“ƒX)‚Ìæ“¾
+		mCurrentState = iter->second;		//å€¤(IStateã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹)ã®å–å¾—
 		// We're entering the new state
-		mCurrentState->OnEnter();			//V‚µ‚¢state‚ÌOnEnter()‚ğŒÄ‚Ô
+		mCurrentState->OnEnter();			//æ–°ã—ã„stateã®OnEnter()ã‚’å‘¼ã¶
 	}
 	else
-	{		//Œ©‚Â‚©‚ç‚È‚©‚Á‚½‚ç
+	{		//è¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸã‚‰
 		SDL_Log("Could not find AIState %s in state map", name.c_str());
 		mCurrentState = nullptr;
 	}

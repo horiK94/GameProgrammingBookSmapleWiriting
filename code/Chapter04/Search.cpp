@@ -26,7 +26,7 @@ struct WeightedEdge
 
 struct WeightedGraphNode
 {
-	std::vector<WeightedEdge*> mEdges;		//ƒm[ƒh‚É‘Î‰‚·‚éƒGƒbƒW‚ÌƒŠƒXƒg
+	std::vector<WeightedEdge*> mEdges;		//ãƒãƒ¼ãƒ‰ã«å¯¾å¿œã™ã‚‹ã‚¨ãƒƒã‚¸ã®ãƒªã‚¹ãƒˆ
 };
 
 struct WeightedGraph
@@ -36,14 +36,14 @@ struct WeightedGraph
 
 struct GBFSScratch
 {
-	const WeightedEdge* mParentEdge = nullptr;		//eƒGƒbƒW(d‚İ•t‚«ƒOƒ‰ƒt‚Ì‚½‚ß)
-	float mHeuristic = 0.0f;		//ƒqƒ…[ƒŠƒXƒeƒBƒbƒN’l
-	bool mInOpenSet = false;		//ƒI[ƒvƒ“ƒZƒbƒg‹A‘®ƒtƒ‰ƒO(ŒŸ“¢’†‚Ìƒm[ƒh‚©)
-	bool mInClosedSet = false;		//ƒNƒ[ƒYƒZƒbƒg‹A‘®ƒtƒ‰ƒO(•]‰¿‚³‚ê‚½ƒm[ƒh‚©)
+	const WeightedEdge* mParentEdge = nullptr;		//è¦ªã‚¨ãƒƒã‚¸(é‡ã¿ä»˜ãã‚°ãƒ©ãƒ•ã®ãŸã‚)
+	float mHeuristic = 0.0f;		//ãƒ’ãƒ¥ãƒ¼ãƒªã‚¹ãƒ†ã‚£ãƒƒã‚¯å€¤
+	bool mInOpenSet = false;		//ã‚ªãƒ¼ãƒ—ãƒ³ã‚»ãƒƒãƒˆå¸°å±ãƒ•ãƒ©ã‚°(æ¤œè¨ä¸­ã®ãƒãƒ¼ãƒ‰ã‹)
+	bool mInClosedSet = false;		//ã‚¯ãƒ­ãƒ¼ã‚ºã‚»ãƒƒãƒˆå¸°å±ãƒ•ãƒ©ã‚°(è©•ä¾¡ã•ã‚ŒãŸãƒãƒ¼ãƒ‰ã‹)
 };
 
 using GBFSMap =
-std::unordered_map<const WeightedGraphNode*, GBFSScratch>;		//ƒm[ƒh‚ÌƒL[‚É‘Î‚µ‚ÄGBFSScratch‚ª’è‹`‚³‚ê‚½˜A‘z”z—ñ
+std::unordered_map<const WeightedGraphNode*, GBFSScratch>;		//ãƒãƒ¼ãƒ‰ã®ã‚­ãƒ¼ã«å¯¾ã—ã¦GBFSScratchãŒå®šç¾©ã•ã‚ŒãŸé€£æƒ³é…åˆ—
 
 struct AStarScratch
 {
@@ -138,53 +138,53 @@ bool GBFS(const WeightedGraph& g, const WeightedGraphNode* start,
 	std::vector<const WeightedGraphNode*> openSet;
 
 	// Set current node to start, and mark in closed set
-	const WeightedGraphNode* current = start;		//Œ»İ•]‰¿’†‚Ìƒm[ƒh
-	outMap[current].mInClosedSet = true;		//ƒXƒ^[ƒgˆÊ’u‚ğ•]‰¿’†‚Ìƒm[ƒh‚Éİ’è
+	const WeightedGraphNode* current = start;		//ç¾åœ¨è©•ä¾¡ä¸­ã®ãƒãƒ¼ãƒ‰
+	outMap[current].mInClosedSet = true;		//ã‚¹ã‚¿ãƒ¼ãƒˆä½ç½®ã‚’è©•ä¾¡ä¸­ã®ãƒãƒ¼ãƒ‰ã«è¨­å®š
 
 	do
 	{
 		// Add adjacent nodes to open set
-		/*  Œ»İ‚Ìƒm[ƒh‚Ì‘Î‰‚·‚éƒGƒbƒW‚ğ‘S’²¸‚µAƒ}ƒbƒvî•ñ‚©‚çƒGƒbƒW‚ğg‚Á‚½‚çs‚¯‚éƒm[ƒh‚ğŒŸõB
-			ƒm[ƒh‚ªƒNƒ[ƒYƒZƒbƒg‚É“ü‚Á‚Ä‚¨‚ç‚¸‚©‚ÂAƒI[ƒvƒ“ƒZƒbƒg‚É‚à“ü‚Á‚Ä‚¢‚È‚¢ê‡‚Í
-			ƒI[ƒvƒ“ƒZƒbƒg’Ç‰Á‚Æƒqƒ…[ƒŠƒXƒeƒBƒbƒN’lŒvZAeƒGƒbƒW‚Ì“o˜^‚ğ‚µ‚Ä‚¨‚­
+		/*  ç¾åœ¨ã®ãƒãƒ¼ãƒ‰ã®å¯¾å¿œã™ã‚‹ã‚¨ãƒƒã‚¸ã‚’å…¨èª¿æŸ»ã—ã€ãƒãƒƒãƒ—æƒ…å ±ã‹ã‚‰ã‚¨ãƒƒã‚¸ã‚’ä½¿ã£ãŸã‚‰è¡Œã‘ã‚‹ãƒãƒ¼ãƒ‰ã‚’æ¤œç´¢ã€‚
+			ãƒãƒ¼ãƒ‰ãŒã‚¯ãƒ­ãƒ¼ã‚ºã‚»ãƒƒãƒˆã«å…¥ã£ã¦ãŠã‚‰ãšã‹ã¤ã€ã‚ªãƒ¼ãƒ—ãƒ³ã‚»ãƒƒãƒˆã«ã‚‚å…¥ã£ã¦ã„ãªã„å ´åˆã¯
+			ã‚ªãƒ¼ãƒ—ãƒ³ã‚»ãƒƒãƒˆè¿½åŠ ã¨ãƒ’ãƒ¥ãƒ¼ãƒªã‚¹ãƒ†ã‚£ãƒƒã‚¯å€¤è¨ˆç®—ã€è¦ªã‚¨ãƒƒã‚¸ã®ç™»éŒ²ã‚’ã—ã¦ãŠã
 		*/
 
 		for (const WeightedEdge* edge : current->mEdges)
 		{
 			// Get scratch data for this node
-			GBFSScratch& data = outMap[edge->mTo];		//ƒGƒbƒW‚Ì•Û‘¶‚µ‚Ä‚¢‚éƒf[ƒ^‚ÌAs‚«æƒm[ƒh‚É‘Î‰‚·‚éƒf[ƒ^‚ğæ“¾
+			GBFSScratch& data = outMap[edge->mTo];		//ã‚¨ãƒƒã‚¸ã®ä¿å­˜ã—ã¦ã„ã‚‹ãƒ‡ãƒ¼ã‚¿ã®ã€è¡Œãå…ˆãƒãƒ¼ãƒ‰ã«å¯¾å¿œã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—
 			// Add it only if it's not in the closed set
-			if (!data.mInClosedSet)		//s‚«æ‚Ìƒm[ƒh‚ªƒNƒ[ƒYƒZƒbƒg‚É“ü‚Á‚Ä‚¢‚È‚¢‚È‚ç
+			if (!data.mInClosedSet)		//è¡Œãå…ˆã®ãƒãƒ¼ãƒ‰ãŒã‚¯ãƒ­ãƒ¼ã‚ºã‚»ãƒƒãƒˆã«å…¥ã£ã¦ã„ãªã„ãªã‚‰
 			{
 				// Set the adjacent node's parent edge
-				data.mParentEdge = edge;		//Œ»İ‚ÌƒGƒbƒW‚ğAs‚«æƒm[ƒh‚ÌeƒGƒbƒW‚É“o˜^
-				if (!data.mInOpenSet)			//s‚«æƒm[ƒh‚ªƒI[ƒv‚ÌƒZƒbƒg‚É“ü‚Á‚Ä‚¢‚È‚¢‚È‚ç
+				data.mParentEdge = edge;		//ç¾åœ¨ã®ã‚¨ãƒƒã‚¸ã‚’ã€è¡Œãå…ˆãƒãƒ¼ãƒ‰ã®è¦ªã‚¨ãƒƒã‚¸ã«ç™»éŒ²
+				if (!data.mInOpenSet)			//è¡Œãå…ˆãƒãƒ¼ãƒ‰ãŒã‚ªãƒ¼ãƒ—ã®ã‚»ãƒƒãƒˆã«å…¥ã£ã¦ã„ãªã„ãªã‚‰
 				{
 					// Compute the heuristic for this node, and add to open set
-					data.mHeuristic = ComputeHeuristic(edge->mTo, goal);		//s‚«æƒm[ƒh‚©‚çƒS[ƒ‹‚Ü‚Å‚Ìƒqƒ…[ƒŠƒXƒeƒBƒbƒN’l‚ğ•Û‘¶
-					data.mInOpenSet = true;			//ƒI[ƒvƒ“ƒZƒbƒg‚É•Û‘¶
-					openSet.emplace_back(edge->mTo);		//ƒI[ƒvƒ“ƒZƒbƒgƒŠƒXƒg‚ÌI’[‚ÉV‚µ‚¢—v‘f’Ç‰Á
+					data.mHeuristic = ComputeHeuristic(edge->mTo, goal);		//è¡Œãå…ˆãƒãƒ¼ãƒ‰ã‹ã‚‰ã‚´ãƒ¼ãƒ«ã¾ã§ã®ãƒ’ãƒ¥ãƒ¼ãƒªã‚¹ãƒ†ã‚£ãƒƒã‚¯å€¤ã‚’ä¿å­˜
+					data.mInOpenSet = true;			//ã‚ªãƒ¼ãƒ—ãƒ³ã‚»ãƒƒãƒˆã«ä¿å­˜
+					openSet.emplace_back(edge->mTo);		//ã‚ªãƒ¼ãƒ—ãƒ³ã‚»ãƒƒãƒˆãƒªã‚¹ãƒˆã®çµ‚ç«¯ã«æ–°ã—ã„è¦ç´ è¿½åŠ 
 				}
 			}
 		}
 
 		// If open set is empty, all possible paths are exhausted
-		if (openSet.empty())		//ƒI[ƒvƒ“ƒZƒbƒg‚ª‹ó‚¾‚Á‚½‚ç’²‚×æ‚ª‚à‚¤‚È‚¢‚½‚ßI—¹
+		if (openSet.empty())		//ã‚ªãƒ¼ãƒ—ãƒ³ã‚»ãƒƒãƒˆãŒç©ºã ã£ãŸã‚‰èª¿ã¹å…ˆãŒã‚‚ã†ãªã„ãŸã‚çµ‚äº†
 		{
 			break;
 		}
 
 		// Find lowest cost node in open set
-		auto iter = std::min_element(openSet.begin(), openSet.end(),			//ƒqƒ…[ƒŠƒXƒeƒBƒbƒN‚ª¬‚³‚¢‡‚É•À‚Ñ‘Ö‚¦
+		auto iter = std::min_element(openSet.begin(), openSet.end(),			//ãƒ’ãƒ¥ãƒ¼ãƒªã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒå°ã•ã„é †ã«ä¸¦ã³æ›¿ãˆ
 			[&outMap](const WeightedGraphNode* a, const WeightedGraphNode* b) {
 			return outMap[a].mHeuristic < outMap[b].mHeuristic;
-		});		//Å¬‚Ì—v‘f(Å‰‚ÌƒCƒeƒŒ[ƒ^‚ğæ“¾‚·‚é) = ƒqƒ…[ƒŠƒXƒeƒBƒbƒN‚ª¬‚³‚¢‚à‚Ì1‚Â‚ğæ“¾
+		});		//æœ€å°ã®è¦ç´ (æœ€åˆã®ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹) = ãƒ’ãƒ¥ãƒ¼ãƒªã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒå°ã•ã„ã‚‚ã®1ã¤ã‚’å–å¾—
 
 		// Set to current and move from open to closed
-		current = *iter;		//ƒI[ƒvƒ“ƒZƒbƒg‚Ì’†‚ÅÅ‚àƒqƒ…[ƒŠƒXƒeƒBƒbƒN‚ª¬‚³‚¢‚à‚Ì‚ğŒ»İ‚Ìƒm[ƒh‚Éİ’è
-		openSet.erase(iter);	//ƒI[ƒvƒ“ƒZƒbƒg‚©‚çíœ
-		outMap[current].mInOpenSet = false;		//ƒI[ƒvƒ“ƒZƒbƒgƒtƒ‰ƒO‚ğÜ‚é
-		outMap[current].mInClosedSet = true;		//ƒNƒ[ƒYƒZƒbƒg‚ğ—§‚Ä‚é
+		current = *iter;		//ã‚ªãƒ¼ãƒ—ãƒ³ã‚»ãƒƒãƒˆã®ä¸­ã§æœ€ã‚‚ãƒ’ãƒ¥ãƒ¼ãƒªã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒå°ã•ã„ã‚‚ã®ã‚’ç¾åœ¨ã®ãƒãƒ¼ãƒ‰ã«è¨­å®š
+		openSet.erase(iter);	//ã‚ªãƒ¼ãƒ—ãƒ³ã‚»ãƒƒãƒˆã‹ã‚‰å‰Šé™¤
+		outMap[current].mInOpenSet = false;		//ã‚ªãƒ¼ãƒ—ãƒ³ã‚»ãƒƒãƒˆãƒ•ãƒ©ã‚°ã‚’æŠ˜ã‚‹
+		outMap[current].mInClosedSet = true;		//ã‚¯ãƒ­ãƒ¼ã‚ºã‚»ãƒƒãƒˆã‚’ç«‹ã¦ã‚‹
 	} while (current != goal);
 
 	// Did we find a path?
@@ -194,7 +194,7 @@ bool GBFS(const WeightedGraph& g, const WeightedGraphNode* start,
 using NodeToParentMap =
 std::unordered_map<const GraphNode*, const GraphNode*>;
 
-//•—Dæ’Tõ
+//å¹…å„ªå…ˆæ¢ç´¢
 bool BFS(const Graph& graph, const GraphNode* start, const GraphNode* goal, NodeToParentMap& outMap)
 {
 	// Whether we found a path
@@ -202,31 +202,31 @@ bool BFS(const Graph& graph, const GraphNode* start, const GraphNode* goal, Node
 	// Nodes to consider
 	std::queue<const GraphNode*> q;
 	// Enqueue the first node
-	q.emplace(start);		//ŒŸõ‰ÓŠ‚Éstart‚ğ’Ç‰Á
+	q.emplace(start);		//æ¤œç´¢ç®‡æ‰€ã«startã‚’è¿½åŠ 
 
-	while (!q.empty())		//ŒŸõ‰ÓŠ‚ª‚ ‚éê‡‚Í’²‚×‘±‚¯‚é
+	while (!q.empty())		//æ¤œç´¢ç®‡æ‰€ãŒã‚ã‚‹å ´åˆã¯èª¿ã¹ç¶šã‘ã‚‹
 	{
 		// Dequeue a node
-		const GraphNode* current = q.front();		//’Tõ‰ÓŠ‚Ìƒm[ƒhƒŠƒXƒg‚Ì’†‚©‚ç1‚Â‚ğ‘I‘ğ => Œ»İ‚Ìƒm[ƒh
-		q.pop();		//Œ»İ‚Ìƒm[ƒh‚ğq‚©‚çÁ‚·
-		if (current == goal)		//Œ»İ‚Ìƒm[ƒh‚ªgoal‚È‚çI—¹
+		const GraphNode* current = q.front();		//æ¢ç´¢ç®‡æ‰€ã®ãƒãƒ¼ãƒ‰ãƒªã‚¹ãƒˆã®ä¸­ã‹ã‚‰1ã¤ã‚’é¸æŠ => ç¾åœ¨ã®ãƒãƒ¼ãƒ‰
+		q.pop();		//ç¾åœ¨ã®ãƒãƒ¼ãƒ‰ã‚’qã‹ã‚‰æ¶ˆã™
+		if (current == goal)		//ç¾åœ¨ã®ãƒãƒ¼ãƒ‰ãŒgoalãªã‚‰çµ‚äº†
 		{
 			pathFound = true;
 			break;
 		}
 
 		// Enqueue adjacent nodes that aren't already in the queue
-		for (const GraphNode* node : current->mAdjacent)		//Œ»İ‚Ìƒm[ƒh‚©‚çi‚ß‚éƒm[ƒh‚ğ‚·‚×‚ÄŒŸõ
+		for (const GraphNode* node : current->mAdjacent)		//ç¾åœ¨ã®ãƒãƒ¼ãƒ‰ã‹ã‚‰é€²ã‚ã‚‹ãƒãƒ¼ãƒ‰ã‚’ã™ã¹ã¦æ¤œç´¢
 		{
 			// If the parent is null, it hasn't been enqueued
 			// (except for the start node)
-			const GraphNode* parent = outMap[node];			//outMap‚Ì’†‚©‚çuŒ»İ‚Ìƒm[ƒh‚©‚çi‚ñ‚¾ƒm[ƒhv‚Ìƒf[ƒ^‚ğæ“¾
-			//ã‚Åparent‚Énullptr‚ª“ü‚Á‚Ä‚¢‚½‚ç–¢’²¸‚Ìƒm[ƒh(s‚Á‚½‚±‚Æ‚ª‚È‚¢ƒm[ƒh)‚Æ‚È‚é
+			const GraphNode* parent = outMap[node];			//outMapã®ä¸­ã‹ã‚‰ã€Œç¾åœ¨ã®ãƒãƒ¼ãƒ‰ã‹ã‚‰é€²ã‚“ã ãƒãƒ¼ãƒ‰ã€ã®ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—
+			//ä¸Šã§parentã«nullptrãŒå…¥ã£ã¦ã„ãŸã‚‰æœªèª¿æŸ»ã®ãƒãƒ¼ãƒ‰(è¡Œã£ãŸã“ã¨ãŒãªã„ãƒãƒ¼ãƒ‰)ã¨ãªã‚‹
 			if (parent == nullptr && node != start)
 			{
 				// Enqueue this node, setting its parent
-				outMap[node] = current;		//outMap‚Éi‚ñ‚¾ƒm[ƒh‚É‘Î‰‚·‚éŒ»İ‚Ìƒm[ƒh‚ğ‘‚«‚Ş(i‚ñ‚¾ƒm[ƒh‚É‘Î‚·‚éÅ’Z‚ÌŒ»İ‚Ìƒm[ƒh‚Í•¡”‚ ‚é‚ªA‚¤‚¿1‚Â‚ª‚±‚±‚Å“o˜^‚³‚ê‚½‚Æ‚¢‚¤‚±‚Æ)
-				q.emplace(node);		//Ÿ‚Ìƒm[ƒh‚ğq‚ÌÅŒã‚É’Ç‰Á
+				outMap[node] = current;		//outMapã«é€²ã‚“ã ãƒãƒ¼ãƒ‰ã«å¯¾å¿œã™ã‚‹ç¾åœ¨ã®ãƒãƒ¼ãƒ‰ã‚’æ›¸ãè¾¼ã‚€(é€²ã‚“ã ãƒãƒ¼ãƒ‰ã«å¯¾ã™ã‚‹æœ€çŸ­ã®ç¾åœ¨ã®ãƒãƒ¼ãƒ‰ã¯è¤‡æ•°ã‚ã‚‹ãŒã€ã†ã¡1ã¤ãŒã“ã“ã§ç™»éŒ²ã•ã‚ŒãŸã¨ã„ã†ã“ã¨)
+				q.emplace(node);		//æ¬¡ã®ãƒãƒ¼ãƒ‰ã‚’qã®æœ€å¾Œã«è¿½åŠ 
 			}
 		}
 	}
