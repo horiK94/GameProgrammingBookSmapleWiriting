@@ -19,7 +19,7 @@ struct Vector2
 };
 
 /// <summary>
-/// Ball\‘¢‘Ì
+/// Ballæ§‹é€ ä½“
 /// </summary>
 struct Ball
 {
@@ -56,13 +56,13 @@ private:
 	// Pong specific
 	// Direction of paddle
 	int mPaddleDir;
-	//‰Eƒpƒhƒ‹“ü—Í
+	//å³ãƒ‘ãƒ‰ãƒ«å…¥åŠ›
 	int rightPaddleDir;
 	// Position of paddle
 	Vector2 leftPaddlePos;
-	//‰Eƒpƒhƒ‹‚ÌÀ•W
+	//å³ãƒ‘ãƒ‰ãƒ«ã®åº§æ¨™
 	Vector2 rightPaddlePos;
 
-	/// <summary>ƒ{[ƒ‹”z—ñ</summary>
+	/// <summary>ãƒœãƒ¼ãƒ«é…åˆ—</summary>
 	std::vector<Ball> balls;
 };
