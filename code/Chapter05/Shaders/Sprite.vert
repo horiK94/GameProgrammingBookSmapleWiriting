@@ -6,36 +6,36 @@
 // See LICENSE in root directory for full details.
 // ----------------------------------------------------------------
 
-// OpenGL3.3�ɑΉ�����GLSL�̃o�[�W�����̎w��
+// OpenGL3.3に対応するGLSLのバージョンの指定
 #version 330
 
 
 
-//�O���[�o���ϐ��̐錾(in��out�ƈႢ�A���x�V�F�[�_�[�����s����Ă��l�͕ς��Ȃ�)
-// mat4: 4x4�s��. 3������Ԃ̓������W�n�ɕK�v
+//グローバル変数の宣言(inやoutと違い、何度シェーダーが実行されても値は変わらない)
+// mat4: 4x4行列. 3次元空間の同次座標系に必要
 uniform mat4 uWorldTransform;
 uniform mat4 uViewProj;
 
-//���_��񂪕����ɂȂ����̂ŁA�ǂ̑����X���b�g���ǂ̕ϐ��ɑΉ����Ă��邩�w�肷��
-// ���͕ϐ��ł���ʒu���̐錾
-layout(location=0) in vec3 inPosition;		//location�̒l��glVertexAttributePointer�ɑΉ����Ă���
+//頂点情報が複数になったので、どの属性スロットがどの変数に対応しているか指定する
+// 入力変数である位置情報の宣言
+layout(location=0) in vec3 inPosition;		//locationの値はglVertexAttributePointerに対応している
 layout(location=1) in vec2 inTexCoord;
 layout(location=2) in vec3 inVertexColor;
 
-//�t���O�����g�V�F�[�_�[�ɂ�uv���W���g�p���邽��(�s�N�Z���̐F�����߂�̂Ɏg�p)out�ϐ���錾
+//フラグメントシェーダーにもuv座標を使用するため(ピクセルの色を決めるのに使用)out変数を宣言
 out vec2 fragTexCoord;
 out vec3 fragVectorColor;
 
 void main()
 {
-	// pos�̓I�u�W�F�N�g��Ԃ̈ʒu
+	// posはオブジェクト空間の位置
 	vec4 pos = vec4(inPosition, 1.0);
-	// �I�u�W�F�N�g��Ԃ̈ʒu�����[���h��Ԃ��o�āA�N���b�v��Ԃ̈ʒu�ւƕς���
+	// オブジェクト空間の位置をワールド空間を経て、クリップ空間の位置へと変える
 	gl_Position = pos * uWorldTransform * uViewProj;
-	//uv���W���t���O�����g�V�F�[�_�[�ɓn��
+	//uv座標をフラグメントシェーダーに渡す
 	fragTexCoord = inTexCoord;
 	fragVectorColor = inVertexColor;
-	//uv���W���t���O�����g�V�F�[�_�[�ɓn�������ŉ���uv���W�l���t���O�����g�V�F�[�_�[���킩��̂��H
-	//�����OpenGL��3�����Ȃ����_�̏������ƂɁA�O�p�`�|���S���̕\�ʑS�ĂɎ����I�ɕ⊮���Ă��邩��
-	//�O�p�`���̔C�ӂ̃s�N�Z���ŁA�Ή�����t���O�����g�V�F�[�_�[�ł�uv���W���A�⊮���ꂽ���W�l�Ƃ��ē�����
+	//uv座標をフラグメントシェーダーに渡すだけで何故uv座標値をフラグメントシェーダーがわかるのか？
+	//それはOpenGLが3個しかない頂点の情報をもとに、三角形ポリゴンの表面全てに自動的に補完しているから
+	//三角形内の任意のピクセルで、対応するフラグメントシェーダーでのuv座標を、補完された座標値として得られる
 }

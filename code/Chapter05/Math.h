@@ -843,7 +843,7 @@ public:
 	}
 
 	// Create "Simple" View-Projection Matrix from Chapter 6
-	//ƒ[ƒ‹ƒh‹óŠÔ‚ğƒNƒŠƒbƒv‹óŠÔ‚Ö•ÏŠ·‚·‚éƒrƒ…[Ë‰es—ñ‚ğ¶¬
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã‚’ã‚¯ãƒªãƒƒãƒ—ç©ºé–“ã¸å¤‰æ›ã™ã‚‹ãƒ“ãƒ¥ãƒ¼å°„å½±è¡Œåˆ—ã‚’ç”Ÿæˆ
 	static Matrix4 CreateSimpleViewProj(float width, float height)
 	{
 		float temp[4][4] =
@@ -901,7 +901,7 @@ public:
 		w = inW;
 	}
 
-	//‹tŒ³‚É‚·‚é
+	//é€†å…ƒã«ã™ã‚‹
 	void Conjugate()
 	{
 		x *= -1.0f;
@@ -953,7 +953,7 @@ public:
 		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 	}
 
-	// Spherical Linear Interpolation(‹…–ÊüŒ`•âŠÔ‚ÆŒÄ‚Î‚ê‚é 4.4.5.1Ql)
+	// Spherical Linear Interpolation(çƒé¢ç·šå½¢è£œé–“ã¨å‘¼ã°ã‚Œã‚‹ 4.4.5.1å‚è€ƒ)
 	static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float f)
 	{
 		float rawCosm = Quaternion::Dot(a, b);
@@ -997,12 +997,12 @@ public:
 
 	// Concatenate
 	// Rotate by q FOLLOWED BY p
-	//˜AŒ‹q‚Å‰ñ“]‚µ‚½‚ ‚Æ‚Ép‚Å‰ñ“]
+	//é€£çµqã§å›è»¢ã—ãŸã‚ã¨ã«pã§å›è»¢
 	static Quaternion Concatenate(const Quaternion& q, const Quaternion& p)
 	{
 		Quaternion retVal;
 
-		//ˆÈ‰ºƒOƒ‰ƒXƒ}ƒ“Ï
+		//ä»¥ä¸‹ã‚°ãƒ©ã‚¹ãƒãƒ³ç©
 		// Vector component is:
 		// ps * qv + qs * pv + pv x qv
 		Vector3 qv(q.x, q.y, q.z);

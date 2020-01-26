@@ -56,7 +56,7 @@ Shader::~Shader()
 
 bool Shader::Load(const std::string& vertName, const std::string& fragName)
 {
-	//’¸“_ƒVƒF[ƒ_[‚Æƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_[‚ğƒRƒ“ƒpƒCƒ‹‚·‚é
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¨ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã™ã‚‹
 	if (!CompileShader(vertName, GL_VERTEX_SHADER, mVertexShader) ||
 		!CompileShader(fragName, GL_FRAGMENT_SHADER, mFragShader))
 	{
@@ -64,12 +64,12 @@ bool Shader::Load(const std::string& vertName, const std::string& fragName)
 	}
 
 
-	//ƒo[ƒeƒbƒNƒXƒVƒF[ƒ_[‚Æƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_[‚ğƒŠƒ“ƒN‚³‚¹‚ÄƒVƒF[ƒ_[ƒvƒƒOƒ‰ƒ€‚Ìì¬
-	mShaderProgram = glCreateProgram();			//ƒVƒF[ƒ_[ƒvƒƒOƒ‰ƒ€‚Ìì¬
+	//ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¨ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’ãƒªãƒ³ã‚¯ã•ã›ã¦ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ä½œæˆ
+	mShaderProgram = glCreateProgram();			//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ä½œæˆ
 	glAttachShader(mShaderProgram, mVertexShader);
 	glAttachShader(mShaderProgram, mFragShader);
-	glLinkProgram(mShaderProgram);		//ƒŠƒ“ƒN‚ğs‚¤
-	if (!IsValidProgram())		//ƒŠƒ“ƒN‚ªãè‚­s‚í‚ê‚Ä‚¢‚é‚©Šm”F
+	glLinkProgram(mShaderProgram);		//ãƒªãƒ³ã‚¯ã‚’è¡Œã†
+	if (!IsValidProgram())		//ãƒªãƒ³ã‚¯ãŒä¸Šæ‰‹ãè¡Œã‚ã‚Œã¦ã„ã‚‹ã‹ç¢ºèª
 	{
 		return false;
 	}
@@ -90,10 +90,10 @@ void Shader::Unload()
 void Shader::SetActive()
 {
 	// Set this program as the active one
-	//ƒVƒF[ƒ_[‚ğƒAƒNƒeƒBƒu‚É‚·‚é
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹
 	//glUseProgram(mShaderProgram);
 	glUseProgram(mShaderProgram);
-	//OpenGL‚ÍƒAƒNƒeƒBƒu‚É‚µ‚½ƒVƒF[ƒ_[‚ğg‚Á‚ÄOŠpŒ`‚ğ•`‰æ‚·‚é
+	//OpenGLã¯ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã—ãŸã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’ä½¿ã£ã¦ä¸‰è§’å½¢ã‚’æç”»ã™ã‚‹
 }
 
 //void Shader::SetMatrixUniform(const char* name, const Matrix4& matrix)
@@ -106,49 +106,49 @@ void Shader::SetActive()
 
 void Shader::SetMatrixUniform(const char* name, const Matrix4& matrix)
 {
-	// ‚±‚Ì–¼‘O‚Ìuniform‚ğŒŸõ(ƒVƒF[ƒ_[id‚Æuniform–¼‚ğˆø”‚É‚µ‚Ä“n‚·)
-	//“¯‚¶uniform‚ğXV‚·‚éÛ‚ÍA“¯‚¶id‚Ì‚½‚ß‚¢‚¿‚¢‚¿–â‚¢‡‚í‚¹‚é•K—v‚Í‚È‚¢
+	// ã“ã®åå‰ã®uniformã‚’æ¤œç´¢(ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼idã¨uniformåã‚’å¼•æ•°ã«ã—ã¦æ¸¡ã™)
+	//åŒã˜uniformã‚’æ›´æ–°ã™ã‚‹éš›ã¯ã€åŒã˜idã®ãŸã‚ã„ã¡ã„ã¡å•ã„åˆã‚ã›ã‚‹å¿…è¦ã¯ãªã„
 	GLuint loc = glGetUniformLocation(mShaderProgram, name);
-	// s—ñƒf[ƒ^‚ğuniform‚É‘—‚é
+	// è¡Œåˆ—ãƒ‡ãƒ¼ã‚¿ã‚’uniformã«é€ã‚‹
 	glUniformMatrix4fv(
 		loc,		//Uniform ID
-		1,			//s—ñ‚Ì”
-		GL_TRUE,	//sƒxƒNƒgƒ‹‚ğg‚¤ê‡‚Ítrue
-		matrix.GetAsFloatPtr()	//s—ñ‚Ö‚ÌfloatŒ^ƒ|ƒCƒ“ƒ^
+		1,			//è¡Œåˆ—ã®æ•°
+		GL_TRUE,	//è¡Œãƒ™ã‚¯ãƒˆãƒ«ã‚’ä½¿ã†å ´åˆã¯true
+		matrix.GetAsFloatPtr()	//è¡Œåˆ—ã¸ã®floatå‹ãƒã‚¤ãƒ³ã‚¿
 	);
 }
 
 
 bool Shader::CompileShader(const std::string& fileName, GLenum shaderType, GLuint& outShader)
 {
-	//ƒtƒ@ƒCƒ‹‚ğŠJ‚­‚½‚ß‚ÌifStreamì¬
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ããŸã‚ã®ifStreamä½œæˆ
 	std::ifstream shaderFile(fileName);
 	if (shaderFile.is_open())
 	{
-		//ƒVƒF[ƒ_[ƒtƒ@ƒCƒ‹‚ªŠJ‚¯‚½
-		//1‚Â‚Ì•¶š—ñ‚Éshader file‚Ì’†‚Ì•¶Í‚ğ“Ç‚İ‚Ş
-		std::stringstream sstream;		//ƒƒ‚ƒŠ (std::basic_string) ƒx[ƒX‚ÌƒXƒgƒŠ[ƒ€‚É‘Î‚·‚é“üo—Í‘€ì‚ğÀ‘•
-		sstream << shaderFile.rdbuf();		//sstream‚ÉshaderFile‚É•R•t‚¢‚½ƒXƒgƒŠ[ƒ€ƒoƒbƒtƒ@‚ğ•Ô‚·
-		std::string contents = sstream.str();		//sstream‚É•R•t‚¯‚Ä‚¨‚¢‚½•¶š—ñ‚ğæ“¾
-		const char* contentsChar = contents.c_str();			//c_str()‚ÅCŒ¾Œê‚Å‚Ì•¶š—ñ•\Œ»‚É•ÏX‚µ‚Ä‚¢‚é
+		//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‘ãŸæ™‚
+		//1ã¤ã®æ–‡å­—åˆ—ã«shader fileã®ä¸­ã®æ–‡ç« ã‚’èª­ã¿è¾¼ã‚€
+		std::stringstream sstream;		//ãƒ¡ãƒ¢ãƒª (std::basic_string) ãƒ™ãƒ¼ã‚¹ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«å¯¾ã™ã‚‹å…¥å‡ºåŠ›æ“ä½œã‚’å®Ÿè£…
+		sstream << shaderFile.rdbuf();		//sstreamã«shaderFileã«ç´ä»˜ã„ãŸã‚¹ãƒˆãƒªãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã‚’è¿”ã™
+		std::string contents = sstream.str();		//sstreamã«ç´ä»˜ã‘ã¦ãŠã„ãŸæ–‡å­—åˆ—ã‚’å–å¾—
+		const char* contentsChar = contents.c_str();			//c_str()ã§Cè¨€èªã§ã®æ–‡å­—åˆ—è¡¨ç¾ã«å¤‰æ›´ã—ã¦ã„ã‚‹
 
-		//w’è‚³‚ê‚½ƒ^ƒCƒv‚ÌƒVƒF[ƒ_[‚ğì¬
+		//æŒ‡å®šã•ã‚ŒãŸã‚¿ã‚¤ãƒ—ã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’ä½œæˆ
 		outShader = glCreateShader(shaderType);
-		//ƒRƒ“ƒpƒCƒ‹‘ÎÛ‚Æ‚µ‚Ä“Ç‚İ‚ñ‚¾•¶š—ñ‚ğw’è
+		//ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¯¾è±¡ã¨ã—ã¦èª­ã¿è¾¼ã‚“ã æ–‡å­—åˆ—ã‚’æŒ‡å®š
 		glShaderSource(outShader, 1, &(contentsChar), nullptr);
-		//ƒR[ƒh‚ÌƒRƒ“ƒpƒCƒ‹
+		//ã‚³ãƒ¼ãƒ‰ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 		glCompileShader(outShader);
 
 		if (!IsCompiled(outShader))
 		{
-			//ƒRƒ“ƒpƒCƒ‹¸”s‚µ‚½
-			SDL_Log("ƒVƒF[ƒ_[ %s ‚ÌƒRƒ“ƒpƒCƒ‹‚É¸”s‚µ‚Ü‚µ‚½", fileName.c_str());
+			//ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¤±æ•—ã—ãŸæ™‚
+			SDL_Log("ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ %s ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«å¤±æ•—ã—ã¾ã—ãŸ", fileName.c_str());
 			return false;
 		}
 	}
 	else
 	{
-		SDL_Log("ƒVƒF[ƒ_[ƒtƒ@ƒCƒ‹ %s ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ", fileName.c_str());
+		SDL_Log("ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ« %s ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“", fileName.c_str());
 		return false;
 	}
 	return true;
@@ -209,15 +209,15 @@ bool Shader::CompileShader(const std::string& fileName, GLenum shaderType, GLuin
 bool Shader::IsCompiled(GLuint shader)
 {
 	GLint status;
-	//ƒRƒ“ƒpƒCƒ‹ó‘Ô‚Ì–â‚¢‡‚í‚¹
+	//ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«çŠ¶æ…‹ã®å•ã„åˆã‚ã›
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 	if (status != GL_TRUE)
 	{
-		char buffer[512];		//ƒGƒ‰[“à—e•\¦—pchar”z—ñ
-		memset(buffer, 0, 512);		//buffer‚Ì512ƒoƒCƒg‚ğ0(null)‚ÅƒZƒbƒg‚·‚é
-		//ƒƒOî•ñ‚Ìæ“¾(shaderId, log‚ğŠi”[‚·‚é•¶šƒoƒbƒtƒ@‚ÌƒTƒCƒYw’è, infoLog‚É•Ô‚³‚ê‚é•¶š—ñ‚Ì’·‚³[nullptr‚Ì‚Æ‚«‚Í•¶šƒoƒbƒtƒ@•ª], î•ñƒƒO‚Ég—p‚·‚é•¶š‚Ì”z—ñ)
+		char buffer[512];		//ã‚¨ãƒ©ãƒ¼å†…å®¹è¡¨ç¤ºç”¨charé…åˆ—
+		memset(buffer, 0, 512);		//bufferã®512ãƒã‚¤ãƒˆã‚’0(null)ã§ã‚»ãƒƒãƒˆã™ã‚‹
+		//ãƒ­ã‚°æƒ…å ±ã®å–å¾—(shaderId, logã‚’æ ¼ç´ã™ã‚‹æ–‡å­—ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚ºæŒ‡å®š, infoLogã«è¿”ã•ã‚Œã‚‹æ–‡å­—åˆ—ã®é•·ã•[nullptrã®ã¨ãã¯æ–‡å­—ãƒãƒƒãƒ•ã‚¡åˆ†], æƒ…å ±ãƒ­ã‚°ã«ä½¿ç”¨ã™ã‚‹æ–‡å­—ã®é…åˆ—)
 		glGetShaderInfoLog(shader, 511, nullptr, buffer);
-		SDL_Log("GLSL‚ÌƒRƒ“ƒpƒCƒ‹‚ª¸”s‚µ‚Ü‚µ‚½: \n%s", buffer);
+		SDL_Log("GLSLã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãŒå¤±æ•—ã—ã¾ã—ãŸ: \n%s", buffer);
 		return false;
 	}
 	return true;
@@ -241,15 +241,15 @@ bool Shader::IsValidProgram()
 	//
 	//return true;
 	GLint status;
-	//ƒŠƒ“ƒNî•ñ‚Ì–â‚¢‡‚í‚¹
+	//ãƒªãƒ³ã‚¯æƒ…å ±ã®å•ã„åˆã‚ã›
 	glGetProgramiv(mShaderProgram, GL_LINK_STATUS, &status);
 	if (status != GL_TRUE)
 	{
 		char buffer[512];
 		memset(buffer, 0, 512);
-		//ƒƒOî•ñ‚Ìæ“¾
+		//ãƒ­ã‚°æƒ…å ±ã®å–å¾—
 		glGetProgramInfoLog(mShaderProgram, 511, nullptr, buffer);
-		SDL_Log("GLSL‚ÌƒŠƒ“ƒN‚ª¸”s‚µ‚Ü‚µ‚½: \n%s", buffer);
+		SDL_Log("GLSLã®ãƒªãƒ³ã‚¯ãŒå¤±æ•—ã—ã¾ã—ãŸ: \n%s", buffer);
 		return false;
 	}
 	return true;

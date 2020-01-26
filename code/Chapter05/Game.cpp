@@ -37,33 +37,33 @@ bool Game::Initialize()
 		return false;
 	}
 
-	//OpenGL‚Ìƒo[ƒWƒ‡ƒ“AF[“x‚È‚Ç‚Ìİ’è
-	//SDL_GL_SetAttribute(İ’è‚·‚é‘®«, ‘®«’l);
+	//OpenGLã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã€è‰²æ·±åº¦ãªã©ã®è¨­å®š
+	//SDL_GL_SetAttribute(è¨­å®šã™ã‚‹å±æ€§, å±æ€§å€¤);
 	// Set OpenGL attributes
 	;	// Use the core OpenGL profile
-		//OPENGL‚ªƒTƒ|[ƒg‚·‚éƒƒCƒ“ƒvƒƒtƒ@ƒCƒ‹‚ÍuƒRƒAvuŒİŠ·vuESv‚Ì3‚Â‚ ‚è
-		//ƒfƒXƒNƒgƒbƒv‚ÍƒRƒA‚ª„§‚³‚ê‚Ä‚¨‚èA
-		//ŒİŠ·‚ğ‘I‘ğ‚·‚é‚Æ”ñ„§‚ÌOpenGLŠÖ”‚ÌŒÄ‚Ño‚µ‚ª‹–‰Â‚³‚ê‚é
-		//OpenGL ES‚Íƒ‚ƒoƒCƒ‹ŠJ”­—p
+		//OPENGLãŒã‚µãƒãƒ¼ãƒˆã™ã‚‹ãƒ¡ã‚¤ãƒ³ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã¯ã€Œã‚³ã‚¢ã€ã€Œäº’æ›ã€ã€ŒESã€ã®3ã¤ã‚ã‚Š
+		//ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã¯ã‚³ã‚¢ãŒæ¨å¥¨ã•ã‚Œã¦ãŠã‚Šã€
+		//äº’æ›ã‚’é¸æŠã™ã‚‹ã¨éæ¨å¥¨ã®OpenGLé–¢æ•°ã®å‘¼ã³å‡ºã—ãŒè¨±å¯ã•ã‚Œã‚‹
+		//OpenGL ESã¯ãƒ¢ãƒã‚¤ãƒ«é–‹ç™ºç”¨
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	// Specify version 3.3
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	// Request a color buffer with 8-bits per RGBA channel
-	//r, g, b, a‚»‚ê‚¼‚ê‚É8bit‚ÌƒJƒ‰[ƒoƒbƒtƒ@(“K—p‚³‚¹‚éƒƒ‚ƒŠ—Ê)‚ğg—p
+	//r, g, b, aãã‚Œãã‚Œã«8bitã®ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ•ã‚¡(é©ç”¨ã•ã›ã‚‹ãƒ¡ãƒ¢ãƒªé‡)ã‚’ä½¿ç”¨
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 	// Enable double buffering
-	//ƒ_ƒuƒ‹ƒoƒbƒtƒ@‚Ì“K—p
+	//ãƒ€ãƒ–ãƒ«ãƒãƒƒãƒ•ã‚¡ã®é©ç”¨
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	// Force OpenGL to use hardware acceleration
-	//OpenGL‚ğƒn[ƒhƒEƒFƒAƒAƒNƒZƒ‰ƒŒ[ƒVƒ‡ƒ“•t‚«‚ÅÀs = ƒŒƒ“ƒ_ƒŠƒ“ƒO‚ÉGPU‚ğg—p
+	//OpenGLã‚’ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢ã‚¢ã‚¯ã‚»ãƒ©ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ä»˜ãã§å®Ÿè¡Œ = ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã«GPUã‚’ä½¿ç”¨
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
 	mWindow = SDL_CreateWindow("Game Programming in C++ (Chapter 5)", 100, 100,
-		1024, 768, SDL_WINDOW_OPENGL);		//SDL_WINDOW_OPENGL‚Åì¬‚³‚ê‚½ƒEƒBƒ“ƒhƒE‚ÅOpenGL‚ªg—p‰Â”\‚É
+		1024, 768, SDL_WINDOW_OPENGL);		//SDL_WINDOW_OPENGLã§ä½œæˆã•ã‚ŒãŸã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã§OpenGLãŒä½¿ç”¨å¯èƒ½ã«
 	if (!mWindow)
 	{
 		SDL_Log("Failed to create window: %s", SDL_GetError());
@@ -71,20 +71,20 @@ bool Game::Initialize()
 	}
 
 	// Create an OpenGL context
-	//OpenGL‚ÌƒRƒ“ƒeƒNƒXƒg(ƒRƒ“ƒeƒLƒXƒg)ì¬(ƒRƒ“ƒeƒNƒXƒg‚Æ‚Íİ’èŒS‚Ì‚æ‚¤‚È‚à‚Ì)
+	//OpenGLã®ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆ(ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ)ä½œæˆ(ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆã¨ã¯è¨­å®šéƒ¡ã®ã‚ˆã†ãªã‚‚ã®)
 	mContext = SDL_GL_CreateContext(mWindow);
 
 	// Initialize GLEW
-	//GLEW‚Å‰Šú‰» glewInit() => ‚±‚ê‚É‚æ‚èAVer3.3‚Æ‚»‚êˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚ª‘Î‰‚·‚é‹@”\‚Ì‘S‰Šú‰»‚ğ‚µ‚Ä‚­‚ê‚é
-	glewExperimental = GL_TRUE;		//ˆê•”ƒvƒ‰ƒbƒgƒtƒH[ƒ€‚ÅƒRƒ“ƒeƒNƒXƒg‚ğg—p‚·‚éÛ‚Éo‚é‰Šú‰»ƒGƒ‰[‚ğ—\–h
+	//GLEWã§åˆæœŸåŒ– glewInit() => ã“ã‚Œã«ã‚ˆã‚Šã€Ver3.3ã¨ãã‚Œä»¥å‰ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãŒå¯¾å¿œã™ã‚‹æ©Ÿèƒ½ã®å…¨åˆæœŸåŒ–ã‚’ã—ã¦ãã‚Œã‚‹
+	glewExperimental = GL_TRUE;		//ä¸€éƒ¨ãƒ—ãƒ©ãƒƒãƒˆãƒ•ã‚©ãƒ¼ãƒ ã§ã‚³ãƒ³ãƒ†ã‚¯ã‚¹ãƒˆã‚’ä½¿ç”¨ã™ã‚‹éš›ã«å‡ºã‚‹åˆæœŸåŒ–ã‚¨ãƒ©ãƒ¼ã‚’äºˆé˜²
 	if (glewInit() != GLEW_OK)
 	{
-		SDL_Log("GLEW‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½");
+		SDL_Log("GLEWã®åˆæœŸåŒ–ã«å¤±æ•—ã—ã¾ã—ãŸ");
 		return false;
 	}
 	// On some platforms, GLEW will emit a benign error code,
 	// so clear it
-	glGetError();		//ˆê•”‚Õ‚ç‚Á‚ÆƒtƒH[ƒ€‚Å–³ŠQ‚ÈƒGƒ‰[ƒR[ƒh‚ğo‚·‚½‚ßA‚±‚±‚ÅƒNƒŠƒA‚µ‚Ä‚¢‚é
+	glGetError();		//ä¸€éƒ¨ã·ã‚‰ã£ã¨ãƒ•ã‚©ãƒ¼ãƒ ã§ç„¡å®³ãªã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å‡ºã™ãŸã‚ã€ã“ã“ã§ã‚¯ãƒªã‚¢ã—ã¦ã„ã‚‹
 
 	// Make sure we can create/compile shaders
 	if (!LoadShaders())
@@ -166,7 +166,7 @@ void Game::UpdateGame()
 	mUpdatingActors = false;
 
 	// Move any pending actors to mActors
-	for (auto pending : mPendingActors)		//‘¼‚ÌƒAƒNƒ^[‚©‚çì‚ç‚ê‚½•\¦‘O‚ÌƒAƒNƒ^[‚É‘Î‚µ‚Ä‚àAƒ[ƒ‹ƒhs—ñ‚ÌŒvZ‚ğs‚Á‚Ä‚¨‚­
+	for (auto pending : mPendingActors)		//ä»–ã®ã‚¢ã‚¯ã‚¿ãƒ¼ã‹ã‚‰ä½œã‚‰ã‚ŒãŸè¡¨ç¤ºå‰ã®ã‚¢ã‚¯ã‚¿ãƒ¼ã«å¯¾ã—ã¦ã‚‚ã€ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®è¨ˆç®—ã‚’è¡Œã£ã¦ãŠã
 	{
 		/*pending->ComputeWorldTransform();*/
 		pending->ComputeWorldTransform();
@@ -194,23 +194,23 @@ void Game::UpdateGame()
 }
 
 /*
-2DƒQ[ƒ€.. ƒXƒvƒ‰ƒCƒg‚ğ—p‚¢‚Ä•\¦‚µ‚Ä‚¢‚­(ƒXƒvƒ‰ƒCƒg‚Ì‰æ‘œ‚ğƒJƒ‰[ƒoƒbƒtƒ@‚Ì‚Ç‚±‚©‚ÖƒRƒsƒy‚·‚é = ƒuƒŠƒbƒeƒBƒ“ƒO) => ‚Ó‚Ÿ‚İ‚±‚ñ‚Ì‚æ‚¤‚ÈƒXƒvƒ‰ƒCƒgƒx[ƒX‚ÌƒQ[ƒ€‹@‚Å‚ÍŒø—¦“I
-3DƒQ[ƒ€.. 3ŸŒ³ŠÂ‹«‚ğƒVƒ…ƒ~ƒŒ[ƒg‚µA‰½‚ç‚©‚Ì•û–@‚Å2ŸŒ³‰æ‘œ‚Ö•½–Ê‰»‚·‚é(¡‚Íƒ|ƒŠƒSƒ“‚Ì‚Ù‚¤‚ªŒø—¦“I‚ÅAƒuƒŠƒbƒeƒBƒ“ƒO‚Í”ñŒø—¦ => 2D, 3D‚Æ‚à‚Éƒ|ƒŠƒSƒ“‚ğ—p‚¢‚Ä‚¢‚é‚Æ‚±‚ë‚ª‘½‚¢)
+2Dã‚²ãƒ¼ãƒ .. ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’ç”¨ã„ã¦è¡¨ç¤ºã—ã¦ã„ã(ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®ç”»åƒã‚’ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ•ã‚¡ã®ã©ã“ã‹ã¸ã‚³ãƒ”ãƒšã™ã‚‹ = ãƒ–ãƒªãƒƒãƒ†ã‚£ãƒ³ã‚°) => ãµãã¿ã“ã‚“ã®ã‚ˆã†ãªã‚¹ãƒ—ãƒ©ã‚¤ãƒˆãƒ™ãƒ¼ã‚¹ã®ã‚²ãƒ¼ãƒ æ©Ÿã§ã¯åŠ¹ç‡çš„
+3Dã‚²ãƒ¼ãƒ .. 3æ¬¡å…ƒç’°å¢ƒã‚’ã‚·ãƒ¥ãƒŸãƒ¬ãƒ¼ãƒˆã—ã€ä½•ã‚‰ã‹ã®æ–¹æ³•ã§2æ¬¡å…ƒç”»åƒã¸å¹³é¢åŒ–ã™ã‚‹(ä»Šã¯ãƒãƒªã‚´ãƒ³ã®ã»ã†ãŒåŠ¹ç‡çš„ã§ã€ãƒ–ãƒªãƒƒãƒ†ã‚£ãƒ³ã‚°ã¯éåŠ¹ç‡ => 2D, 3Dã¨ã‚‚ã«ãƒãƒªã‚´ãƒ³ã‚’ç”¨ã„ã¦ã„ã‚‹ã¨ã“ã‚ãŒå¤šã„)
 
-ƒ|ƒŠƒSƒ“g—p‚·‚é——R
-1. ƒXƒP[ƒ‰ƒuƒ‹(d‚¢ˆ—‚ª“ï‚µ‚¢‚È‚çƒ|ƒŠƒSƒ“”Œ¸‚ç‚·)
-2. ŒvZ—Ê‚ª­‚È‚¢
+ãƒãƒªã‚´ãƒ³ä½¿ç”¨ã™ã‚‹ç†ç”±
+1. ã‚¹ã‚±ãƒ¼ãƒ©ãƒ–ãƒ«(é‡ã„å‡¦ç†ãŒé›£ã—ã„ãªã‚‰ãƒãƒªã‚´ãƒ³æ•°æ¸›ã‚‰ã™)
+2. è¨ˆç®—é‡ãŒå°‘ãªã„
 
-‚Ù‚Æ‚ñ‚Ç‚ÌƒQ[ƒ€‚Ìƒ|ƒŠƒSƒ“‚ªOŠpŒ`
-’: “_: ƒ|ƒCƒ“ƒg, “_“¯m‚ğ‚Â‚È‚°‚½ü: ƒ‰ƒCƒ“, ü‚Å‚Å‚«‚½–Ê: ƒ|ƒŠƒSƒ“
-‚È‚ºOŠpŒ`‚©?
-1. \¬‚·‚é“_‚Í‚·‚×‚Ä“¯ˆê•½–Êã
-2. ‚à‚Á‚Æ‚àƒVƒ“ƒvƒ‹‚Èƒ|ƒŠƒSƒ“‚ÅA‚½‚Á‚½3‚Â‚Ìƒ|ƒCƒ“ƒg‚Å•\Œ»‚Å‚«‚é
-3. ×•ªŠ„‰Â”\(‚Ç‚ñ‚È‚É•¡G‚Å‚àOŠpŒ`‚Ìƒ|ƒŠƒSƒ“‚ÌW‡‚Å•\‚·‚±‚Æ‚ª‚Å‚«‚é)
+ã»ã¨ã‚“ã©ã®ã‚²ãƒ¼ãƒ ã®ãƒãƒªã‚´ãƒ³ãŒä¸‰è§’å½¢
+æ³¨: ç‚¹: ãƒã‚¤ãƒ³ãƒˆ, ç‚¹åŒå£«ã‚’ã¤ãªã’ãŸç·š: ãƒ©ã‚¤ãƒ³, ç·šã§ã§ããŸé¢: ãƒãƒªã‚´ãƒ³
+ãªãœä¸‰è§’å½¢ã‹?
+1. æ§‹æˆã™ã‚‹ç‚¹ã¯ã™ã¹ã¦åŒä¸€å¹³é¢ä¸Š
+2. ã‚‚ã£ã¨ã‚‚ã‚·ãƒ³ãƒ—ãƒ«ãªãƒãƒªã‚´ãƒ³ã§ã€ãŸã£ãŸ3ã¤ã®ãƒã‚¤ãƒ³ãƒˆã§è¡¨ç¾ã§ãã‚‹
+3. ç´°åˆ†å‰²å¯èƒ½(ã©ã‚“ãªã«è¤‡é›‘ã§ã‚‚ä¸‰è§’å½¢ã®ãƒãƒªã‚´ãƒ³ã®é›†åˆã§è¡¨ã™ã“ã¨ãŒã§ãã‚‹)
 
-2D‚Å‚ÍAƒXƒvƒ‰ƒCƒg‚ğ‚Ç‚¤•\Œ»‚·‚é‚©‚Æ‚¢‚¤‚ÆA
-1ŒÂ‚Ì‹éŒ`‚ğ•`‰æA‚»‚Ì’†‚ğ‰æ‘œƒf[ƒ^‚ÌF‚Å“h‚é
-‚Æ‚¢‚¤‚±‚Æ‚É‚È‚é
+2Dã§ã¯ã€ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã‚’ã©ã†è¡¨ç¾ã™ã‚‹ã‹ã¨ã„ã†ã¨ã€
+1å€‹ã®çŸ©å½¢ã‚’æç”»ã€ãã®ä¸­ã‚’ç”»åƒãƒ‡ãƒ¼ã‚¿ã®è‰²ã§å¡—ã‚‹
+ã¨ã„ã†ã“ã¨ã«ãªã‚‹
 */
 float r = 0;
 float g = 0;
@@ -218,7 +218,7 @@ float b = 0;
 
 void Game::GenerateOutput()
 {
-	//ƒJƒ‰[ƒoƒbƒtƒ@[‚Ì‰Šú‰»
+	//ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ•ã‚¡ãƒ¼ã®åˆæœŸåŒ–
 	if (time >= changeTime)
 	{
 		std::random_device rd;
@@ -233,41 +233,41 @@ void Game::GenerateOutput()
 
 	glClearColor(Math::Lerp(r, 0, time / changeTime), Math::Lerp(r, 0, time / changeTime), Math::Lerp(r, 0, time / changeTime), 1.0f);
 	//glClearColor(0.86f, 0.86f, 0.86f, 1.0f);
-	//ƒJƒ‰[ƒoƒbƒtƒ@[‚ÌƒNƒŠƒA
+	//ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ•ã‚¡ãƒ¼ã®ã‚¯ãƒªã‚¢
 	/*
-	API‚ğ“Ç‚Ş‚Æ
-	glClear‚ÍAƒEƒBƒ“ƒhƒE‚ÌƒrƒbƒgƒvƒŒ[ƒ“—Ìˆæ‚ğAˆÈ‘O‚ÉglClearColorAglClearIndexAglClearDepthAglClearStencilA‚¨‚æ‚ÑglClearAccum‚É‚æ‚Á‚Ä‘I‘ğ‚³‚ê‚½’l‚Éİ’è‚µ‚Ü‚·B
-	glDrawBuffer‚ğg—p‚µ‚Äˆê“x‚É•¡”‚Ìƒoƒbƒtƒ@‚ğ‘I‘ğ‚·‚é‚±‚Æ‚É‚æ‚èA•¡”‚ÌƒJƒ‰[ƒoƒbƒtƒ@‚ğ“¯‚ÉƒNƒŠƒA‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
-	‚Æ‘‚¢‚Ä‚ ‚é‚½‚ßAŠDF‚ÅƒJƒ‰[ƒoƒbƒtƒ@‚ğ‰Šú‰»‚·‚é‚±‚Æ‚ª‚Å‚«‚é
+	APIã‚’èª­ã‚€ã¨
+	glClearã¯ã€ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒ“ãƒƒãƒˆãƒ—ãƒ¬ãƒ¼ãƒ³é ˜åŸŸã‚’ã€ä»¥å‰ã«glClearColorã€glClearIndexã€glClearDepthã€glClearStencilã€ãŠã‚ˆã³glClearAccumã«ã‚ˆã£ã¦é¸æŠã•ã‚ŒãŸå€¤ã«è¨­å®šã—ã¾ã™ã€‚
+	glDrawBufferã‚’ä½¿ç”¨ã—ã¦ä¸€åº¦ã«è¤‡æ•°ã®ãƒãƒƒãƒ•ã‚¡ã‚’é¸æŠã™ã‚‹ã“ã¨ã«ã‚ˆã‚Šã€è¤‡æ•°ã®ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ•ã‚¡ã‚’åŒæ™‚ã«ã‚¯ãƒªã‚¢ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
+	ã¨æ›¸ã„ã¦ã‚ã‚‹ãŸã‚ã€ç°è‰²ã§ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ•ã‚¡ã‚’åˆæœŸåŒ–ã™ã‚‹ã“ã¨ãŒã§ãã‚‹
 	*/
 	glClear(GL_COLOR_BUFFER_BIT);
-	//2D sprite -> RenderCopy(): blitting(ƒuƒŠƒbƒeƒBƒ“ƒO) => Å‹ß‚ÌƒOƒ‰ƒtƒBƒbƒNƒn[ƒhƒEƒFƒA‚Å‚Í”ñŒø—¦
-	//3D ƒ|ƒŠƒSƒ“ -> •`‰æŒø—¦‚ª‚‚¢ => 2D, 3D‚Ç‚¿‚ç‚Å‚àƒOƒ‰ƒtƒBƒbƒNˆ—‚Éƒ|ƒŠƒSƒ“‚ğg—p‚µ‚Ä‚¢‚é
-	//ƒ|ƒŠƒSƒ“‚Ì—˜“_
+	//2D sprite -> RenderCopy(): blitting(ãƒ–ãƒªãƒƒãƒ†ã‚£ãƒ³ã‚°) => æœ€è¿‘ã®ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢ã§ã¯éåŠ¹ç‡
+	//3D ãƒãƒªã‚´ãƒ³ -> æç”»åŠ¹ç‡ãŒé«˜ã„ => 2D, 3Dã©ã¡ã‚‰ã§ã‚‚ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯å‡¦ç†ã«ãƒãƒªã‚´ãƒ³ã‚’ä½¿ç”¨ã—ã¦ã„ã‚‹
+	//ãƒãƒªã‚´ãƒ³ã®åˆ©ç‚¹
 	/*
-	1. ƒ|ƒŠƒSƒ“‚Í‘¼‚Ì3DƒOƒ‰ƒtƒBƒbƒN‹Z–@‚æ‚èŒvZ”‚ª­‚È‚­‚ÄÏ‚Ş
-	2. ƒXƒP[ƒ‰ƒuƒ‹
-	3. ‚Ğã‚Èƒn[ƒh‚Å‚àAƒ|ƒŠƒSƒ“”‚ğ­‚È‚­‚·‚ê‚Î“®‚­
-	4. ‚Ù‚Æ‚ñ‚Ç‚Ì3Dƒ‚ƒfƒ‹‚Íƒ|ƒŠƒSƒ“‚Å•\Œ»‚Å‚«‚é
+	1. ãƒãƒªã‚´ãƒ³ã¯ä»–ã®3Dã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯æŠ€æ³•ã‚ˆã‚Šè¨ˆç®—æ•°ãŒå°‘ãªãã¦æ¸ˆã‚€
+	2. ã‚¹ã‚±ãƒ¼ãƒ©ãƒ–ãƒ«
+	3. ã²å¼±ãªãƒãƒ¼ãƒ‰ã§ã‚‚ã€ãƒãƒªã‚´ãƒ³æ•°ã‚’å°‘ãªãã™ã‚Œã°å‹•ã
+	4. ã»ã¨ã‚“ã©ã®3Dãƒ¢ãƒ‡ãƒ«ã¯ãƒãƒªã‚´ãƒ³ã§è¡¨ç¾ã§ãã‚‹
 	*/
-	//ƒ|ƒŠƒSƒ“ = –w‚Ç‚ªuOŠpŒ`v(3‚Â‚Ì“_ = 3‚Â‚Ì’¸“_‚Å1‚Â‚ÌOŠpŒ`‚ğŒ`¬)
+	//ãƒãƒªã‚´ãƒ³ = æ®†ã©ãŒã€Œä¸‰è§’å½¢ã€(3ã¤ã®ç‚¹ = 3ã¤ã®é ‚ç‚¹ã§1ã¤ã®ä¸‰è§’å½¢ã‚’å½¢æˆ)
 
-	//ƒXƒvƒ‰ƒCƒg‚Ì’¸“_”z—ñƒIƒuƒWƒFƒNƒg‚ÆƒVƒF[ƒ_[‚ğƒAƒNƒeƒBƒu‚É‚·‚é
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®é ‚ç‚¹é…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹
 	mSpriteVerts->SetActive();
 	mSpriteShader->SetActive();
 
-	glEnable(GL_BLEND);		//ƒJƒ‰[ƒoƒbƒtƒ@‚ÌƒuƒŒƒ“ƒfƒBƒ“ƒOŠJn
+	glEnable(GL_BLEND);		//ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ•ã‚¡ã®ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°é–‹å§‹
 	glBlendFunc(
 		GL_SRC_ALPHA,		//srcFactor -> srcAlpha
 		GL_ONE_MINUS_SRC_ALPHA	//dstFactor -> 1 - srcAlpha
 	);
 	// outputColor = srcFactor*srcColor + dstFactor*dstColor = alphaFactor*srcColor + (1-alphaFactor)*dstColor
-	//alphaFactor‚Í‰æ‘œ©‘Ì‚ªŠeƒsƒNƒZƒ‹‚É‚Á‚Ä‚¢‚é
-	//‚È‚¨Aã‚Ì‚æ‚¤‚ÉƒuƒŒƒ“ƒfƒBƒ“ƒO‚µ‚È‚¢‚Æ
+	//alphaFactorã¯ç”»åƒè‡ªä½“ãŒå„ãƒ”ã‚¯ã‚»ãƒ«ã«æŒã£ã¦ã„ã‚‹
+	//ãªãŠã€ä¸Šã®ã‚ˆã†ã«ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã—ãªã„ã¨
 	// outputColor = alphaColor * srcColor 
-	// ‚Æ‚È‚èAalphaColor = 0‚Ì‚Æ‚«A outputColor = (0, 0, 0)‚Æ‚È‚é‚½‚ß•‚ª•`‰æ‚³‚ê‚é
+	// ã¨ãªã‚Šã€alphaColor = 0ã®ã¨ãã€ outputColor = (0, 0, 0)ã¨ãªã‚‹ãŸã‚é»’ãŒæç”»ã•ã‚Œã‚‹
 
-	//‚·‚×‚Ä‚ÌSprite‚ğ•`‰æ
+	//ã™ã¹ã¦ã®Spriteã‚’æç”»
 	for(auto sprite : mSprites)
 	{
 		sprite->Draw(mSpriteShader);
@@ -307,14 +307,14 @@ bool Game::LoadShaders()
 	mSpriteShader = new Shader();
 	if(!mSpriteShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
 	{
-		//ƒ[ƒh¸”s
+		//ãƒ­ãƒ¼ãƒ‰å¤±æ•—
 		return false;
 	}
 	mSpriteShader->SetActive();
 
-	//’Pƒ‚Èƒrƒ…[Ë‰es—ñ
+	//å˜ç´”ãªãƒ“ãƒ¥ãƒ¼å°„å½±è¡Œåˆ—
 	Matrix4 viewProj = Matrix4::CreateSimpleViewProj(1024.f, 768.f);
-	mSpriteShader->SetMatrixUniform("uViewProj", viewProj);		//Å‰1‰ñ‚¾‚¯İ’è‚·‚ê‚Î—Ç‚¢
+	mSpriteShader->SetMatrixUniform("uViewProj", viewProj);		//æœ€åˆ1å›ã ã‘è¨­å®šã™ã‚Œã°è‰¯ã„
 	return true;
 }
 
@@ -345,8 +345,8 @@ void Game::CreateSpriteVerts()
 	};
 
 	mSpriteVerts = new VertexArray(vertices, 4, indexBuffer, 6);
-	//’¸“_ƒVƒF[ƒ_[: ’¸“_‚É‘Î‚µ‚Ä1‰ñÀs‚³‚ê‚é(“ü—Í: ’¸“_‘®«ƒf[ƒ^)
-	//’¸“_ƒoƒbƒtƒ@[‰ñ‚ÌŒÄ‚Ño‚µ‚ÅÏ‚ŞB‚½‚¾‚µAƒ‚ƒfƒ‹‚ğ‰½“x‚à•`‰æ‚·‚éê‡‚ÍA•`‰æ‚·‚é‰ñ”•ªŒÄ‚Ño‚µ‚ªs‚í‚ê‚é(‘ŠŒİ‚ÉˆË‘¶‚¹‚¸AŒÂ•Ê‚ÌŒvZ‚Æ‚È‚é)
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼: é ‚ç‚¹ã«å¯¾ã—ã¦1å›å®Ÿè¡Œã•ã‚Œã‚‹(å…¥åŠ›: é ‚ç‚¹å±æ€§ãƒ‡ãƒ¼ã‚¿)
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ¼å›ã®å‘¼ã³å‡ºã—ã§æ¸ˆã‚€ã€‚ãŸã ã—ã€ãƒ¢ãƒ‡ãƒ«ã‚’ä½•åº¦ã‚‚æç”»ã™ã‚‹å ´åˆã¯ã€æç”»ã™ã‚‹å›æ•°åˆ†å‘¼ã³å‡ºã—ãŒè¡Œã‚ã‚Œã‚‹(ç›¸äº’ã«ä¾å­˜ã›ãšã€å€‹åˆ¥ã®è¨ˆç®—ã¨ãªã‚‹)
 }
 
 void Game::LoadData()
@@ -426,7 +426,7 @@ void Game::Shutdown()
 	delete mSpriteVerts;
 	mSpriteShader->Unload();
 	delete mSpriteShader;
-	//OpenGLƒRƒ“ƒeƒLƒXƒg‚Ìíœ
+	//OpenGLã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã®å‰Šé™¤
 	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();

@@ -33,10 +33,10 @@ bool Texture::Load(const std::string& fileName)
 	int channels = 0;
 	unsigned char* image = SOIL_load_image(
 		fileName.c_str(),
-		&mWidth,		//•‚ª‹L˜^‚³‚ê‚é
+		&mWidth,		//å¹…ãŒè¨˜éŒ²ã•ã‚Œã‚‹
 		&mHeight,
 		&channels,
-		SOIL_LOAD_AUTO		//‰æ‘œƒtƒ@ƒCƒ‹‚ÌŽí—Þ
+		SOIL_LOAD_AUTO		//ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®ç¨®é¡ž
 	);
 
 	if (image == nullptr)
@@ -46,32 +46,32 @@ bool Texture::Load(const std::string& fileName)
 	}
 	
 	int format = GL_RGB;
-	if (channels == 4)		//ƒ`ƒƒƒ“ƒlƒ‹‚ª4‚Â‚È‚çRGBA
+	if (channels == 4)		//ãƒãƒ£ãƒ³ãƒãƒ«ãŒ4ã¤ãªã‚‰RGBA
 	{
 		format = GL_RGBA;
 	}
 	
-	//OpenGLƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒgì¬(‘æ2ˆø”‚Åid‚ð•Û‘¶)
+	//OpenGLãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä½œæˆ(ç¬¬2å¼•æ•°ã§idã‚’ä¿å­˜)
 	glGenTextures(1, &mTextureID);
-	//ƒeƒNƒXƒ`ƒƒ‚ðƒAƒNƒeƒBƒu‚É
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
 	
-	//openGLƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚É¶‚Ì‰æ‘œƒf[ƒ^‚ðƒRƒs[
+	//openGLãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ç”Ÿã®ç”»åƒãƒ‡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼
 	glTexImage2D(
-		GL_TEXTURE_2D,		//ƒeƒNƒXƒ`ƒƒƒ^[ƒQƒbƒg
-		0,		//Lod(Level of Detail)Ú×ƒŒƒxƒ‹
-		format, //OpenGL‚ªŽg—p‚·‚éƒJƒ‰[ƒtƒH[ƒ}ƒbƒg
+		GL_TEXTURE_2D,		//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ
+		0,		//Lod(Level of Detail)è©³ç´°ãƒ¬ãƒ™ãƒ«
+		format, //OpenGLãŒä½¿ç”¨ã™ã‚‹ã‚«ãƒ©ãƒ¼ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆ
 		mWidth, 
 		mHeight, 
-		0,		//‹«ŠE’l
-		format,	//“ü—Íƒf[ƒ^‚ÌƒJƒ‰[ƒtƒH[ƒ}ƒbƒg
-		GL_UNSIGNED_BYTE, //“ü—Íƒf[ƒ^‚Ìƒrƒbƒg[“x(¡‰ñ‚Íunsigned byte‚Å8ƒrƒbƒg/ƒ`ƒƒƒ“ƒlƒ‹‚ðŽw’è‚µ‚Ä‚¢‚é)
-		image);		//‰æ‘œƒf[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^
+		0,		//å¢ƒç•Œå€¤
+		format,	//å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã®ã‚«ãƒ©ãƒ¼ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆ
+		GL_UNSIGNED_BYTE, //å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã®ãƒ“ãƒƒãƒˆæ·±åº¦(ä»Šå›žã¯unsigned byteã§8ãƒ“ãƒƒãƒˆ/ãƒãƒ£ãƒ³ãƒãƒ«ã‚’æŒ‡å®šã—ã¦ã„ã‚‹)
+		image);		//ç”»åƒãƒ‡ãƒ¼ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 	
-	SOIL_free_image_data(image);		//‰æ‘œƒf[ƒ^‚ðOpenGL‚ÉƒRƒs[‚µ‚½‚çASOIL‰æ‘œƒf[ƒ^‚Íƒƒ‚ƒŠ‚©‚ç‰ð•ú‚Å‚«‚é
+	SOIL_free_image_data(image);		//ç”»åƒãƒ‡ãƒ¼ã‚¿ã‚’OpenGLã«ã‚³ãƒ”ãƒ¼ã—ãŸã‚‰ã€SOILç”»åƒãƒ‡ãƒ¼ã‚¿ã¯ãƒ¡ãƒ¢ãƒªã‹ã‚‰è§£æ”¾ã§ãã‚‹
 	
 	// Enable bilinear filtering
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);		//glTexParameteri‚ÅƒoƒCƒiƒŠƒtƒBƒ‹ƒ^(F‚ÌŒvŽZ‚ðŽü‚è‚Ìƒrƒbƒg‚Ìd‚³‚ÅŒvŽZ‚·‚é•û–@)‚ð—LŒø‚É‚·‚é
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);		//glTexParameteriã§ãƒã‚¤ãƒŠãƒªãƒ•ã‚£ãƒ«ã‚¿(è‰²ã®è¨ˆç®—ã‚’å‘¨ã‚Šã®ãƒ“ãƒƒãƒˆã®é‡ã•ã§è¨ˆç®—ã™ã‚‹æ–¹æ³•)ã‚’æœ‰åŠ¹ã«ã™ã‚‹
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
 	return true;
@@ -84,7 +84,7 @@ void Texture::Unload()
 
 void Texture::SetActive()
 {
-	//ƒVƒF[ƒ_[‚Å’è‹`‚µ‚½uniform sampler2D uTexture‚É‘Î‚µ‚ÄA¡‰ñ‚ÌƒeƒNƒXƒ`ƒƒ‚ð‰½ŒÌƒoƒCƒ“ƒh‚·‚éc++ƒR[ƒh‚ð‘‚¢‚Ä‚¢‚È‚¢‚©‚Æ‚¢‚¤‚Æ
-	//ƒeƒNƒXƒ`ƒƒ1–‡‚µ‚©ƒoƒCƒ“ƒh‚µ‚Ä‚¢‚È‚¢‚½‚ßOpenGL‚Í‚±‚Ì—Bˆê‚ÌƒeƒNƒXƒ`ƒƒƒTƒ“ƒvƒ‰[‚ªƒAƒNƒeƒBƒuƒeƒNƒXƒ`ƒƒ‚Å‚ ‚é‚Æ‚¢‚¤‚±‚Æ‚ðŽ©“®“I‚ÉŽ@’m‚Å‚«‚é‚©‚ç
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã§å®šç¾©ã—ãŸuniform sampler2D uTextureã«å¯¾ã—ã¦ã€ä»Šå›žã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ä½•æ•…ãƒã‚¤ãƒ³ãƒ‰ã™ã‚‹c++ã‚³ãƒ¼ãƒ‰ã‚’æ›¸ã„ã¦ã„ãªã„ã‹ã¨ã„ã†ã¨
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£1æžšã—ã‹ãƒã‚¤ãƒ³ãƒ‰ã—ã¦ã„ãªã„ãŸã‚OpenGLã¯ã“ã®å”¯ä¸€ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ãŒã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãƒ†ã‚¯ã‚¹ãƒãƒ£ã§ã‚ã‚‹ã¨ã„ã†ã“ã¨ã‚’è‡ªå‹•çš„ã«å¯ŸçŸ¥ã§ãã‚‹ã‹ã‚‰
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
 }

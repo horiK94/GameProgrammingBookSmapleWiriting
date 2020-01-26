@@ -9,12 +9,12 @@
 // Request GLSL 3.3
 #version 330
 
-// ƒo[ƒeƒbƒNƒXƒVƒF[ƒ_[‚Ìout‚Æ“¯‚¶Œ^“¯‚¶–¼‘O‚É‚·‚é•K—v‚ª‚ ‚é
+// ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®outã¨åŒã˜å‹åŒã˜åå‰ã«ã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 in vec2 fragTexCoord;
 in vec3 fragVectorColor;
 
-//—^‚¦‚ç‚ê‚½uvÀ•W‚É]‚Á‚ÄƒeƒNƒXƒ`ƒƒ‚©‚çF‚ğæ“¾‚·‚éTextureSampler‚Ì‚½‚ß‚Éuniform‚ğ’Ç‰Á
-//smapler2D: 2DTexture‚ğƒTƒ“ƒvƒŠƒ“ƒO
+//ä¸ãˆã‚‰ã‚ŒãŸuvåº§æ¨™ã«å¾“ã£ã¦ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‹ã‚‰è‰²ã‚’å–å¾—ã™ã‚‹TextureSamplerã®ãŸã‚ã«uniformã‚’è¿½åŠ 
+//smapler2D: 2DTextureã‚’ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°
 uniform sampler2D uTexture;
 
 // This corresponds to the output color
@@ -23,9 +23,9 @@ out vec4 outColor;
 
 void main()
 {
-	//ƒeƒNƒXƒ`ƒƒ‚ÌF‚ªƒTƒ“ƒvƒŠƒ“ƒO‚³‚ê‚é. i’¸“_ƒVƒF[ƒ_[‚©‚ç“n‚³‚ê‚½uvÀ•W‚Åj
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è‰²ãŒã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã•ã‚Œã‚‹. ï¼ˆé ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰æ¸¡ã•ã‚ŒãŸuvåº§æ¨™ã§ï¼‰
     // outColor = texture(uTexture, fragTexCoord);
-    // Še’¸“_ƒJƒ‰[‚É‘Î‚·‚éƒTƒ“ƒvƒŠƒ“ƒO‚ªs‚í‚ê‚é
+    // å„é ‚ç‚¹ã‚«ãƒ©ãƒ¼ã«å¯¾ã™ã‚‹ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ãŒè¡Œã‚ã‚Œã‚‹
 	// outColor = vec4(fragVectorColor, 1.0f);
 	outColor = (texture(uTexture, fragTexCoord) + vec4(fragVectorColor, 1.0f)) / 2.0f;
 }

@@ -14,51 +14,51 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 	:mNumVerts(numVerts)
 	,mNumIndices(numIndices)
 {
-	//���_�z��I�u�W�F�N�g�̍쐬
+	//頂点配列オブジェクトの作成
 	/*
 	void glGenVertexArrays(GLsizei n, GLuint *arrays)
-	n �̒��_�z��I�u�W�F�N�g���쐬��, ���̃I�u�W�F�N�g�� (�����l�ŕ\����鎯�ʎq) �� arrays �Ɏw�肳�ꂽ�z��̗v�f�Ɋi�[���܂�.
+	n 個の頂点配列オブジェクトを作成し, そのオブジェクト名 (整数値で表される識別子) を arrays に指定された配列の要素に格納します.
 	*/
-	glGenVertexArrays(1, &mVertexArray);	//�����쐬���邩�ƁA���_�z��I�u�W�F�N�g��ID��n��
+	glGenVertexArrays(1, &mVertexArray);	//いくつ作成するかと、頂点配列オブジェクトのIDを渡す
 	/*
 	void glBindVertexArray(GLuint array)
-	arrays �Ɏw�肳�ꂽ�I�u�W�F�N�g���̒��_�z��I�u�W�F�N�g���������܂�. ���_�z��I�u�W�F�N�g�͌�������Ă���Ԏg�p�ł��܂�. array �� 0 �̎��͌��݌�������Ă��钸�_�z��I�u�W�F�N�g�̌������������܂�.
+	arrays に指定されたオブジェクト名の頂点配列オブジェクトを結合します. 頂点配列オブジェクトは結合されている間使用できます. array が 0 の時は現在結合されている頂点配列オブジェクトの結合を解除します.
 	*/
-	//mVertexArray�𒸓_�z��I�u�W�F�N�g�Ƃ��ăo�C���h�i���_�z��I�u�W�F�N�g�Ƃ��Ďg���j�Ƃ����Ӗ��ł́H
+	//mVertexArrayを頂点配列オブジェクトとしてバインド（頂点配列オブジェクトとして使う）という意味では？
 	glBindVertexArray(mVertexArray);;
 
-	//���_�o�b�t�@�̍쐬
-	//���̏�2�ł͒��_�C���f�b�N�X�ƒ��_�o�b�t�@��id���擾
+	//頂点バッファの作成
+	//この上2つでは頂点インデックスと頂点バッファのidを取得
 	//// Create vertex buffer
 	//glGenBuffers(1, &mVertexBuffer);
 	glGenBuffers(1, &mVertexBuffer);
 	//glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
-	//GL_ARRAY_BUFFER�̓o�b�t�@�𒸓_�o�b�t�@�Ƃ��ăo�C���h�i���_�o�b�t�@�Ƃ��Ďg���j�Ƃ����Ӗ�
+	//GL_ARRAY_BUFFERはバッファを頂点バッファとしてバインド（頂点バッファとして使う）という意味
 	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);
-	////��Œ��_�o�b�t�@�̍쐬�͊��������̂ŁA�����́u���_�o�b�t�@���R�s�[�v���Ă��
+	////上で頂点バッファの作成は完了したので、引数の「頂点バッファをコピー」してやる
 	//glBufferData(
-	//	GL_ARRAY_BUFFER,		//�o�b�t�@�̎��(GL_ARRAY_BUFFER: ����������_�o�b�t�@���g�p. ID���w�肷��̂ł͂Ȃ�) => ��Ŏw�肵���o�b�t�@�̎�ނ��w��
-	//	numVerts * 3 * sizeof(float),		//�R�s�[����T�C�Y
-	//	verts,		//�R�s�[���|�C���^
-	//	GL_STATIC_DRAW		//�f�[�^�̗��p���@(GL_STATIC_DRAW: GPU�Ńf�[�^�̃��[�h��1��s���A���̌�`��Ńf�[�^��ǂݍ���): GPU�̓�����œK�����邽�߂̃q���g�Ƃ��Ďg�p�����(�ڍ�: http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20120909)
+	//	GL_ARRAY_BUFFER,		//バッファの種類(GL_ARRAY_BUFFER: 今作った頂点バッファを使用. IDを指定するのではない) => 上で指定したバッファの種類を指定
+	//	numVerts * 3 * sizeof(float),		//コピーするサイズ
+	//	verts,		//コピー元ポインタ
+	//	GL_STATIC_DRAW		//データの利用方法(GL_STATIC_DRAW: GPUでデータのロードを1回行い、その後描画でデータを読み込む): GPUの動作を最適化するためのヒントとして使用される(詳細: http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20120909)
 	//);
-		//��Œ��_�o�b�t�@�̍쐬�͊��������̂ŁA�����́u���_�o�b�t�@���R�s�[�v���Ă��
+		//上で頂点バッファの作成は完了したので、引数の「頂点バッファをコピー」してやる
 	glBufferData(
-		GL_ARRAY_BUFFER,		//�o�b�t�@�̎��(GL_ARRAY_BUFFER: ����������_�o�b�t�@���g�p. ID���w�肷��̂ł͂Ȃ�) => ��Ŏw�肵���o�b�t�@�̎�ނ��w��
-		//numVerts * 5 * sizeof(float),		//�R�s�[����T�C�Y
+		GL_ARRAY_BUFFER,		//バッファの種類(GL_ARRAY_BUFFER: 今作った頂点バッファを使用. IDを指定するのではない) => 上で指定したバッファの種類を指定
+		//numVerts * 5 * sizeof(float),		//コピーするサイズ
 		numVerts * 8 * sizeof(float),
-		verts,		//�R�s�[���|�C���^
-		GL_STATIC_DRAW		//�f�[�^�̗��p���@(GL_STATIC_DRAW: GPU�Ńf�[�^�̃��[�h��1��s���A���̌�`��Ńf�[�^��ǂݍ���): GPU�̓�����œK�����邽�߂̃q���g�Ƃ��Ďg�p�����(�ڍ�: http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20120909)
+		verts,		//コピー元ポインタ
+		GL_STATIC_DRAW		//データの利用方法(GL_STATIC_DRAW: GPUでデータのロードを1回行い、その後描画でデータを読み込む): GPUの動作を最適化するためのヒントとして使用される(詳細: http://marina.sys.wakayama-u.ac.jp/~tokoi/?date=20120909)
 	);
 	//glBufferData(GL_ARRAY_BUFFER, numVerts * 5 * sizeof(float), verts, GL_STATIC_DRAW);
 
-	//�C���f�b�N�X�o�b�t�@�̍쐬
-	//�����ł͒��_�o�b�t�@�̒��g���w�肵�Ă���
+	//インデックスバッファの作成
+	//ここでは頂点バッファの中身を指定していく
 	//// Create index buffer
-	//�����͒��_�o�b�t�@�Ƃقړ��l
+	//作り方は頂点バッファとほぼ同様
 	glGenBuffers(1, &mIndexBuffer);
 	//glGenBuffers(1, &mIndexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);		//�C���f�b�N�X�o�b�t�@�Ƃ��Č�������(�C���f�b�N�X�o�b�t�@�Ƃ��Ďg��)
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);		//インデックスバッファとして結合する(インデックスバッファとして使う)
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
 		numIndices * 3 * sizeof(unsigned int),
@@ -67,55 +67,55 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 	);
 	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
-	//���_���C�A�E�g(���_����)�̐ݒ� => �|���S���̒��_���ǂ̂悤�ȃf�[�^�`������ݒ�
+	//頂点レイアウト(頂点属性)の設定 => ポリゴンの頂点がどのようなデータ形式かを設定
 	//// Specify the vertex attributes
 	//// (For now, assume one vertex format)
 	//// Position is 3 floats starting at offset 0
-	//�����Ɏw�肵�����_�����z���L���ɂ���(���������A���_�����z��Ƃ����̂�����A�����L���ɂ����肵�Ă���񂾂Ǝv��)
+	//引数に指定した頂点属性配列を有効にする(多分だが、頂点属性配列というのがあり、それを有効にしたりしているんだと思う)
 	//glEnableVertexAttribArray(0);
 	//glVertexAttribPointer(
-	//	0,		//�ʒu���𒸓_����0�Ɏw��(���0��L���ɂ���Ă��邱�Ƃɒ���)
-	//	3,		//�v�f��(1�̒��_�̃T�C�Y)
-	//	GL_FLOAT,		//�v�f�̌^
-	//	GL_FALSE,		//�����̌^�ł̂ݎg�p���邽��False���w��
-	//	sizeof(float) * 3,		//�X�g���C�h(=�A�����钸�_�����Ԃ̃o�C�g�I�t�Z�b�g
-	//	//���_�o�b�t�@�̒��_�w�f�[�^�x�Ԃ̃p�f�B���O(=�Ԋu)�͂Ȃ����߁A�X�g���C�h�͒��_�̃T�C�Y�ƂȂ�)
-	//	0		//���_�f�[�^�̊J�n�ʒu���炱�̑����܂ł̃I�t�Z�b�g(�B��̑����ł��邽�߁c�c����͂܂�ŏ��̑����ƂȂ邽��)
+	//	0,		//位置情報を頂点属性0に指定(上で0を有効にされていることに注意)
+	//	3,		//要素数(1つの頂点のサイズ)
+	//	GL_FLOAT,		//要素の型
+	//	GL_FALSE,		//整数の型でのみ使用するためFalseを指定
+	//	sizeof(float) * 3,		//ストライド(=連続する頂点属性間のバイトオフセット
+	//	//頂点バッファの頂点『データ』間のパディング(=間隔)はないため、ストライドは頂点のサイズとなる)
+	//	0		//頂点データの開始位置からこの属性までのオフセット(唯一の属性であるため……それはつまり最初の属性となるため)
 	//);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(
-		0,		//�ʒu���𒸓_����0�Ɏw��(���0��L���ɂ���Ă��邱�Ƃɒ���)
-		3,		//�v�f��(1�̒��_�̃T�C�Y)
-		GL_FLOAT,		//�v�f�̌^
-		GL_FALSE,		//�����̌^�ł̂ݎg�p���邽��False���w��
-		//sizeof(float) * 5,		//�X�g���C�h(=�A�����钸�_�����Ԃ̃o�C�g�I�t�Z�b�g
-		sizeof(float) * 8,		//�X�g���C�h(=�A�����钸�_�����Ԃ̃o�C�g�I�t�Z�b�g
-		//���_�o�b�t�@�̒��_�w�f�[�^�x�Ԃ̃p�f�B���O(=�Ԋu)�͂Ȃ����߁A�X�g���C�h�͒��_�̃T�C�Y�ƂȂ�)
-		0		//���_�f�[�^�̊J�n�ʒu���炱�̑����܂ł̃I�t�Z�b�g(�B��̑����ł��邽�߁c�c����͂܂�ŏ��̑����ƂȂ邽��)
+		0,		//位置情報を頂点属性0に指定(上で0を有効にされていることに注意)
+		3,		//要素数(1つの頂点のサイズ)
+		GL_FLOAT,		//要素の型
+		GL_FALSE,		//整数の型でのみ使用するためFalseを指定
+		//sizeof(float) * 5,		//ストライド(=連続する頂点属性間のバイトオフセット
+		sizeof(float) * 8,		//ストライド(=連続する頂点属性間のバイトオフセット
+		//頂点バッファの頂点『データ』間のパディング(=間隔)はないため、ストライドは頂点のサイズとなる)
+		0		//頂点データの開始位置からこの属性までのオフセット(唯一の属性であるため……それはつまり最初の属性となるため)
 	);
-	//��2�̒��_���W(uv���W)
-	glEnableVertexAttribArray(1);		//1�Ԗڂ̒��_���W��L����
+	//第2の頂点座標(uv座標)
+	glEnableVertexAttribArray(1);		//1番目の頂点座標を有効に
 	glVertexAttribPointer(
-		1,		//���_���Windex(n�Ԗڂ̒��_���W��񂩂������ɂ͂��邽�߁A��ŗL���ɂ������_�ԍ��Ɠ��l�̂��̂�����)
-		2,		//�v�f��(uv���W��2��)
-		GL_FLOAT,		//�v�f�̌^
-		GL_FALSE,		//�����̌^�ł̂ݎg�p���邽��False���w��
-		//sizeof(float) * 5,		//�X�g���C�h(���ʁA�e���_�C���f�b�N�X�̃T�C�Y)
-		sizeof(float) * 8,		//�X�g���C�h(���ʁA�e���_�C���f�b�N�X�̃T�C�Y)
-		reinterpret_cast<void*>(sizeof(float) * 3)		//���_�C���f�b�N�X�̊J�n�ʒu���炱�̑����܂ł̈ʒu(�������I�t�Z�b�g�|�C���^�Ƃ��ēn���K�v����)
-		//���_�̐擪���牽�o�C�g���邩�m��K�v������B���ꂪ sizeof(float) * 3
-		//�����A�I�t�Z�b�g�|�C���^�Ƃ��ēn���K�v�����邽�߁Areinterpret_cast(�|�C���^�^�������I�ɕʂ̃|�C���^�^�ɕϊ�����)��void*�|�C���^�^�ϐ��ɕϊ����ēn���Ă���
-		//float f = 2.0f; reinterpret_cast<int&>(f) �Ƃ���ƁAfloat��int��32bit�@�ł͓����T�C�Y�̂��߁Afloat�̓��e�����̂܂�16�i���œf���o����
+		1,		//頂点座標index(n番目の頂点座標情報かがここにはいるため、上で有効にした頂点番号と同様のものが入る)
+		2,		//要素数(uv座標は2つ)
+		GL_FLOAT,		//要素の型
+		GL_FALSE,		//整数の型でのみ使用するためFalseを指定
+		//sizeof(float) * 5,		//ストライド(普通、各頂点インデックスのサイズ)
+		sizeof(float) * 8,		//ストライド(普通、各頂点インデックスのサイズ)
+		reinterpret_cast<void*>(sizeof(float) * 3)		//頂点インデックスの開始位置からこの属性までの位置(ただしオフセットポインタとして渡す必要あり)
+		//頂点の先頭から何バイトあるか知る必要がある。これが sizeof(float) * 3
+		//ただ、オフセットポインタとして渡す必要があるため、reinterpret_cast(ポインタ型を強制的に別のポインタ型に変換する)でvoid*ポインタ型変数に変換して渡している
+		//float f = 2.0f; reinterpret_cast<int&>(f) とすると、floatとintは32bit機では同じサイズのため、floatの内容をそのまま16進数で吐き出せる
 	);
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(
-		2,		//�ʒu���𒸓_����0�Ɏw��(���0��L���ɂ���Ă��邱�Ƃɒ���)
-		3,		//�v�f��(1�̒��_�̃T�C�Y)
-		GL_FLOAT,		//�v�f�̌^
-		GL_FALSE,		//�����̌^�ł̂ݎg�p���邽��False���w��
-		sizeof(float) * 8,		//�X�g���C�h(=�A�����钸�_�����Ԃ̃o�C�g�I�t�Z�b�g
-		//���_�o�b�t�@�̒��_�w�f�[�^�x�Ԃ̃p�f�B���O(=�Ԋu)�͂Ȃ����߁A�X�g���C�h�͒��_�̃T�C�Y�ƂȂ�)
-		reinterpret_cast<void*>(sizeof(float) * 5)		//���_�f�[�^�̊J�n�ʒu���炱�̑����܂ł̃I�t�Z�b�g(�B��̑����ł��邽�߁c�c����͂܂�ŏ��̑����ƂȂ邽��)
+		2,		//位置情報を頂点属性0に指定(上で0を有効にされていることに注意)
+		3,		//要素数(1つの頂点のサイズ)
+		GL_FLOAT,		//要素の型
+		GL_FALSE,		//整数の型でのみ使用するためFalseを指定
+		sizeof(float) * 8,		//ストライド(=連続する頂点属性間のバイトオフセット
+		//頂点バッファの頂点『データ』間のパディング(=間隔)はないため、ストライドは頂点のサイズとなる)
+		reinterpret_cast<void*>(sizeof(float) * 5)		//頂点データの開始位置からこの属性までのオフセット(唯一の属性であるため……それはつまり最初の属性となるため)
 	);
 	//glEnableVertexAttribArray(0);
 	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
@@ -136,6 +136,6 @@ VertexArray::~VertexArray()
 
 void VertexArray::SetActive()
 {
-	//���p���钸�_�z��̎w��
+	//利用する頂点配列の指定
 	glBindVertexArray(mVertexArray);
 }

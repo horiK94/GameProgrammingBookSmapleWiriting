@@ -22,10 +22,10 @@
 // 	gl_Position = vec4(inPosition, 1.0);
 // }
 
-// OpenGL3.3�ɑΉ�����GLSL�̃o�[�W�����̎w��
+// OpenGL3.3に対応するGLSLのバージョンの指定
 #version 330
 
-// ���͕ϐ��ł���ʒu���̐錾
+// 入力変数である位置情報の宣言
 in vec3 inPosition;
 
 void main()

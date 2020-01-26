@@ -49,25 +49,25 @@ void SpriteComponent::Draw(Shader* shader)
 	//	// Draw quad
 	//	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	//}
-	//�e�N�X�`���̕��ƍ����̃X�P�[�����O�s��̍쐬
+	//テクスチャの幅と高さのスケーリング行列の作成
 	Matrix4 scaleMat = Matrix4::CreateScale(
 		static_cast<int>(mTexWidth),
 		static_cast<int>(mTexHeight),
 		1.0f);
-	//�X�P�[�����O�s�񂩂烏�[���h��Ԃɂ��邽�߃��[���h�s����|����
-	//���[���h��Ԃɂ��闝�R��140x140�̉摜�ɑ΂��āAactor��scale:2�Ƃ��Ă�����A280x280�ɂ��邽��
+	//スケーリング行列からワールド空間にするためワールド行列を掛ける
+	//ワールド空間にする理由は140x140の画像に対して、actorがscale:2としていたら、280x280にするため
 	Matrix4 world = scaleMat * mOwner->GetWorldTransform();
 
-	//���[���h�ϊ��̐ݒ�
+	//ワールド変換の設定
 	shader->SetMatrixUniform("uWorldTransform", world);
-	//�e�N�X�`�����A�N�e�B�u��
+	//テクスチャをアクティブに
 	mTexture->SetActive();
-	//�X�v���C�g�̕`��(�`��O�ɒ��_�z��I�u�W�F�N�g�ƃV�F�[�_�[���A�N�e�B�u�ɂ���K�v����)
+	//スプライトの描画(描画前に頂点配列オブジェクトとシェーダーをアクティブにする必要あり)
 	glDrawElements(
-		GL_TRIANGLES,			//�|���S���̎��
-		6,						//�C���f�b�N�X�o�b�t�@�̂���ł������̐�
-		GL_UNSIGNED_INT,		//�C���f�b�N�X�̌^
-		nullptr);				//�ʏ�nullptr
+		GL_TRIANGLES,			//ポリゴンの種類
+		6,						//インデックスバッファのいんでっくすの数
+		GL_UNSIGNED_INT,		//インデックスの型
+		nullptr);				//通常nullptr
 }
 
 void SpriteComponent::SetTexture(Texture* texture)

@@ -33,21 +33,21 @@ Actor::~Actor()
 	}
 }
 
-//ƒAƒNƒ^[Ž©g‚ÌƒAƒbƒvƒf[ƒg(Œp³•s‰Â)
+//ã‚¢ã‚¯ã‚¿ãƒ¼è‡ªèº«ã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ(ç¶™æ‰¿ä¸å¯)
 void Actor::Update(float deltaTime)
 {
 	if (mState == EActive)
 	{
-		ComputeWorldTransform();		//‚±‚ÌActor‚ªactive‚É‚È‚Á‚½Å‰‚ÉŒÄ‚Î‚ê‚é‚æ‚¤‚É
+		ComputeWorldTransform();		//ã“ã®ActorãŒactiveã«ãªã£ãŸæœ€åˆã«å‘¼ã°ã‚Œã‚‹ã‚ˆã†ã«
 
 		UpdateComponents(deltaTime);
 		UpdateActor(deltaTime);
 
-		ComputeWorldTransform();		//UpdateActor‚ÅXV‚³‚ê‚é‚±‚Æ‚àl‚¦‚Ä
+		ComputeWorldTransform();		//UpdateActorã§æ›´æ–°ã•ã‚Œã‚‹ã“ã¨ã‚‚è€ƒãˆã¦
 	}
 }
 
-//ŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒAƒbƒvƒf[ƒg
+//å„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ
 void Actor::UpdateComponents(float deltaTime)
 {
 	for (auto comp : mComponents)
@@ -56,7 +56,7 @@ void Actor::UpdateComponents(float deltaTime)
 	}
 }
 
-//ƒAƒNƒ^[Ž©g‚ÌƒAƒbƒvƒf[ƒg(Œp³‰Â)
+//ã‚¢ã‚¯ã‚¿ãƒ¼è‡ªèº«ã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆ(ç¶™æ‰¿å¯)
 void Actor::UpdateActor(float deltaTime)
 {
 }
@@ -98,12 +98,12 @@ void Actor::ComputeWorldTransform()
 	if (mRecomputeWorldTransform)
 	{
 		mRecomputeWorldTransform = false;
-		//ŒvŽZ‡˜‚Æ‚µ‚Í ƒTƒCƒY -> ˆÊ’u -> •½sˆÚ“®
+		//è¨ˆç®—é †åºã¨ã—ã¯ ã‚µã‚¤ã‚º -> ä½ç½® -> å¹³è¡Œç§»å‹•
 		mWorldTransform = Matrix4::CreateScale(mScale);
-		mWorldTransform *= Matrix4::CreateRotationZ(mRotation);		//zŽ²‚Å‰ñ“]‚·‚é‚½‚ß
+		mWorldTransform *= Matrix4::CreateRotationZ(mRotation);		//zè»¸ã§å›žè»¢ã™ã‚‹ãŸã‚
 		mWorldTransform *= Matrix4::CreateTranslation(Vector3(mPosition.x, mPosition.y, 0.0f));
 
-		//ƒ[ƒ‹ƒhs—ñ•ÏXŽž‚ÍŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚É’m‚ç‚¹‚é
+		//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—å¤‰æ›´æ™‚ã¯å„ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«çŸ¥ã‚‰ã›ã‚‹
 		for (auto comp : mComponents)
 		{
 			comp->OnUpdateWorldTransform();
