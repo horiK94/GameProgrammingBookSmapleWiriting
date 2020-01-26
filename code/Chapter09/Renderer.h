@@ -51,11 +51,11 @@ public:
 
 	// Given a screen space point, unprojects it into world space,
 	// based on the current 3D view/projection matrices
-	// ˆø”‚Æ‚µ‚ÄŠú‘Ò‚³‚ê‚éƒXƒNƒŠ[ƒ“À•W
+	// å¼•æ•°ã¨ã—ã¦æœŸå¾…ã•ã‚Œã‚‹ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™
 	// x = [-screenWidth/2, +screenWidth/2]
 	// y = [-screenHeight/2, +screenHeight/2]
-	// z = [0, 1) -- 0 ‚Í ‹ßÚ•½–Ê,1‚Í‰“•û•½–Ê 
-	//‹tË‰es—ñ‚ğ‹‚ß‚éŠÖ”(ƒXƒNƒŠ[ƒ“À•W‚ğƒ[ƒ‹ƒhÀ•W(“_)‚É•ÏŠ·‚·‚é)
+	// z = [0, 1) -- 0 ã¯ è¿‘æ¥å¹³é¢,1ã¯é æ–¹å¹³é¢ 
+	//é€†å°„å½±è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹é–¢æ•°(ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™(ç‚¹)ã«å¤‰æ›ã™ã‚‹)
 	Vector3 Unproject(const Vector3& screenPoint) const;
 	void GetScreenDirection(Vector3& outStart, Vector3& outDir) const;
 	float GetScreenWidth() const { return mScreenWidth; }

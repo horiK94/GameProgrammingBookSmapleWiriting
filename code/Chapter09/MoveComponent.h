@@ -26,5 +26,5 @@ private:
 	float mAngularSpeed;
 	float mForwardSpeed;
 	//float mStrafeSpeed;
-	float mStrafeSpeed;		//‰¡•à‚«‚ÌƒXƒs[ƒh
+	float mStrafeSpeed;		//æ¨ªæ­©ãã®ã‚¹ãƒ”ãƒ¼ãƒ‰
 };

@@ -42,7 +42,7 @@ void FollowCamera::Update(float deltaTime)
 	//	Vector3::UnitZ);
 	//SetViewMatrix(view);
 
-	//ƒJƒƒ‰ˆÊ’u‚Æ’Ž‹“_‚ð‹‚ß‚ÄAƒrƒ…[s—ñ‚ð“¾‚é
+	//ã‚«ãƒ¡ãƒ©ä½ç½®ã¨æ³¨è¦–ç‚¹ã‚’æ±‚ã‚ã¦ã€ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã‚’å¾—ã‚‹
 	//CameraComponent::Update(deltaTime);
 	//Vector3 target = mOwner->GetPosition() + mOwner->GetForward() * mTargetDist;
 	//Matrix4 view = Matrix4::CreateLookAt(ComputeCameraPos(), target, Vector3::UnitZ);
@@ -50,39 +50,39 @@ void FollowCamera::Update(float deltaTime)
 
 	CameraComponent::Update(deltaTime);
 
-	//‚Î‚Ë’è”‚©‚çŒ¸Š‚ðŒvŽZ
+	//ã°ã­å®šæ•°ã‹ã‚‰æ¸›è¡°ã‚’è¨ˆç®—
 	float dampening = 2.0f * Math::Sqrt(mSpringConstant);
 
-	//—‘zˆÊ’u‚ÌŽæ“¾
+	//ç†æƒ³ä½ç½®ã®å–å¾—
 	Vector3 idealPos = ComputeCameraPos();
 
-	//ŽÀÛ‚Æ—‘z‚Ì·‚ðŒvŽZ(ŽÀÛ‚ÌˆÊ’u‚Í‘OƒtƒŒ[ƒ€‚Ì’l‚ðŽg—p)
+	//å®Ÿéš›ã¨ç†æƒ³ã®å·®ã‚’è¨ˆç®—(å®Ÿéš›ã®ä½ç½®ã¯å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®å€¤ã‚’ä½¿ç”¨)
 	Vector3 diff = mActualPos - idealPos;
-	//‚Î‚Ë‚É‚æ‚é‰Á‘¬“x‚ðŒvŽZ
+	//ã°ã­ã«ã‚ˆã‚‹åŠ é€Ÿåº¦ã‚’è¨ˆç®—
 	Vector3 acel = -mSpringConstant * diff - dampening * mVelocity;
 
-	//‘¬“x‚ÌXV
+	//é€Ÿåº¦ã®æ›´æ–°
 	mVelocity += acel * deltaTime;
-	//ŽÀÛ‚ÌƒJƒƒ‰ˆÊ’u‚ÌXV
+	//å®Ÿéš›ã®ã‚«ãƒ¡ãƒ©ä½ç½®ã®æ›´æ–°
 	mActualPos += mVelocity * deltaTime;
 
-	//ƒ^[ƒQƒbƒg‚ÍŠ—LƒAƒNƒ^[‚Ì‘O•û‚É‚ ‚é–Ú•W“_
+	//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¯æ‰€æœ‰ã‚¢ã‚¯ã‚¿ãƒ¼ã®å‰æ–¹ã«ã‚ã‚‹ç›®æ¨™ç‚¹
 	Vector3 target = mOwner->GetPosition() + mOwner->GetForward() * mTargetDist;
 	Matrix4 view = Matrix4::CreateLookAt(/*ComputeCameraPos()*/mActualPos, target, Vector3::UnitZ);
 	SetViewMatrix(view);
 }
 
-//FollowActor‚ª‰Šú‰»Žž‚ÉŒÄ‚ÔŠÖ”
+//FollowActorãŒåˆæœŸåŒ–æ™‚ã«å‘¼ã¶é–¢æ•°
 void FollowCamera::SnapToIdeal()
 {
 	// Set actual position to ideal
-	//ŽÀÛ‚ÌˆÊ’u‚ð—‘z‚ÌˆÊ’u‚Í“¯‚¶
+	//å®Ÿéš›ã®ä½ç½®ã‚’ç†æƒ³ã®ä½ç½®ã¯åŒã˜
 	mActualPos = ComputeCameraPos();
 	// Zero velocity
-	//‘¬“x0
+	//é€Ÿåº¦0
 	mVelocity = Vector3::Zero;
 	// Compute target and view
-	//’Ž‹“_‚Æƒrƒ…[ŒvŽZ
+	//æ³¨è¦–ç‚¹ã¨ãƒ“ãƒ¥ãƒ¼è¨ˆç®—
 	Vector3 target = mOwner->GetPosition() +
 		mOwner->GetForward() * mTargetDist;
 	// Use actual position here, not ideal

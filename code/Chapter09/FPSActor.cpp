@@ -19,7 +19,7 @@
 FPSActor::FPSActor(Game* game)
 	:Actor(game)
 {
-	mMoveComp = new MoveComponent(this);		//‘OŒã‚ÌˆÚ“®‚Í‚±‚ê‚Å‘Î‰
+	mMoveComp = new MoveComponent(this);		//å‰å¾Œã®ç§»å‹•ã¯ã“ã‚Œã§å¯¾å¿œ
 	mAudioComp = new AudioComponent(this);
 	mLastFootstep = 0.0f;
 	mFootstep = mAudioComp->PlayEvent("event:/Footstep");
@@ -27,7 +27,7 @@ FPSActor::FPSActor(Game* game)
 
 	mCameraComp = new FPSCamera(this);
 
-	//FPSModelƒAƒNƒ^[‚Ìì¬
+	//FPSModelã‚¢ã‚¯ã‚¿ãƒ¼ã®ä½œæˆ
 	mFPSModel = new Actor(game);
 	mFPSModel->SetScale(0.75f);
 	mMeshComp = new MeshComponent(mFPSModel);
@@ -48,18 +48,18 @@ void FPSActor::UpdateActor(float deltaTime)
 	}
 	
 	// Update position of FPS model relative to actor position
-	//FPSƒ‚ƒfƒ‹‚ªAƒAƒNƒ^[‚É‘Î‚µ‚Ä‚Ç‚Ì‚æ‚¤‚È‘Š‘ÎˆÊ’u‚ğ‚Â‚©
+	//FPSãƒ¢ãƒ‡ãƒ«ãŒã€ã‚¢ã‚¯ã‚¿ãƒ¼ã«å¯¾ã—ã¦ã©ã®ã‚ˆã†ãªç›¸å¯¾ä½ç½®ã‚’æŒã¤ã‹
 	const Vector3 modelOffset(Vector3(10.0f, 10.0f, -10.0f));
 	Vector3 modelPos = GetPosition();
-	modelPos += GetForward() * modelOffset.x;			//‘O•ûŒü‚É10ˆÚ“®
-	modelPos += GetRight() * modelOffset.y;				//‰E•ûŒü‚É10ˆÚ“®
+	modelPos += GetForward() * modelOffset.x;			//å‰æ–¹å‘ã«10ç§»å‹•
+	modelPos += GetRight() * modelOffset.y;				//å³æ–¹å‘ã«10ç§»å‹•
 	modelPos.z += modelOffset.z;		//modelPos.z += Vector3::UnitZ(= (0, 0, 1)) * modelOffset.z;
 	mFPSModel->SetPosition(modelPos);
 
 	// Initialize rotation to actor rotation
-	Quaternion q = GetRotation();		//¶‰E‚Ì‰ñ“]æ“¾
+	Quaternion q = GetRotation();		//å·¦å³ã®å›è»¢å–å¾—
 	// Rotate by pitch from camera
-	//ã‰º‚Ì‰ñ“]‚ÍƒJƒƒ‰‚Ì‰ñ“]‚Å‚ ‚é‚©‚çAƒJƒƒ‰‚Ìƒsƒbƒ`‚É‚æ‚é‰ñ“]‚Åq‚ğ‰ñ“]‚³‚¹‚é
+	//ä¸Šä¸‹ã®å›è»¢ã¯ã‚«ãƒ¡ãƒ©ã®å›è»¢ã§ã‚ã‚‹ã‹ã‚‰ã€ã‚«ãƒ¡ãƒ©ã®ãƒ”ãƒƒãƒã«ã‚ˆã‚‹å›è»¢ã§qã‚’å›è»¢ã•ã›ã‚‹
 	q = Quaternion::Concatenate(q, Quaternion(GetRight(), mCameraComp->GetPitch()));
 	mFPSModel->SetRotation(q);
 }
@@ -89,13 +89,13 @@ void FPSActor::ActorInput(const uint8_t* keys)
 	{
 		strafeSpeed += 400.0f;
 	}
-	if (keys[SDL_SCANCODE_A])		//else if ‚É‚·‚é‚ÆAD‚àA‚à‰Ÿ‚µ‚½‚É0‚É‚È‚ç‚È‚¢
+	if (keys[SDL_SCANCODE_A])		//else if ã«ã™ã‚‹ã¨ã€Dã‚‚Aã‚‚æŠ¼ã—ãŸæ™‚ã«0ã«ãªã‚‰ãªã„
 	{
 		strafeSpeed -= 400.0f;
 	}
 
-	mMoveComp->SetForwardSpeed(forwardSpeed);		//ã‰ºˆÚ“®
-	mMoveComp->SetStrafeSpeed(strafeSpeed);		//¶‰EˆÚ“®
+	mMoveComp->SetForwardSpeed(forwardSpeed);		//ä¸Šä¸‹ç§»å‹•
+	mMoveComp->SetStrafeSpeed(strafeSpeed);		//å·¦å³ç§»å‹•
 
 	// Mouse movement
 	// Get relative movement from SDL
@@ -115,19 +115,19 @@ void FPSActor::ActorInput(const uint8_t* keys)
 	//}
 	//mMoveComp->SetAngularSpeed(angularSpeed);
 	
-	//ƒ}ƒEƒXˆÚ“®
+	//ãƒã‚¦ã‚¹ç§»å‹•
 	int x, y;
 	Uint32 buttons = SDL_GetRelativeMouseState(&x, &y);
-	//ƒ}ƒEƒX‚Ì“®‚«‚Í-500 ` 500‚Ì”ÍˆÍ‚Æ‚·‚é
+	//ãƒã‚¦ã‚¹ã®å‹•ãã¯-500 ã€œ 500ã®ç¯„å›²ã¨ã™ã‚‹
 	const int maxMouseSpeed = 500;
-	//Å‘åˆÚ“®—Ê(500)‚Ì‚Æ‚«‚ÌŠp‘¬“xİ’è
+	//æœ€å¤§ç§»å‹•é‡(500)ã®ã¨ãã®è§’é€Ÿåº¦è¨­å®š
 	const float maxAngularSpeed = 8 * Math::Pi;
 	float angularSpeed = 0;
 
 	if (x != 0)
 	{
 		angularSpeed = static_cast<float>(x) / maxMouseSpeed;
-		//Å‘åˆÚ“®—Ê‚Ì‚Æ‚«‚ÌŠp‘¬“x‚ğ‚©‚¯‚é
+		//æœ€å¤§ç§»å‹•é‡ã®ã¨ãã®è§’é€Ÿåº¦ã‚’ã‹ã‘ã‚‹
 		angularSpeed *= maxAngularSpeed;
 	}
 	mMoveComp->SetAngularSpeed(angularSpeed);

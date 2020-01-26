@@ -25,22 +25,22 @@ public:
 private:
 	Vector3 ComputeCameraPos() const;
 
-	//ÀÛ‚ÌƒJƒƒ‰‚ÌˆÊ’u
+	//å®Ÿéš›ã®ã‚«ãƒ¡ãƒ©ã®ä½ç½®
 	// Actual position of camera
 	Vector3 mActualPos;
 	// Velocity of actual camera
-	//ƒJƒƒ‰‚Ì‘¬“x
+	//ã‚«ãƒ¡ãƒ©ã®é€Ÿåº¦
 	Vector3 mVelocity;
 	// Horizontal follow distance
-	//…•½‹——£
+	//æ°´å¹³è·é›¢
 	float mHorzDist;
 	// Vertical follow distance
-	//‚’¼‹——£
+	//å‚ç›´è·é›¢
 	float mVertDist;
 	// Target distance
-	//ƒ^[ƒQƒbƒg‹——£
+	//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆè·é›¢
 	float mTargetDist;
-	//‚Î‚Ë’è”(‘å‚«‚¢‚Ù‚Çd‚¢)
+	//ã°ã­å®šæ•°(å¤§ãã„ã»ã©ç¡¬ã„)
 	// Spring constant (higher is more stiff)
 	float mSpringConstant;
 };

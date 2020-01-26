@@ -45,22 +45,22 @@ void FPSCamera::Update(float deltaTime)
 	//SetViewMatrix(view);
 	
 	CameraComponent::Update(deltaTime);
-	//ƒJƒƒ‰‚ÌˆÊ’u‚ÍŠ—LƒAƒNƒ^[‚ÌˆÊ’u
+	//ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã¯æ‰€æœ‰ã‚¢ã‚¯ã‚¿ãƒ¼ã®ä½ç½®
 	Vector3 cameraPos = mOwner->GetPosition();
 
 	mPitch += mPitchSpeed * deltaTime;
 	mPitch = Math::Clamp(mPitch, -mMaxPitch, mMaxPitch);
-	//‰E•ûŒüƒxƒNƒgƒ‹‚ğ²‚ÉAmPitch‚¾‚¯‰ñ“]‚µ‚½‰ñ“]Quaternion‚ğæ“¾
+	//å³æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’è»¸ã«ã€mPitchã ã‘å›è»¢ã—ãŸå›è»¢Quaternionã‚’å–å¾—
 	Quaternion q(mOwner->GetRight(), mPitch);
 
-	//ƒsƒbƒ`‚ÌƒNƒI[ƒ^ƒjƒIƒ“‚ÅAŠ—LƒAƒNƒ^[‚Ì‘O•ûƒxƒNƒgƒ‹‚ğ‰ñ“]‚³‚¹‚é
+	//ãƒ”ãƒƒãƒã®ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã§ã€æ‰€æœ‰ã‚¢ã‚¯ã‚¿ãƒ¼ã®å‰æ–¹ãƒ™ã‚¯ãƒˆãƒ«ã‚’å›è»¢ã•ã›ã‚‹
 	Vector3 viewForward = Vector3::Transform(mOwner->GetForward(), q);
-	//ƒsƒbƒg‚ÌˆÚ“®‚ğÅ‘å’lˆÈ“à‚É—}‚¦‚é
-	//ƒ^[ƒQƒbƒgˆÊ’u‚ÍŠ—LƒAƒNƒ^[‚Ì‘O•û100
+	//ãƒ”ãƒƒãƒˆã®ç§»å‹•ã‚’æœ€å¤§å€¤ä»¥å†…ã«æŠ‘ãˆã‚‹
+	//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆä½ç½®ã¯æ‰€æœ‰ã‚¢ã‚¯ã‚¿ãƒ¼ã®å‰æ–¹100
 	Vector3 target = cameraPos + /*mOwner->GetForward()*/viewForward * 100;
-	//ã•ûƒxƒNƒgƒ‹‚Íí‚Éz²‚ÌŠî–{ƒxƒNƒgƒ‹
+	//ä¸Šæ–¹ãƒ™ã‚¯ãƒˆãƒ«ã¯å¸¸ã«zè»¸ã®åŸºæœ¬ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 up = Vector3::UnitZ;
-	//’‹s—ñ‚ğì¬‚µAƒrƒ…[‚Éİ’è
+	//æ³¨è¦–è¡Œåˆ—ã‚’ä½œæˆã—ã€ãƒ“ãƒ¥ãƒ¼ã«è¨­å®š
 	Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);
 	SetViewMatrix(view);
 }

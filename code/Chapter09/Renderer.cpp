@@ -315,40 +315,40 @@ void Renderer::SetLightUniforms(Shader* shader)
 Vector3 Renderer::Unproject(const Vector3& screenPoint) const
 {
 	// Convert screenPoint to device coordinates (between -1 and +1)
-	//screenPoint‚ğƒfƒoƒCƒXÀ•W‚É•ÏŠ·([-1, 1]‚Ì’l‚É•ÏŠ·‚³‚ê‚é)
+	//screenPointã‚’ãƒ‡ãƒã‚¤ã‚¹åº§æ¨™ã«å¤‰æ›([-1, 1]ã®å€¤ã«å¤‰æ›ã•ã‚Œã‚‹)
 	Vector3 deviceCoord = screenPoint;
 	deviceCoord.x /= (mScreenWidth) * 0.5f;
 	deviceCoord.y /= (mScreenHeight) * 0.5f;
 
 	// Transform vector by unprojection matrix
-	//ƒrƒ…[Ë‰es—ñ‚ğ‹‚ß‚é
+	//ãƒ“ãƒ¥ãƒ¼å°„å½±è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 	Matrix4 unprojection = mView * mProjection;
-	//‹tË‰es—ñ(=ƒrƒ…[Ò‰c‹Æ—ñ‚Ì‹ts—ñ)‚ğ‹‚ß‚é
+	//é€†å°„å½±è¡Œåˆ—(=ãƒ“ãƒ¥ãƒ¼è€…å–¶æ¥­åˆ—ã®é€†è¡Œåˆ—)ã‚’æ±‚ã‚ã‚‹
 	unprojection.Invert();
-	//ƒfƒoƒCƒXÀ•W‚ğ‹tË‰es—ñ‚ğ—p‚¢‚Äƒ[ƒ‹ƒhÀ•W‚É•ÏŠ·‚µA•Ô‚·
+	//ãƒ‡ãƒã‚¤ã‚¹åº§æ¨™ã‚’é€†å°„å½±è¡Œåˆ—ã‚’ç”¨ã„ã¦ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã«å¤‰æ›ã—ã€è¿”ã™
 	return Vector3::TransformWithPerspDiv(deviceCoord, unprojection);
 }
 
-//outStart‚àoutDir‚àout‚İ‚½‚¢‚ÈŒ`‚ÅAˆø”‚É“ü‚ê‚é‚±‚Æ‚Å’l‚ğó‚¯æ‚ê‚é‚æ‚¤‚É‚È‚Á‚Ä‚¢‚é
-//outStart‚ÍŠJnˆÊ’u, outDir‚ÍŠJnˆÊ’u‚©‚ç‚ÌƒxƒNƒgƒ‹
-//æ‚ê‚éî•ñ‚Í‰æ–Ê‚Ì’†S‚Ìƒ}ƒEƒXÀ•W‚Ìƒ[ƒ‹ƒhÀ•W
-//‚È‚º‚©‚Æ‚¢‚¤‚ÆAƒJƒƒ‰ƒ‚[ƒh1, 2, 3‚ÉŠÖ‚µ‚Ä‚Í^‚ñ’†‚Éƒ}ƒEƒXŒÅ’è‚Ì‚½‚ß
+//outStartã‚‚outDirã‚‚outã¿ãŸã„ãªå½¢ã§ã€å¼•æ•°ã«å…¥ã‚Œã‚‹ã“ã¨ã§å€¤ã‚’å—ã‘å–ã‚Œã‚‹ã‚ˆã†ã«ãªã£ã¦ã„ã‚‹
+//outStartã¯é–‹å§‹ä½ç½®, outDirã¯é–‹å§‹ä½ç½®ã‹ã‚‰ã®ãƒ™ã‚¯ãƒˆãƒ«
+//å–ã‚Œã‚‹æƒ…å ±ã¯ç”»é¢ã®ä¸­å¿ƒã®ãƒã‚¦ã‚¹åº§æ¨™ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™
+//ãªãœã‹ã¨ã„ã†ã¨ã€ã‚«ãƒ¡ãƒ©ãƒ¢ãƒ¼ãƒ‰1, 2, 3ã«é–¢ã—ã¦ã¯çœŸã‚“ä¸­ã«ãƒã‚¦ã‚¹å›ºå®šã®ãŸã‚
 void Renderer::GetScreenDirection(Vector3& outStart, Vector3& outDir) const
 {
 	// Get start point (in center of screen on near plane)
-	//n“_‚ğ‹ßÚ•½–Ê‚Å‚Ì‰æ–Ê‚Ì’†S‚É(screenPoint‚ÍƒfƒoƒCƒXÀ•W)
+	//å§‹ç‚¹ã‚’è¿‘æ¥å¹³é¢ã§ã®ç”»é¢ã®ä¸­å¿ƒã«(screenPointã¯ãƒ‡ãƒã‚¤ã‚¹åº§æ¨™)
 	Vector3 screenPoint(0.0f, 0.0f, 0.0f);
-	//outStart‚Íƒ[ƒ‹ƒhÀ•W(‹ßÚ•½–Êã)
+	//outStartã¯ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™(è¿‘æ¥å¹³é¢ä¸Š)
 	outStart = Unproject(screenPoint);
 	// Get end point (in center of screen, between near and far)
 
-	//I“_‚ğ‹ßÚ•½–Ê‚Æ‰“•û•½–Ê‚ÌŠÔ‚Ì‰æ–Ê‚Ì’†S‚Éİ’è
+	//çµ‚ç‚¹ã‚’è¿‘æ¥å¹³é¢ã¨é æ–¹å¹³é¢ã®é–“ã®ç”»é¢ã®ä¸­å¿ƒã«è¨­å®š
 	screenPoint.z = 0.9f;
-	//end‚àƒ[ƒ‹ƒhÀ•W(‹ßÚ•½–Êã)
+	//endã‚‚ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™(è¿‘æ¥å¹³é¢ä¸Š)
 	Vector3 end = Unproject(screenPoint);
 	// Get direction vector
-	//outDir‚ÍŠJnˆÊ’u‚©‚çI—¹ˆÊ’u‚Ü‚Å‚ÌƒxƒNƒgƒ‹
+	//outDirã¯é–‹å§‹ä½ç½®ã‹ã‚‰çµ‚äº†ä½ç½®ã¾ã§ã®ãƒ™ã‚¯ãƒˆãƒ«
 	outDir = end - outStart;
-	//³‹K‰»
+	//æ­£è¦åŒ–
 	outDir.Normalize();
 }

@@ -36,29 +36,29 @@ Vector3 Spline::Compute(size_t startIdx, float t) const
 	//	(-1.0f * p0 + 3.0f * p1 - 3.0f * p2 + p3) * t * t * t);
 	//return position;
 
-	//startIdx‚ª‹«ŠEŠO‚©
+	//startIdxãŒå¢ƒç•Œå¤–ã‹
 	if (startIdx >= mControlPoints.size())
 	{
-		//ŒÂ”‚ð’´‚¦‚½’l‚ðŽw’è‚µ‚Ä‚«‚½‚çAÅŒã‚ÌˆÊ’u‚ð•Ô‚·
+		//å€‹æ•°ã‚’è¶…ãˆãŸå€¤ã‚’æŒ‡å®šã—ã¦ããŸã‚‰ã€æœ€å¾Œã®ä½ç½®ã‚’è¿”ã™
 		return mControlPoints.back();
 	}
 	else if (startIdx == 0)
 	{
-		//Å‰‚ÌˆÊ’u‚ðŽw’è‚µ‚Ä‚«‚½‚çˆê”ÔÅ‰‚ÌˆÊ’u‚ð•Ô‚·
+		//æœ€åˆã®ä½ç½®ã‚’æŒ‡å®šã—ã¦ããŸã‚‰ä¸€ç•ªæœ€åˆã®ä½ç½®ã‚’è¿”ã™
 		return mControlPoints[startIdx];
 	}
 	else if (startIdx + 2 >= mControlPoints.size())
 	{
-		//ŒÂ”‚É2ŒÂ‚¾‚¯¬‚³‚¢’l‚ðŽw’è‚µ‚Ä‚«‚½ê‡AŽw’è‚µ‚½index‚Ì2ŒÂ‘O‚Ì’l‚ð•Ô‚·
+		//å€‹æ•°ã«2å€‹ã ã‘å°ã•ã„å€¤ã‚’æŒ‡å®šã—ã¦ããŸå ´åˆã€æŒ‡å®šã—ãŸindexã®2å€‹å‰ã®å€¤ã‚’è¿”ã™
 	}
 
-	// p0‚©‚çp3‚Ü‚Å‚Ì§Œä“_‚ðŽæ“¾‚·‚é
+	// p0ã‹ã‚‰p3ã¾ã§ã®åˆ¶å¾¡ç‚¹ã‚’å–å¾—ã™ã‚‹
 	Vector3 p0 = mControlPoints[startIdx - 1];
 	Vector3 p1 = mControlPoints[startIdx];
 	Vector3 p2 = mControlPoints[startIdx + 1];
 	Vector3 p3 = mControlPoints[startIdx + 2];
 
-	// Catmull - Rom‚Ì•û’öŽ®‚É‚æ‚Á‚ÄAˆÊ’u‚ðŒvŽZ‚·‚é
+	// Catmull - Romã®æ–¹ç¨‹å¼ã«ã‚ˆã£ã¦ã€ä½ç½®ã‚’è¨ˆç®—ã™ã‚‹
 	Vector3 position = 0.5 * (2 * p1 + (-1 * p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t
 		+ (-1 * p0 + 3 * p1 - 3 * p2 + p3) * t * t * t);
 	return position;
@@ -109,17 +109,17 @@ void SplineCamera::Update(float deltaTime)
 	//SetViewMatrix(view);
 
 	CameraComponent::Update(deltaTime);
-	//t‚Ì’l‚ðXV
+	//tã®å€¤ã‚’æ›´æ–°
 	if (!mPaused)
 	{
 		mT += deltaTime * mSpeed;
-		//•K—v‚È‚ç‚ÎŽŸ‚Ì§Œä“_‚Éi‚ÞB
-		//ƒXƒs[ƒh‚ª‘‚·‚¬‚Ä1ƒtƒŒ[ƒ€‚Å•¡”‚Ì§Œä“_‚ð’´‚¦‚é‚±‚Æ‚ª‚È‚¢‚±‚Æ‚ª‘O’ñ
+		//å¿…è¦ãªã‚‰ã°æ¬¡ã®åˆ¶å¾¡ç‚¹ã«é€²ã‚€ã€‚
+		//ã‚¹ãƒ”ãƒ¼ãƒ‰ãŒæ—©ã™ãŽã¦1ãƒ•ãƒ¬ãƒ¼ãƒ ã§è¤‡æ•°ã®åˆ¶å¾¡ç‚¹ã‚’è¶…ãˆã‚‹ã“ã¨ãŒãªã„ã“ã¨ãŒå‰æ
 		if (mT >= 1.0f)
 		{
 			if (mIndex < mPath.GetNumPoints() - 3)
 			{
-				//ŽŸ‚Ì§Œä“_‚ª‘¶Ý‚·‚é‚È‚çA‰Šú‰»‚·‚é
+				//æ¬¡ã®åˆ¶å¾¡ç‚¹ãŒå­˜åœ¨ã™ã‚‹ãªã‚‰ã€åˆæœŸåŒ–ã™ã‚‹
 				mIndex++;
 				mT -= 1.0f;
 			}
@@ -130,11 +130,11 @@ void SplineCamera::Update(float deltaTime)
 		}
 	}
 
-	//ƒJƒƒ‰‚ÌˆÊ’u‚ðAŒ»Ý‚ÌƒCƒ“ƒfƒbƒNƒX‚Æt‚©‚ç‹‚ß‚é
+	//ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã‚’ã€ç¾åœ¨ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¨tã‹ã‚‰æ±‚ã‚ã‚‹
 	Vector3 cameraPos = mPath.Compute(mIndex, mT);
-	//’Ž‹“_‚Ít‚ð‚í‚¸‚©‚É¬‚³‚­‚µ‚½æ
+	//æ³¨è¦–ç‚¹ã¯tã‚’ã‚ãšã‹ã«å°ã•ãã—ãŸå…ˆ
 	Vector3 targetPos = mPath.Compute(mIndex, mT + 0.01f);
-	//ƒXƒvƒ‰ƒCƒ“‚ðã‰º‹t‚É‚µ‚È‚¢‚±‚Æ‚ð‘O’ñ‚É‚·‚é
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒ³ã‚’ä¸Šä¸‹é€†ã«ã—ãªã„ã“ã¨ã‚’å‰æã«ã™ã‚‹
 	Vector3 up = Vector3::UnitZ;
 	Matrix4 view = Matrix4::CreateLookAt(cameraPos, targetPos, up);
 	SetViewMatrix(view);

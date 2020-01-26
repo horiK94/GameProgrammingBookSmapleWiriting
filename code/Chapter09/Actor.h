@@ -47,11 +47,11 @@ public:
 	void ComputeWorldTransform();
 	const Matrix4& GetWorldTransform() const { return mWorldTransform; }
 
-	//X²‚ğ‚à‚Æ‚É‰ñ“]
+	//Xè»¸ã‚’ã‚‚ã¨ã«å›è»¢
 	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitX, mRotation); }
 	//Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
-	//‰E•ûŒüƒxƒNƒgƒ‹‚Ìæ“¾(‰EŒü‚«‚Ì²‚ğƒNƒH[ƒe[ƒVƒ‡ƒ“‚Å‰ñ“])
-	//Y²‚ğ‚à‚Æ‚É‰ñ“]
+	//å³æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã®å–å¾—(å³å‘ãã®è»¸ã‚’ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã§å›è»¢)
+	//Yè»¸ã‚’ã‚‚ã¨ã«å›è»¢
 	Vector3 GetRight() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
 
 	State GetState() const { return mState; }

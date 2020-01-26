@@ -50,25 +50,25 @@ void OrbitCamera::Update(float deltaTime)
 	//SetViewMatrix(view);
 	
 	CameraComponent::Update(deltaTime);
-	//ƒ[ƒ‹ƒhã•û‚ðŽ²‚Æ‚·‚éƒˆ[‚ÌƒNƒI[ƒ^ƒjƒIƒ“‚ðì¬
-	Quaternion yaw(Vector3::UnitZ, mYawSpeed * deltaTime);		//UnitZ‚ðŽ²‚ÉAyYawSpeed * deltaTime‰ñ“]
-	//offset‚Æã•ûƒxƒNƒgƒ‹‚ðƒˆ[‚ð—p‚¢‚ÄŽæ“¾
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ä¸Šæ–¹ã‚’è»¸ã¨ã™ã‚‹ãƒ¨ãƒ¼ã®ã‚¯ã‚ªãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã‚’ä½œæˆ
+	Quaternion yaw(Vector3::UnitZ, mYawSpeed * deltaTime);		//UnitZã‚’è»¸ã«ã€yYawSpeed * deltaTimeå›žè»¢
+	//offsetã¨ä¸Šæ–¹ãƒ™ã‚¯ãƒˆãƒ«ã‚’ãƒ¨ãƒ¼ã‚’ç”¨ã„ã¦å–å¾—
 	mOffset = Vector3::Transform(mOffset, yaw);
 	mUp = Vector3::Transform(mUp, yaw);
 
-	//‘O•ûƒxƒNƒgƒ‹‚Í owner.position - (owner.position + offset) = -offset ‚æ‚è
+	//å‰æ–¹ãƒ™ã‚¯ãƒˆãƒ«ã¯ owner.position - (owner.position + offset) = -offset ã‚ˆã‚Š
 	Vector3 forward = -1 * mOffset;
 	forward.Normalize();
-	//‰EƒxƒNƒgƒ‹‚Í
+	//å³ãƒ™ã‚¯ãƒˆãƒ«ã¯
 	Vector3 right = Vector3::Cross(forward, mUp);
 	right.Normalize();
 
 	Quaternion pitch(right, mPitchSpeed * deltaTime);
-	//ƒIƒtƒZƒbƒg‚Æã•û‚ðƒsƒbƒ`‚Å•ÏŠ·
+	//ã‚ªãƒ•ã‚»ãƒƒãƒˆã¨ä¸Šæ–¹ã‚’ãƒ”ãƒƒãƒã§å¤‰æ›
 	mOffset = Vector3::Transform(mOffset, pitch);
 	mUp = Vector3::Transform(mUp, pitch);
 	
-	//•ÏŠ·s—ñ‚ðŒvŽZ
+	//å¤‰æ›è¡Œåˆ—ã‚’è¨ˆç®—
 	Vector3 target = mOwner->GetForward();
 	Vector3 cameraPos = target + mOffset;
 	Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, mUp);

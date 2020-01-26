@@ -24,9 +24,9 @@ public:
 	void SetMaxPitch(float pitch) { mMaxPitch = pitch; }
 private:
 	// Rotation/sec speed of pitch
-	float mPitchSpeed;		//ƒsƒbƒ`‚ÌŠp‘¬“x
+	float mPitchSpeed;		//ãƒ”ãƒƒãƒã®è§’é€Ÿåº¦
 	// Maximum pitch deviation from forward
-	float mMaxPitch;		//Å‘åƒsƒbƒ`Šp“x
+	float mMaxPitch;		//æœ€å¤§ãƒ”ãƒƒãƒè§’åº¦
 	// Current pitch
-	float mPitch;		//Œ»İ‚Ìƒsƒbƒ`
+	float mPitch;		//ç¾åœ¨ã®ãƒ”ãƒƒãƒ
 };

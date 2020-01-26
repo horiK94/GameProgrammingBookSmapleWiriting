@@ -23,7 +23,7 @@ void CameraComponent::SetViewMatrix(const Matrix4& view)
 	//Game* game = mOwner->GetGame();
 	//game->GetRenderer()->SetViewMatrix(view);
 	//game->GetAudioSystem()->SetListener(view);
-	//ƒrƒ…[s—ñ‚Æ‚ðƒŒƒ“ƒ_ƒ‰[‚ÆƒI[ƒfƒBƒIƒVƒXƒeƒ€‚É‘—‚é
+	//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã¨ã‚’ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ¼ã¨ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã‚·ã‚¹ãƒ†ãƒ ã«é€ã‚‹
 	Game* game = mOwner->GetGame();
 	game->GetAudioSystem()->SetListener(view);
 	game->GetRenderer()->SetViewMatrix(view);

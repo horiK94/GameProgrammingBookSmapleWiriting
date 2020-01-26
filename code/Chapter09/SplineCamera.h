@@ -10,20 +10,20 @@
 #include "CameraComponent.h"
 #include <vector>
 
-//‹Èüî•ñ
+//æ›²ç·šæƒ…å ±
 struct Spline
 {
 	// Control points for spline
 	// (Requires n+2 points where n is number
 	// of points in segment)
-	//ƒXƒvƒ‰ƒCƒ“‚Ì‚½‚ß‚Ì§Œä“_(NŒÂ‚Ì‹Èü‚É‘®‚·‚é“_‚ª‚ ‚é‚È‚çAN+2ŒÂ‚Ìî•ñ‚ª•K—v)
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒ³ã®ãŸã‚ã®åˆ¶å¾¡ç‚¹(Nå€‹ã®æ›²ç·šã«å±ã™ã‚‹ç‚¹ãŒã‚ã‚‹ãªã‚‰ã€N+2å€‹ã®æƒ…å ±ãŒå¿…è¦)
 	std::vector<Vector3> mControlPoints;
 	// Given spline segment where startIdx = P1,
 	// compute position based on t value
-	// p1 = mControllerPoints[startIdx]‚Æ‚µ‚Äl‚¦‚½‚Æ‚«‚Ì‹æŠÔ‚ÅAt‚Ì’l‚ÉŠî‚Ã‚¢‚ÄˆÊ’u‚ğŒvZ
+	// p1 = mControllerPoints[startIdx]ã¨ã—ã¦è€ƒãˆãŸã¨ãã®åŒºé–“ã§ã€tã®å€¤ã«åŸºã¥ã„ã¦ä½ç½®ã‚’è¨ˆç®—
 	Vector3 Compute(size_t startIdx, float t) const;
 	// Returns number of control points
-	//“_‚Ì”‚ğ•Ô‚·
+	//ç‚¹ã®æ•°ã‚’è¿”ã™
 	size_t GetNumPoints() const { return mControlPoints.size(); }
 };
 
@@ -41,17 +41,17 @@ public:
 	void SetPaused(bool pause) { mPaused = pause; }
 private:
 	// Spline path camera follows
-	//ƒJƒƒ‰‚ª’Ç]‚·‚éƒXƒvƒ‰ƒCƒ“Œo˜H
+	//ã‚«ãƒ¡ãƒ©ãŒè¿½å¾“ã™ã‚‹ã‚¹ãƒ—ãƒ©ã‚¤ãƒ³çµŒè·¯
 	Spline mPath;
 	// Current control point index and t
-	//Œ»İ‚Ì§Œä“_‚ÌƒCƒ“ƒfƒbƒNƒX
+	//ç¾åœ¨ã®åˆ¶å¾¡ç‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 	size_t mIndex;
-	//Œ»İ‚Ìt‚Ì’l
+	//ç¾åœ¨ã®tã®å€¤
 	float mT;
 	// Amount t changes/sec
-	//ƒXƒs[ƒh = t‚Ì‘•ª/•b
+	//ã‚¹ãƒ”ãƒ¼ãƒ‰ = tã®å¢—åˆ†/ç§’
 	float mSpeed;
 	// Whether to move the camera long the path
-	//ƒJƒƒ‰‚ğŒo˜H‚É‰ˆ‚Á‚Ä“®‚©‚·‚©
+	//ã‚«ãƒ¡ãƒ©ã‚’çµŒè·¯ã«æ²¿ã£ã¦å‹•ã‹ã™ã‹
 	bool mPaused;
 };
