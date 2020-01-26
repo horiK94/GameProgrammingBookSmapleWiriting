@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------
+ï»¿// ----------------------------------------------------------------
 // From Game Programming in C++ by Sanjay Madhav
 // Copyright (C) 2017 Sanjay Madhav. All rights reserved.
 // 
@@ -94,7 +94,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	CreateSpriteVerts();
 
 	// Create render target for mirror
-	//ƒ~ƒ‰[‚ÌƒtƒŒ[ƒ€ƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚Ìì¬
+	//ãƒŸãƒ©ãƒ¼ã®ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 	if (!CreateMirrorTarget())
 	{
 		SDL_Log("Failed to create render target for mirror.");
@@ -102,6 +102,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	}
 	
 	// Create G-buffer
+	//GBufferã®ä½œæˆ
 	mGBuffer = new GBuffer();
 	int width = static_cast<int>(mScreenWidth);
 	int height = static_cast<int>(mScreenHeight);
@@ -168,29 +169,32 @@ void Renderer::UnloadData()
 void Renderer::Draw()
 {
 	// Draw to the mirror texture first
-	//ƒ~ƒ‰[‚ÌƒeƒNƒXƒ`ƒƒ‚Ö‚Ì•`‰æ
+	//ãƒŸãƒ©ãƒ¼ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¸ã®æç”»
 	Draw3DScene(mMirrorBuffer, mMirrorView, mProjection, 0.25f);
 	// Draw the 3D scene to the G-buffer
-	//ƒfƒtƒHƒ‹ƒgƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚Ö‚Ì•`‰æ
-	Draw3DScene(/*mGBuffer->GetBufferID()*/0, mView, mProjection, 1.0f, false);
+	//ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã¸ã®æç”»
+	//-> Gbafferã¸ã®æç”»(mMeshShaderã‚‚mSkinnedShaderã‚‚ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã§lightingã®è¨­å®šã‚’ã—ãªã„ãŸã‚ã€
+	//ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ã«é–¢ã™ã‚‹uniformã®è¨­å®šã¯ä¸è¦) => lit=falseã§è¨­å®šã™ã‚‹ã¨ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ã®è¨­å®šã¯è¡Œã‚ã‚Œãªããªã‚‹
+	Draw3DScene(mGBuffer->GetBufferID()/*0*/, mView, mProjection, 1.0f, false);
 	//// Set the frame buffer back to zero (screen's frame buffer)
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//Spriteã¨UIã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã«æ›¸ãã“ã‚€
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	//// Draw from the GBuffer
 	//DrawFromGBuffer();
 	
 	// Draw all sprite components
 	// Disable depth buffering
-	//ƒfƒvƒXƒoƒbƒtƒ@‚Ì–³Œø‰»
+	//ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ç„¡åŠ¹åŒ–
 	glDisable(GL_DEPTH_TEST);
 	// Enable alpha blending on the color buffer
-	//ƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒfƒBƒ“ƒO‚Ì—LŒø
+	//ã‚¢ãƒ«ãƒ•ã‚¡ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã®æœ‰åŠ¹
 	glEnable(GL_BLEND);
-	//TODO: ‰º2s’²‚×‚é
+	//TODO: ä¸‹2è¡Œèª¿ã¹ã‚‹
 	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
 	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
 
 	// Set shader/vao as active
-	//Sprite‚Ì•`‰æ
+	//Spriteã®æç”»
 	mSpriteShader->SetActive();
 	mSpriteVerts->SetActive();
 	for (auto sprite : mSprites)
@@ -202,7 +206,7 @@ void Renderer::Draw()
 	}
 	
 	// Draw any UI screens
-	//UI‚Ì•`‰æ
+	//UIã®æç”»
 	for (auto ui : mGame->GetUIStack())
 	{
 		ui->Draw(mSpriteShader);
@@ -325,44 +329,47 @@ Mesh* Renderer::GetMesh(const std::string & fileName)
 	return m;
 }
 
-//frameBuffer: ƒtƒŒ[ƒ€ƒoƒbƒtƒ@ID
-//view: ƒrƒ…[s—ñ
-// proj: Ë‰es—ñ
-//viewPortScale: ƒrƒ…[ƒ|[ƒg‚ÌƒXƒP[ƒ‹(‚±‚ê‚É‚æ‚èAOpenGL‚ÍƒtƒŒ[ƒ€ƒoƒbƒtƒ@ƒ^[ƒQƒbƒg‚ÌÀÛ‚ÌƒTƒCƒY‚ğ’m‚é)
-//ƒoƒbƒNƒ~ƒ‰[‚Ì‚½‚ß‚ÉAƒrƒ…[ƒ|[ƒg‚ğƒXƒP[ƒŠƒ“ƒO‚·‚éƒpƒ‰ƒ[ƒ^
+//Shadernã«å€¤ã‚’é€ã£ã¦ã„ã‚‹
+//frameBuffer: ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ID
+//view: ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
+// proj: å°„å½±è¡Œåˆ—
+//viewPortScale: ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã®ã‚¹ã‚±ãƒ¼ãƒ«(ã“ã‚Œã«ã‚ˆã‚Šã€OpenGLã¯ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®å®Ÿéš›ã®ã‚µã‚¤ã‚ºã‚’çŸ¥ã‚‹)
+//ãƒãƒƒã‚¯ãƒŸãƒ©ãƒ¼ã®ãŸã‚ã«ã€ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã‚’ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã™ã‚‹ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
+//lit: falseãªã‚‰ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ã®å®šæ•°ã‚’è¨­å®šã—ãªã„ã‚ˆã†æŒ‡ç¤º
 void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const Matrix4& proj, 
 	float viewPortScale, bool lit)
 {
 	// Set the current frame buffer
-	//‚±‚ê‚©‚ç‘‚«‚±‚ŞƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚Éw’è
+	//ã“ã‚Œã‹ã‚‰æ›¸ãã“ã‚€ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã«æŒ‡å®š
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
 	// Set viewport size based on scale
-	//ƒXƒP[ƒ‹‚ÉŠî‚Ã‚¢‚Äƒrƒ…[ƒ|[ƒgƒTƒCƒY‚ğİ’è
+	//ã‚¹ã‚±ãƒ¼ãƒ«ã«åŸºã¥ã„ã¦ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã‚µã‚¤ã‚ºã‚’è¨­å®š
 	glViewport(0, 0,
 		static_cast<int>(mScreenWidth * viewPortScale),
 		static_cast<int>(mScreenHeight * viewPortScale)
 	);
 
 	// Clear color buffer/depth buffer
-	//ƒOƒŒ[‚ÅƒJƒ‰[‚ğ‰Šú‰»
+	//ã‚°ãƒ¬ãƒ¼ã§ã‚«ãƒ©ãƒ¼ã‚’åˆæœŸåŒ–
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glDepthMask(GL_TRUE);
-	//ƒJƒ‰[ƒoƒbƒtƒ@AƒfƒvƒXƒoƒbƒtƒ@‚ÌƒNƒŠƒA
+	//glDepthMask(GL_TRUE);
+	//ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ•ã‚¡ã€ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ã‚¯ãƒªã‚¢
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw mesh components
-	//ƒƒbƒVƒ…ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì•`‰æ
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æç”»
 	// Enable depth buffering/disable alpha blend
-	//ƒfƒvƒXƒoƒbƒtƒ@‚Ì—LŒø
+	//ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡ã®æœ‰åŠ¹
 	glEnable(GL_DEPTH_TEST);
-	//ƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒfƒBƒ“ƒO‚Ì–³Œø
+	//ã‚¢ãƒ«ãƒ•ã‚¡ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã®ç„¡åŠ¹
 	glDisable(GL_BLEND);
 	// Set the mesh shader active
 	mMeshShader->SetActive();
 	// Update view-projection matrix
 	mMeshShader->SetMatrixUniform("uViewProj", view * proj);
 	// Update lighting uniforms
+	//mMeshShaderã¯GBufferWrite.fragã ã‹ã‚‰lightingã«é–¢ã™ã‚‹uniformã‚’è¨­å®šã™ã‚‹å¿…è¦ãŒãªã„
 	if (lit)
 	{
 		SetLightUniforms(mMeshShader, view);
@@ -375,12 +382,13 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 		}
 	}
 
-	//ƒXƒPƒ‹ƒ^ƒ‹ƒƒbƒVƒ…ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì•`‰æ
+	//ã‚¹ã‚±ãƒ«ã‚¿ãƒ«ãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æç”»
 	// Draw any skinned meshes now
 	mSkinnedShader->SetActive();
 	// Update view-projection matrix
 	mSkinnedShader->SetMatrixUniform("uViewProj", view * proj);
 	// Update lighting uniforms
+	//mSkinnedShaderã¯GBufferWrite.fragã ã‹ã‚‰lightingã«é–¢ã™ã‚‹uniformã‚’è¨­å®šã™ã‚‹å¿…è¦ãŒãªã„
 	if (lit)
 	{
 		SetLightUniforms(mSkinnedShader, view);
@@ -394,56 +402,56 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	}
 }
 
-///ƒoƒbƒNƒ~ƒ‰[‚ÌƒtƒŒ[ƒ€ƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚Ìì¬
+///ãƒãƒƒã‚¯ãƒŸãƒ©ãƒ¼ã®ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 bool Renderer::CreateMirrorTarget()
 {
-	//ƒTƒCƒY‚ğ1/4‚É‚·‚é
+	//ã‚µã‚¤ã‚ºã‚’1/4ã«ã™ã‚‹
 	int width = static_cast<int>(mScreenWidth) / 4;
 	int height = static_cast<int>(mScreenHeight) / 4;
 
 	// Generate a frame buffer for the mirror texture
-	//ƒtƒŒ[ƒ€ƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚Ìì¬(ID‚Ìæ“¾)
+	//ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ(IDã®å–å¾—)
 	glGenFramebuffers(1, &mMirrorBuffer);
-	//ƒAƒNƒeƒBƒu‚É‚·‚é
+	//ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹
 	glBindFramebuffer(GL_FRAMEBUFFER, mMirrorBuffer);
 
 	// Create the texture we'll use for rendering
-	//ƒŒƒ“ƒ_ƒŠƒ“ƒO‚Ég‚¤ƒeƒNƒXƒ`ƒƒ‚Ì‰Šú‰»
+	//ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã«ä½¿ã†ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®åˆæœŸåŒ–
 	mMirrorTexture = new Texture();
-	//ƒŒƒ“ƒ_ƒŠƒ“ƒO—pƒeƒNƒXƒ`ƒƒ‚Ìì¬(‘å‚«‚³‚Íwidth*height. ‹“_‚©‚çŒ©‚½F‚ğo—Í‚·‚é‚½‚ß‚ÉRGB‚ğw’è)
+	//ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ä½œæˆ(å¤§ãã•ã¯width*height. è¦–ç‚¹ã‹ã‚‰è¦‹ãŸè‰²ã‚’å‡ºåŠ›ã™ã‚‹ãŸã‚ã«RGBã‚’æŒ‡å®š)
 	mMirrorTexture->CreateForRendering(width, height, GL_RGB);
 
 	// Add a depth buffer to this target
-	//ƒfƒvƒX([“x)ƒoƒbƒtƒ@‚Ì’Ç‰Á
+	//ãƒ‡ãƒ—ã‚¹(æ·±åº¦)ãƒãƒƒãƒ•ã‚¡ã®è¿½åŠ 
 	GLuint depthBuffer;
-	//ƒfƒvƒXƒoƒbƒtƒ@‚Ìì¬(ID‚Ìæ“¾)(³Šm‚É‚ÍƒŒƒ“ƒ_[ƒoƒbƒtƒ@ì¬: •Û‚Å‚«‚é’l‚ÍŠeƒsƒNƒZƒ‹‚Ì“Á’è‚Ì’l(color, depth‚È‚Ç))
+	//ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ(IDã®å–å¾—)(æ­£ç¢ºã«ã¯ãƒ¬ãƒ³ãƒ€ãƒ¼ãƒãƒƒãƒ•ã‚¡ä½œæˆ: ä¿æŒã§ãã‚‹å€¤ã¯å„ãƒ”ã‚¯ã‚»ãƒ«ã®ç‰¹å®šã®å€¤(color, depthãªã©))
 	glGenRenderbuffers(1, &depthBuffer);
-	//ƒŒƒ“ƒ_[ƒoƒbƒtƒ@‚ğƒAƒNƒeƒBƒu‚É‚·‚é
+	//ãƒ¬ãƒ³ãƒ€ãƒ¼ãƒãƒƒãƒ•ã‚¡ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«ã™ã‚‹
 	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
 
-	//ì¬‚µ‚½ƒŒƒ“ƒ_[ƒoƒbƒtƒ@‚ÉGL_DEPTH_COMPONENT: ƒfƒvƒXƒoƒbƒtƒ@ ƒXƒgƒŒ[ƒW‚Æ‚µ‚Äg—p‚·‚é‚±‚Æ‚ğéŒ¾
+	//ä½œæˆã—ãŸãƒ¬ãƒ³ãƒ€ãƒ¼ãƒãƒƒãƒ•ã‚¡ã«GL_DEPTH_COMPONENT: ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡ ã‚¹ãƒˆãƒ¬ãƒ¼ã‚¸ã¨ã—ã¦ä½¿ç”¨ã™ã‚‹ã“ã¨ã‚’å®£è¨€
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-	// ƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚ÉƒŒƒ“ƒ_[ƒoƒbƒtƒ@‚ğAƒfƒvƒXƒoƒbƒtƒ@‚Æ‚µ‚ÄƒAƒ^ƒbƒ`
+	// ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã«ãƒ¬ãƒ³ãƒ€ãƒ¼ãƒãƒƒãƒ•ã‚¡ã‚’ã€ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡ã¨ã—ã¦ã‚¢ã‚¿ãƒƒãƒ
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
 
 	// Attach mirror texture as the output target for the frame buffer
-	//ƒoƒbƒNƒ~ƒ‰[—pTexture‚ğƒoƒbƒNƒ~ƒ‰[—pƒtƒŒ[ƒ€ƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ÉŠ„‚è“–‚Ä‚é
-	//GL_COLOR_ATTACHMENT0: ƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_[‚ÌÅ‰‚ÌFo—Í‚É‘Î‰‚µ‚Ü‚·‚æ‚Æ‚¢‚¤ˆÓ–¡
-	//ƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_[‚Í¡‚Ü‚Å1‚Â‚Ì‚İ‚Ìo—Í‚¾‚Á‚½‚ª•¡”‚ÌƒeƒNƒXƒ`ƒƒ‚Éo—Í‚Å‚«‚é(•¡”‚Ìo—Í‚ª‚Å‚«‚é)
+	//ãƒãƒƒã‚¯ãƒŸãƒ©ãƒ¼ç”¨Textureã‚’ãƒãƒƒã‚¯ãƒŸãƒ©ãƒ¼ç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å‰²ã‚Šå½“ã¦ã‚‹
+	//GL_COLOR_ATTACHMENT0: ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®æœ€åˆã®è‰²å‡ºåŠ›ã«å¯¾å¿œã—ã¾ã™ã‚ˆã¨ã„ã†æ„å‘³
+	//ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¯ä»Šã¾ã§1ã¤ã®ã¿ã®å‡ºåŠ›ã ã£ãŸãŒè¤‡æ•°ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã«å‡ºåŠ›ã§ãã‚‹(è¤‡æ•°ã®å‡ºåŠ›ãŒã§ãã‚‹)
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mMirrorTexture->GetTextureID(), 0);
 
 	// Set the list of buffers to draw to for this frame buffer
-	//¡‰ñ‚ÌƒtƒŒ[ƒ€ƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚Å‚ÍGL_COLOR_ATTACHMENT0ƒXƒƒbƒg‚ÌTexture(‚Â‚Ü‚èAmMirrorTexture)‚É•`‰æ‚·‚é‚±‚Æ‚ğİ’è
+	//ä»Šå›ã®ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§ã¯GL_COLOR_ATTACHMENT0ã‚¹ãƒ­ãƒƒãƒˆã®Texture(ã¤ã¾ã‚Šã€mMirrorTexture)ã«æç”»ã™ã‚‹ã“ã¨ã‚’è¨­å®š
 	GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0 };
 	glDrawBuffers(1, drawBuffers);
 
 	// Make sure everything worked
-	//glCheckFramebufferStatus‚Åó‘Ôƒ`ƒFƒbƒN
+	//glCheckFramebufferStatusã§çŠ¶æ…‹ãƒã‚§ãƒƒã‚¯
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		// If it didn't work, delete the framebuffer,
 		// unload/delete the texture and return false
-		//–â‘è‚ª‚ ‚é‚È‚çƒtƒŒ[ƒ€ƒoƒbƒtƒ@‚ğÁ‚µAƒeƒNƒXƒ`ƒƒ‚ğ‰ğ•úAíœ‚µ‚Äfalse‚ğ•Ô‚·
+		//å•é¡ŒãŒã‚ã‚‹ãªã‚‰ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã‚’æ¶ˆã—ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è§£æ”¾ã€å‰Šé™¤ã—ã¦falseã‚’è¿”ã™
 		glDeleteFramebuffers(1, &mMirrorBuffer);
 		mMirrorTexture->Unload();
 		delete mMirrorTexture;
@@ -516,6 +524,7 @@ bool Renderer::LoadShaders()
 
 	// Create basic mesh shader
 	mMeshShader = new Shader();
+	//ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¨ã—ã¦GBufferWrite.fragã‚’ä½¿ã†ã‚ˆã†ã«ã™ã‚‹
 	if (!mMeshShader->Load("Shaders/Phong.vert", "Shaders/GBufferWrite.frag"))
 	{
 		return false;
@@ -530,6 +539,7 @@ bool Renderer::LoadShaders()
 
 	// Create skinned shader
 	mSkinnedShader = new Shader();
+	//ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¨ã—ã¦GBufferWrite.fragã‚’ä½¿ã†ã‚ˆã†ã«ã™ã‚‹
 	if (!mSkinnedShader->Load("Shaders/Skinned.vert", "Shaders/GBufferWrite.frag"))
 	{
 		return false;

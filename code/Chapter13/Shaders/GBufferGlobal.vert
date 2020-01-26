@@ -7,6 +7,7 @@
 // ----------------------------------------------------------------
 
 // Request GLSL 3.3
+//Gバッファを描画したら、バーテックスシェーダーでは矩形を画面に描画するだけなので、Sprite.vertと同じコード
 #version 330
 
 // Uniforms for world transform and view-proj

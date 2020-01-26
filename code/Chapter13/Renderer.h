@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------
+ï»¿// ----------------------------------------------------------------
 // From Game Programming in C++ by Sanjay Madhav
 // Copyright (C) 2017 Sanjay Madhav. All rights reserved.
 // 
@@ -102,8 +102,10 @@ private:
 	class VertexArray* mSpriteVerts;
 
 	// Mesh shader
+	//meshComponentç”¨Shader
 	class Shader* mMeshShader;
 	// Skinned shader
+	//skeltalMeshComponent(ã‚¹ã‚±ãƒ«ã‚¿ãƒ«ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨)shader
 	class Shader* mSkinnedShader;
 
 	// View/projection for 3D shaders
@@ -124,9 +126,9 @@ private:
 
 	//unsigned int mMirrorBuffer;
 	//class Texture* mMirrorTexture;
-	//ƒoƒbƒNƒ~ƒ‰[—p‚ÌƒtƒŒ[ƒ€ƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg(‚ÌID’l)
+	//ãƒãƒƒã‚¯ãƒŸãƒ©ãƒ¼ç”¨ã®ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ(ã®IDå€¤)
 	unsigned int mMirrorBuffer;
-	//ƒtƒŒ[ƒ€ƒoƒbƒtƒ@ƒIƒuƒWƒFƒNƒg‚ÉŠ„‚è“–‚Ä‚éTextureƒIƒuƒWƒFƒNƒg
+	//ãƒ•ãƒ¬ãƒ¼ãƒ ãƒãƒƒãƒ•ã‚¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å‰²ã‚Šå½“ã¦ã‚‹Textureã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	class Texture* mMirrorTexture;
 	Matrix4 mMirrorView;
 	

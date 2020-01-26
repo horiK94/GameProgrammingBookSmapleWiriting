@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------
+ï»¿// ----------------------------------------------------------------
 // From Game Programming in C++ by Sanjay Madhav
 // Copyright (C) 2017 Sanjay Madhav. All rights reserved.
 // 
@@ -24,12 +24,12 @@ Texture::~Texture()
 	
 }
 
-//Texture::Load()‚ÍUI‚¾‚¯‚Å‚È‚­AƒƒbƒVƒ…‚Æ‚µ‚Ä“\‚éƒeƒNƒXƒ`ƒƒ‚àƒ[ƒh‚³‚ê‚é‚Ì‚Å’ˆÓ
+//Texture::Load()ã¯UIã ã‘ã§ãªãã€ãƒ¡ãƒƒã‚·ãƒ¥ã¨ã—ã¦è²¼ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚‚ãƒ­ãƒ¼ãƒ‰ã•ã‚Œã‚‹ã®ã§æ³¨æ„
 bool Texture::Load(const std::string& fileName)
 {
 	int channels = 0;
 	
-	//ƒeƒNƒXƒ`ƒƒ‚Ìƒ[ƒh
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ­ãƒ¼ãƒ‰
 	unsigned char* image = SOIL_load_image(fileName.c_str(),
 										   &mWidth, &mHeight, &channels, SOIL_LOAD_AUTO);
 	
@@ -39,49 +39,49 @@ bool Texture::Load(const std::string& fileName)
 		return false;
 	}
 	
-	//ƒ`ƒƒƒlƒ‹”‚ğŠm”F‚µ‚ÄA‰æ‘œ‚ªRBG‚©RGBA‚©Šm”F
+	//ãƒãƒ£ãƒãƒ«æ•°ã‚’ç¢ºèªã—ã¦ã€ç”»åƒãŒRBGã‹RGBAã‹ç¢ºèª
 	int format = GL_RGB;
 	if (channels == 4)
 	{
 		format = GL_RGBA;
 	}
 	
-	//OpenGL Texture Object‚ğì¬
+	//OpenGL Texture Objectã‚’ä½œæˆ
 	glGenTextures(1, &mTextureID);
-	//ƒeƒNƒXƒ`ƒƒ‚ğƒAƒNƒeƒBƒu‚É
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
-	//¶‚Ì‰æ‘œƒf[ƒ^‚ğƒRƒs[
-	glTexImage2D(GL_TEXTURE_2D,	//ƒeƒNƒXƒ`ƒƒƒ^[ƒQƒbƒg
-		0,				//Lod(Ú×ƒŒƒxƒ‹)
-		format,			//OpenGL‚ªg‚¤‚×‚«ƒJƒ‰[ƒtƒH[ƒ}ƒbƒg
-		mWidth,			//ƒeƒNƒXƒ`ƒƒ‚Ì•
-		mHeight,		//ƒeƒNƒXƒ`ƒƒ‚Ì‚‚³
-		0,				//‹«ŠEF
-		format,			//Texture‚ÌƒJƒ‰[ƒtƒH[ƒ}ƒbƒg
-		GL_UNSIGNED_BYTE,		//“ü—Íƒf[ƒ^‚Ìƒrƒbƒg[“x(unsigned byte‚Å8bit / chanel)
-		image			//‰æ‘œƒf[ƒ^‚Ìƒ|ƒCƒ“ƒ^
+	//ç”Ÿã®ç”»åƒãƒ‡ãƒ¼ã‚¿ã‚’ã‚³ãƒ”ãƒ¼
+	glTexImage2D(GL_TEXTURE_2D,	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚¿ãƒ¼ã‚²ãƒƒãƒˆ
+		0,				//Lod(è©³ç´°ãƒ¬ãƒ™ãƒ«)
+		format,			//OpenGLãŒä½¿ã†ã¹ãã‚«ãƒ©ãƒ¼ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
+		mWidth,			//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®å¹…
+		mHeight,		//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®é«˜ã•
+		0,				//å¢ƒç•Œè‰²
+		format,			//Textureã®ã‚«ãƒ©ãƒ¼ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
+		GL_UNSIGNED_BYTE,		//å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã®ãƒ“ãƒƒãƒˆæ·±åº¦(unsigned byteã§8bit / chanel)
+		image			//ç”»åƒãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒ³ã‚¿
 	);
 	
 	SOIL_free_image_data(image);
 	
-	//ƒeƒNƒXƒ`ƒƒ‚ÌƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğİ’è
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°ã‚’è¨­å®š
 
 	// Generate mipmaps for texture
 	//glGenerateMipmap(GL_TEXTURE_2D);
-	//ƒ~ƒbƒvƒ}ƒbƒsƒ“ƒO‚ğ—LŒø‰»
+	//ãƒŸãƒƒãƒ—ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’æœ‰åŠ¹åŒ–
 	glGenerateMipmap(GL_TEXTURE_2D);
 	// Enable linear filtering
-	//ƒgƒ‰ƒCƒŠƒjƒAƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğ—LŒø‚É‚·‚é
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);		//k¬—pƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‹@”\(ƒgƒ‰ƒCƒŠƒjƒAƒ~ƒbƒvƒ}ƒbƒsƒ“ƒO)
-	//Å‹ß–Tƒ~ƒbƒvƒ}ƒbƒsƒ“ƒO‚ğg—p‚·‚éê‡‚Í GL_LINEAR_MIPMAP_NEAREST ‚ğ“n‚·
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);			//Šg‘å—pƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‹@”\(ƒoƒCƒŠƒjƒAƒtƒBƒ‹ƒ^ƒŠƒ“ƒO)
+	//ãƒˆãƒ©ã‚¤ãƒªãƒ‹ã‚¢ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);		//ç¸®å°ç”¨ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°æ©Ÿèƒ½(ãƒˆãƒ©ã‚¤ãƒªãƒ‹ã‚¢ãƒŸãƒƒãƒ—ãƒãƒƒãƒ”ãƒ³ã‚°)
+	//æœ€è¿‘å‚ãƒŸãƒƒãƒ—ãƒãƒƒãƒ”ãƒ³ã‚°ã‚’ä½¿ç”¨ã™ã‚‹å ´åˆã¯ GL_LINEAR_MIPMAP_NEAREST ã‚’æ¸¡ã™
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);			//æ‹¡å¤§ç”¨ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°æ©Ÿèƒ½(ãƒã‚¤ãƒªãƒ‹ã‚¢ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°)
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	//ƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğİ’è‚µ‚½‚çAˆÙ•û«ƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ğİ’è
+	//ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°ã‚’è¨­å®šã—ãŸã‚‰ã€ç•°æ–¹æ€§ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°ã‚’è¨­å®š
 
 	// Enable aniostropic filtering, if supported
-	// OpenGL3.3‚Å‚ÍˆÙ•û«ƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚ÍƒGƒNƒXƒeƒ“ƒVƒ‡ƒ“(’Ç‰Á‹@”\“I‚È—§‚¿ˆÊ’u)‚Ì‚½‚ßAƒOƒ‰ƒtƒBƒbƒNƒn[ƒhƒEƒFƒA‚ª‘Î‰‚µ‚Ä‚¢‚é‚©Šm”F‚·‚é(‘å‘Ì‚ÌƒOƒ‰ƒtƒBƒbƒNƒn[ƒhƒEƒFƒA‚ª‘Î‰‚µ‚Ä‚¢‚é)
+	// OpenGL3.3ã§ã¯ç•°æ–¹æ€§ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°ã¯ã‚¨ã‚¯ã‚¹ãƒ†ãƒ³ã‚·ãƒ§ãƒ³(è¿½åŠ æ©Ÿèƒ½çš„ãªç«‹ã¡ä½ç½®)ã®ãŸã‚ã€ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢ãŒå¯¾å¿œã—ã¦ã„ã‚‹ã‹ç¢ºèªã™ã‚‹(å¤§ä½“ã®ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢ãŒå¯¾å¿œã—ã¦ã„ã‚‹)
 	//if (GLEW_EXT_texture_filter_anisotropic)
 	//{
 	//	// Get the maximum anisotropy value
@@ -92,13 +92,13 @@ bool Texture::Load(const std::string& fileName)
 	//}
 	if (GLEW_EXT_texture_filter_anisotropic)
 	{
-		//ƒOƒ‰ƒtƒBƒbƒNƒn[ƒhƒEƒFƒA‚ªˆÙ•û«ƒtƒBƒ‹ƒ^ƒŠƒ“ƒO‚É‘Î‰‚µ‚Ä‚¢‚é‚È‚ç
+		//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒãƒ¼ãƒ‰ã‚¦ã‚§ã‚¢ãŒç•°æ–¹æ€§ãƒ•ã‚£ãƒ«ã‚¿ãƒªãƒ³ã‚°ã«å¯¾å¿œã—ã¦ã„ã‚‹ãªã‚‰
 
-		//Å‘å‚ÌˆÙ•û«‚ğ¦‚·’l‚ğæ“¾
+		//æœ€å¤§ã®ç•°æ–¹æ€§ã‚’ç¤ºã™å€¤ã‚’å–å¾—
 		GLfloat largest;
-		//ˆÙ•û«‚ÌÅ‘å‚ğ•\‚·ƒpƒ‰ƒ[ƒ^: GL_MAX_TEXTURE_MAX_ANISOTROPY. largest‚ÉˆÙ•û«‚ÌÅ‘å’l‚ª‘ã“ü‚³‚ê‚Ä‹A‚Á‚Ä‚­‚é
-		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &largest);
-		//—LŒø‚É‚·‚é
+		//ç•°æ–¹æ€§ã®æœ€å¤§ã‚’è¡¨ã™ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿: GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT. largestã«ç•°æ–¹æ€§ã®æœ€å¤§å€¤ãŒä»£å…¥ã•ã‚Œã¦å¸°ã£ã¦ãã‚‹
+		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largest);
+		//æœ‰åŠ¹ã«ã™ã‚‹
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largest);
 	}
 	
@@ -126,20 +126,20 @@ void Texture::CreateFromSurface(SDL_Surface* surface)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-//RGBAƒtƒH[ƒ}ƒbƒg‚Å‚ ‚é‚ÆŒˆ‚ß‘Å‚¿‚¹‚¸Aformat‚Å‘I‘ğ‚Å‚«‚é‚æ‚¤‚É‚·‚é
+//RGBAãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã§ã‚ã‚‹ã¨æ±ºã‚æ‰“ã¡ã›ãšã€formatã§é¸æŠã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹
 void Texture::CreateForRendering(int width, int height, unsigned int format)
 {
 	mWidth = width;
 	mHeight = height;
 	// Create the texture id
-	//OpenGL Texture Object‚Ì¶¬
+	//OpenGL Texture Objectã®ç”Ÿæˆ
 	glGenTextures(1, &mTextureID);
-	//ƒeƒNƒXƒ`ƒƒƒIƒuƒWƒFƒNƒg‚ğ—LŒø‚É
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æœ‰åŠ¹ã«
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
 	// Set the image width/height with null initial data
-	//‰Šúƒf[ƒ^‚ª–³‚¢‚½‚ßAnullptr‚ğ“n‚·(‘æ2ˆø”‚ÆŒã‚ë‚©‚ç2‚Â–Ú‚Ìˆø”‚Í–³‹‚³‚ê‚é)
-	//‰Šúƒf[ƒ^‚Í‚È‚µ
-	glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, GL_RGB,		//‰æ‘œ‚ÍA‚ğæ“¾‚Å‚«‚È‚¢(ƒJƒƒ‰‚©‚çó‚¯æ‚ê‚é‰æ‘œƒf[ƒ^‚¾‚©‚ç)
+	//åˆæœŸãƒ‡ãƒ¼ã‚¿ãŒç„¡ã„ãŸã‚ã€nullptrã‚’æ¸¡ã™(ç¬¬2å¼•æ•°ã¨å¾Œã‚ã‹ã‚‰2ã¤ç›®ã®å¼•æ•°ã¯ç„¡è¦–ã•ã‚Œã‚‹)
+	//åˆæœŸãƒ‡ãƒ¼ã‚¿ã¯ãªã—
+	glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, GL_RGB,		//ç”»åƒã¯Aã‚’å–å¾—ã§ããªã„(ã‚«ãƒ¡ãƒ©ã‹ã‚‰å—ã‘å–ã‚Œã‚‹ç”»åƒãƒ‡ãƒ¼ã‚¿ã ã‹ã‚‰)
 		GL_FLOAT, nullptr);
 
 	// For a texture we'll render to, just use nearest neighbor

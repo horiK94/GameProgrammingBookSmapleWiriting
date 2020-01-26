@@ -32,13 +32,17 @@ void main()
 	// Transform position to world space
 	pos = pos * uWorldTransform;
 	// Save world position
+	//ワールド座標の位置をfragWorldPosに代入
 	fragWorldPos = pos.xyz;
 	// Transform to clip space
+	//クリックぷう感情での位置を代入
 	gl_Position = pos * uViewProj;
 
 	// Transform normal into world space (w = 0)
+	//法線ベクトルをワールド座標に置き換えて代入
 	fragNormal = (vec4(inNormal, 0.0f) * uWorldTransform).xyz;
 
 	// Pass along the texture coordinate to frag shader
+	//uv座標を代入
 	fragTexCoord = inTexCoord;
 }
