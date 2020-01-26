@@ -13,6 +13,6 @@ const size_t MAX_SKELETON_BONES = 96;
 
 struct MatrixPalette
 {
-	//(Å‘å)ƒ{[ƒ“”•ª‚Ìs—ñƒpƒŒƒbƒg
+	//(æœ€å¤§)ãƒœãƒ¼ãƒ³æ•°åˆ†ã®è¡Œåˆ—ãƒ‘ãƒ¬ãƒƒãƒˆ
 	Matrix4 mEntry[MAX_SKELETON_BONES];
 };

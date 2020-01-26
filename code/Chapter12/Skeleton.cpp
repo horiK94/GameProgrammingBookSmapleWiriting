@@ -22,18 +22,18 @@ bool Skeleton::Load(const std::string& fileName)
 		return false;
 	}
 
-	//fileî•ñ‚ğstringstream‚É•ÏŠ·‚µA’†g‚ğstring‚ÉˆÚ‚µ‚½‚çAjson‚Ìstring‚É•ÏŠ·
+	//fileæƒ…å ±ã‚’stringstreamã«å¤‰æ›ã—ã€ä¸­èº«ã‚’stringã«ç§»ã—ãŸã‚‰ã€jsonã®stringã«å¤‰æ›
 	std::stringstream fileStream;
 	fileStream << file.rdbuf();
 	std::string contents = fileStream.str();
 	rapidjson::StringStream jsonStr(contents.c_str());
 	rapidjson::Document doc;
-	//jsonStr‚ğDOM Tree‚ÌŒ`‚É•ÏŠ·‚µ‚Ä‚¢‚é
+	//jsonStrã‚’DOM Treeã®å½¢ã«å¤‰æ›ã—ã¦ã„ã‚‹
 	doc.ParseStream(jsonStr);
 
 	if (!doc.IsObject())
 	{
-		//DOM Tree‚ÌŒ`‚É‚Å‚«‚È‚©‚Á‚½
+		//DOM Treeã®å½¢ã«ã§ããªã‹ã£ãŸ
 		SDL_Log("Skeleton %s is not valid json", fileName.c_str());
 		return false;
 	}
@@ -43,7 +43,7 @@ bool Skeleton::Load(const std::string& fileName)
 	// Check the metadata
 	if (ver != 1)
 	{
-		//version‚ª1‚¶‚á‚È‚©‚Á‚½
+		//versionãŒ1ã˜ã‚ƒãªã‹ã£ãŸ
 		SDL_Log("Skeleton %s unknown format", fileName.c_str());
 		return false;
 	}
@@ -51,7 +51,7 @@ bool Skeleton::Load(const std::string& fileName)
 	const rapidjson::Value& bonecount = doc["bonecount"];
 	if (!bonecount.IsUint())
 	{
-		//bone‚Ì”(bonecount)‚ªuint‚Å‚Í‚È‚©‚Á‚½
+		//boneã®æ•°(bonecount)ãŒuintã§ã¯ãªã‹ã£ãŸ
 		SDL_Log("Skeleton %s doesn't have a bone count.", fileName.c_str());
 		return false;
 	}
@@ -60,37 +60,37 @@ bool Skeleton::Load(const std::string& fileName)
 
 	if (count > MAX_SKELETON_BONES)
 	{
-		//ƒ{[ƒ“”‚ªˆê’è‚Ì’l‚ğ’´‚¦‚Ä‚¢‚éê‡
+		//ãƒœãƒ¼ãƒ³æ•°ãŒä¸€å®šã®å€¤ã‚’è¶…ãˆã¦ã„ã‚‹å ´åˆ
 		SDL_Log("Skeleton %s exceeds maximum bone count.", fileName.c_str());
 		return false;
 	}
 
-	// mBones”z—ñ‚ğcount‚ÌƒTƒCƒY‚ÉÄ\’z
+	// mBonesé…åˆ—ã‚’countã®ã‚µã‚¤ã‚ºã«å†æ§‹ç¯‰
 	mBones.reserve(count);
 
 	const rapidjson::Value& bones = doc["bones"];
 	if (!bones.IsArray())
 	{
-		//bones‚ª”z—ñ‚Å‚È‚¢
+		//bonesãŒé…åˆ—ã§ãªã„
 		SDL_Log("Skeleton %s doesn't have a bone array?", fileName.c_str());
 		return false;
 	}
 
 	if (bones.Size() != count)
 	{
-		//bones”z—ñ‚ÌƒTƒCƒY‚ªcount‚Æˆê’v‚µ‚È‚¢
+		//bonesé…åˆ—ã®ã‚µã‚¤ã‚ºãŒcountã¨ä¸€è‡´ã—ãªã„
 		SDL_Log("Skeleton %s has a mismatch between the bone count and number of bones", fileName.c_str());
 		return false;
 	}
 
 	Bone temp;
 
-	//ƒ{[ƒ“‚Ì”‚¾‚¯’Tõ‚·‚é
+	//ãƒœãƒ¼ãƒ³ã®æ•°ã ã‘æ¢ç´¢ã™ã‚‹
 	for (rapidjson::SizeType i = 0; i < count; i++)
 	{
 		if (!bones[i].IsObject())
 		{
-			//bones‚Ì’†‚ªDOM tree‚É‚Å‚«‚È‚©‚Á‚½‚Æ‚«
+			//bonesã®ä¸­ãŒDOM treeã«ã§ããªã‹ã£ãŸã¨ã
 			SDL_Log("Skeleton %s: Bone %d is invalid.", fileName.c_str(), i);
 			return false;
 		}
@@ -104,7 +104,7 @@ bool Skeleton::Load(const std::string& fileName)
 		const rapidjson::Value& bindpose = bones[i]["bindpose"];
 		if (!bindpose.IsObject())
 		{
-			//bindpose‚Ì’†‚ªDOM Tree‚É‚Å‚«‚È‚©‚Á‚½‚Æ‚«
+			//bindposeã®ä¸­ãŒDOM Treeã«ã§ããªã‹ã£ãŸã¨ã
 			SDL_Log("Skeleton %s: Bone %d is invalid.", fileName.c_str(), i);
 			return false;
 		}
@@ -114,12 +114,12 @@ bool Skeleton::Load(const std::string& fileName)
 
 		if (!rot.IsArray() || !trans.IsArray())
 		{
-			//rot‚àtrans‚à”z—ñ‚Å‚ ‚é‚Æ‚¢‚¤ó‘Ô‚Å‚Í‚È‚©‚Á‚½‚Æ‚«
+			//rotã‚‚transã‚‚é…åˆ—ã§ã‚ã‚‹ã¨ã„ã†çŠ¶æ…‹ã§ã¯ãªã‹ã£ãŸã¨ã
 			SDL_Log("Skeleton %s: Bone %d is invalid.", fileName.c_str(), i);
 			return false;
 		}
 
-		//‰ñ“]‚âˆÊ’u‚Ìî•ñ‚ğ•Û‘¶‚·‚éBoneTransformŒ^‚Ì•Ï”mLocalBindPose‚É•Û‘¶‚µ‚Ä‚¢‚­1
+		//å›è»¢ã‚„ä½ç½®ã®æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹BoneTransformå‹ã®å¤‰æ•°mLocalBindPoseã«ä¿å­˜ã—ã¦ã„ã1
 		temp.mLocalBindPose.mRotation.x = rot[0].GetDouble();
 		temp.mLocalBindPose.mRotation.y = rot[1].GetDouble();
 		temp.mLocalBindPose.mRotation.z = rot[2].GetDouble();
@@ -129,12 +129,12 @@ bool Skeleton::Load(const std::string& fileName)
 		temp.mLocalBindPose.mTranslation.y = trans[1].GetDouble();
 		temp.mLocalBindPose.mTranslation.z = trans[2].GetDouble();
 
-		//ƒ{[ƒ“‚Ì”z—ñ‚É“o˜^
+		//ãƒœãƒ¼ãƒ³ã®é…åˆ—ã«ç™»éŒ²
 		mBones.emplace_back(temp);
 	}
 
 	// Now that we have the bones
-	//s—ñŒvZ‚Å‹tƒoƒCƒ“ƒhƒ|[ƒYs—ñ‚ğŒvZ
+	//è¡Œåˆ—è¨ˆç®—ã§é€†ãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºè¡Œåˆ—ã‚’è¨ˆç®—
 	ComputeGlobalInvBindPose();
 
 	return true;
@@ -143,28 +143,28 @@ bool Skeleton::Load(const std::string& fileName)
 void Skeleton::ComputeGlobalInvBindPose()
 {
 	// Resize to number of bones, which automatically fills identity
-	//mGlobalInvBindPoses‚Ì”z—ñ‚ÌƒTƒCƒY‚ğƒ{[ƒ“‚Ì”‚É•ÏX‚·‚é
+	//mGlobalInvBindPosesã®é…åˆ—ã®ã‚µã‚¤ã‚ºã‚’ãƒœãƒ¼ãƒ³ã®æ•°ã«å¤‰æ›´ã™ã‚‹
 	mGlobalInvBindPoses.resize(GetNumBones());
 	
 	// Step 1: Compute global bind pose for each bone
-	//ƒXƒeƒbƒv1. Šeƒ{[ƒ“‚ÌƒOƒ[ƒoƒ‹ƒoƒCƒ“ƒhƒ|[ƒYs—ñ‚ğ‹‚ß‚é(ƒ[ƒJƒ‹À•W‚©‚çƒOƒ[ƒoƒ‹À•W‚Ö•ÏŠ·‚·‚és—ñ)
+	//ã‚¹ãƒ†ãƒƒãƒ—1. å„ãƒœãƒ¼ãƒ³ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºè¡Œåˆ—ã‚’æ±‚ã‚ã‚‹(ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™ã‹ã‚‰ã‚°ãƒ­ãƒ¼ãƒãƒ«åº§æ¨™ã¸å¤‰æ›ã™ã‚‹è¡Œåˆ—)
 	
 	// The global bind pose for root is just the local bind pose
-	//ƒ‹[ƒgƒ{[ƒ“‚¾‚¯AƒOƒ[ƒoƒ‹ƒoƒCƒ“ƒhs—ñ‚Æƒ[ƒJƒ‹ƒoƒCƒ“ƒhs—ñ‚Í“¯‚¶‚È‚Ì‚ÅA‚»‚Ì‚Ü‚Ü‘ã“ü‚·‚é
+	//ãƒ«ãƒ¼ãƒˆãƒœãƒ¼ãƒ³ã ã‘ã€ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒã‚¤ãƒ³ãƒ‰è¡Œåˆ—ã¨ãƒ­ãƒ¼ã‚«ãƒ«ãƒã‚¤ãƒ³ãƒ‰è¡Œåˆ—ã¯åŒã˜ãªã®ã§ã€ãã®ã¾ã¾ä»£å…¥ã™ã‚‹
 	mGlobalInvBindPoses[0] = mBones[0].mLocalBindPose.ToMatrix();
 
 	// Each remaining bone's global bind pose is its local pose
 	// multiplied by the parent's global bind pose
-	//c‚è‚Ìƒ{[ƒ“‚Íƒ[ƒJƒ‹ƒ|[ƒY‚Ée‚ÌƒOƒ[ƒoƒ‹ƒ|[ƒY‚ğ‚©‚¯‚½‚à‚Ì
+	//æ®‹ã‚Šã®ãƒœãƒ¼ãƒ³ã¯ãƒ­ãƒ¼ã‚«ãƒ«ãƒãƒ¼ã‚ºã«è¦ªã®ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒãƒ¼ã‚ºã‚’ã‹ã‘ãŸã‚‚ã®
 	for (size_t i = 1; i < mGlobalInvBindPoses.size(); i++)
 	{
-		//‚Ğ‚Æ‚Ü‚¸ƒoƒCƒ“ƒhƒ|[ƒYs—ñ(ƒOƒ[ƒoƒ‹ƒ|[ƒYs—ñ)‚ğ‹‚ß‚é
+		//ã²ã¨ã¾ãšãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºè¡Œåˆ—(ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒãƒ¼ã‚ºè¡Œåˆ—)ã‚’æ±‚ã‚ã‚‹
 		Matrix4 localMat = mBones[i].mLocalBindPose.ToMatrix();
 		mGlobalInvBindPoses[i] = localMat * mGlobalInvBindPoses[mBones[i].mParent];
 	}
 
 	// Step 2: Invert
-	//ƒXƒeƒbƒv2. Šes—ñ‚Ì‹ts—ñ‚ğ‹‚ß‚é
+	//ã‚¹ãƒ†ãƒƒãƒ—2. å„è¡Œåˆ—ã®é€†è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 	for (size_t i = 0; i < mGlobalInvBindPoses.size(); i++)
 	{
 		mGlobalInvBindPoses[i].Invert();

@@ -29,6 +29,6 @@ protected:
 	class Mesh* mMesh;
 	size_t mTextureIndex;
 	bool mVisible;
-	//ƒXƒPƒ‹ƒ^ƒ‹—pMesh‚©‚Ç‚¤‚©
+	//ã‚¹ã‚±ãƒ«ã‚¿ãƒ«ç”¨Meshã‹ã©ã†ã‹
 	bool mIsSkeletal;
 };

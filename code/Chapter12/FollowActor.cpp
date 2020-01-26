@@ -19,7 +19,7 @@ FollowActor::FollowActor(Game* game)
 {
 	mMeshComp = new SkeletalMeshComponent(this);
 	mMeshComp->SetMesh(game->GetRenderer()->GetMesh("Assets/CatWarrior.gpmesh"));
-	//Skelton‚ÌÝ’è
+	//Skeltonã®è¨­å®š
 	mMeshComp->SetSkeleton(game->GetSkeleton("Assets/CatWarrior.gpskel"));
 	mMeshComp->PlayAnimation(game->GetAnimation("Assets/CatActionIdle.gpanim"));
 	SetPosition(Vector3(0.0f, 0.0f, -100.0f));
@@ -52,18 +52,18 @@ void FollowActor::ActorInput(const uint8_t* keys)
 	}
 
 	// Did we just start moving?
-	//“®‚«Žn‚ß‚½‚©‚Ìƒ`ƒFƒbƒN
+	//å‹•ãå§‹ã‚ãŸã‹ã®ãƒã‚§ãƒƒã‚¯
 	if (!mMoving && !Math::NearZero(forwardSpeed))
 	{
-		//‘–‚éƒ‚[ƒVƒ‡ƒ“‚É•ÏX
+		//èµ°ã‚‹ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã«å¤‰æ›´
 		mMoving = true;
 		mMeshComp->PlayAnimation(GetGame()->GetAnimation("Assets/CatRunSprint.gpanim"), 1.25f);
 	}
 	// Or did we just stop moving?
-	//‚¢‚Ü‚¿‚å‚¤‚ÇŽ~‚Ü‚Á‚½‚©‚Ìƒ`ƒFƒbƒN
+	//ã„ã¾ã¡ã‚‡ã†ã©æ­¢ã¾ã£ãŸã‹ã®ãƒã‚§ãƒƒã‚¯
 	else if (mMoving && Math::NearZero(forwardSpeed))
 	{
-		//Ž~‚Ü‚éƒ‚[ƒVƒ‡ƒ“‚É•ÏX
+		//æ­¢ã¾ã‚‹ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã«å¤‰æ›´
 		mMoving = false;
 		mMeshComp->PlayAnimation(GetGame()->GetAnimation("Assets/CatActionIdle.gpanim"));
 	}

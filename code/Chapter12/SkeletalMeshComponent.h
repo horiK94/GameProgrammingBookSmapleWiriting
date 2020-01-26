@@ -20,25 +20,25 @@ public:
 	void Update(float deltaTime) override;
 
 	//// Setters
-	//�X�P���g���̃Z�b�g
+	//スケルトンのセット
 	void SetSkeleton(const class Skeleton* sk) { mSkeleton = sk; }
 
 	//// Play an animation. Returns the length of the animation
-	//�A�j���[�V�����̏���ۑ����A�t���[��0�̂Ƃ��̃|�[�Y�s����v�Z���A�s��p���b�g�ɕۑ�
+	//アニメーションの情報を保存し、フレーム0のときのポーズ行列を計算し、行列パレットに保存
 	float PlayAnimation(const class Animation* anim, float playRate = 1.0f);
 protected:
-	//�{�[���̃O���[�o���ȋt�o�C���h�s��ƌ��݂̃O���[�o���|�[�Y�s����擾���A�������킹�����ʂ�mPalette�ɑ������
+	//ボーンのグローバルな逆バインド行列と現在のグローバルポーズ行列を取得し、かけ合わせた結果をmPaletteに代入する
 	void ComputeMatrixPalette();
 
-	//�t�o�C���h�|�[�Y�s��Ɍ��݂̃|�[�Y�s����|��������(�����ɂ񂮂̒��_�ʒu�̌v�Z�Ɏg�p). �{�[�������̍s��������Ă���(���݂̎����̍s��)
+	//逆バインドポーズ行列に現在のポーズ行列を掛けたもの(すきにんぐの頂点位置の計算に使用). ボーン数分の行列を持っている(現在の時刻の行列)
 	MatrixPalette mPalette;
-	//�X�P���g���̎Q��(�o�C���h�|�[�Y�s���{�[�����Ȃ�)
+	//スケルトンの参照(バインドポーズ行列やボーン情報など)
 	const class Skeleton* mSkeleton;
-	//���Đ����Ă���A�j���[�V�����̏��
+	//今再生しているアニメーションの情報
 	const class Animation* mAnimation;
 
-	//�A�j���[�V�����̍Đ����[�g(�X�s�[�h)
+	//アニメーションの再生レート(スピード)
 	float mAnimPlayRate;
-	//�A�j���[�V�����̌��ݎ���
+	//アニメーションの現在時刻
 	float mAnimTime;
 };

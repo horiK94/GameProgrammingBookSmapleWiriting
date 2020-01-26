@@ -17,11 +17,11 @@ public:
 	// Definition for each bone in the skeleton
 	struct Bone
 	{
-		//ˆÊ’u‚â‰ñ“]‚È‚Ç(e‚©‚ç‚Ì‘Š‘Î‹——£)
+		//ä½ç½®ã‚„å›è»¢ãªã©(è¦ªã‹ã‚‰ã®ç›¸å¯¾è·é›¢)
 		BoneTransform mLocalBindPose;
-		//–¼‘O
+		//åå‰
 		std::string mName;
-		//eƒ{[ƒ“‚ÌƒCƒ“ƒfƒbƒNƒX
+		//è¦ªãƒœãƒ¼ãƒ³ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 		int mParent;
 	};
 
@@ -36,13 +36,13 @@ public:
 protected:
 	// Called automatically when the skeleton is loaded
 	// Computes the global inverse bind pose for each bone
-	//‘S‚Ä‚Ìƒ{[ƒ“‚ÌƒOƒ[ƒoƒ‹‚È‹tƒoƒCƒ“ƒhƒ|[ƒYs—ñ‚ğŒvZ‚µ‚ÄmGlobalInvBindPoses‚É•Û‘¶
+	//å…¨ã¦ã®ãƒœãƒ¼ãƒ³ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«ãªé€†ãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºè¡Œåˆ—ã‚’è¨ˆç®—ã—ã¦mGlobalInvBindPosesã«ä¿å­˜
 	void ComputeGlobalInvBindPose();
 private:
 	// The bones in the skeleton
-	//ƒXƒPƒ‹ƒgƒ“‚Ìƒ{[ƒ“. e‚Íq‚æ‚èindex‚ª¬‚³‚¢‚Æ‚¢‚¤ƒ‹[ƒ‹‚ªç‚ç‚ê‚Ä‚¢‚é
+	//ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã®ãƒœãƒ¼ãƒ³. è¦ªã¯å­ã‚ˆã‚ŠindexãŒå°ã•ã„ã¨ã„ã†ãƒ«ãƒ¼ãƒ«ãŒå®ˆã‚‰ã‚Œã¦ã„ã‚‹
 	std::vector<Bone> mBones;
 	// The global inverse bind poses for each bone
-	// ƒ{[ƒ“‚ÌƒOƒ[ƒoƒ‹‚È‹tƒoƒCƒ“ƒhƒ|[ƒYs—ñ(Šeƒ{[ƒ“‚É‘Î‚µ‚Ä•Û‘¶)
+	// ãƒœãƒ¼ãƒ³ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«ãªé€†ãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºè¡Œåˆ—(å„ãƒœãƒ¼ãƒ³ã«å¯¾ã—ã¦ä¿å­˜)
 	std::vector<Matrix4> mGlobalInvBindPoses;
 };

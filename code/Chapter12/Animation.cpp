@@ -171,53 +171,53 @@ void Animation::GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const Skelet
 	//	outPoses[bone] = localMat * outPoses[bones[bone].mParent];
 	//}
 
-	//outPoses�̔z��̃T�C�Y���{�[�����������Ă��Ȃ��ꍇ�͍Đݒ�
+	//outPosesの配列のサイズがボーン数似合っていない場合は再設定
 	if (outPoses.size() != mNumBones)
 	{
 		outPoses.resize(mNumBones);
 	}
 
-	//0�t���[���ڂƍŌ�̃t���[���������|�[�Y�̂��߁A�Ō�̃t���[������ŏ��̃t���[���ւ̑J�ڂ��������s����
+	//0フレーム目と最後のフレームが同じポーズのため、最後のフレームから最初のフレームへの遷移が正しく行われる
 
-	//���݂�0�t���[���Ńn�[�h�R�[�f�B���O
-	//���݂Ǝ��̃t���[���C���f�b�N�X�����߂�
-	//inTime��[0, mDuration]�ł��邱�Ƃ�z��
-	//frame��[0, mNumFrames-1]�ɂȂ�
+	//現在は0フレームでハードコーディング
+	//現在と次のフレームインデックスを求める
+	//inTimeは[0, mDuration]であることを想定
+	//frameは[0, mNumFrames-1]になる
 	size_t frame = static_cast<size_t>(inTime / mFrameDuration);
 	size_t nextFrame = frame + 1;
 
-	//frame��nextFrame�̊Ԃ̏����l�����߂�
+	//frameとnextFrameの間の少数値を求める
 	float pct = inTime / mFrameDuration - frame;
 
 	//const int frame = 0;
 
-	//���[�g�{�[���̃`�F�b�N
+	//ルートボーンのチェック
 	if (mTracks[0].size() > 0)
 	{
-		//���[�g�{�[���̃g���b�N�����݂���Ƃ�
-		//���[�g�{�[���̃O���[�o���|�[�Y�̓��[�J���|�[�Y�Ɠ���
+		//ルートボーンのトラックが存在するとき
+		//ルートボーンのグローバルポーズはローカルポーズと同じ
 		//outPoses[0] = mTracks[0][frame].ToMatrix();
 
-		//���݂̃t���[���|�[�Y�ƁA���̃t���[���|�[�Y�̊Ԃŕ�Ԃ���
+		//現在のフレームポーズと、次のフレームポーズの間で補間する
 		BoneTransform interp = BoneTransform::Interpolate(mTracks[0][frame], mTracks[0][nextFrame], pct);
 		outPoses[0] = interp.ToMatrix();
 	}
 	else
 	{
-		//���[�g�{�[���̃g���b�N�����݂��Ȃ��Ƃ��͕ϊ����s��Ȃ��ėǂ�(�ϊ��s��͒P�ʍs��ɂȂ�)
+		//ルートボーンのトラックが存在しないときは変換を行わなくて良い(変換行列は単位行列になる)
 		outPoses[0] = Matrix4::Identity;
 	}
 
-	//�X�P���g���f�[�^����{�[���f�[�^���擾(�e�{�[����m�邽�߂Ɏg�p)
+	//スケルトンデータからボーンデータを取得(親ボーンを知るために使用)
 	const std::vector<Skeleton::Bone>& bones = inSkeleton->GetBones();
-	//���̑����ׂẴ{�[���ɑ΂��ăO���[�o���|�[�Y�s����v�Z
+	//その他すべてのボーンに対してグローバルポーズ行列を計算
 	for (size_t i = 1; i < mNumBones; i++)
 	{
-		Matrix4 localMat;		//�f�t�H���g�͒P�ʍs��
+		Matrix4 localMat;		//デフォルトは単位行列
 		if (mTracks[i].size() > 0)
 		{
-			//�g���b�N�����݂���Ƃ�
-			//localMat = mTracks[i][frame].ToMatrix();		//����̃t���[���̕ϊ��s����擾
+			//トラックが存在するとき
+			//localMat = mTracks[i][frame].ToMatrix();		//特定のフレームの変換行列を取得
 
 			BoneTransform interp = BoneTransform::Interpolate(mTracks[i][frame], mTracks[i][nextFrame], pct);
 			localMat = interp.ToMatrix();

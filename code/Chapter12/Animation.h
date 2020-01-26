@@ -24,24 +24,24 @@ public:
 	// Fills the provided vector with the global (current) pose matrices for each
 	// bone at the specified time in the animation. It is expected that the time
 	// is >= 0.0f and <= mDuration
-	//inTime‚Å‚ÌƒXƒPƒ‹ƒgƒ“‚ÌŠeƒ{[ƒ“‚ÌƒOƒ[ƒoƒ‹ƒ|[ƒYs—ñ‚ğoutPoses‚Å•Ô‚·
+	//inTimeã§ã®ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã®å„ãƒœãƒ¼ãƒ³ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒãƒ¼ã‚ºè¡Œåˆ—ã‚’outPosesã§è¿”ã™
 	void GetGlobalPoseAtTime(std::vector<Matrix4>& outPoses, const class Skeleton* inSkeleton, float inTime) const;
 private:
 	// Number of bones for the animation
-	//ƒ{[ƒ“”
+	//ãƒœãƒ¼ãƒ³æ•°
 	size_t mNumBones;
 	// Number of frames in the animation
-	//ƒtƒŒ[ƒ€”
+	//ãƒ•ãƒ¬ãƒ¼ãƒ æ•°
 	size_t mNumFrames;
 	// Duration of the animation in seconds
-	//ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì’·‚³
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®é•·ã•
 	float mDuration;
 	// Duration of each frame in the animation
-	//ŠeƒtƒŒ[ƒ€‚Ì’·‚³()
+	//å„ãƒ•ãƒ¬ãƒ¼ãƒ ã®é•·ã•()
 	float mFrameDuration;
 	// Transform information for each frame on the track
 	// Each index in the outer vector is a bone, inner vector
 	// is a frame
-	//ƒtƒŒ[ƒ€î•ñ(ŠO‘¤‚Ì”z—ñ‚ÌƒCƒ“ƒfƒbƒNƒX‚Íƒ{[ƒ“, “à‘¤‚Ì”z—ñ‚ÌƒCƒ“ƒfƒbƒNƒX‚ÍƒtƒŒ[ƒ€)
+	//ãƒ•ãƒ¬ãƒ¼ãƒ æƒ…å ±(å¤–å´ã®é…åˆ—ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¯ãƒœãƒ¼ãƒ³, å†…å´ã®é…åˆ—ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¯ãƒ•ãƒ¬ãƒ¼ãƒ )
 	std::vector<std::vector<BoneTransform>> mTracks;
 };

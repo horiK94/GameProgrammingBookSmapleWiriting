@@ -31,8 +31,8 @@ void SkeletalMeshComponent::Draw(Shader* shader)
 		shader->SetMatrixUniform("uWorldTransform", 
 			mOwner->GetWorldTransform());
 		// Set the matrix palette
-		//SetMatrixUniforms‚Íuniform‚Ì–¼‘O‚ÆAs—ñ‚Ìƒ|ƒCƒ“ƒ^‚ÆGPU‚É‘—‚és—ñ‚Ì”‚ğˆø”‚É“n‚·
-		shader->SetMatrixUniforms("uMatrixPalette", &mPalette.mEntry[0],		//mPallete‚Ìƒ|ƒCƒ“ƒ^‚ğ‘—‚é
+		//SetMatrixUniformsã¯uniformã®åå‰ã¨ã€è¡Œåˆ—ã®ãƒã‚¤ãƒ³ã‚¿ã¨GPUã«é€ã‚‹è¡Œåˆ—ã®æ•°ã‚’å¼•æ•°ã«æ¸¡ã™
+		shader->SetMatrixUniforms("uMatrixPalette", &mPalette.mEntry[0],		//mPalleteã®ãƒã‚¤ãƒ³ã‚¿ã‚’é€ã‚‹
 			MAX_SKELETON_BONES);
 		// Set specular power
 		shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());
@@ -52,51 +52,51 @@ void SkeletalMeshComponent::Draw(Shader* shader)
 
 void SkeletalMeshComponent::Update(float deltaTime)
 {
-	//mAnimation‚ğÄ¶ƒŒ[ƒg‚É]‚Á‚ÄXV
-	if (mAnimation && mSkeleton)		//ƒXƒPƒ‹ƒgƒ“ƒf[ƒ^‚à‚µ‚­‚ÍƒAƒjƒ[ƒVƒ‡ƒ“ƒf[ƒ^‚ª‚È‚¢ê‡‚ÍXV‚µ‚È‚¢
+	//mAnimationã‚’å†ç”Ÿãƒ¬ãƒ¼ãƒˆã«å¾“ã£ã¦æ›´æ–°
+	if (mAnimation && mSkeleton)		//ã‚¹ã‚±ãƒ«ãƒˆãƒ³ãƒ‡ãƒ¼ã‚¿ã‚‚ã—ãã¯ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿ãŒãªã„å ´åˆã¯æ›´æ–°ã—ãªã„
 	{
 		mAnimTime += deltaTime * mAnimPlayRate;
 		// Wrap around anim time if past duration
 		while (mAnimTime > mAnimation->GetDuration())
 		{
-			//ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì’·‚³‚ğ’´‚¦‚½ê‡‚ÍA’·‚³•ª‚¾‚¯mAnimTime‚ğŒ¸‚ç‚·
+			//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®é•·ã•ã‚’è¶…ãˆãŸå ´åˆã¯ã€é•·ã•åˆ†ã ã‘mAnimTimeã‚’æ¸›ã‚‰ã™
 			mAnimTime -= mAnimation->GetDuration();
 		}
 
 		// Recompute matrix palette
-		//Œ»‚Ìs—ñƒpƒŒƒbƒg‚ğæ“¾
+		//ç¾æ™‚åˆ»ã®è¡Œåˆ—ãƒ‘ãƒ¬ãƒƒãƒˆã‚’å–å¾—
 		ComputeMatrixPalette();
 	}
 }
 
-//ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì’·‚³‚ğ•Ô‚·
+//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®é•·ã•ã‚’è¿”ã™
 float SkeletalMeshComponent::PlayAnimation(const Animation* anim, float playRate)
 {
-	//ˆø”‚ğSkeletalMeshComponent‚Ì•Ï”‚É‘ã“ü
+	//å¼•æ•°ã‚’SkeletalMeshComponentã®å¤‰æ•°ã«ä»£å…¥
 	mAnimation = anim;
-	mAnimTime = 0.0f;		//Ä¶ŠÔ‚ğ0‚É‚·‚é
+	mAnimTime = 0.0f;		//å†ç”Ÿæ™‚é–“ã‚’0ã«ã™ã‚‹
 	mAnimPlayRate = playRate;
 
-	if (!mAnimation) { return 0.0f; }		//mAnimation‚ªnull‚È‚çƒAƒjƒ[ƒVƒ‡ƒ“‚Ì’·‚³‚Í0‚Å•Ô‚·
+	if (!mAnimation) { return 0.0f; }		//mAnimationãŒnullãªã‚‰ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®é•·ã•ã¯0ã§è¿”ã™
 
-	//0s–Ú‚Ì‚Æ‚«‚Ì‹tƒoƒCƒ“ƒhƒ|[ƒYs—ñ‚ÉŒ»İ‚Ìƒ|[ƒYs—ñ(ƒOƒ[ƒoƒ‹ƒ|[ƒYs—ñ)‚ğ‚©‚¯‚½’l‚ğŒvZ‚µ‚Ä•Û‘¶
+	//0sç›®ã®ã¨ãã®é€†ãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºè¡Œåˆ—ã«ç¾åœ¨ã®ãƒãƒ¼ã‚ºè¡Œåˆ—(ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒãƒ¼ã‚ºè¡Œåˆ—)ã‚’ã‹ã‘ãŸå€¤ã‚’è¨ˆç®—ã—ã¦ä¿å­˜
 	ComputeMatrixPalette();
 
-	//mAnimation‚Ì’†‚ÌAnimation‚Ì’·‚³‚ğ•Ô‚·
+	//mAnimationã®ä¸­ã®Animationã®é•·ã•ã‚’è¿”ã™
 	return mAnimation->GetDuration();
 }
 
 void SkeletalMeshComponent::ComputeMatrixPalette()
 {
-	//ƒOƒ[ƒoƒ‹‹tƒoƒCƒ“ƒhƒ|[ƒYs—ñ‚Ìæ“¾
+	//ã‚°ãƒ­ãƒ¼ãƒãƒ«é€†ãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºè¡Œåˆ—ã®å–å¾—
 	const std::vector<Matrix4>& globalInvBindPoses = mSkeleton->GetGlobalInvBindPoses();
-	//Œ»İ‚Ìƒ|[ƒYs—ñ‚ÌŠ“¾
+	//ç¾åœ¨ã®ãƒãƒ¼ã‚ºè¡Œåˆ—ã®æ‰€å¾—
 	std::vector<Matrix4> currentPoses;
-	//mAnimTime‚Ì‚Æ‚«‚Ìƒ|[ƒYs—ñ‚ğcurrentPoses‚Å•Ô‚µ‚Ä‚à‚ç‚¤
+	//mAnimTimeã®ã¨ãã®ãƒãƒ¼ã‚ºè¡Œåˆ—ã‚’currentPosesã§è¿”ã—ã¦ã‚‚ã‚‰ã†
 	mAnimation->GetGlobalPoseAtTime(currentPoses, mSkeleton, mAnimTime);
 
 	// Setup the palette for each bone
-	//Šeƒ{[ƒ“‚ÌƒpƒŒƒbƒgİ’è(‹tƒoƒCƒ“ƒhƒ|[ƒYs—ñ‚ÉŒ»İ‚ÌƒOƒ[ƒoƒ‹ƒ|[ƒYs—ñ‚ğ‚©‚¯‚½‚à‚Ì)
+	//å„ãƒœãƒ¼ãƒ³ã®ãƒ‘ãƒ¬ãƒƒãƒˆè¨­å®š(é€†ãƒã‚¤ãƒ³ãƒ‰ãƒãƒ¼ã‚ºè¡Œåˆ—ã«ç¾åœ¨ã®ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒãƒ¼ã‚ºè¡Œåˆ—ã‚’ã‹ã‘ãŸã‚‚ã®)
 	for (size_t i = 0; i < mSkeleton->GetNumBones(); i++)
 	{
 		// Global inverse bind pose matrix times current pose matrix

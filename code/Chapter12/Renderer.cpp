@@ -144,13 +144,13 @@ void Renderer::Draw()
 		}
 	}
 
-	//‚·‚×‚Ä‚ÌƒXƒPƒ‹ƒ^ƒ‹ƒƒbƒVƒ…‚ğ•`‰æ
+	//ã™ã¹ã¦ã®ã‚¹ã‚±ãƒ«ã‚¿ãƒ«ãƒ¡ãƒƒã‚·ãƒ¥ã‚’æç”»
 	// Draw any skinned meshes now
 	mSkinnedShader->SetActive();
 	// Update view-projection matrix
 	mSkinnedShader->SetMatrixUniform("uViewProj", mView * mProjection);
 	// Update lighting uniforms
-	//ƒ‰ƒCƒeƒBƒ“ƒO‚Ìuniform•ÏX
+	//ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ã®uniformå¤‰æ›´
 	SetLightUniforms(mSkinnedShader);
 	for (auto sk : mSkeletalMeshes)
 	{
@@ -320,7 +320,7 @@ bool Renderer::LoadShaders()
 	mMeshShader->SetMatrixUniform("uViewProj", mView * mProjection);
 
 	// Create skinned shader
-	//ƒXƒLƒjƒ“ƒO’¸“_ƒVƒF[ƒ_[‚Ìƒ[ƒh
+	//ã‚¹ã‚­ãƒ‹ãƒ³ã‚°é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ãƒ­ãƒ¼ãƒ‰
 	mSkinnedShader = new Shader();
 	if (!mSkinnedShader->Load("Shaders/Skinned.vert", "Shaders/Phong.frag"))
 	{
