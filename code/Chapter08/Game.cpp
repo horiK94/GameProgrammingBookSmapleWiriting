@@ -33,7 +33,7 @@ bool Game::Initialize()
 	//if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER) != 0)
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER) != 0)
 	{
-		//SDL_INIT_GAMECONTROLLER‚ÅƒRƒ“ƒgƒ[ƒ‰[‚ğˆ—‚·‚éSDLƒTƒuƒVƒXƒeƒ€‚Ì‰Šú‰»
+		//SDL_INIT_GAMECONTROLLERã§ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‚’å‡¦ç†ã™ã‚‹SDLã‚µãƒ–ã‚·ã‚¹ãƒ†ãƒ ã®åˆæœŸåŒ–
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return false;
 	}
@@ -63,7 +63,7 @@ bool Game::Initialize()
 	}
 
 	// Initialize input system
-	mInputSystem = new InputSystem();		//“ü—ÍƒVƒXƒeƒ€‚Ì‰Šú‰»
+	mInputSystem = new InputSystem();		//å…¥åŠ›ã‚·ã‚¹ãƒ†ãƒ ã®åˆæœŸåŒ–
 	if (!mInputSystem->Initialize())
 	{
 		SDL_Log("Failed to initialize input system");
@@ -114,7 +114,7 @@ void Game::RunLoop()
 
 void Game::ProcessInput()
 {
-	//PollEvent‚Ì‘O‚ÉŒÄ‚Ô
+	//PollEventã®å‰ã«å‘¼ã¶
 	mInputSystem->PrepareForUpdate();
 
 	//SDL_Event event;
@@ -133,7 +133,7 @@ void Game::ProcessInput()
 	//	}
 	//}
 
-	//SDL_PollEvent‚Ìƒ‹[ƒv(ƒCƒxƒ“ƒg•ª‚¾‚¯ƒ‹[ƒv‚ğ‰ñ‚·)
+	//SDL_PollEventã®ãƒ«ãƒ¼ãƒ—(ã‚¤ãƒ™ãƒ³ãƒˆåˆ†ã ã‘ãƒ«ãƒ¼ãƒ—ã‚’å›ã™)
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
@@ -143,7 +143,7 @@ void Game::ProcessInput()
 			mIsRunning = false;
 			break;
 		case SDL_MOUSEWHEEL:
-			//ƒ}ƒEƒXƒzƒC[ƒ‹‚Íó‘Ô‚ğƒ|[ƒŠƒ“ƒO‚·‚éŠÖ”‚ª‚È‚¢‚½‚ßAƒCƒxƒ“ƒg‚ªŒÄ‚Ño‚³‚ê‚½‚É‚±‚Ì‚æ‚¤‚Éæ“¾‚·‚é‚µ‚©‚È‚¢
+			//ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«ã¯çŠ¶æ…‹ã‚’ãƒãƒ¼ãƒªãƒ³ã‚°ã™ã‚‹é–¢æ•°ãŒãªã„ãŸã‚ã€ã‚¤ãƒ™ãƒ³ãƒˆãŒå‘¼ã³å‡ºã•ã‚ŒãŸæ™‚ã«ã“ã®ã‚ˆã†ã«å–å¾—ã™ã‚‹ã—ã‹ãªã„
 			mInputSystem->ProcessEvent(event);
 			break;
 		default:
@@ -161,16 +161,16 @@ void Game::ProcessInput()
 	//{
 	//	mIsRunning = false;
 	//}
-	//ƒQ[ƒ€I—¹‚Ì‚½‚ß‚ÌƒL[ˆ—
+	//ã‚²ãƒ¼ãƒ çµ‚äº†ã®ãŸã‚ã®ã‚­ãƒ¼å‡¦ç†
 	//if(state.Keyboard.GetKeyValue(SDL_SCANCODE_SPACE))
 	if (state.Keyboard.GetKeyState(SDL_SCANCODE_ESCAPE) == ButtonState::EReleased)
 	{
-		//ESCƒ{ƒ^ƒ“‚ğ˜b‚µ‚½‚É—LŒø‚É‚·‚é
+		//ESCãƒœã‚¿ãƒ³ã‚’è©±ã—ãŸæ™‚ã«æœ‰åŠ¹ã«ã™ã‚‹
 		mIsRunning = false;
 	}
 
 
-	//ŠeActor‚É“ü—Íî•ñ‚ğ“`‚¦‚é
+	//å„Actorã«å…¥åŠ›æƒ…å ±ã‚’ä¼ãˆã‚‹
 	mUpdatingActors = true;
 	for (auto actor : mActors)
 	{
@@ -363,7 +363,7 @@ void Game::Shutdown()
 {
 	UnloadData();
 
-	mInputSystem->Shutdown();		//“ü—ÍƒVƒXƒeƒ€‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“
+	mInputSystem->Shutdown();		//å…¥åŠ›ã‚·ã‚¹ãƒ†ãƒ ã®ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³
 	delete mInputSystem;
 
 	delete mSpriteVerts;

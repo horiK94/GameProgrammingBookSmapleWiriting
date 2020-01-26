@@ -32,10 +32,10 @@ public:
 	virtual void UpdateActor(float deltaTime);
 
 	// ProcessInput function called from Game (not overridable)
-	//�e�R���|�[�l���g�ɑ΂��āA���͏���`����֐�(�I�[�o�[���C�h�s��)
+	//各コンポーネントに対して、入力情報を伝える関数(オーバーライド不可)
 	void ProcessInput(const struct InputState& state);
 	// Any actor-specific input code (overridable)
-	//Actor���Ǝ����͂ɑΉ����邽�߂̊֐�(�I�[�o�[���C�h��)
+	//Actorが独自入力に対応するための関数(オーバーライド可)
 	virtual void ActorInput(const struct InputState& state);
 
 	// Getters/setters

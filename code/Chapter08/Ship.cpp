@@ -31,7 +31,7 @@ void Ship::UpdateActor(float deltaTime)
 	//pos += mVelocityDir * mSpeed * deltaTime;
 	//SetPosition(pos);
 	Vector2 pos = GetPosition();
-	pos += mVelocityDir * mSpeed * deltaTime;		//¶ƒXƒeƒBƒbƒN‚ð“®‚©‚·—Ê‚É‰ž‚¶‚ÄŒ¸‘¬‚·‚é
+	pos += mVelocityDir * mSpeed * deltaTime;		//å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’å‹•ã‹ã™é‡ã«å¿œã˜ã¦æ¸›é€Ÿã™ã‚‹
 	SetPosition(pos);
 
 	// Update rotation
@@ -66,7 +66,7 @@ void Ship::ActorInput(const InputState& state)
 	if (state.Controller.GetIsConnected())
 	{
 		mVelocityDir = state.Controller.GetLeftStick();
-		if (!Math::NearZero(state.Controller.GetRightStick().Length()))		//‰EƒXƒeƒBƒbƒN‚ðŽè•ú‚µ‚½‚Æ‚«‚ÉA‰F’ˆ‘D‚ªŽ©“®“I‚É0‚ÌŒü‚«‚É‚È‚ç‚È‚¢‚æ‚¤C³
+		if (!Math::NearZero(state.Controller.GetRightStick().Length()))		//å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’æ‰‹æ”¾ã—ãŸã¨ãã«ã€å®‡å®™èˆ¹ãŒè‡ªå‹•çš„ã«0ã®å‘ãã«ãªã‚‰ãªã„ã‚ˆã†ä¿®æ­£
 		{
 			mRotationDir = state.Controller.GetRightStick();
 		}

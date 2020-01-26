@@ -13,7 +13,7 @@
 bool KeyboardState::GetKeyValue(SDL_Scancode keyCode) const
 {
 	//return mCurrState[keyCode] == 1;
-	//1‚È‚ç‰Ÿ‚³‚ê‚Ä‚¢‚é‚Ì‚Åtrue‚ğ•Ô‚·
+	//1ãªã‚‰æŠ¼ã•ã‚Œã¦ã„ã‚‹ã®ã§trueã‚’è¿”ã™
 	return mCurrState[keyCode] == 1;
 }
 
@@ -153,22 +153,22 @@ bool InputSystem::Initialize()
 
 	//return true;
 
-	//ƒL[ƒ{[ƒh
-	//Œ»İ‚ÌƒL[ƒ{[ƒh‚Ìó‘Ôƒ|ƒCƒ“ƒ^‚ğæ“¾
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
+	//ç¾åœ¨ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®çŠ¶æ…‹ãƒã‚¤ãƒ³ã‚¿ã‚’å–å¾—
 	mState.Keyboard.mCurrState = SDL_GetKeyboardState(NULL);
-	//‘O‚ÌƒL[ƒ{[ƒh‚Ìó‘Ôƒ|ƒCƒ“ƒ^‚ğ0‚ÅƒNƒŠƒA
+	//å‰ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®çŠ¶æ…‹ãƒã‚¤ãƒ³ã‚¿ã‚’0ã§ã‚¯ãƒªã‚¢
 	memset(mState.Keyboard.mPrevState, 0, SDL_NUM_SCANCODES);
 
-	//ƒ}ƒEƒX
-	//ƒAƒCƒRƒ“‚Ì”ñ•\¦(ƒfƒtƒHƒ‹ƒg‚Í•\¦)
+	//ãƒã‚¦ã‚¹
+	//ã‚¢ã‚¤ã‚³ãƒ³ã®éè¡¨ç¤º(ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯è¡¨ç¤º)
 	SDL_ShowCursor(SDL_FALSE);
 	mState.Mouse.mIsRelative = false;
 
-	//ƒRƒ“ƒgƒ[ƒ‰[
-	//ƒRƒ“ƒgƒ[ƒ‰[0‚ğƒI[ƒvƒ“
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼0ã‚’ã‚ªãƒ¼ãƒ—ãƒ³
 	mController = SDL_GameControllerOpen(0);
 	mState.Controller.mIsConnected = mController != nullptr;
-	memset(mState.Controller.mCurrButtons, 0, SDL_CONTROLLER_BUTTON_MAX);		//ƒ{ƒ^ƒ“‚Ì^‹U’l‚ğfalse‚Å‰Šú‰»
+	memset(mState.Controller.mCurrButtons, 0, SDL_CONTROLLER_BUTTON_MAX);		//ãƒœã‚¿ãƒ³ã®çœŸå½å€¤ã‚’falseã§åˆæœŸåŒ–
 	memset(mState.Controller.mPrevButtons, 0, SDL_CONTROLLER_BUTTON_MAX);
 
 	return true;
@@ -196,19 +196,19 @@ void InputSystem::PrepareForUpdate()
 	//	mState.Controller.mCurrButtons,
 	//	SDL_CONTROLLER_BUTTON_MAX);
 
-	//ƒL[ƒ{[ƒh
-	//‘O‚ÌƒL[ƒ{[ƒhó‘Ô‚Ì•Ï”‚ÉŒ»İ‚ÌƒL[ƒ{[ƒhó‘Ô‚Ì•Ï”(ŒÄ‚Ño‚·ƒ^ƒCƒ~ƒ“ƒO‚É‚Í‘SƒtƒŒ[ƒ€‚ÌƒL[ƒ{[ƒh‚Ìó‘Ô‚¾‚ª)‚ğƒRƒs[‚·‚é
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
+	//å‰ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰çŠ¶æ…‹ã®å¤‰æ•°ã«ç¾åœ¨ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰çŠ¶æ…‹ã®å¤‰æ•°(å‘¼ã³å‡ºã™ã‚¿ã‚¤ãƒŸãƒ³ã‚°æ™‚ã«ã¯å…¨ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®çŠ¶æ…‹ã ãŒ)ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 	memcpy(mState.Keyboard.mPrevState,
 		mState.Keyboard.mCurrState,
 		SDL_NUM_SCANCODES);
 
-	//ƒ}ƒEƒX
+	//ãƒã‚¦ã‚¹
 	mState.Mouse.mPrevButtons = mState.Mouse.mCurrButtons;
-	//ƒ}ƒEƒXƒzƒC[ƒ‹‚Ì•Ï”‚Ì’l‚ğ‰Šú‰»‚·‚é(‰Šú‰»‚µ‚È‚¢‚ÆAƒzƒC[ƒ‹‚ğ“®‚©‚µ‚Ä‚¢‚È‚­‚Ä‚àA‘O‚Ì•Ï”‚Ì’l‚ªg—p‚³‚ê‚Ä‚µ‚Ü‚¤‚½‚ß)
+	//ãƒã‚¦ã‚¹ãƒ›ã‚¤ãƒ¼ãƒ«ã®å¤‰æ•°ã®å€¤ã‚’åˆæœŸåŒ–ã™ã‚‹(åˆæœŸåŒ–ã—ãªã„ã¨ã€ãƒ›ã‚¤ãƒ¼ãƒ«ã‚’å‹•ã‹ã—ã¦ã„ãªãã¦ã‚‚ã€å‰ã®å¤‰æ•°ã®å€¤ãŒä½¿ç”¨ã•ã‚Œã¦ã—ã¾ã†ãŸã‚)
 	mState.Mouse.mScrollWheel = Vector2::Zero;
 
-	//ƒRƒ“ƒgƒ[ƒ‰
-	//Œ»İ‚©‚ç1‚Â‘O‚Ö‚Æƒ{ƒ^ƒ“‚Ìó‘Ô‚ğƒRƒs[
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©
+	//ç¾åœ¨ã‹ã‚‰1ã¤å‰ã¸ã¨ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹ã‚’ã‚³ãƒ”ãƒ¼
 	memcpy(mState.Controller.mPrevButtons, mState.Controller.mCurrButtons, SDL_CONTROLLER_BUTTON_MAX);
 }
 
@@ -260,7 +260,7 @@ void InputSystem::Update()
 	//	SDL_CONTROLLER_AXIS_RIGHTY);
 	//mState.Controller.mRightStick = Filter2D(x, y);
 	
-	//ƒ}ƒEƒX
+	//ãƒã‚¦ã‚¹
 	int x = 0, y = 0;
 	if (mState.Mouse.IsRelative())
 	{
@@ -268,30 +268,30 @@ void InputSystem::Update()
 	}
 	else
 	{
-		mState.Mouse.mCurrButtons = SDL_GetMouseState(&x, &y);		//ˆÊ’u‹y‚Ñƒ{ƒ^ƒ“‚Ìó‘Ô‚Ìæ“¾(‘ã“ü‚µ‚Ä‚¢‚é‚Ì‚Íƒ{ƒ^ƒ“‚Ìó‘Ô)
+		mState.Mouse.mCurrButtons = SDL_GetMouseState(&x, &y);		//ä½ç½®åŠã³ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹ã®å–å¾—(ä»£å…¥ã—ã¦ã„ã‚‹ã®ã¯ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹)
 	}
-	mState.Mouse.mMousePos.x = static_cast<float>(x);		//float‚É•ÏŠ·
+	mState.Mouse.mMousePos.x = static_cast<float>(x);		//floatã«å¤‰æ›
 	mState.Mouse.mMousePos.y = static_cast<float>(y);
 
-	//ƒRƒ“ƒgƒ[ƒ‰
-	//ƒ{ƒ^ƒ“
-	//Šeƒ{ƒ^ƒ“‚Ìó‘Ô‚ğ–â‚¢‡‚í‚¹‚é
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©
+	//ãƒœã‚¿ãƒ³
+	//å„ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹ã‚’å•ã„åˆã‚ã›ã‚‹
 	for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
 	{
 		mState.Controller.mCurrButtons[i] = SDL_GameControllerGetButton(mController, SDL_GameControllerButton(i));
 	}
 
-	//ƒgƒŠƒK[
+	//ãƒˆãƒªã‚¬ãƒ¼
 	mState.Controller.mLeftTrigger = Filter1D(SDL_GameControllerGetAxis(mController, SDL_CONTROLLER_AXIS_TRIGGERLEFT));
 	mState.Controller.mRightTrigger = Filter1D(SDL_GameControllerGetAxis(mController, SDL_CONTROLLER_AXIS_TRIGGERRIGHT));
 
-	//ƒXƒeƒBƒbƒN
+	//ã‚¹ãƒ†ã‚£ãƒƒã‚¯
 	x = SDL_GameControllerGetAxis(mController, SDL_CONTROLLER_AXIS_LEFTX);
-	y = -SDL_GameControllerGetAxis(mController, SDL_CONTROLLER_AXIS_LEFTY);		//SDL‚Å‚Íy²‚ğ‰º•ûŒü+‚Å•Ô‚·‚½‚ß
+	y = -SDL_GameControllerGetAxis(mController, SDL_CONTROLLER_AXIS_LEFTY);		//SDLã§ã¯yè»¸ã‚’ä¸‹æ–¹å‘+ã§è¿”ã™ãŸã‚
 	mState.Controller.mLeftStick = Filter2D(x, y);
 
 	x = SDL_GameControllerGetAxis(mController, SDL_CONTROLLER_AXIS_RIGHTX);
-	y = -SDL_GameControllerGetAxis(mController, SDL_CONTROLLER_AXIS_RIGHTY);		//SDL‚Å‚Íy²‚ğ‰º•ûŒü+‚Å•Ô‚·‚½‚ß
+	y = -SDL_GameControllerGetAxis(mController, SDL_CONTROLLER_AXIS_RIGHTY);		//SDLã§ã¯yè»¸ã‚’ä¸‹æ–¹å‘+ã§è¿”ã™ãŸã‚
 	mState.Controller.mRightStick = Filter2D(x, y);
 }
 
@@ -336,19 +336,19 @@ void InputSystem::SetRelativeMouseMode(bool value)
 float InputSystem::Filter1D(int input)
 {
 	// A value < dead zone is interpreted as 0%
-	//ƒfƒbƒhƒ][ƒ“
+	//ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³
 	const int deadZone = 250;
 	// A value > max value is interpreted as 100%
-	//Å‘å’l
+	//æœ€å¤§å€¤
 	const int maxValue = 30000;
 
 	float retVal = 0.0f;
 
 	// Take absolute value of input
-	//â‘Î’l‚Ìæ“¾
+	//çµ¶å¯¾å€¤ã®å–å¾—
 	int absValue = input > 0 ? input : -input;
 	// Ignore input within dead zone
-	//ƒfƒbƒhƒ][ƒ“ˆÈ‰º‚È‚ç0‚ÅI—¹
+	//ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³ä»¥ä¸‹ãªã‚‰0ã§çµ‚äº†
 	if (absValue > deadZone)
 	{
 		// Compute fractional value between dead zone and max value
@@ -357,7 +357,7 @@ float InputSystem::Filter1D(int input)
 		// Make sure sign matches original value
 		retVal = input > 0 ? retVal : -1.0f * retVal;
 		// Clamp between -1.0f and 1.0f
-		//input‚ªmaxValue‚ğ’´‚¦‚é’l‚Ì‚Æ‚«‚ÉAretVal = 1.0‚É‚È‚é‚æ‚¤’²®
+		//inputãŒmaxValueã‚’è¶…ãˆã‚‹å€¤ã®ã¨ãã«ã€retVal = 1.0ã«ãªã‚‹ã‚ˆã†èª¿æ•´
 		retVal = Math::Clamp(retVal, -1.0f, 1.0f);
 	}
 
@@ -370,7 +370,7 @@ Vector2 InputSystem::Filter2D(int inputX, int inputY)
 	const float maxValue = 30000.0f;
 
 	// Make into 2D vector
-	//“ü—Í’l‚ğVector2‚É
+	//å…¥åŠ›å€¤ã‚’Vector2ã«
 	Vector2 dir;
 	dir.x = static_cast<float>(inputX);
 	dir.y = static_cast<float>(inputY);

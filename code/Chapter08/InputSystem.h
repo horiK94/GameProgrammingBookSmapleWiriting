@@ -26,18 +26,18 @@ class KeyboardState
 {
 public:
 	// Friend so InputSystem can easily update it
-	//InputSystem‚ªKeyboardState‚ğ‘€ì‚µ‚â‚·‚­‚È‚é
+	//InputSystemãŒKeyboardStateã‚’æ“ä½œã—ã‚„ã™ããªã‚‹
 	friend class InputSystem;
 	// Get just the boolean true/false value of key
-	//ƒL[‚Ì^‹U’l‚ğ•Ô‚·
+	//ã‚­ãƒ¼ã®çœŸå½å€¤ã‚’è¿”ã™
 	bool GetKeyValue(SDL_Scancode keyCode) const;
 	// Get a state based on current and previous frame
-	//ƒL[‚ÌState(ButtonState)‚ğ•Ô‚·
+	//ã‚­ãƒ¼ã®State(ButtonState)ã‚’è¿”ã™
 	ButtonState GetKeyState(SDL_Scancode keyCode) const;
 private:
-	//Œ»İ‚Ìó‘Ô
+	//ç¾åœ¨ã®çŠ¶æ…‹
 	const Uint8* mCurrState;
-	//1‚Â‘O‚ÌƒtƒŒ[ƒ€‚Ìó‘Ô(”z—ñ => ƒTƒCƒY‚ÍSDL‚ªƒL[ƒ{[ƒh‚ğŠÇ—‚·‚éƒoƒbƒtƒ@ƒTƒCƒY‚ÉˆË‘¶)
+	//1ã¤å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®çŠ¶æ…‹(é…åˆ— => ã‚µã‚¤ã‚ºã¯SDLãŒã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚’ç®¡ç†ã™ã‚‹ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºã«ä¾å­˜)
 	Uint8 mPrevState[SDL_NUM_SCANCODES];
 };
 //
@@ -48,29 +48,29 @@ public:
 	friend class InputSystem;
 
 	// For mouse position
-	//ƒ}ƒEƒXˆÊ’u
+	//ãƒã‚¦ã‚¹ä½ç½®
 	const Vector2& GetPosition() const { return mMousePos; }
 	//const Vector2& GetScrollWheel() const { return mScrollWheel; }
 	const Vector2& GetScrollWheel() const { return mScrollWheel; }
 	bool IsRelative() const { return mIsRelative; }
 
 	// For buttons
-	//ƒ{ƒ^ƒ“‚Ìó‘Ôæ“¾(ˆø”‚É‘Î‰‚·‚éƒ{ƒ^ƒ“‚Ìƒrƒbƒg’l‚ğ“ü‚ê‚é)
+	//ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹å–å¾—(å¼•æ•°ã«å¯¾å¿œã™ã‚‹ãƒœã‚¿ãƒ³ã®ãƒ“ãƒƒãƒˆå€¤ã‚’å…¥ã‚Œã‚‹)
 	bool GetButtonValue(int button) const;
 	ButtonState GetButtonState(int button) const;
 private:
 	// Store current mouse position
-	//ƒ}ƒEƒX‚ÌˆÊ’u
+	//ãƒã‚¦ã‚¹ã®ä½ç½®
 	Vector2 mMousePos;
 	// Motion of scroll wheel
 	Vector2 mScrollWheel;
 	// Store button data
-	//Œ»İ‚Ìƒ}ƒEƒXƒ{ƒ^ƒ“‚Ìó‘Ô
+	//ç¾åœ¨ã®ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹
 	Uint32 mCurrButtons;
-	//‘OƒtƒŒ[ƒ€‚Ìƒ}ƒEƒXƒ{ƒ^ƒ“‚Ìó‘Ô
+	//å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹
 	Uint32 mPrevButtons;
 	// Are we in relative mouse mode
-	//‘Š‘Îƒ‚[ƒh‚©‚Ç‚¤‚©‚Ì•Ï”
+	//ç›¸å¯¾ãƒ¢ãƒ¼ãƒ‰ã‹ã©ã†ã‹ã®å¤‰æ•°
 	bool mIsRelative;
 };
 
@@ -93,21 +93,21 @@ public:
 	bool GetIsConnected() const { return mIsConnected; }
 private:
 	// Current/previous buttons
-	Uint8 mCurrButtons[SDL_CONTROLLER_BUTTON_MAX];		//¡‰ñ‚Ìƒ{ƒ^ƒ“
-	Uint8 mPrevButtons[SDL_CONTROLLER_BUTTON_MAX];		//‘O‰ñ‚Ìƒ{ƒ^ƒ“
+	Uint8 mCurrButtons[SDL_CONTROLLER_BUTTON_MAX];		//ä»Šå›ã®ãƒœã‚¿ãƒ³
+	Uint8 mPrevButtons[SDL_CONTROLLER_BUTTON_MAX];		//å‰å›ã®ãƒœã‚¿ãƒ³
 	// Left/right sticks
 	Vector2 mLeftStick;
 	Vector2 mRightStick;
 	//// Left/right trigger
-	//ƒgƒŠƒK[
+	//ãƒˆãƒªã‚¬ãƒ¼
 	float mLeftTrigger;
 	float mRightTrigger;
 	// Is this controller connected?
-	bool mIsConnected;		//ƒRƒ“ƒgƒ[ƒ‰[‚ÉÚ‘±‚³‚ê‚Ä‚¢‚é‚©
+	bool mIsConnected;		//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã«æ¥ç¶šã•ã‚Œã¦ã„ã‚‹ã‹
 };
 
 // Wrapper that contains current state of input
-//Œ»İ‚Ì“ü—Íî•ñ‚ğŠi”[‚·‚éƒ‰ƒbƒp[
+//ç¾åœ¨ã®å…¥åŠ›æƒ…å ±ã‚’æ ¼ç´ã™ã‚‹ãƒ©ãƒƒãƒ‘ãƒ¼
 struct InputState
 {
 	//KeyboardState Keyboard;
@@ -125,24 +125,24 @@ public:
 	void Shutdown();
 
 	// Called right before SDL_PollEvents loop
-	//SDL_PollEventsƒ‹[ƒv‚Ì’¼‘O‚ÉŒÄ‚Î‚ê‚é
+	//SDL_PollEventsãƒ«ãƒ¼ãƒ—ã®ç›´å‰ã«å‘¼ã°ã‚Œã‚‹
 	void PrepareForUpdate();
 	// Called after SDL_PollEvents loop
-	//SDL_PollEventsƒ‹[ƒv‚Ì’¼Œã‚ÉŒÄ‚Î‚ê‚é
+	//SDL_PollEventsãƒ«ãƒ¼ãƒ—ã®ç›´å¾Œã«å‘¼ã°ã‚Œã‚‹
 	void Update();
 	// Called to process an SDL event in input system
-	//SDL‚ÌƒCƒxƒ“ƒg‚ªŒÄ‚Î‚ê‚½‚ÉŒÄ‚ÔŠÖ”s
+	//SDLã®ã‚¤ãƒ™ãƒ³ãƒˆãŒå‘¼ã°ã‚ŒãŸæ™‚ã«å‘¼ã¶é–¢æ•°s
 	void ProcessEvent(union SDL_Event& event);
-	//InputState(“ü—Íî•ñ)‚ÌQÆ‚ğ•Ô‚·
+	//InputState(å…¥åŠ›æƒ…å ±)ã®å‚ç…§ã‚’è¿”ã™
 	const InputState& GetState() const { return mState; }
 
-	//ƒ}ƒEƒX‚Ìƒ|ƒCƒ“ƒ^‚ğ‘Š‘Îƒ‚[ƒh‚É‚·‚é‚©
+	//ãƒã‚¦ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿ã‚’ç›¸å¯¾ãƒ¢ãƒ¼ãƒ‰ã«ã™ã‚‹ã‹
 	void SetRelativeMouseMode(bool value);
 private:
-	//ƒgƒŠƒK[‚Ì“ü—Íƒf[ƒ^‚ğƒtƒBƒ‹ƒ^[‚É’Ê‚µA[-1, 1]‚Ì’l‚É•ÏŠ·‚·‚éŠÖ”
+	//ãƒˆãƒªã‚¬ãƒ¼ã®å…¥åŠ›ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ã«é€šã—ã€[-1, 1]ã®å€¤ã«å¤‰æ›ã™ã‚‹é–¢æ•°
 	float Filter1D(int input);
 	Vector2 Filter2D(int inputX, int inputY);
 	InputState mState;
-	//ƒRƒ“ƒgƒ[ƒ‰‚Ìó‘Ô•Ï”
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã®çŠ¶æ…‹å¤‰æ•°
 	SDL_GameController* mController;
 };
