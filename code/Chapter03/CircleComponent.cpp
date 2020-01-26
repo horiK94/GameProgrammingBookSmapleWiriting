@@ -29,14 +29,14 @@ float CircleComponent::GetRadius() const
 bool Intersect(const CircleComponent& a, const CircleComponent& b)
 {
 	// Calculate distance squared
-	//’†S“_‚Ç‚¤‚µ‚Ì‹——£
+	//ä¸­å¿ƒç‚¹ã©ã†ã—ã®è·é›¢
 	Vector2 diff = a.GetCenter() - b.GetCenter();
-	float distSq = diff.LengthSq();		//2æ
+	float distSq = diff.LengthSq();		//2ä¹—
 
 	// Calculate sum of radii squared
-	//”¼Œa‚Ì‘«‚µZ
+	//åŠå¾„ã®è¶³ã—ç®—
 	float radiiSq = a.GetRadius() + b.GetRadius();
-	radiiSq *= radiiSq;		//2æ
+	radiiSq *= radiiSq;		//2ä¹—
 
 	return distSq <= radiiSq;
 }

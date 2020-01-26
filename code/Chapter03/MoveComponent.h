@@ -26,10 +26,10 @@ public:
 private:
 	// Controls rotation (radians/second)
 	float mAngularSpeed;
-	//ƒtƒŒ[ƒ€“à‚Å‰ÁZ‚³‚ê‚½—Í‚Ì‡Œv
+	//ãƒ•ãƒ¬ãƒ¼ãƒ å†…ã§åŠ ç®—ã•ã‚ŒãŸåŠ›ã®åˆè¨ˆ
 	Vector2 sumForce;
-	//‘¬“x
+	//é€Ÿåº¦
 	Vector2 velocity;
-	//¿—Ê
+	//è³ªé‡
 	float mass;
 };

@@ -20,10 +20,10 @@ Ship::Ship(Game* game)
 	, deathRecoveryTime(0.0f)
 {
 	// Create a sprite component
-	SpriteComponent* sc = new SpriteComponent(this, 150);		//150‚Éw’è‚·‚é‚±‚Æ‚É‚æ‚Á‚ÄAƒŒ[ƒU[‚ª‘O‚É•`‰æ‚³‚ê‚é‚æ‚¤‚É‚µ‚Ä‚¢‚é
+	SpriteComponent* sc = new SpriteComponent(this, 150);		//150ã«æŒ‡å®šã™ã‚‹ã“ã¨ã«ã‚ˆã£ã¦ã€ãƒ¬ãƒ¼ã‚¶ãƒ¼ãŒå‰ã«æç”»ã•ã‚Œã‚‹ã‚ˆã†ã«ã—ã¦ã„ã‚‹
 	sc->SetTexture(game->GetTexture("Assets/Ship.png"));
 
-	//‰F’ˆ‘D‚Æ¬˜f¯‚Æ‚ÌÕ“Ë—pƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒAƒ^ƒbƒ`
+	//å®‡å®™èˆ¹ã¨å°æƒ‘æ˜Ÿã¨ã®è¡çªç”¨ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¢ã‚¿ãƒƒãƒ
 	cc = new CircleComponent(this);
 	cc->SetRadius(20.0f);
 
@@ -39,7 +39,7 @@ Ship::Ship(Game* game)
 
 void Ship::UpdateActor(float deltaTime)
 {
-	//ƒŒ[ƒU[‚ÌƒN[ƒ‹ƒ_ƒEƒ“ŠÔ
+	//ãƒ¬ãƒ¼ã‚¶ãƒ¼ã®ã‚¯ãƒ¼ãƒ«ãƒ€ã‚¦ãƒ³æ™‚é–“
 	mLaserCooldown -= deltaTime;
 	deathRecoveryTime -= deltaTime;
 	CheckIntersectAsteroid();
@@ -49,11 +49,11 @@ void Ship::UpdateActor(float deltaTime)
 
 void Ship::ActorInput(const uint8_t* keyState)
 {
-	//“ü—Í‚ÉŠÖ‚·‚éoverrideŠÖ”
+	//å…¥åŠ›ã«é–¢ã™ã‚‹overrideé–¢æ•°
 	if (keyState[SDL_SCANCODE_SPACE] && mLaserCooldown <= 0.0f)
 	{
 		// Create a laser and set its position/rotation to mine
-		//ƒŒ[ƒU[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬(Actor‚Æ‚µ‚Ä@)
+		//ãƒ¬ãƒ¼ã‚¶ãƒ¼ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ(Actorã¨ã—ã¦ã€€)
 		Laser* laser = new Laser(GetGame());
 		laser->SetPosition(GetPosition());
 		laser->SetRotation(GetRotation());
@@ -67,17 +67,17 @@ void Ship::CheckIntersectAsteroid()
 {
 	if (GetState() == State::EHidden)
 	{
-		//Õ“Ë”»’è‚ğs‚í‚È‚¢
+		//è¡çªåˆ¤å®šã‚’è¡Œã‚ãªã„
 		return;
 	}
 	for (Asteroid* ob : GetGame()->GetAsteroids())
 	{
-		//˜f¯‚ÆÕ“Ë‚µ‚½‚Æ‚«
+		//æƒ‘æ˜Ÿã¨è¡çªã—ãŸã¨ã
 		if (Intersect(*cc, *(ob->GetCircle())))
 		{
 			ob->SetState(State::EDead);
 			SetState(State::EHidden);
-			deathRecoveryTime = 1.5f;		//•œ‹A‚É‚©‚©‚éŠÔ
+			deathRecoveryTime = 1.5f;		//å¾©å¸°ã«ã‹ã‹ã‚‹æ™‚é–“
 		}
 	}
 }
@@ -92,11 +92,11 @@ void Ship::RecoveryMyself()
 {
 	if (this->GetState() != State::EHidden)
 	{
-		return;		//•œ‹A‚µ‚È‚¢‚½‚ßI—¹
+		return;		//å¾©å¸°ã—ãªã„ãŸã‚çµ‚äº†
 	}
 	if (deathRecoveryTime <= 0)
 	{
-		//•œ‹A
+		//å¾©å¸°
 		ResetPosAndRotate();
 		ic->ResetVelocity();
 		SetState(State::EActive);

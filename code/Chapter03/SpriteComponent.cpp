@@ -29,7 +29,7 @@ void SpriteComponent::Draw(SDL_Renderer* renderer)
 {
 	if (this->mOwner->GetState() == Actor::State::EHidden)
 	{
-		//”ñ•\¦İ’è‚Ì‚Æ‚«‚Íˆ—‚ğƒpƒX
+		//éè¡¨ç¤ºè¨­å®šã®ã¨ãã¯å‡¦ç†ã‚’ãƒ‘ã‚¹
 		return;
 	}
 	if (mTexture)

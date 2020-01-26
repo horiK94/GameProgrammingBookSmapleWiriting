@@ -31,14 +31,14 @@ void MoveComponent::Update(float deltaTime)
 		mOwner->SetRotation(rot);
 	}
 
-	//‰Á‘¬“x‚ÍsumForce = 0‚Ì‚Æ‚«0‚É‚È‚é‚½‚ßAforce = Vector2::Zero‚Å‚à•¨—ŒvŽZ‚ðs‚í‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+	//åŠ é€Ÿåº¦ã¯sumForce = 0ã®ã¨ã0ã«ãªã‚‹ãŸã‚ã€force = Vector2::Zeroã§ã‚‚ç‰©ç†è¨ˆç®—ã‚’è¡Œã‚ãªã‘ã‚Œã°ãªã‚‰ãªã„
 	float angle = -1 * mOwner->GetRotation();
 	Vector2 forceConsiderAngle = Vector2(cos(angle) * sumForce.x - sin(angle) * sumForce.y, sin(angle) * sumForce.x + cos(angle) * sumForce.y);
-	//‰Á‘¬“x‚ð‹‚ß‚é
+	//åŠ é€Ÿåº¦ã‚’æ±‚ã‚ã‚‹
 	Vector2 acceleration = forceConsiderAngle / mass;
-	//‰Á‘¬“x‚©‚ç‘¬“x‚ð‹‚ß‚é
+	//åŠ é€Ÿåº¦ã‹ã‚‰é€Ÿåº¦ã‚’æ±‚ã‚ã‚‹
 	velocity += acceleration * deltaTime;
-	//ˆÊ’u‚ðXV
+	//ä½ç½®ã‚’æ›´æ–°
 	Vector2 pos = mOwner->GetPosition() + velocity * deltaTime;
 
 	// (Screen wrapping code only for asteroids)

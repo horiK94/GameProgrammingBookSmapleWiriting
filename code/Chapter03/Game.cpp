@@ -31,32 +31,32 @@ bool Game::Initialize()
 		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
 		return false;
 	}
-	//OpenGL�̃o�[�W������F�[�x�Ȃǂ̑����̐ݒ���s��
-	//�w����@�� SDL_GL_SetAttribute(SDL_GLatter attr, int value);
+	//OpenGLのバージョンや色深度などの属性の設定を行う
+	//指定方法は SDL_GL_SetAttribute(SDL_GLatter attr, int value);
 
-	/*OpenGL�v���t�@�C���̎��
-		�R�A: �f�X�N�g�b�v���ł͐�������Ă���v���t�@�C��
-		�݊�: �񐄏��̊֐����g�p�ł���v���t�@�C��
-		ES: ���o�C���J���p
+	/*OpenGLプロファイルの種類
+		コア: デスクトップ環境では推奨されているプロファイル
+		互換: 非推奨の関数も使用できるプロファイル
+		ES: モバイル開発用
 	*/
-	//�R���e�N�X�g�Ƃ�OpenGL�̐ݒ�Q�̂悤�Ȃ���
+	//コンテクストとはOpenGLの設定群のようなもの
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-	//�o�[�W����3.3�̎w��
+	//バージョン3.3の指定
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	//RGBA�̊e�`�����l���ɑ΂��A8bit�̃J���[�o�b�t�@(�r�b�g�[�x)��p����(1�s�N�Z��������32bit�K�v)
+	//RGBAの各チャンネルに対し、8bitのカラーバッファ(ビット深度)を用いる(1ピクセルあたり32bit必要)
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-	//�_�u���o�b�t�@��L���ɂ���
+	//ダブルバッファを有効にする
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	//�n�[�h�E�F�A�A�N�Z�����[�V������p����(OpenGL�̃����_�����O��GPU�����p����ɂ���)
+	//ハードウェアアクセラレーションを用いる(OpenGLのレンダリングがGPUを活用するにする)
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-	//�����_�����O... ���o�I�u�W�F�N�g�𐶐�, �����_���[... ���o�I�u�W�F�N�g��`�悷��u�V�X�e���v(�`��܂ł̃V�X�e���������_���[, �`�悷��s�ׂ������_�����O)
+	//レンダリング... 視覚オブジェクトを生成, レンダラー... 視覚オブジェクトを描画する「システム」(描画までのシステムがレンダラー, 描画する行為をレンダリング)
 
-	//SDL_WINDOW_OPENGL�ŁAwindow��OpenGL���g�p�ł���悤�ɂȂ���
+	//SDL_WINDOW_OPENGLで、windowにOpenGLが使用できるようになった
 	mWindow = SDL_CreateWindow("Game Programming in C++ (Chapter 3)", 100, 100, 1024, 768, SDL_WINDOW_OPENGL);
 	if (!mWindow)
 	{
@@ -64,7 +64,7 @@ bool Game::Initialize()
 		return false;
 	}
 
-	//OpenGL�̃R���e�N�X�g�̍쐬
+	//OpenGLのコンテクストの作成
 	mContext = SDL_GL_CreateContext(mWindow);
 	if (!mContext)
 	{
@@ -285,7 +285,7 @@ void Game::Shutdown()
 
 void Game::AddActor(Actor* actor)
 {
-	//actor�Ɋւ��Ă͕`�揇�͓��Ɏw�蓙���Ă��Ȃ�
+	//actorに関しては描画順は特に指定等していない
 	// If we're updating actors, need to add to pending
 	if (mUpdatingActors)
 	{
