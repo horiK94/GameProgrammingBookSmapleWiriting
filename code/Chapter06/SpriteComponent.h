@@ -16,7 +16,7 @@ public:
 	SpriteComponent(class Actor* owner, int drawOrder = 100);
 	~SpriteComponent();
 
-	virtual void Draw(class Shader* shader);		//シェーダーを用いてsetTextureした画像を描画
+	virtual void Draw(class Shader* shader);		//繧ｷ繧ｧ繝ｼ繝繝ｼ繧堤畑縺�縺ｦsetTexture縺励◆逕ｻ蜒上ｒ謠冗判
 	virtual void SetTexture(class Texture* texture);
 
 	int GetDrawOrder() const { return mDrawOrder; }

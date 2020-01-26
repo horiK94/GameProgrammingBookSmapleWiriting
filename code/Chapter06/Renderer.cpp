@@ -47,7 +47,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 	//SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	//ƒfƒvƒXƒoƒbƒtƒ@‚ÌƒŠƒNƒGƒXƒg‚É‚·‚é
+	//ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ãƒªã‚¯ã‚¨ã‚¹ãƒˆã«ã™ã‚‹
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	// Enable double buffering
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -130,19 +130,19 @@ void Renderer::UnloadData()
 
 void Renderer::Draw()
 {
-	//Mesh‚Ì•`‰æ
+	//Meshã®æç”»
 	// Set the clear color to light grey
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	// Clear the color buffer
-	//ƒfƒvƒXƒoƒbƒtƒ@‚ÆƒJƒ‰[ƒoƒbƒtƒ@‚ðƒNƒŠƒA‚·‚é
+	//ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡ã¨ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ•ã‚¡ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw mesh components
 	// Enable depth buffering/disable alpha blend
-	//ƒfƒvƒXƒoƒbƒtƒ@–@‚ð—LŒø‚É‚·‚é(Draw‚·‚é‚½‚Ñ‚ÉŒÄ‚Ô)
+	//ãƒ‡ãƒ—ã‚¹ãƒãƒƒãƒ•ã‚¡æ³•ã‚’æœ‰åŠ¹ã«ã™ã‚‹(Drawã™ã‚‹ãŸã³ã«å‘¼ã¶)
 	glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_DEPTH_TEST);
-	//ƒAƒ‹ƒtƒ@ƒuƒŒƒ“ƒfƒBƒ“ƒO‚ð–³Œø‰»
+	//ã‚¢ãƒ«ãƒ•ã‚¡ãƒ–ãƒ¬ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã‚’ç„¡åŠ¹åŒ–
 	glDisable(GL_BLEND);
 
 	for (auto m : mMeshShader)
@@ -150,23 +150,23 @@ void Renderer::Draw()
 		std::string shaderName = m.first;
 		Shader* shader = m.second;
 		// Set the mesh shader active
-		//meshShader‚ðƒAƒNƒeƒBƒu‰»
+		//meshShaderã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–
 		shader->SetActive();
 		// Update view-projection matrix
-		//meshShader‚É‘Î‚µAƒJƒƒ‰‚ÌˆÊ’u‚É‰ž‚¶‚½ƒrƒ…[ŽË‰es—ñ‚ðÝ’è
+		//meshShaderã«å¯¾ã—ã€ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã«å¿œã˜ãŸãƒ“ãƒ¥ãƒ¼å°„å½±è¡Œåˆ—ã‚’è¨­å®š
 		shader->SetMatrixUniform("uViewProj", mView * mProjection);
 		// Update lighting uniforms
 		SetLightUniforms(shader);
 
 		std::vector<MeshComponent*> meshComponents = mMeshComps[shaderName];
-		//‘SMeshComponent‚É‘Î‚µA•`‰æ‚ðs‚¤
+		//å…¨MeshComponentã«å¯¾ã—ã€æç”»ã‚’è¡Œã†
 		for (auto mc : meshComponents)
 		{
 			mc->Draw(shader);
 		}
 	}
 
-	//Sprite‚Ì•`‰æ
+	//Spriteã®æç”»
 	// Draw all sprite components
 	// Disable depth buffering
 	glDisable(GL_DEPTH_TEST);
@@ -216,7 +216,7 @@ void Renderer::RemoveSprite(SpriteComponent* sprite)
 void Renderer::AddMeshComp(std::string shaderName, MeshComponent* mesh)
 {
 	mMeshComps[shaderName].push_back(mesh);
-	//–{“–‚Í‰Šú‰»Žž‚É‚â‚è‚½‚¢‚ªARendereƒRƒ“ƒ|[ƒlƒ“ƒg‚ÍGame‚Ì‰Šú‰»Žž‚ÌÅ‰‚É‚¨‚±‚í‚È‚ê‚é‚½‚ßMeshComponentŽž‚És‚¤
+	//æœ¬å½“ã¯åˆæœŸåŒ–æ™‚ã«ã‚„ã‚ŠãŸã„ãŒã€Rendereã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¯Gameã®åˆæœŸåŒ–æ™‚ã®æœ€åˆã«ãŠã“ã‚ãªã‚Œã‚‹ãŸã‚MeshComponentæ™‚ã«è¡Œã†
 	if (!LoadMeshShaders(shaderName))
 	{
 		SDL_Log("Failed to load shaders.");
@@ -236,19 +236,19 @@ Texture* Renderer::GetTexture(const std::string& fileName)
 {
 	Texture* tex = nullptr;
 	auto iter = mTextures.find(fileName);		//key..string, value..Texture*
-	if (iter != mTextures.end())		//Rendere‚ÌmTextures‚Ì’†‚ÉfileName‚Ì‚à‚Ì‚ª‚ ‚é‚Æ‚«
+	if (iter != mTextures.end())		//Rendereã®mTexturesã®ä¸­ã«fileNameã®ã‚‚ã®ãŒã‚ã‚‹ã¨ã
 	{
-		tex = iter->second;		//tex‚Éiter‚Ìvalue(Texture)‚ð‘ã“ü
+		tex = iter->second;		//texã«iterã®value(Texture)ã‚’ä»£å…¥
 	}
 	else
 	{
-		tex = new Texture();		//TextureƒCƒ“ƒXƒ^ƒ“ƒX¶¬
-		if (tex->Load(fileName))		//fileName‚Ì‚à‚Ì‚ðƒ[ƒh
+		tex = new Texture();		//Textureã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
+		if (tex->Load(fileName))		//fileNameã®ã‚‚ã®ã‚’ãƒ­ãƒ¼ãƒ‰
 		{
-			mTextures.emplace(fileName, tex);		//mTextures‚É’Ç‰Á(‡”Ô‚Í•ÛŽ‚³‚ê‚È‚¢)
+			mTextures.emplace(fileName, tex);		//mTexturesã«è¿½åŠ (é †ç•ªã¯ä¿æŒã•ã‚Œãªã„)
 		}
 		else
-		{				//‚È‚©‚Á‚½‚ç’ú‚ß‚é
+		{				//ãªã‹ã£ãŸã‚‰è«¦ã‚ã‚‹
 			delete tex;
 			tex = nullptr;
 		}
@@ -315,15 +315,15 @@ bool Renderer::LoadMeshShaders(std::string shaderName)
 	//}
 
 	shader->SetActive();
-	//ƒrƒ…[‚ÆŽË‰es—ñ‚ðÝ’è
-	//ƒrƒ…[s—ñ‚Ìì¬
+	//ãƒ“ãƒ¥ãƒ¼ã¨å°„å½±è¡Œåˆ—ã‚’è¨­å®š
+	//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®ä½œæˆ
 	mView = Matrix4::CreateLookAt(
-		Vector3::Zero,		//ƒJƒƒ‰‚ÌˆÊ’u
-		Vector3::UnitX,		//ƒ^[ƒQƒbƒg‚ÌˆÊ’u
-		Vector3::UnitZ);	//ƒJƒƒ‰‚ÌãŒü‚«
+		Vector3::Zero,		//ã‚«ãƒ¡ãƒ©ã®ä½ç½®
+		Vector3::UnitX,		//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®ä½ç½®
+		Vector3::UnitZ);	//ã‚«ãƒ¡ãƒ©ã®ä¸Šå‘ã
 
 	mProjection = Matrix4::CreatePerspectiveFOV(
-		Math::ToRadians(70.0f),		//…•½Ž‹–ì
+		Math::ToRadians(70.0f),		//æ°´å¹³è¦–é‡Ž
 		mScreenWidth,
 		mScreenHeight,
 		25.0f,
@@ -374,13 +374,13 @@ void Renderer::SetLightUniforms(Shader* shader)
 	//	mDirLight.mDiffuseColor);
 	//shader->SetVectorUniform("uDirLight.mSpecColor",
 	//	mDirLight.mSpecColor);
-	Matrix4 inView = mView;		//ƒrƒ…[s—ñ(ƒJƒƒ‰‚ð’†S‚Æ‚µ‚½À•W)
-	inView.Invert();		//‹ts—ñ
+	Matrix4 inView = mView;		//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—(ã‚«ãƒ¡ãƒ©ã‚’ä¸­å¿ƒã¨ã—ãŸåº§æ¨™)
+	inView.Invert();		//é€†è¡Œåˆ—
 	shader->SetVectorUniform("uCameraPos", inView.GetTranslation());
 	shader->SetVectorUniform("uAmbientLight", mAmbientLight);
 	for (int i = 0; i < 4; i++)
 	{
-		//uDirLight\‘¢‘Ì‚Éu.v‚ÅŽQÆ‚Å‚«‚é
+		//uDirLightæ§‹é€ ä½“ã«ã€Œ.ã€ã§å‚ç…§ã§ãã‚‹
 		std::ostringstream ossPos;
 		ossPos << "uDirLight[" << i << "].mPosition";
 		shader->SetVectorUniform(ossPos.str().c_str(), mDirLight[i].mPosition);

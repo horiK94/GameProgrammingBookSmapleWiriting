@@ -29,7 +29,7 @@ Mesh::~Mesh()
 
 bool Mesh::Load(const std::string & fileName, Renderer* renderer)
 {
-	//file‚Ì“Ç‚İ‚İ
+	//fileã®èª­ã¿è¾¼ã¿
 	std::ifstream file(fileName);
 	if (!file.is_open())
 	{
@@ -39,22 +39,22 @@ bool Mesh::Load(const std::string & fileName, Renderer* renderer)
 
 	std::stringstream fileStream;
 	fileStream << file.rdbuf();
-	//file‚ÌÅ‰‚©‚çÅŒã‚Ü‚Åcontents‚É—¬‚µ‚Ş
+	//fileã®æœ€åˆã‹ã‚‰æœ€å¾Œã¾ã§contentsã«æµã—è¾¼ã‚€
 	std::string contents = fileStream.str();
 	//
-	rapidjson::StringStream jsonStr(contents.c_str());		//jaonStr‚Ì’†‚Éjson‚Ìstring stream‚Æ‚µ‚Äƒf[ƒ^‚ªŠi”[‚³‚ê‚Ä‚¢‚é(string stream‚Æ‚Í•¶š‚ğ”}‘Ì‚Æ‚µ‚½•ÏŠ·—pstring‚İ‚½‚¢‚È‚à‚Ì‚©‚ÈB)
-	//string -> float‚É‚Í’¼Ú•Ï‚¦‚ç‚ê‚È‚¢‚¯‚ÇA1“x string -> stringstream@‚Æ•ÏŠ·‚·‚ê‚Î stringsteam -> float, int ‚Æ‚¢‚Á‚½’l‚Éstringstream‚ÌŠÖ”‚ğg‚¢‚Â‚Â‚Å‚Í‚ ‚é‚ª•ÏŠ·‚ª‚Å‚«‚é
-	//http://rapidjson.org/md_doc_tutorial.html Document‚É‚Â‚¢‚Ä‚Ì‚í‚©‚è‚â‚·‚¢}‚ª‘‚¢‚Ä‚ ‚é
+	rapidjson::StringStream jsonStr(contents.c_str());		//jaonStrã®ä¸­ã«jsonã®string streamã¨ã—ã¦ãƒ‡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹(string streamã¨ã¯æ–‡å­—ã‚’åª’ä½“ã¨ã—ãŸå¤‰æ›ç”¨stringã¿ãŸã„ãªã‚‚ã®ã‹ãªã€‚)
+	//string -> floatã«ã¯ç›´æ¥å¤‰ãˆã‚‰ã‚Œãªã„ã‘ã©ã€1åº¦ string -> stringstreamã€€ã¨å¤‰æ›ã™ã‚Œã° stringsteam -> float, int ã¨ã„ã£ãŸå€¤ã«stringstreamã®é–¢æ•°ã‚’ä½¿ã„ã¤ã¤ã§ã¯ã‚ã‚‹ãŒå¤‰æ›ãŒã§ãã‚‹
+	//http://rapidjson.org/md_doc_tutorial.html Documentã«ã¤ã„ã¦ã®ã‚ã‹ã‚Šã‚„ã™ã„å›³ãŒæ›¸ã„ã¦ã‚ã‚‹
 	rapidjson::Document doc;
-	doc.ParseStream(jsonStr);		//JSON‚ÍDOMƒcƒŠ[‚Æ‚µ‚Ä‰ğÍ‚³‚ê‚é
+	doc.ParseStream(jsonStr);		//JSONã¯DOMãƒ„ãƒªãƒ¼ã¨ã—ã¦è§£æã•ã‚Œã‚‹
 
-	if (!doc.IsObject())		//DOMƒcƒŠ[‚É‚È‚Á‚Ä‚¢‚é‚©
+	if (!doc.IsObject())		//DOMãƒ„ãƒªãƒ¼ã«ãªã£ã¦ã„ã‚‹ã‹
 	{
 		SDL_Log("Mesh %s is not valid json", fileName.c_str());
 		return false;
 	}
 
-	int ver = doc["version"].GetInt();		//version‚ğint‚Æ‚µ‚Äæ“¾
+	int ver = doc["version"].GetInt();		//versionã‚’intã¨ã—ã¦å–å¾—
 
 	// Check the version
 	if (ver != 1)
@@ -67,41 +67,41 @@ bool Mesh::Load(const std::string & fileName, Renderer* renderer)
 
 	// Skip the vertex format/shader for now
 	// (This is changed in a later chapter's code)
-	size_t vertSize = 8;			//’¸“_ƒoƒbƒtƒ@1‚Â‚ªg—p‚·‚é’l‚Ì”(8‚Â)
+	size_t vertSize = 8;			//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡1ã¤ãŒä½¿ç”¨ã™ã‚‹å€¤ã®æ•°(8ã¤)
 
 	// Load textures
-	const rapidjson::Value& textures = doc["textures"];		//texture”z—ñ‚Ìæ“¾(ƒ|ƒCƒ“ƒ^æ“¾)
-	if (!textures.IsArray() || textures.Size() < 1)		//0ŒÂ‚â”z—ñ‚¶‚á‚È‚©‚Á‚½‚çƒGƒ‰[
+	const rapidjson::Value& textures = doc["textures"];		//textureé…åˆ—ã®å–å¾—(ãƒã‚¤ãƒ³ã‚¿å–å¾—)
+	if (!textures.IsArray() || textures.Size() < 1)		//0å€‹ã‚„é…åˆ—ã˜ã‚ƒãªã‹ã£ãŸã‚‰ã‚¨ãƒ©ãƒ¼
 	{
 		SDL_Log("Mesh %s has no textures, there should be at least one", fileName.c_str());
 		return false;
 	}
 
-	//‹¾–Ê”½Ëw”‚ğw’è‚·‚é
+	//é¡é¢åå°„æŒ‡æ•°ã‚’æŒ‡å®šã™ã‚‹
 	mSpecPower = static_cast<float>(doc["specularPower"].GetDouble());
 
-	//ƒeƒNƒXƒ`ƒƒ‚Ì”‚¾‚¯mTextures‚Éadd‚µ‚Ä‚¢‚­
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ•°ã ã‘mTexturesã«addã—ã¦ã„ã
 	for (rapidjson::SizeType i = 0; i < textures.Size(); i++)
 	{
 		// Is this texture already loaded?
 		std::string texName = textures[i].GetString();
-		Texture* t = renderer->GetTexture(texName);	//ƒ[ƒhÏ‚İ‚ÌTexture‚ğæ“¾
+		Texture* t = renderer->GetTexture(texName);	//ãƒ­ãƒ¼ãƒ‰æ¸ˆã¿ã®Textureã‚’å–å¾—
 		if (t == nullptr)
 		{
 			// Try loading the texture
-			t = renderer->GetTexture(texName);		//‚à‚¤1‰ñ‚·
+			t = renderer->GetTexture(texName);		//ã‚‚ã†1å›è©¦ã™
 			if (t == nullptr)
 			{
 				// If it's still null, just use the default texture
-				//‚¾‚ß‚È‚çƒfƒtƒHƒ‹ƒg‚ÌƒeƒNƒXƒ`ƒƒ‚Å
+				//ã ã‚ãªã‚‰ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã§
 				t = renderer->GetTexture("Assets/Default.png");
 			}
 		}
-		mTextures.emplace_back(t);		//Mesh‚ÌTexturesƒŠƒXƒg‚Ì––”ö‚É’Ç‰Á‚µ‚Ä‚¢‚­
+		mTextures.emplace_back(t);		//Meshã®Texturesãƒªã‚¹ãƒˆã®æœ«å°¾ã«è¿½åŠ ã—ã¦ã„ã
 	}
 
 	// Load in the vertices
-	const rapidjson::Value& vertsJson = doc["vertices"];		//’¸“_ƒoƒbƒtƒ@‚Ìæ“¾(8‚Â‚Ì—v‘f‚Å1ƒZƒbƒg)
+	const rapidjson::Value& vertsJson = doc["vertices"];		//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®å–å¾—(8ã¤ã®è¦ç´ ã§1ã‚»ãƒƒãƒˆ)
 	if (!vertsJson.IsArray() || vertsJson.Size() < 1)
 	{
 		SDL_Log("Mesh %s has no vertices", fileName.c_str());
@@ -109,43 +109,43 @@ bool Mesh::Load(const std::string & fileName, Renderer* renderer)
 	}
 
 	std::vector<float> vertices;
-	// vertsJson = vertices‚ÌDOMƒcƒŠ[‚Ìq = ’¸“_ƒoƒbƒtƒ@‚Ì” * vertSize (= ’¸“_ƒCƒ“ƒfƒbƒNƒX‚ğ\¬‚·‚éfloat‚Ì”)
-	vertices.reserve(vertsJson.Size() * vertSize);		//—\‚ßvertices‚Ì—e—Ê‚ğ•K—v•ª‘‰Á‚³‚¹‚Ä‚¨‚­‚±‚Æ‚ÅÄŠm•Û‚ÉV‚µ‚¢—Ìˆæ‚É—v‘f‚ğƒRƒs[‚·‚éƒRƒXƒg‚ªÈ‚¯‚é
-	mRadius = 0.0f;		//Å‘å”¼Œa‚Ì2æ(“r’†‚Ü‚Å)(‹«ŠE’l‚Ì”¼Œa‚ğ‹‚ß‚é‚Ì‚Ég—p)
+	// vertsJson = verticesã®DOMãƒ„ãƒªãƒ¼ã®å­ = é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®æ•° * vertSize (= é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æ§‹æˆã™ã‚‹floatã®æ•°)
+	vertices.reserve(vertsJson.Size() * vertSize);		//äºˆã‚verticesã®å®¹é‡ã‚’å¿…è¦åˆ†å¢—åŠ ã•ã›ã¦ãŠãã“ã¨ã§å†ç¢ºä¿æ™‚ã«æ–°ã—ã„é ˜åŸŸã«è¦ç´ ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ã‚³ã‚¹ãƒˆãŒçœã‘ã‚‹
+	mRadius = 0.0f;		//æœ€å¤§åŠå¾„ã®2ä¹—(é€”ä¸­ã¾ã§)(å¢ƒç•Œå€¤ã®åŠå¾„ã‚’æ±‚ã‚ã‚‹ã®ã«ä½¿ç”¨)
 	for (rapidjson::SizeType i = 0; i < vertsJson.Size(); i++)
 	{
 		// For now, just assume we have 8 elements
-		const rapidjson::Value& vert = vertsJson[i];		//’¸“_ƒCƒ“ƒfƒbƒNƒX
-		if (!vert.IsArray() || vert.Size() != 8)			//’¸“_ƒCƒ“ƒfƒbƒNƒX‚Ì’†‚Ì—v‘f‚Í8‚Â‚Å‚È‚­‚Ä‚Í‚È‚ç‚È‚¢
+		const rapidjson::Value& vert = vertsJson[i];		//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+		if (!vert.IsArray() || vert.Size() != 8)			//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®ä¸­ã®è¦ç´ ã¯8ã¤ã§ãªãã¦ã¯ãªã‚‰ãªã„
 		{
 			SDL_Log("Unexpected vertex format for %s", fileName.c_str());
 			return false;
 		}
 
-		//pos‚Í”¼Œa‹‚ß‚é‚Ì‚É‚µ‚©g‚Á‚Ä‚¢‚È‚¢
+		//posã¯åŠå¾„æ±‚ã‚ã‚‹ã®ã«ã—ã‹ä½¿ã£ã¦ã„ãªã„
 		Vector3 pos(vert[0].GetDouble(), vert[1].GetDouble(), vert[2].GetDouble());
-		mRadius = Math::Max(mRadius, pos.LengthSq());		//Å‘å”¼Œa‚Ì2æ
+		mRadius = Math::Max(mRadius, pos.LengthSq());		//æœ€å¤§åŠå¾„ã®2ä¹—
 
 		// Add the floats
-		for (rapidjson::SizeType i = 0; i < vert.Size(); i++)		//”z—ñ‚Ì’†‚É‚·‚×‚Ä‚Ì”š‚ª“ü‚Á‚Ä‚¢‚éƒCƒ[ƒW([0, 1, 2, ..., 7, 8, 9, 0, ....](8’Ã‚Ã‚Â‹æØ‚Á‚ÄŒ©‚é•K—v‚ ‚èjj)
+		for (rapidjson::SizeType i = 0; i < vert.Size(); i++)		//é…åˆ—ã®ä¸­ã«ã™ã¹ã¦ã®æ•°å­—ãŒå…¥ã£ã¦ã„ã‚‹ã‚¤ãƒ¡ãƒ¼ã‚¸([0, 1, 2, ..., 7, 8, 9, 0, ....](8æ´¥ã¥ã¤åŒºåˆ‡ã£ã¦è¦‹ã‚‹å¿…è¦ã‚ã‚Šï¼‰ï¼‰)
 		{
-			vertices.emplace_back(static_cast<float>(vert[i].GetDouble()));		//vertices‚É 8‚Â‚¸‚Âƒf[ƒ^‚ğ“ü‚ê‚Ä‚¢‚­
+			vertices.emplace_back(static_cast<float>(vert[i].GetDouble()));		//verticesã« 8ã¤ãšã¤ãƒ‡ãƒ¼ã‚¿ã‚’å…¥ã‚Œã¦ã„ã
 		}
 	}
 
 	// We were computing length squared earlier
-	mRadius = Math::Sqrt(mRadius);		//Å‘å”¼Œa
+	mRadius = Math::Sqrt(mRadius);		//æœ€å¤§åŠå¾„
 
 	// Load in the indices
-	const rapidjson::Value& indJson = doc["indices"];			//3‚Â‚Ìunsigned int‚Å1ƒZƒbƒg
+	const rapidjson::Value& indJson = doc["indices"];			//3ã¤ã®unsigned intã§1ã‚»ãƒƒãƒˆ
 	if (!indJson.IsArray() || indJson.Size() < 1)
 	{
 		SDL_Log("Mesh %s has no indices", fileName.c_str());
 		return false;
 	}
 
-	std::vector<unsigned int> indices;		//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ÌƒŠƒXƒg
-	indices.reserve(indJson.Size() * 3);		//‚±‚Á‚¿‚à—\‚ß•K—v•ªƒTƒCƒYŠm•Û
+	std::vector<unsigned int> indices;		//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ãƒªã‚¹ãƒˆ
+	indices.reserve(indJson.Size() * 3);		//ã“ã£ã¡ã‚‚äºˆã‚å¿…è¦åˆ†ã‚µã‚¤ã‚ºç¢ºä¿
 	for (rapidjson::SizeType i = 0; i < indJson.Size(); i++)
 	{
 		const rapidjson::Value& ind = indJson[i];
@@ -161,9 +161,9 @@ bool Mesh::Load(const std::string & fileName, Renderer* renderer)
 	}
 
 	// Now create a vertex array
-	//’¸“_ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ìì¬
+	//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
 	mVertexArray = new VertexArray(vertices.data(), static_cast<unsigned>(vertices.size()) / vertSize,
-		indices.data(), static_cast<unsigned>(indices.size()));		//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Íƒˆ‚É‰½ƒZƒbƒg‚©‚Å‚Í‚È‚­A‰½ŒÂuint‚ª‚ ‚é‚©‚ğˆø”‚Å“n‚·•K—v‚ª‚ ‚é‚æ‚¤‚¾
+		indices.data(), static_cast<unsigned>(indices.size()));		//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã¯ç´”ç²‹ã«ä½•ã‚»ãƒƒãƒˆã‹ã§ã¯ãªãã€ä½•å€‹uintãŒã‚ã‚‹ã‹ã‚’å¼•æ•°ã§æ¸¡ã™å¿…è¦ãŒã‚ã‚‹ã‚ˆã†ã 
 	return true;
 }
 

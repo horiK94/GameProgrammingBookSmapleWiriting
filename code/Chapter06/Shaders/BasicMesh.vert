@@ -14,7 +14,7 @@ uniform mat4 uWorldTransform;
 uniform mat4 uViewProj;
 
 // Attribute 0 is position, 1 is normal, 2 is tex coords.
-layout(location=0) in vec3 inPosition;		//location‚Ì’l‚ÍglVertexAttributePointer‚É‘Î‰‚µ‚Ä‚¢‚é
+layout(location=0) in vec3 inPosition;		//locationã®å€¤ã¯glVertexAttributePointerã«å¯¾å¿œã—ã¦ã„ã‚‹
 layout(location=1) in vec3 inNormal;
 layout(location=2) in vec2 inTexCoord;
 

@@ -14,33 +14,33 @@ uniform mat4 uWorldTransform;
 uniform mat4 uViewProj;
 
 // Attribute 0 is position, 1 is normal, 2 is tex coords.
-layout(location=0) in vec3 inPosition;		//location‚Ì’l‚ÍglVertexAttributePointer‚É‘Î‰‚µ‚Ä‚¢‚é
+layout(location=0) in vec3 inPosition;		//locationã®å€¤ã¯glVertexAttributePointerã«å¯¾å¿œã—ã¦ã„ã‚‹
 layout(location=1) in vec3 inNormal;
 layout(location=2) in vec2 inTexCoord;
 
 // Any vertex outputs (other than position)
 out vec2 fragTexCoord;
-// –@üƒxƒNƒgƒ‹(ƒ[ƒ‹ƒhÀ•W)
+// æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«(ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™)
 out vec3 fragNormal;
-// ˆÊ’u‚Ìƒ[ƒ‹ƒhÀ•W
+// ä½ç½®ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™
 out vec3 fragWorldPos;
 
 void main()
 {
-	//ˆÊ’u‚ğ“¯ŸÀ•WŒn‚É
+	//ä½ç½®ã‚’åŒæ¬¡åº§æ¨™ç³»ã«
 	vec4 pos = vec4(inPosition, 1.0);
-	//ˆÊ’u‚ğƒ[ƒ‹ƒhÀ•W‚É
+	//ä½ç½®ã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã«
 	pos = pos * uWorldTransform;
-	//ƒ[ƒ‹ƒh‹óŠÔ‚ÌˆÊ’u‚ğ•Û
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã®ä½ç½®ã‚’ä¿æŒ
 	fragWorldPos = pos.xyz;
-	//ƒNƒŠƒbƒv‹óŠÔ‚É•ÏŠ·
-	//ƒo[ƒeƒbƒNƒXƒVƒF[ƒ_[‚Å‚ÍAgl_Position‚É’¸“_ƒf[ƒ^‚ğ“n‚·•K—v‚ª‚ ‚é
+	//ã‚¯ãƒªãƒƒãƒ—ç©ºé–“ã«å¤‰æ›
+	//ãƒãƒ¼ãƒ†ãƒƒã‚¯ã‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã§ã¯ã€gl_Positionã«é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’æ¸¡ã™å¿…è¦ãŒã‚ã‚‹
 	gl_Position = pos * uViewProj;
 
-	//–@ü‚ğƒ[ƒ‹ƒh‹óŠÔ‚Ö•ÏŠ·
+	//æ³•ç·šã‚’ãƒ¯ãƒ¼ãƒ«ãƒ‰ç©ºé–“ã¸å¤‰æ›
 	fragNormal = (vec4(inNormal, 0.0f) * uWorldTransform).xyz;
 
-	//ƒeƒNƒXƒ`ƒƒÀ•W‚ğƒtƒ‰ƒOƒƒ“ƒgƒVƒF[ƒ_[‚É“n‚·
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ã‚’ãƒ•ãƒ©ã‚°ãƒ¡ãƒ³ãƒˆã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã«æ¸¡ã™
 	fragTexCoord = inTexCoord;
 
 	// Convert position to homogeneous coordinates

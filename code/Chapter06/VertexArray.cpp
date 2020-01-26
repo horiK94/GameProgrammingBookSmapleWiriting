@@ -15,18 +15,18 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 	,mNumIndices(numIndices)
 {
 	// Create vertex array
-	//’¸“_”z—ñƒIƒuƒWƒFƒNƒg‚Ìì¬
+	//é ‚ç‚¹é…åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ
 	glGenVertexArrays(1, &mVertexArray);
 	glBindVertexArray(mVertexArray);
 
 	// Create vertex buffer
-	//’¸“_ƒoƒbƒtƒ@‚Ìì¬
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
 	glGenBuffers(1, &mVertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);		//GL_ARRAY_BUFFER‚Íƒoƒbƒtƒ@‚ğ’¸“_ƒoƒbƒtƒ@‚Æ‚µ‚Äg‚¢‚Ü‚·‚æ(ƒoƒCƒ“ƒh)‚µ‚Ü‚·‚æ‚Æ‚¢‚¤éŒ¾
-	glBufferData(GL_ARRAY_BUFFER, numVerts * 8 * sizeof(float), verts, GL_STATIC_DRAW);		//ì¬‚µ‚½’¸“_ƒoƒbƒtƒ@‚ÉƒRƒs[
+	glBindBuffer(GL_ARRAY_BUFFER, mVertexBuffer);		//GL_ARRAY_BUFFERã¯ãƒãƒƒãƒ•ã‚¡ã‚’é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¨ã—ã¦ä½¿ã„ã¾ã™ã‚ˆ(ãƒã‚¤ãƒ³ãƒ‰)ã—ã¾ã™ã‚ˆã¨ã„ã†å®£è¨€
+	glBufferData(GL_ARRAY_BUFFER, numVerts * 8 * sizeof(float), verts, GL_STATIC_DRAW);		//ä½œæˆã—ãŸé ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã«ã‚³ãƒ”ãƒ¼
 
 	// Create index buffer
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ìì¬
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ä½œæˆ
 	glGenBuffers(1, &mIndexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(unsigned int), indices, GL_STATIC_DRAW);
@@ -44,15 +44,15 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts,
 	//glEnableVertexAttribArray(2);
 	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float),
 	//	reinterpret_cast<void*>(sizeof(float) * 6));
-	//’¸“_ƒoƒbƒtƒ@‚É‘Î‚µ‚ÄA‚Ç‚Ì—Ìˆæ‚ğ‚Ç‚¤‚â‚Á‚Äg‚¤‚©“`‚¦‚é
-	//ˆÊ’uÀ•W
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã«å¯¾ã—ã¦ã€ã©ã®é ˜åŸŸã‚’ã©ã†ã‚„ã£ã¦ä½¿ã†ã‹ä¼ãˆã‚‹
+	//ä½ç½®åº§æ¨™
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
-	//–@üƒxƒNƒgƒ‹
+	//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 
 		reinterpret_cast<void*>(sizeof(float) * 3));
-	//ƒeƒNƒXƒ`ƒƒÀ•W
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 
 		reinterpret_cast<void*>(sizeof(float) * 6));

@@ -16,13 +16,13 @@ public:
 	MeshComponent(class Actor* owner);
 	~MeshComponent();
 	// Draw this mesh component
-	//ƒƒbƒVƒ…ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ‚Ç‚ÌShader‚Å•`‰æ‚·‚é‚©Œˆ‚ß‚é
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã©ã®Shaderã§æç”»ã™ã‚‹ã‹æ±ºã‚ã‚‹
 	virtual void Draw(class Shader* shader);
 	// Set the mesh/texture index used by mesh component
-	//ƒƒbƒVƒ…ƒRƒ“ƒ|[ƒlƒ“ƒg‚ªg‚¤ mesh, texture‚Ìw’è
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒä½¿ã† mesh, textureã®æŒ‡å®š
 	virtual void SetMesh(class Mesh* mesh);
 	Mesh* GetMesh() { return mMesh; }
-	//texture‚Ìindex‚Ìw’è
+	//textureã®indexã®æŒ‡å®š
 	void SetTextureIndex(size_t index) { mTextureIndex = index; }
 protected:
 	class Mesh* mMesh;

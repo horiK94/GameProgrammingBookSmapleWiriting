@@ -27,7 +27,7 @@ void CameraActor::UpdateActor(float deltaTime)
 	//Vector3 target = GetPosition() + GetForward() * 100.0f;
 	//Vector3 up = Vector3::UnitZ;
 	Vector3 eye = GetPosition();
-	//ƒJƒƒ‰³–Ê‚ğ10æ‚ÌˆÊ’u‚É‚·‚é
+	//ã‚«ãƒ¡ãƒ©æ­£é¢ã‚’10å…ˆã®ä½ç½®ã«ã™ã‚‹
 	Vector3 target = GetPosition() + GetForward() * 10.0f;
 
 	//Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);

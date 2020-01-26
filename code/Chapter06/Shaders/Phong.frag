@@ -18,51 +18,51 @@ in vec3 fragWorldPos;
 // This corresponds to the output color to the color buffer
 out vec4 outColor;
 
-//•½sŒõŒ¹‚Ég—p‚·‚é\‘¢‘Ì
+//å¹³è¡Œå…‰æºã«ä½¿ç”¨ã™ã‚‹æ§‹é€ ä½“
 struct DirectionalLight
 {
-	//Œõ‚ÌˆÊ’u
+	//å…‰ã®ä½ç½®
 	vec3 mPosition;
-	// Œõ‚Ì•ûŒü
+	// å…‰ã®æ–¹å‘
 	//vec3 mDirection;
-	// ŠgU”½ËF
+	// æ‹¡æ•£åå°„è‰²
 	vec3 mDiffuseColor;
-	// ‹¾–Ê”½ËŒõ
+	// é¡é¢åå°„å…‰
 	vec3 mSpecColor;
 
-	//‰e‹¿”¼Œa
+	//å½±éŸ¿åŠå¾„
 	float mEffectRange;
 };
 
-//ƒ‰ƒCƒeƒBƒ“ƒO—puniform
-//ƒJƒƒ‰‚ÌˆÊ’u(ƒ[ƒ‹ƒhÀ•W)
+//ãƒ©ã‚¤ãƒ†ã‚£ãƒ³ã‚°ç”¨uniform
+//ã‚«ãƒ¡ãƒ©ã®ä½ç½®(ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™)
 uniform vec3 uCameraPos;
-//ŠÂ‹«Œõ‚Ì‹­‚³
+//ç’°å¢ƒå…‰ã®å¼·ã•
 uniform vec3 uAmbientLight;
-//•\–Ê‚Ì‹¾–Ê”½ËŒõw”
+//è¡¨é¢ã®é¡é¢åå°„å…‰æŒ‡æ•°
 uniform float uSpecPower;
-//•½sŒõŒ¹(¡‚Í1‚Â‚Ì‚İ)
+//å¹³è¡Œå…‰æº(ä»Šã¯1ã¤ã®ã¿)
 uniform DirectionalLight uDirLight[4];
 
-//‰æ‘œƒf[ƒ^
+//ç”»åƒãƒ‡ãƒ¼ã‚¿
 uniform sampler2D uTexture;
 
 void main()
 {
-	//ƒ|ƒŠƒSƒ“•\–Ê‚Ì–@ü
+	//ãƒãƒªã‚´ãƒ³è¡¨é¢ã®æ³•ç·š
 	vec3 N = normalize(fragNormal);
-	//•\–Ê‚©‚çƒJƒƒ‰‚Ö‚ÌƒxƒNƒgƒ‹
+	//è¡¨é¢ã‹ã‚‰ã‚«ãƒ¡ãƒ©ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«
 	vec3 V = normalize(uCameraPos - fragWorldPos);
 
-	//ƒtƒHƒ“‚Ì”½Ë‚ğŒvZ
+	//ãƒ•ã‚©ãƒ³ã®åå°„ã‚’è¨ˆç®—
 	vec3 Phong = uAmbientLight;
 
 	for(int i = 0 ; i < 4; i++)
 	{		
 		vec3 pos = uDirLight[i].mPosition;
-		//•\–Ê‚©‚çŒõŒ¹‚Ö‚ÌƒxƒNƒgƒ‹(•½sŒõŒ¹‚Ì‹tƒxƒNƒgƒ‹)
+		//è¡¨é¢ã‹ã‚‰å…‰æºã¸ã®ãƒ™ã‚¯ãƒˆãƒ«(å¹³è¡Œå…‰æºã®é€†ãƒ™ã‚¯ãƒˆãƒ«)
 		vec3 L = normalize(pos - fragWorldPos);
-		//N‚ÉŠÖ‚·‚é-L‚Ì”½ËR
+		//Nã«é–¢ã™ã‚‹-Lã®åå°„R
 		vec3 R = normalize(reflect(-L, N));
 		float r = distance(pos, fragWorldPos);
 
@@ -78,6 +78,6 @@ void main()
 		}
 	}
 
-	//ÅI“I‚ÈF‚ÍƒeƒNƒXƒ`ƒƒ‚ÌF * ƒtƒHƒ“‚ÌŒõ(alpha = 1)
+	//æœ€çµ‚çš„ãªè‰²ã¯ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®è‰² * ãƒ•ã‚©ãƒ³ã®å…‰(alpha = 1)
 	outColor = texture(uTexture, fragTexCoord) * vec4(Phong, 1.0f);
 }

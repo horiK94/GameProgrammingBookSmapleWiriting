@@ -16,7 +16,7 @@
 
 struct DirectionalLight
 {
-	//ŒõŒ¹ˆÊ’u
+	//å…‰æºä½ç½®
 	Vector3 mPosition;
 	// Direction of light
 	//Vector3 mDirection;
@@ -25,7 +25,7 @@ struct DirectionalLight
 	// Specular color
 	Vector3 mSpecColor;
 
-	//‰e‹¿”¼Œa
+	//å½±éŸ¿åŠå¾„
 	float mEffectRange;
 };
 
@@ -34,14 +34,14 @@ class Renderer
 public:
 	Renderer(class Game* game);
 	~Renderer();
-	//‰Šú‰»(GameƒNƒ‰ƒX‚ªŒÄ‚Ô)
+	//åˆæœŸåŒ–(Gameã‚¯ãƒ©ã‚¹ãŒå‘¼ã¶)
 	bool Initialize(float screenWidth, float screenHeight);
-	//I—¹
+	//çµ‚äº†
 	void Shutdown();
-	//ƒeƒNƒXƒ`ƒƒ, ƒƒbƒVƒ…‚ğ‰ğ•ú
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£, ãƒ¡ãƒƒã‚·ãƒ¥ã‚’è§£æ”¾
 	void UnloadData();
 
-	//Mesh, Sprite‚Ì•`‰æ(‘SMeshCompoent, SpriteComponent‚ÌDrawŠÖ”‚ğŒÄ‚ñ‚Å‚¢‚é‚¾‚¯)
+	//Mesh, Spriteã®æç”»(å…¨MeshCompoent, SpriteComponentã®Drawé–¢æ•°ã‚’å‘¼ã‚“ã§ã„ã‚‹ã ã‘)
 	void Draw();
 
 	void AddSprite(class SpriteComponent* sprite);
@@ -50,8 +50,8 @@ public:
 	void Renderer::AddMeshComp(std::string shaderName, class MeshComponent* mesh);
 	void RemoveMeshComp(class MeshComponent* mesh);
 
-	class Texture* GetTexture(const std::string& fileName);		//‰æ‘œƒf[ƒ^‚Ìæ“¾
-	class Mesh* GetMesh(const std::string& fileName);			//ƒƒbƒVƒ…ƒf[ƒ^‚Ìæ“¾
+	class Texture* GetTexture(const std::string& fileName);		//ç”»åƒãƒ‡ãƒ¼ã‚¿ã®å–å¾—
+	class Mesh* GetMesh(const std::string& fileName);			//ãƒ¡ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
 
 	void SetViewMatrix(const Matrix4& view) { mView = view; }
 
@@ -62,15 +62,15 @@ public:
 	float GetScreenHeight() const { return mScreenHeight; }
 private:
 	bool LoadTextureShaders();
-	bool LoadMeshShaders(std::string shaderName);		//initialize()‚ÉŒÄ‚Î‚ê‚é
+	bool LoadMeshShaders(std::string shaderName);		//initialize()æ™‚ã«å‘¼ã°ã‚Œã‚‹
 	void CreateSpriteVerts();
 	void SetLightUniforms(class Shader* shader);
 
 	// Map of textures loaded
-	//ƒ[ƒh‚µ‚½Texture
+	//ãƒ­ãƒ¼ãƒ‰ã—ãŸTexture
 	std::unordered_map<std::string, class Texture*> mTextures;
 	// Map of meshes loaded
-	//ƒ[ƒh‚µ‚½ƒƒbƒVƒ…
+	//ãƒ­ãƒ¼ãƒ‰ã—ãŸãƒ¡ãƒƒã‚·ãƒ¥
 	std::unordered_map<std::string, class Mesh*> mMeshes;
 
 	// All the sprite components drawn
@@ -79,7 +79,7 @@ private:
 	// All mesh components drawn
 	std::map<std::string, std::vector<class MeshComponent*>> mMeshComps;
 
-	// Game(–¢g—p‚ç‚µ‚¢)
+	// Game(æœªä½¿ç”¨ã‚‰ã—ã„)
 	class Game* mGame;
 
 	// Sprite shader

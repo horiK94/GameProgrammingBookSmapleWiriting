@@ -32,25 +32,25 @@ void MeshComponent::Draw(Shader* shader)
 {
 	if (mMesh)
 	{
-		//ƒ[ƒ‹ƒhÀ•W‚Ìİ’è
-		//SpriteComponent‚Æˆá‚¢A
+		//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã®è¨­å®š
+		//SpriteComponentã¨é•ã„ã€
 		shader->SetMatrixUniform("uWorldTransform", mOwner->GetWorldTransform());
-		//‹¾–Ê”½Ëw”‚Ìw’è
+		//é¡é¢åå°„æŒ‡æ•°ã®æŒ‡å®š
 		shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());
-		//g—p‚·‚éƒeƒNƒXƒ`ƒƒ‚Ìæ“¾
+		//ä½¿ç”¨ã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®å–å¾—
 		Texture* t = mMesh->GetTexture(mTextureIndex);
 		if (t)
 		{
-			//ƒeƒNƒXƒ`ƒƒ‚ğƒAƒNƒeƒBƒu‚É
+			//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã«
 			t->SetActive();
 		}
-		//’¸“_î•ñ‚ğæ“¾
+		//é ‚ç‚¹æƒ…å ±ã‚’å–å¾—
 		VertexArray* va = mMesh->GetVertexArray();
 		va->SetActive();
-		//•`‰æ‚·‚é
-		glDrawElements(GL_TRIANGLES,		//ƒ|ƒŠƒSƒ“‚ÍOŠpŒ` 
-			va->GetNumIndices(),		//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ì”
-			GL_UNSIGNED_INT,		//•„†‚È‚µint
+		//æç”»ã™ã‚‹
+		glDrawElements(GL_TRIANGLES,		//ãƒãƒªã‚´ãƒ³ã¯ä¸‰è§’å½¢ 
+			va->GetNumIndices(),		//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®æ•°
+			GL_UNSIGNED_INT,		//ç¬¦å·ãªã—int
 			nullptr);
 	}
 	//if (mMesh)

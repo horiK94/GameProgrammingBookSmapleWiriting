@@ -28,7 +28,7 @@ void MoveComponent::Update(float deltaTime)
 	if (!Math::NearZero(mAngularSpeed))
 	{
 		Quaternion rot = mOwner->GetRotation();
-		float angle = mAngularSpeed * deltaTime;		//‰ñ“]‘¬~deltatime
+		float angle = mAngularSpeed * deltaTime;		//å›žè»¢é€ŸÃ—deltatime
 		Quaternion inc(Vector3::UnitZ, angle);
 		rot = Quaternion::Concatenate(rot, inc);
 		mOwner->SetRotation(rot);

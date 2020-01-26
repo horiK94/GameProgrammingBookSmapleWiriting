@@ -10,23 +10,23 @@
 #include <vector>
 #include <string>
 
-class Mesh		//ƒƒbƒVƒ…ƒf[ƒ^
+class Mesh		//ãƒ¡ãƒƒã‚·ãƒ¥ãƒ‡ãƒ¼ã‚¿
 {
 public:
 	Mesh();
 	~Mesh();
 	// Load/unload mesh
-	//ƒ[ƒh‚µ‚½Texture‚ğ‚Â‚½‚ßrendere‚Ìƒ|ƒCƒ“ƒ^‚ğó‚¯æ‚é
+	//ãƒ­ãƒ¼ãƒ‰ã—ãŸTextureã‚’æŒã¤ãŸã‚rendereã®ãƒã‚¤ãƒ³ã‚¿ã‚’å—ã‘å–ã‚‹
 	bool Load(const std::string& fileName, class Renderer* renderer);
 	void Unload();
 	// Get the vertex array associated with this mesh
-	//ƒƒbƒVƒ…‚ÉŠ„‚è“–‚Ä‚ç‚ê‚½’¸“_”z—ñ(’¸“_ƒoƒbƒtƒ@, ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@)‚ğæ“¾
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã«å‰²ã‚Šå½“ã¦ã‚‰ã‚ŒãŸé ‚ç‚¹é…åˆ—(é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡, ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡)ã‚’å–å¾—
 	class VertexArray* GetVertexArray() { return mVertexArray; }
 	// Get a texture from specified index
-	//ƒeƒNƒXƒ`ƒƒ‚Ìæ“¾
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®å–å¾—
 	class Texture* GetTexture(size_t index);
 	// Get name of shader
-	//ƒVƒF[ƒ_[–¼‚Ìæ“¾
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼åã®å–å¾—
 	const std::string& GetShaderName() const { return mShaderName; }
 	// Get object space bounding sphere radius
 	float GetRadius() const { return mRadius; }
@@ -34,18 +34,18 @@ public:
 	float GetSpecPower() const { return mSpecPower; }
 private:
 	// Textures associated with this mesh
-	//ƒƒbƒVƒ…‚ÌƒeƒNƒXƒ`ƒƒŒQ
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ç¾¤
 	std::vector<class Texture*> mTextures;
 	// Vertex array associated with this mesh
-	//’¸“_”z—ñ‚Ìƒ|ƒCƒ“ƒ^
+	//é ‚ç‚¹é…åˆ—ã®ãƒã‚¤ãƒ³ã‚¿
 	class VertexArray* mVertexArray;
 	// Name of shader specified by mesh
-	//ƒVƒF[ƒ_[–¼
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼å
 	std::string mShaderName;
 	// Stores object space bounding sphere radius
-	//”¼Œa
+	//åŠå¾„
 	float mRadius;
 	// Specular power of surface
-	//‹¾–Ê”½Ëw”
+	//é¡é¢åå°„æŒ‡æ•°
 	float mSpecPower;
 };
