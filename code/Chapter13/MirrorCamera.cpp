@@ -21,13 +21,13 @@ MirrorCamera::MirrorCamera(Actor* owner)
 
 void MirrorCamera::Update(float deltaTime)
 {
-	//ƒoƒl‚ÌŒvZ‚Ís‚í‚È‚¢
+	//ãƒãƒã®è¨ˆç®—ã¯è¡Œã‚ãªã„
 	CameraComponent::Update(deltaTime);
 	// Compute ideal position
-	//—‘zˆÊ’u
+	//ç†æƒ³ä½ç½®
 	Vector3 idealPos = ComputeCameraPos();
 	// Target is target dist in front of owning actor
-	//ƒ^[ƒQƒbƒg‚ÍŒã•û‚É—£‚ê‚½À•W(‚±‚±‚ÅŒã‚ëŒü‚«‚É‚È‚é)
+	//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¯å¾Œæ–¹ã«é›¢ã‚ŒãŸåº§æ¨™(ã“ã“ã§å¾Œã‚å‘ãã«ãªã‚‹)
 	Vector3 target = mOwner->GetPosition() -
 		mOwner->GetForward() * mTargetDist;
 	// Use actual position here, not ideal
@@ -54,9 +54,9 @@ Vector3 MirrorCamera::ComputeCameraPos() const
 {
 	// Set camera position in front of
 	Vector3 cameraPos = mOwner->GetPosition();
-	//ƒJƒƒ‰‚ğŠ—LÒ‚Ì‘O‚Éİ’u
+	//ã‚«ãƒ¡ãƒ©ã‚’æ‰€æœ‰è€…ã®å‰ã«è¨­ç½®
 	cameraPos += mOwner->GetForward() * mHorzDist;
-	//Š—LÒ‚Ìã‚Éİ’u
+	//æ‰€æœ‰è€…ã®ä¸Šã«è¨­ç½®
 	cameraPos += Vector3::UnitZ * mVertDist;
 	return cameraPos;
 }

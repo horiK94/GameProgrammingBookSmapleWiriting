@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------
+// ----------------------------------------------------------------
 // From Game Programming in C++ by Sanjay Madhav
 // Copyright (C) 2017 Sanjay Madhav. All rights reserved.
 // 
@@ -134,7 +134,9 @@ private:
 	
 	class GBuffer* mGBuffer;
 	// GBuffer shader
+	//Gバッファで出力した2DTextureを元に、ライティングを行うShader
 	class Shader* mGGlobalShader;
+	//Gバッファを元にグローバルライティングを行ったTextureを元に、ローカルライティングを行うためのshader
 	class Shader* mGPointLightShader;
 	std::vector<class PointLightComponent*> mPointLights;
 	class Mesh* mPointLightMesh;

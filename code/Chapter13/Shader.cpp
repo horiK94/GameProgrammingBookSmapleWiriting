@@ -108,6 +108,7 @@ void Shader::SetIntUniform(const char* name, int value)
 {
 	GLuint loc = glGetUniformLocation(mShaderProgram, name);
 	// Send the float data
+	//glUniform1i(): 描画時にテクスチャユニットvalue番のテクスチャを参照させるように設定
 	glUniform1i(loc, value);
 }
 

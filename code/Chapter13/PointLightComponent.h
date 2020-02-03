@@ -17,11 +17,15 @@ public:
 	~PointLightComponent();
 
 	// Draw this point light as geometry
+	//点光源をジオメトリとして描画
 	void Draw(class Shader* shader, class Mesh* mesh);
 
 	// Diffuse color
+	//拡散色
 	Vector3 mDiffuseColor;
 	// Radius of light
+	//内側の半径(これより内側は完全な拡散色が反映される)
 	float mInnerRadius;
+	//外側の背景(これより外側は点光源に影響されない)
 	float mOuterRadius;
 };

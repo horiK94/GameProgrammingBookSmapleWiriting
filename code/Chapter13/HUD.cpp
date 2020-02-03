@@ -19,6 +19,7 @@
 
 HUD::HUD(Game* game)
 	:UIScreen(game)
+	//HUDはUIScreenを継承していて、Game.hでnewされて、mUIStackに入っている
 	,mRadarRange(2000.0f)
 	,mRadarRadius(92.0f)
 	,mTargetEnemy(false)
@@ -68,6 +69,7 @@ void HUD::Draw(Shader* shader)
 	//DrawTexture(shader, mirror, Vector2(-350.0f, -250.0f), 1.0f, true);
 	//Texture* tex = mGame->GetRenderer()->GetGBuffer()->GetTexture(GBuffer::EDiffuse);
 	//DrawTexture(shader, tex, Vector2::Zero, 1.0f, true);
+	//HUDでミラーは描画
 	Texture* mirror = mGame->GetRenderer()->GetMirrorTexture();
 	DrawTexture(shader, mirror, Vector2(-350.0f, -250.0f), 1.0f, true);
 }

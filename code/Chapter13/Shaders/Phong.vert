@@ -35,7 +35,7 @@ void main()
 	//ワールド座標の位置をfragWorldPosに代入
 	fragWorldPos = pos.xyz;
 	// Transform to clip space
-	//クリックぷう感情での位置を代入
+	//クリップ空間での位置を代入
 	gl_Position = pos * uViewProj;
 
 	// Transform normal into world space (w = 0)

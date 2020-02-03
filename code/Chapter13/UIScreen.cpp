@@ -159,9 +159,9 @@ void UIScreen::DrawTexture(class Shader* shader, class Texture* texture,
 {
 	// Scale the quad by the width/height of texture
 	// and flip the y if we need to
-	//ƒeƒNƒXƒ`ƒƒ‚Ì•‚Æ‚‚³‚Å‹éŒ`‚ğƒXƒP[ƒŠƒ“ƒO(•K—v‚È‚çyÀ•W”½“])
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®å¹…ã¨é«˜ã•ã§çŸ©å½¢ã‚’ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°(å¿…è¦ãªã‚‰yåº§æ¨™åè»¢)
 	float yScale = static_cast<float>(texture->GetHeight()) * scale;
-	//flipY‚ªtrue‚È‚çyÀ•W”½“]‚·‚é
+	//flipYãŒtrueãªã‚‰yåº§æ¨™åè»¢ã™ã‚‹
 	if (flipY) { yScale *= -1.0f; }
 	Matrix4 scaleMat = Matrix4::CreateScale(
 		static_cast<float>(texture->GetWidth()) * scale,
@@ -170,20 +170,20 @@ void UIScreen::DrawTexture(class Shader* shader, class Texture* texture,
 
 
 	// Translate to position on screen
-	//‰æ–Êã‚ğ•½sˆÚ“®(’†‰›‚©‚ç‚Ç‚Ì‚­‚ç‚¢•½sˆÚ“®‚·‚é‚©)
+	//ç”»é¢ä¸Šã‚’å¹³è¡Œç§»å‹•(ä¸­å¤®ã‹ã‚‰ã©ã®ãã‚‰ã„å¹³è¡Œç§»å‹•ã™ã‚‹ã‹)
 	Matrix4 transMat = Matrix4::CreateTranslation(
 		Vector3(offset.x, offset.y, 0.0f));
 
 	// Set world transform
-	//ƒ[ƒ‹ƒh•ÏŠ·‚ğİ’è
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã‚’è¨­å®š
 	Matrix4 world = scaleMat * transMat;
-	//uWorldTransform‚Éƒ[ƒ‹ƒh•ÏŠ·‚ğ‘—‚é
+	//uWorldTransformã«ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã‚’é€ã‚‹
 	shader->SetMatrixUniform("uWorldTransform", world);
 	// Set current texture
-	//‚±‚ê‚©‚çg‚¤ƒeƒNƒXƒ`ƒƒ‚ğİ’è
+	//ã“ã‚Œã‹ã‚‰ä½¿ã†ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¨­å®š
 	texture->SetActive();
 	// Draw quad
-	//‹éŒ`‚ğ•`‰æ
+	//çŸ©å½¢ã‚’æç”»
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 

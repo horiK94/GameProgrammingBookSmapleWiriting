@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------
+// ----------------------------------------------------------------
 // From Game Programming in C++ by Sanjay Madhav
 // Copyright (C) 2017 Sanjay Madhav. All rights reserved.
 // 
@@ -113,6 +113,7 @@ bool Renderer::Initialize(float screenWidth, float screenHeight)
 	}
 
 	// Load point light mesh
+	//球のメッシュのロード
 	mPointLightMesh = GetMesh("Assets/PointLight.gpmesh");
 
 	return true;
@@ -172,15 +173,17 @@ void Renderer::Draw()
 	//ミラーのテクスチャへの描画
 	Draw3DScene(mMirrorBuffer, mMirrorView, mProjection, 0.25f);
 	// Draw the 3D scene to the G-buffer
-	//デフォルトフレームバッファへの描画
-	//-> Gbafferへの描画(mMeshShaderもmSkinnedShaderもフラグメントシェーダーでlightingの設定をしないため、
+	//3DシーンをGbafferへ描画(mMeshShaderもmSkinnedShaderもフラグメントシェーダーでlightingの設定をしないため、
 	//ライティングに関するuniformの設定は不要) => lit=falseで設定するとライティングの設定は行われなくなる
 	Draw3DScene(mGBuffer->GetBufferID()/*0*/, mView, mProjection, 1.0f, false);
 	//// Set the frame buffer back to zero (screen's frame buffer)
-	//SpriteとUIはデフォルトフレームバッファに書きこむ
+	//フレームバッファをデフォルトのフレームバッファ(id: 0)に戻すよう設定
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	//// Draw from the GBuffer
-	//DrawFromGBuffer();
+	//Gバッファに保存された情報をもとにデフォルトのフレームバッファに描画
+	DrawFromGBuffer();
+
+	//SpriteとUIはデフォルトフレームバッファに書きこむ
 	
 	// Draw all sprite components
 	// Disable depth buffering
@@ -206,7 +209,8 @@ void Renderer::Draw()
 	}
 	
 	// Draw any UI screens
-	//UIの描画
+	//UIの描画(escapeとか押したときのUIは押したときにGetUIStack()から受け取れるポインタに追加されている)
+	//ミラーのTextureもUIとして描画(だから前に描画される)
 	for (auto ui : mGame->GetUIStack())
 	{
 		ui->Draw(mSpriteShader);
@@ -353,7 +357,10 @@ void Renderer::Draw3DScene(unsigned int framebuffer, const Matrix4& view, const 
 	// Clear color buffer/depth buffer
 	//グレーでカラーを初期化
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	//glDepthMask(GL_TRUE);
+	//深度バッファへの書き込みを許可する(DrawFrameGBuffer()で点光源を描画する際に、
+	//深度テストの書き込みを禁止しているので、ここで許可にする必要がある)
+	//glDepthMask: 深度バッファの書き込みを有効/無効 にする
+	glDepthMask(GL_TRUE);
 	//カラーバッファ、デプスバッファのクリア
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -464,44 +471,78 @@ bool Renderer::CreateMirrorTarget()
 void Renderer::DrawFromGBuffer()
 {
 	// Disable depth testing for the global lighting pass
+	//グローバルライティングパスでは深度テストは禁止(すでにしたものがGバッファに保存されているため)
 	glDisable(GL_DEPTH_TEST);
 	// Activate global G-buffer shader
+	//GバッファシェーダーをActiveに(頂点配列の情報はactiveにしていない状態)
 	mGGlobalShader->SetActive();
 	// Activate sprite verts quad
+	//矩形の頂点配列をアクティブにした(Shaderではなく、頂点配列がActiveに)
 	mSpriteVerts->SetActive();
 	// Set the G-buffer textures to sample
+	//サンプリングするGバッファのテクスチャをアクティブに(これによりuniformが対応する)
 	mGBuffer->SetTexturesActive();
 	// Set the lighting uniforms
+	//ライトのuniform設定を行う
 	SetLightUniforms(mGGlobalShader, mView);
 	// Draw the triangles
+	//矩形のための三角形を描画
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
+	//点光源の反映
+
 	// Copy depth buffer from G-buffer to default frame buffer
+	//GL_READ_FRAMEBUFFER: 読み専用フレームバッファとしてmGBuffer->GetBufferID()のものを設定している
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, mGBuffer->GetBufferID());
 	int width = static_cast<int>(mScreenWidth);
 	int height = static_cast<int>(mScreenHeight);
-	glBlitFramebuffer(0, 0, width, height,
-		0, 0, width, height,
-		GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	//gglBlitFramebufferの場合、読み取りおよび描画フレームバッファーは、
+	//それぞれGL_READ_FRAMEBUFFERおよびGL_DRAW_FRAMEBUFFERターゲットにバインドされています。
+	//つまり、上でmGBuffer->GetBufferID()が読み込み用フレームバッファとして設定されており、
+	//DrawFromGBuffer()の前に glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//としているため、デフォルトフーレムバッファを書き込み用として設定している
+	glBlitFramebuffer(0, 0, width, height,		//ソースとなるピクセルの個数
+		0, 0, width, height,		//目的側のピクセルの数
+		GL_DEPTH_BUFFER_BIT, //	コピーするバッファを示すフラグのビット単位のOR。
+		//許可されるフラグはGL_COLOR_BUFFER_BIT、GL_DEPTH_BUFFER_BIT、およびGL_STENCIL_BUFFER_BIT
+		//今回はdepthのみコピーしたいのでGL_DEPTH_BUFFER_BIT
+		GL_NEAREST);	//画像が引き伸ばされた場合に適用される補間を指定します。 
+		//GL_NEARESTまたはGL_LINEARでなければなりません。
 
 	// Enable depth test, but disable writes to depth buffer
+	//depthテストを有効にする
 	glEnable(GL_DEPTH_TEST);
+	//深度バッファへの書き込みはしない(深度テスト中は深度に関する情報を持っているが、最後にバッファに書きこむことはしない)
+	//これにより、点光源の球形メッシュが既存のバッファの値に影響を与えない
 	glDepthMask(GL_FALSE);
 
 	// Set the point light shader and mesh as active
+	//mGPointLightShaderのシェーダーをアクティブに
 	mGPointLightShader->SetActive();
+	//球体メッシュの頂点配列をアクティブに
 	mPointLightMesh->GetVertexArray()->SetActive();
 	// Set the view-projeciton matrix
+	//ビュー射影行列の設定
+	//uWorldTransform, uPointLightは各mPointLightsのPointLightComponentコンポーネントのDraw()で, uScreenDimensionsはLoadShaders()で設定
 	mGPointLightShader->SetMatrixUniform("uViewProj",
 		mView * mProjection);
 	// Set the G-buffer textures for sampling
+	//サンプリングするGバッファのテクスチャをアクティブに(これによりuniformがmGPointLightShaderのuniformに対応する)
 	mGBuffer->SetTexturesActive();
 
 	// The point light color should add to existing color
+	//混合処理は、画面のピクセルの色に新しい色を組み合わせる処理です
+	//混合処理を使用しない場合は、新しい色が現在のピクセルの色を上書きします
+	//ブレンディングを有効にするには以下の関数を呼ばなければなりません。
+	//glEnable(GL_BLEND);
 	glEnable(GL_BLEND);
+	//glBlendFunc では、それぞれの画像の RGBA にかける係数を設定
+	//GL_ZERO RGBA 全てそのまま => (0, 0, 0, 0)(白に近くなっていく) ということ
+	//単純に足していく場合はこれで
 	glBlendFunc(GL_ONE, GL_ONE);
 
 	// Draw the point lights
+	//点光源の描画(既存のid: 0のデフォルトフレームバッファに対して、足していく形で処理をしていく)
 	for (PointLightComponent* p : mPointLights)
 	{
 		p->Draw(mGPointLightShader, mPointLightMesh);
@@ -549,23 +590,32 @@ bool Renderer::LoadShaders()
 	mSkinnedShader->SetMatrixUniform("uViewProj", mView * mProjection);
 	
 	// Create shader for drawing from GBuffer (global lighting)
+	// GBUfferグローバルライティングシェーダーのロード
 	mGGlobalShader = new Shader();
 	if (!mGGlobalShader->Load("Shaders/GBufferGlobal.vert", "Shaders/GBufferGlobal.frag"))
 	{
 		return false;
 	}
 	// For the GBuffer, we need to associate each sampler with an index
+	//GBufferのサンプラーにindex割りあて
 	mGGlobalShader->SetActive();
+	//フラグメントシェーダーの3つのsampler2D型のuniformに,
+	//バインドされたテクスチャインデックスを割り当て(Gbuffer::SetTexturesActive()を参照)
 	mGGlobalShader->SetIntUniform("uGDiffuse", 0);
 	mGGlobalShader->SetIntUniform("uGNormal", 1);
 	mGGlobalShader->SetIntUniform("uGWorldPos", 2);
 	// The view projection is just the sprite one
+	//ビュー射影はSpriteと同じ
 	mGGlobalShader->SetMatrixUniform("uViewProj", spriteViewProj);
 	// The world transform scales to the screen and flips y
+	//ワールド変換では全画面へのスケーリングとyの反転(openGLのuv原点が左下のため。普通右上)
 	Matrix4 gbufferWorld = Matrix4::CreateScale(mScreenWidth, -mScreenHeight,
 												1.0f);
 	mGGlobalShader->SetMatrixUniform("uWorldTransform", gbufferWorld);
 	
+	//Gバッファを元にグローバルライティングを行ったTextureを元に、ローカルライティングを行うためのshaderのロード
+	//残る設定していないuniform uViewProj: DrawFromGBuffer(), uPointLight: DrawFromGBuffer()->SetLightUniforms()で行ってます
+
 	// Create a shader for point lights from GBuffer
 	mGPointLightShader = new Shader();
 	if (!mGPointLightShader->Load("Shaders/BasicMesh.vert",
@@ -574,10 +624,13 @@ bool Renderer::LoadShaders()
 		return false;
 	}
 	// Set sampler indices
+	//shaderをactiveに
 	mGPointLightShader->SetActive();
+	//様々なサンプラーのためのuniform群を設定. Gバッファテクスチャにバインド
 	mGPointLightShader->SetIntUniform("uGDiffuse", 0);
 	mGPointLightShader->SetIntUniform("uGNormal", 1);
 	mGPointLightShader->SetIntUniform("uGWorldPos", 2);
+	//画面の幅と高さの設定
 	mGPointLightShader->SetVector2Uniform("uScreenDimensions",
 		Vector2(mScreenWidth, mScreenHeight));
 	return true;

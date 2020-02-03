@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------
+// ----------------------------------------------------------------
 // From Game Programming in C++ by Sanjay Madhav
 // Copyright (C) 2017 Sanjay Madhav. All rights reserved.
 // 
@@ -149,6 +149,9 @@ void Texture::CreateForRendering(int width, int height, unsigned int format)
 
 void Texture::SetActive(int index)
 {
+	//indexはGLSLのsampler2D型uniformに設定されたindexに対応
+	//1個しか使用しないShaderの場合は、mGGlobalShaderのようにSetIntUniform()を用いて、
+	//対応するtextureIndexをバインドする必要はないと思われる
 	glActiveTexture(GL_TEXTURE0 + index);
 	glBindTexture(GL_TEXTURE_2D, mTextureID);
 }

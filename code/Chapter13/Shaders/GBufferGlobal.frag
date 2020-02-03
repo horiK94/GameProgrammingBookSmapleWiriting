@@ -82,8 +82,10 @@ void main()
 		Phong += Diffuse;
 	}
 	// Clamp light between 0-1 RGB values
+	//RGBの値を0~1に変換
 	Phong = clamp(Phong, 0.0, 1.0);
 
 	// Final color is texture color times phong light (alpha = 1)
+	//最終的な色は texture color * phong(z座標は1.0に設定. alpha値)
 	outColor = vec4(gbufferDiffuse * Phong, 1.0);
 }

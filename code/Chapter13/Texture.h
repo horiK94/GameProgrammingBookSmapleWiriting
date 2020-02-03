@@ -17,7 +17,7 @@ public:
 	bool Load(const std::string& fileName);
 	void Unload();
 	void CreateFromSurface(struct SDL_Surface* surface);
-	//レンダリング専用のテクスチャ作成関数
+	//繝ｬ繝ｳ繝繝ｪ繝ｳ繧ｰ蟆ら畑縺ｮ繝�繧ｯ繧ｹ繝√Ε菴懈�宣未謨ｰ
 	void CreateForRendering(int width, int height, unsigned int format);
 	
 	void SetActive(int index = 0);

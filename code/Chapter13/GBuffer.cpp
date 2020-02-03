@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------
+// ----------------------------------------------------------------
 // From Game Programming in C++ by Sanjay Madhav
 // Copyright (C) 2017 Sanjay Madhav. All rights reserved.
 // 
@@ -113,6 +113,7 @@ Texture* GBuffer::GetTexture(Type type)
 
 void GBuffer::SetTexturesActive()
 {
+	//Gバッファの各Textureを、対応するTextureインデックスにバインド
 	for (int i = 0; i < NUM_GBUFFER_TEXTURES; i++)
 	{
 		mTextures[i]->SetActive(i);
